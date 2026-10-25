@@ -656,6 +656,67 @@ async function main(): Promise<void> {
     check(short.totalCredits === 2.5 && short.reportedCredits === 2.5, 'the credits still add up', short.totalCredits);
   }
 
+  // ---- a GPA printed as a labelled line, not as a table footer --------------
+  {
+    const text = [
+      'South Forsyth High School Transcript',
+      'Bang, Aditya Prashant',
+      'Course                        Mark  Credit',
+      '2025-2026 Grade 10 Term 1',
+      '220725y Accel Adv              94       1',
+      '42075y AP Human Geography      90       1',
+      'Credit: 2.000   GPA: 4.13333',
+      'GPA Summary',
+      'Cumulative GPA (Weighted) 4.23529',
+      'Class Rank 12 of 712',
+    ].join('\n');
+    const reading = readTranscript(text);
+    // The table's own footer is the closest statement and still wins.
+    check(reading.reportedGpa === 4.13333, 'the table footer still provides the GPA', reading.reportedGpa);
+
+    const summary = [
+      'South Forsyth High School Transcript',
+      'Bang, Aditya Prashant',
+      'Course                        Mark  Credit',
+      '2025-2026 Grade 10 Term 1',
+      '220725y Accel Adv              94       1',
+      '42075y AP Human Geography      90       1',
+      'GPA Summary',
+      'Cumulative GPA (Weighted) 4.23529',
+      'Class Rank 12 of 712',
+    ].join('\n');
+    const labelled = readTranscript(summary);
+    check(
+      labelled.reportedGpa === 4.23529,
+      'a labelled cumulative GPA is read when no footer prints one',
+      labelled.reportedGpa,
+    );
+
+    const unweighted = readTranscript(summary.replace('Cumulative GPA (Weighted)', 'Cumulative GPA'));
+    check(unweighted.reportedGpa === 4.23529, 'an unweighted cumulative line reads the same', unweighted.reportedGpa);
+
+    const both = readTranscript(
+      summary.replace(
+        'Cumulative GPA (Weighted) 4.23529',
+        'Cumulative GPA (Weighted) 4.23529\nCumulative GPA 3.98000',
+      ),
+    );
+    check(both.reportedGpa === 3.98, 'the unweighted cumulative figure is the one a page means by GPA', both.reportedGpa);
+
+    const scale = readTranscript(summary.replace('Cumulative GPA (Weighted) 4.23529', 'GPA 4.0 scale'));
+    check(scale.reportedGpa === null, 'a scale is not a GPA', scale.reportedGpa);
+
+    const heading = readTranscript(summary.replace('Cumulative GPA (Weighted) 4.23529', ''));
+    check(heading.reportedGpa === null, 'a GPA heading with no number is not a GPA', heading.reportedGpa);
+
+    const { record } = await engine.understand(summary);
+    check(
+      record.transcript?.reportedGpa === 4.23529,
+      'the record carries the printed GPA to the review card',
+      record.transcript?.reportedGpa,
+    );
+  }
+
   // ---- a syllabus is not a transcript --------------------------------------
   for (const name of ['mock_syllabus', 'example_syllabus']) {
     const text = sample(name);

@@ -377,7 +377,10 @@ function transcriptWarnings(args: {
   if (!terms) {
     warnings.push('no term heading was printed above the rows, so the courses are not grouped by term');
   }
-  const noGrade = transcript.courses.filter((row) => row.mark === null).length;
+  // A row printed under an in-progress heading has no mark by design, so it is
+  // not evidence that the mark column went unread; counting it made a complete
+  // transcript look damaged.
+  const noGrade = transcript.courses.filter((row) => row.mark === null && !row.inProgress).length;
   if (noGrade) {
     warnings.push(`${noGrade} course row${noGrade === 1 ? ' has' : 's have'} no mark: the printed mark column may not have been read`);
   }

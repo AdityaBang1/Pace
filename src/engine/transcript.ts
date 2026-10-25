@@ -944,6 +944,40 @@ function footerOf(line: Line | undefined): { credits: number | null; gpa: number
   return { credits: credits ? Number(credits[1]) : null, gpa: gpa ? Number(gpa[1]) : null };
 }
 
+/**
+ * A GPA printed as a labelled line instead of a table footer.
+ *
+ * A registrar summary prints `Cumulative GPA (Weighted) 4.23529` under a
+ * `GPA Summary` heading and prints no `GPA:` footer at all, so the review card
+ * showed a dash for a document that states its GPA in the plainest terms. The
+ * value has to end the line, which keeps `GPA 4.0 scale` from being read as a
+ * grade, and a course row is skipped because only a heading or a summary line
+ * carries this label.
+ */
+const LABELLED_GPA = /(?<![A-Za-z])GPA\b[^0-9\n]{0,24}?(\d{1,2}(?:\.\d{1,5})?)\s*$/i;
+
+function labelledGpa(all: Line[]): number | null {
+  const found: { value: number; cumulative: boolean; weighted: boolean }[] = [];
+  for (const line of all) {
+    const match = LABELLED_GPA.exec(line.text);
+    if (!match || COURSE_CODE_START.test(line.text)) continue;
+    const value = Number(match[1]);
+    // A printed GPA sits on the four-point scale (five with a weighted bonus);
+    // anything outside it is a different number on the same line.
+    if (!Number.isFinite(value) || value <= 0 || value > 6) continue;
+    found.push({ value, cumulative: /cumulative/i.test(line.text), weighted: /weighted/i.test(line.text) });
+  }
+  // The cumulative figure is the document's GPA; a term's own average is not.
+  // Between a weighted and an unweighted cumulative GPA, the unweighted one is
+  // the number a page means when it says only "GPA".
+  const pick =
+    found.find((row) => row.cumulative && !row.weighted) ??
+    found.find((row) => row.cumulative) ??
+    found.find((row) => !row.weighted) ??
+    found[0];
+  return pick ? pick.value : null;
+}
+
 function readStanding(
   all: Line[],
 ): { reportedCredits: number | null; reportedGpa: number | null; asOf: string | null } {
@@ -1474,7 +1508,8 @@ export function readTranscript(text: string): TranscriptReading {
     ? [...all].reverse().map((line) => footerOf(line)).find((value) => value !== null) ?? null
     : null;
   const reportedCredits = standing.reportedCredits ?? single?.credits ?? lastFooter?.credits ?? null;
-  const reportedGpa = standing.reportedGpa ?? single?.gpa ?? lastFooter?.gpa ?? null;
+  const reportedGpa =
+    standing.reportedGpa ?? single?.gpa ?? lastFooter?.gpa ?? labelledGpa(all);
   const creditMismatch =
     reportedCredits === null ? null : Math.abs(totalCredits - reportedCredits) >= 0.001;
   const tableMismatches = tableTotals.filter(

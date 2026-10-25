@@ -1,0 +1,31 @@
+{"seed": 20261019, "output": "artifacts\\field-mix\\fold-0-final"}
+{"param_groups": [{"name": "layer0", "lr": 1.4630249373465886e-05, "tensors": 3}, {"name": "layer0_nodecay", "lr": 1.4630249373465886e-05, "tensors": 2}, {"name": "layer1", "lr": 1.5400262498385145e-05, "tensors": 6}, {"name": "layer1_nodecay", "lr": 1.5400262498385145e-05, "tensors": 10}, {"name": "layer2", "lr": 1.62108026298791e-05, "tensors": 6}, {"name": "layer2_nodecay", "lr": 1.62108026298791e-05, "tensors": 10}, {"name": "layer3", "lr": 1.706400276829379e-05, "tensors": 6}, {"name": "layer3_nodecay", "lr": 1.706400276829379e-05, "tensors": 10}, {"name": "layer4", "lr": 1.796210817715136e-05, "tensors": 6}, {"name": "layer4_nodecay", "lr": 1.796210817715136e-05, "tensors": 10}, {"name": "layer5", "lr": 1.890748229173827e-05, "tensors": 6}, {"name": "layer5_nodecay", "lr": 1.890748229173827e-05, "tensors": 10}, {"name": "layer6", "lr": 1.9902612938671867e-05, "tensors": 6}, {"name": "layer6_nodecay", "lr": 1.9902612938671867e-05, "tensors": 10}, {"name": "layer7", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer7_nodecay", "lr": 2.0950118882812494e-05, "tensors": 10}, {"name": "layer8", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer8_nodecay", "lr": 2.2052756718749993e-05, "tensors": 10}, {"name": "layer9", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer9_nodecay", "lr": 2.3213428124999993e-05, "tensors": 10}, {"name": "layer10", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer10_nodecay", "lr": 2.44351875e-05, "tensors": 10}, {"name": "layer11", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer11_nodecay", "lr": 2.5721249999999997e-05, "tensors": 10}, {"name": "layer12", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer12_nodecay", "lr": 2.7075e-05, "tensors": 10}, {"name": "layer13", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer13_nodecay", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer14", "lr": 0.001, "tensors": 1}, {"name": "layer14_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 2.0678676237283677, "validation_accuracy": 0.9988590263691683, "validation_macro_f1": 0.9669794918012687, "validation_weighted_f1": 0.9988948455895781, "learning_rate": 1.0458314515630845e-05, "seconds": 69.82134649995714}
+{"epoch": 2, "train_loss": 1.0710844602385075, "validation_accuracy": 0.9989858012170385, "validation_macro_f1": 0.9242260573512304, "validation_weighted_f1": 0.9991198411745035, "learning_rate": 1.455259715834286e-05, "seconds": 68.22491059999447}
+{"epoch": 3, "train_loss": 1.0503184204814544, "validation_accuracy": 0.9989858012170385, "validation_macro_f1": 0.9700234183970791, "validation_weighted_f1": 0.9990050622619376, "learning_rate": 1.4084478584135937e-05, "seconds": 60.251176799996756}
+{"epoch": 4, "train_loss": 1.045311805195802, "validation_accuracy": 0.9988590263691683, "validation_macro_f1": 0.9418671572947803, "validation_weighted_f1": 0.9989318949836766, "learning_rate": 1.3220335294461357e-05, "seconds": 61.71335059998091}
+{"epoch": 5, "train_loss": 1.0427746030550238, "validation_accuracy": 0.9991125760649088, "validation_macro_f1": 0.9710891468605043, "validation_weighted_f1": 0.9991240966313624, "learning_rate": 1.2013609450807576e-05, "seconds": 70.34446180006489}
+{"epoch": 6, "train_loss": 1.0405159154323207, "validation_accuracy": 0.9991125760649088, "validation_macro_f1": 0.9719293653623471, "validation_weighted_f1": 0.9991214386867628, "learning_rate": 1.0538929923385596e-05, "seconds": 67.06160360004287}
+{"epoch": 7, "train_loss": 1.0393977239930987, "validation_accuracy": 0.9991125760649088, "validation_macro_f1": 0.9695378481104198, "validation_weighted_f1": 0.9990941170813422, "learning_rate": 8.88749693603546e-06, "seconds": 60.44721699994989}
+{"epoch": 8, "train_loss": 1.0385842892551942, "validation_accuracy": 0.9991125760649088, "validation_macro_f1": 0.9719278748525461, "validation_weighted_f1": 0.9991204765067543, "learning_rate": 7.16144187073036e-06, "seconds": 61.597855699947104}
+{"epoch": 9, "train_loss": 1.0371472373482966, "validation_accuracy": 0.9993661257606491, "validation_macro_f1": 0.9775437659992825, "validation_weighted_f1": 0.9993582518856252, "learning_rate": 5.467511044476044e-06, "seconds": 60.82766469998751}
+{"epoch": 10, "train_loss": 1.036633538006112, "validation_accuracy": 0.9992393509127789, "validation_macro_f1": 0.9712221074765481, "validation_weighted_f1": 0.9992510258087434, "learning_rate": 3.910464079720127e-06, "seconds": 74.14424579998013}
+{"epoch": 11, "train_loss": 1.0367307500350378, "validation_accuracy": 0.9992393509127789, "validation_macro_f1": 0.9711478808678005, "validation_weighted_f1": 0.999251204600017, "learning_rate": 2.5865951400924847e-06, "seconds": 74.09927160001826}
+{"epoch": 12, "train_loss": 1.0359511434301043, "validation_accuracy": 0.9992393509127789, "validation_macro_f1": 0.9712221074765481, "validation_weighted_f1": 0.9992510258087434, "learning_rate": 1.5777777048025364e-06, "seconds": 72.64927429996897}
+{"epoch": 13, "train_loss": 1.0357127631392726, "validation_accuracy": 0.9992393509127789, "validation_macro_f1": 0.9712221074765481, "validation_weighted_f1": 0.9992510258087434, "learning_rate": 9.46401177243586e-07, "seconds": 89.30260420008563}
+{"early_stop_at_epoch": 13, "best_epoch": 9, "best_validation_macro_f1": 0.9775437659992825}
+{
+  "seeds": [
+    20261019
+  ],
+  "test_macro_f1": [
+    0.616465164111296
+  ],
+  "test_accuracy": [
+    0.8299776286353467
+  ],
+  "mean_macro_f1": 0.616465164111296,
+  "std_macro_f1": 0.0,
+  "mean_accuracy": 0.8299776286353467,
+  "std_accuracy": 0.0
+}

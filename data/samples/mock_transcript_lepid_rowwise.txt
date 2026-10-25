@@ -1,0 +1,57 @@
+ACADEMIC HISTORY
+
+Pacific High School
+509 Lincoln Street
+Sitka, AK 99835
+Phone: (907) xxx-xxxx
+
+Lepid, Arthur                           Sex  Male
+3160 Harbor Mtn Road                    DOB  4/1/89
+Sitka, AK 99835                         SSN
+Parent/ Guardian                        Entry Date
+                                        Exit Date
+                                        Graduation
+
+DATE         GL  TITLE                        MARK  CREDIT   DATE         GL  TITLE                        MARK  CREDIT
+ELECTIVE                                                     SOCIAL STUDIES
+03/20/04     09  Elective Intensive          A     0.250     12/20/03     09  AK Studies                  B     0.500
+03/20/05     10  Elective Intensive          NC    0.000     12/20/04     10  US Government               A-    0.250
+05/30/05     10  Intro to Programming        B+    0.500
+LANGUAGE ARTS                                                03/20/05     10  Global Issues               A     0.250
+10/30/03     09  CE - Math                   A     0.250     10/30/05     11  US Government               B     0.500
+10/30/03     09  Readers Workshop            B+    0.500
+12/20/03     09  Content English - Sci       B+    0.250     12/20/05     11  US History                  B-    0.500
+03/20/04     09  Content English - Math      B     0.250     VOCATIONAL
+03/20/04     09  Writers Workshop            A-    0.250     12/20/05     11  Work Experience             P     0.750
+05/30/04     09  Holocaust Literature        A     0.500
+05/30/04     09  Revision                    B     0.250     AK HSGQE READING
+10/30/04     10  Writers Workshop            B-    0.500     04/05/05     10  Reading                     337
+12/20/04     10  Content English - Sci       A-    0.250
+03/20/05     10  Survival Stories            B+    0.250       Performance Level: 3 Proficient
+12/20/05     11  Content English - SS        B     0.250     AK HSGQE WRITING
+MATH                                                         04/06/05     10  Writing                     273
+10/30/03     09  Algebra Prep                B+    0.500
+03/20/04     09  Algebra 1                   B     0.500       Performance Level: 2 Not Proficient
+05/30/04     09  Algebra 1                   A-    0.250     AK HSGQE MATH
+10/30/04     10  Algebra 1                   A     0.250     04/07/05     10  Math                        258
+PHYSICAL EDUCATION
+05/30/04     09  Independent PE              P     0.750       Performance Level: 2 Not Proficient
+05/30/05     10  Health                      B+    0.500
+SCHOOL & COMMUNITY RELATIONS
+10/30/03     09  Orientation                 A     0.250
+12/20/03     09  Crew                        B     0.500
+05/30/04     09  Crew                        B-    0.250
+10/30/04     10  Orientation                 NC    0.000
+12/20/04     10  Crew                        B+    0.250
+05/30/05     10  Crew                        B     0.250
+10/30/05     11  Orientation                 NC    0.000
+12/20/05     11  Crew                        A-    0.500
+SCIENCE
+12/20/03     09  Physical Sci 1              B-    0.500
+12/20/04     10  Astronomy                   A-    0.500
+10/30/05     11  Life Sci 1                  B+    0.250
+12/20/05     11  Human Physiology            B     0.250
+
+ACADEMIC STANDING
+As of:          Total Credits       GPA
+12/20/05        13.25

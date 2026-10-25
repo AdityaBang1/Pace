@@ -1,0 +1,2236 @@
+{
+  "protocol": {
+    "rubric": "docs/heldout-rubric.md",
+    "rubric_sha256": "055660681211f09b4d67a9ab06971d4ed58f4569e6f2d1c253e96b721073f1dc",
+    "selection": "data\\processed\\field\\heldout_selection.json",
+    "selection_rule": "school in {UC Berkeley, Georgia Tech} and len(clean_html(text)) <= 15000",
+    "caveat": "These are the two schools whose documents were read while writing the very first rules, and the encoder trained on rows from both; the number is an upper bound, not a clean never-seen-institution estimate.",
+    "gold": "data\\processed\\field\\gold_heldout_fields.json",
+    "gold_sha256": "54b0b14f04da3942af2aacbc0857e84afc8e96668af7d0c6a199fe9a0fdbca54",
+    "documents": 20,
+    "documents_selected": 20,
+    "limit": null,
+    "truncated": false,
+    "rule_changes": "none: every rule, threshold and cap is the code as it stands"
+  },
+  "overall": {
+    "documents": 20,
+    "emitted": 73,
+    "judged": 61,
+    "matched": 50,
+    "errors": 11,
+    "precision": 0.819672131147541,
+    "precision_lower_95": 0.7192123463504119,
+    "recall": {
+      "items": 154,
+      "covered": 66
+    }
+  },
+  "certification": {
+    "confidence": 0.95,
+    "target": 0.98,
+    "judged": 61,
+    "perfect_lower_95": 0.9520760478933927,
+    "needed_for_target": 149,
+    "certifies_target": false
+  },
+  "by_field": {
+    "course_title": {
+      "emitted": 14,
+      "judged": 14,
+      "matched": 9,
+      "errors": 5,
+      "precision": 0.6428571428571429,
+      "gold_items": 31,
+      "gold_covered": 18,
+      "recall": 0.5806451612903226,
+      "suppressed": {
+        "a section heading": 19,
+        "a contact line": 15,
+        "a course code, not a name": 12,
+        "generic section heading": 15,
+        "a session or term line": 20,
+        "ranked below the chosen line": 32,
+        "a place name": 7,
+        "a clock time": 2
+      }
+    },
+    "course_code": {
+      "emitted": 7,
+      "judged": 7,
+      "matched": 6,
+      "errors": 1,
+      "precision": 0.8571428571428571,
+      "gold_items": 22,
+      "gold_covered": 10,
+      "recall": 0.45454545454545453,
+      "suppressed": {
+        "lower confidence than the chosen line": 6,
+        "line is about a place, not the course": 1
+      }
+    },
+    "credits": {
+      "emitted": 2,
+      "judged": 2,
+      "matched": 2,
+      "errors": 0,
+      "precision": 1.0,
+      "gold_items": 2,
+      "gold_covered": 2,
+      "recall": 1.0,
+      "suppressed": {
+        "lower confidence than the chosen line": 2
+      }
+    },
+    "instructor": {
+      "emitted": 4,
+      "judged": 4,
+      "matched": 4,
+      "errors": 0,
+      "precision": 1.0,
+      "gold_items": 22,
+      "gold_covered": 6,
+      "recall": 0.2727272727272727,
+      "suppressed": {
+        "section body is not a person's name": 4
+      }
+    },
+    "meetings": {
+      "emitted": 7,
+      "judged": 7,
+      "matched": 5,
+      "errors": 2,
+      "precision": 0.7142857142857143,
+      "gold_items": 12,
+      "gold_covered": 5,
+      "recall": 0.4166666666666667,
+      "suppressed": {
+        "an exam line, not a class meeting": 37,
+        "days with no clock time or room": 6,
+        "an office-hours line, not a class meeting": 30,
+        "a weekday outside the day group": 1,
+        "several day groups on one line": 1
+      }
+    },
+    "grading": {
+      "emitted": 21,
+      "judged": 21,
+      "matched": 20,
+      "errors": 1,
+      "precision": 0.9523809523809523,
+      "gold_items": 50,
+      "gold_covered": 20,
+      "recall": 0.4,
+      "suppressed": {
+        "duplicate of an earlier row": 6,
+        "not in the subset of rows that sums to 100": 4,
+        "the only category found; a breakdown needs at least two": 3,
+        "the text beside the weight is not a category name": 4,
+        "a weight with no category name beside it": 1
+      }
+    },
+    "office_hours": {
+      "emitted": 6,
+      "judged": 6,
+      "matched": 4,
+      "errors": 2,
+      "precision": 0.6666666666666666,
+      "gold_items": 15,
+      "gold_covered": 5,
+      "recall": 0.3333333333333333,
+      "suppressed": {
+        "a later section supplied the value": 3
+      }
+    },
+    "disability_services": {
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "errors": 0,
+      "precision": null,
+      "gold_items": 0,
+      "gold_covered": 0,
+      "recall": null,
+      "suppressed": {
+        "navigation text": 5
+      }
+    },
+    "materials": {
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "errors": 0,
+      "precision": null,
+      "gold_items": 0,
+      "gold_covered": 0,
+      "recall": null,
+      "suppressed": {
+        "navigation text": 5,
+        "body is not about the field": 3
+      }
+    },
+    "attendance_policy": {
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "errors": 0,
+      "precision": null,
+      "gold_items": 0,
+      "gold_covered": 0,
+      "recall": null,
+      "suppressed": {
+        "body is not about the field": 1
+      }
+    }
+  },
+  "losses": {
+    "emitted": 73,
+    "suppressed": 245,
+    "suppressed_by_field": {
+      "attendance_policy": 1,
+      "course_code": 7,
+      "course_title": 122,
+      "credits": 2,
+      "disability_services": 5,
+      "grading": 18,
+      "instructor": 4,
+      "materials": 8,
+      "meetings": 75,
+      "office_hours": 3
+    }
+  },
+  "values": [
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "HIST 2112 – The United States Since 1877",
+      "confidence": 0.86,
+      "evidence": "HIST 2112 – The United States Since 1877",
+      "gold_entry": "The United States Since 1877",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "course_code",
+      "text": "HIST 2112",
+      "confidence": 0.85,
+      "evidence": "HIST 2112",
+      "gold_entry": "HIST 2112",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "alphanumeric compaction, either string contained in the other"
+    },
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "instructor",
+      "text": "Professor Daniel Amsterdam",
+      "confidence": 0.95,
+      "evidence": "Professor Daniel Amsterdam",
+      "gold_entry": "Daniel Amsterdam",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "the gold surname occurs in the emitted name"
+    },
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Mid-Term I",
+      "confidence": 0.9,
+      "evidence": "Mid-Term I (20%)",
+      "gold_entry": {
+        "category": "Mid-Term I",
+        "weight": 20
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 20,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Mid-Term II",
+      "confidence": 0.9,
+      "evidence": "Mid-Term II (20%)",
+      "gold_entry": {
+        "category": "Mid-Term I",
+        "weight": 20
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 20,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Mid-Term III",
+      "confidence": 0.9,
+      "evidence": "Mid-Term III (20%)",
+      "gold_entry": {
+        "category": "Mid-Term I",
+        "weight": 20
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 20,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Final Exam",
+      "confidence": 0.9,
+      "evidence": "Final Exam (25%)",
+      "gold_entry": {
+        "category": "Final Exam",
+        "weight": 25
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 25,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "materials",
+      "text": "1) Rebecca Burns, Rage in the Gate City: The Story of the 1906 Atlanta Race Riot (available as an e-book through the Georgia Tech Library; there is no need to purchase this book). 2) Michael C.C. Adams, The Best War Ever: America and World War II (available as an e-book through the Georgia Tech Libr",
+      "confidence": 0.8,
+      "evidence": "Required Course Materials",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "field": "academic_integrity",
+      "text": "Georgia Tech aims to cultivate a community based on trust, academic integrity, and honor. Students are expected to act according to the highest ethical standards. Review Georgia Tech’s Honor Code and the student Code of Conduct. 4 Any student suspected of cheating or plagiarism on a quiz, exam, or a",
+      "confidence": 0.8,
+      "evidence": "Academic Integrity",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "8b7ab73b638b",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "Introduction to Computer Science",
+      "confidence": 0.7,
+      "evidence": "Introduction to Computer Science",
+      "gold_entry": "Introduction to Computer Science",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "8b7ab73b638b",
+      "school": "Georgia Institute of Technology",
+      "field": "course_code",
+      "text": "CS 1301",
+      "confidence": 0.5,
+      "evidence": "CS 1301",
+      "gold_entry": "CS 1301",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "alphanumeric compaction, either string contained in the other"
+    },
+    {
+      "document": "8f7b10732e0b",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "English Composition II | Syllabus",
+      "confidence": 0.7,
+      "evidence": "English Composition II | Syllabus",
+      "gold_entry": "English Composition II",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "cddee4c60ad9",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "Survey of U.S. History II | Syllabus",
+      "confidence": 0.7,
+      "evidence": "Survey of U.S. History II | Syllabus",
+      "gold_entry": "Survey of U.S. History II",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "eb7365425f20",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "Intro to Computing | Syllabus",
+      "confidence": 0.7,
+      "evidence": "Intro to Computing | Syllabus",
+      "gold_entry": "Intro to Computing",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "SPAN 1002 Syllabus",
+      "confidence": 0.86,
+      "evidence": "SPAN 1002 Syllabus",
+      "gold_entry": null,
+      "compared_against": [
+        "Elementary Spanish II"
+      ],
+      "why_unjudged": null,
+      "decision": "wrong",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "course_code",
+      "text": "SPAN 1002",
+      "confidence": 0.93,
+      "evidence": "SPAN 1002",
+      "gold_entry": "SPAN 1002",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "alphanumeric compaction, either string contained in the other"
+    },
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "credits",
+      "text": 3.0,
+      "confidence": 0.95,
+      "evidence": "3 credits",
+      "gold_entry": 3,
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "numeric equality with the printed credit count"
+    },
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Preparation",
+      "confidence": 0.95,
+      "evidence": "Preparation 30%",
+      "gold_entry": {
+        "category": "Preparation",
+        "weight": 30
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 30,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Conversations",
+      "confidence": 0.95,
+      "evidence": "Conversations 40%",
+      "gold_entry": {
+        "category": "Conversations",
+        "weight": 40
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 40,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Projects",
+      "confidence": 0.95,
+      "evidence": "Projects 30%",
+      "gold_entry": {
+        "category": "Projects",
+        "weight": 30
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 30,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "materials",
+      "text": "Course Text: Contraseña Information on how to purchase Contraseña is available on our Canvas site. All course materials (discussions, assignments, grades etc.) will be hosted in Canvas. 2",
+      "confidence": 0.8,
+      "evidence": "Course Materials",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "academic_integrity",
+      "text": "Georgia Tech aims to cultivate a community based on trust, academic integrity, and honor. Students are expected to act according to the highest ethical standards. Review Georgia Tech’s Honor Code and the student Code of Conduct. Any student suspected of cheating or plagiarism on a quiz, exam, or ass",
+      "confidence": 0.8,
+      "evidence": "Academic Integrity",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "SPAN 1001 Syllabus",
+      "confidence": 0.86,
+      "evidence": "SPAN 1001 Syllabus",
+      "gold_entry": null,
+      "compared_against": [
+        "Elementary Spanish I"
+      ],
+      "why_unjudged": null,
+      "decision": "wrong",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "course_code",
+      "text": "SPAN 1001",
+      "confidence": 0.93,
+      "evidence": "SPAN 1001",
+      "gold_entry": "SPAN 1001",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "alphanumeric compaction, either string contained in the other"
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "credits",
+      "text": 3.0,
+      "confidence": 0.95,
+      "evidence": "3 credits",
+      "gold_entry": 3,
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "numeric equality with the printed credit count"
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Preparation",
+      "confidence": 0.95,
+      "evidence": "Preparation 30%",
+      "gold_entry": {
+        "category": "Preparation",
+        "weight": 30
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 30,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Conversations",
+      "confidence": 0.95,
+      "evidence": "Conversations 40%",
+      "gold_entry": {
+        "category": "Conversations",
+        "weight": 40
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 40,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "grading",
+      "text": "Projects",
+      "confidence": 0.95,
+      "evidence": "Projects 30%",
+      "gold_entry": {
+        "category": "Projects",
+        "weight": 30
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 30,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "materials",
+      "text": "Course Text: Contraseña Information on how to purchase Contraseña is available on our Canvas site. All course materials (discussions, assignments, grades etc.) will be hosted in Canvas",
+      "confidence": 0.8,
+      "evidence": "Required Course Materials",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "academic_integrity",
+      "text": "Georgia Tech aims to cultivate a community based on trust, academic integrity, and honor. Students are expected to act according to the highest ethical standards. Review Georgia Tech’s Honor Code and the student Code of Conduct. Any student suspected of cheating or plagiarism on a quiz, exam, or ass",
+      "confidence": 0.8,
+      "evidence": "Academic Integrity",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "04b77b7a6206",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "Collaboration, Not Competition",
+      "confidence": 0.7,
+      "evidence": "Collaboration, Not Competition",
+      "gold_entry": null,
+      "compared_against": [
+        "The Beauty and Joy of Computing",
+        "CS10 The Beauty and Joy of Computing"
+      ],
+      "why_unjudged": null,
+      "decision": "wrong",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "04b77b7a6206",
+      "school": "University of California, Berkeley",
+      "field": "course_code",
+      "text": "CS10",
+      "confidence": 0.93,
+      "evidence": "CS10",
+      "gold_entry": "CS10",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "alphanumeric compaction, either string contained in the other"
+    },
+    {
+      "document": "363359499064",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 09:10 10:00",
+      "confidence": 0.95,
+      "evidence": "Class Meetings:  MWF 9:10-10:00 or 11:10-12:00 or 1:10-2:00 in Pimentel Hall",
+      "gold_entry": {
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "09:10",
+        "end": "10:00",
+        "room": "Pimentel Hall"
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "09:10",
+      "end_time": "10:00",
+      "room": "Pimentel Hall",
+      "decision": "matched",
+      "rule": "identical day set and clock times, plus the printed room when gold has one"
+    },
+    {
+      "document": "363359499064",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 11:10 12:00",
+      "confidence": 0.95,
+      "evidence": "Class Meetings:  MWF 9:10-10:00 or 11:10-12:00 or 1:10-2:00 in Pimentel Hall",
+      "gold_entry": {
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "11:10",
+        "end": "12:00",
+        "room": "Pimentel Hall"
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "11:10",
+      "end_time": "12:00",
+      "room": "Pimentel Hall",
+      "decision": "matched",
+      "rule": "identical day set and clock times, plus the printed room when gold has one"
+    },
+    {
+      "document": "363359499064",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 13:10 14:00",
+      "confidence": 0.95,
+      "evidence": "Class Meetings:  MWF 9:10-10:00 or 11:10-12:00 or 1:10-2:00 in Pimentel Hall",
+      "gold_entry": {
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "13:10",
+        "end": "14:00",
+        "room": "Pimentel Hall"
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "13:10",
+      "end_time": "14:00",
+      "room": "Pimentel Hall",
+      "decision": "matched",
+      "rule": "identical day set and clock times, plus the printed room when gold has one"
+    },
+    {
+      "document": "363359499064",
+      "school": "University of California, Berkeley",
+      "field": "materials",
+      "text": " Sapling online homework (includes an online textbook)  iClicker  Recommended textbook: Chemistry: A Molecular Approach by Tro (Prentice Hall) 2nd ed (3rd ed is also ok, as are related texts by Zumdahl, Oxtoby, Atkins, Brown & LeMay, etc)  Chem 1A Redacted Lecture slides, Preclass Assignments, S",
+      "confidence": 0.8,
+      "evidence": "Course Materials",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "instructor",
+      "text": "Professor Ahmet Yildiz",
+      "confidence": 0.95,
+      "evidence": "Professor Ahmet Yildiz",
+      "gold_entry": "Ahmet Yildiz",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "the gold surname occurs in the emitted name"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "Midterm 1",
+      "confidence": 0.87,
+      "evidence": "Midterm 1 22.5%",
+      "gold_entry": {
+        "category": "Midterm 1",
+        "weight": 22.5
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 22,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "Midterm 2",
+      "confidence": 0.87,
+      "evidence": "Midterm 2 22.5%",
+      "gold_entry": {
+        "category": "Midterm 1",
+        "weight": 22.5
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 22,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "Final Exam",
+      "confidence": 0.87,
+      "evidence": "Final Exam 35%",
+      "gold_entry": {
+        "category": "Final Exam",
+        "weight": 35
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 35,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "Homework",
+      "confidence": 0.87,
+      "evidence": "Homework 10%",
+      "gold_entry": {
+        "category": "Homework",
+        "weight": 10
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 10,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "Discussion & Labs",
+      "confidence": 0.87,
+      "evidence": "Discussion & Labs 10%",
+      "gold_entry": {
+        "category": "Discussion & Labs",
+        "weight": 10
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 10,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['TU', 'TH'] 14:10 15:30",
+      "confidence": 0.9,
+      "evidence": "• Time/Location: TuTh 2:10 - 3:30, 1 LeConte Hall",
+      "gold_entry": null,
+      "compared_against": [
+        {
+          "days": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "start": "14:10",
+          "end": "15:30",
+          "room": "1 LeConte Hall"
+        }
+      ],
+      "why_unjudged": null,
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "14:10",
+      "end_time": "15:30",
+      "room": null,
+      "decision": "wrong",
+      "rule": "identical day set and clock times, plus the printed room when gold has one"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "office_hours",
+      "text": "by appointment",
+      "confidence": 0.72,
+      "evidence": "• Office Hours: by appointment.",
+      "gold_entry": null,
+      "compared_against": [
+        "Tuesday 3:30-4:30, 474 Stanley Hall",
+        "Friday 12-1, 474 Stanley Hall"
+      ],
+      "why_unjudged": null,
+      "decision": "wrong",
+      "rule": "every content token of the gold entry occurs in the emitted text"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "materials",
+      "text": "• Textbook: Giancoli, Physics for Scientists & Engineers, Volume 1 (Custom Edition for UC Berkeley) • workbook/lab manual: Birkett & Elby, 7A Workbook • online homework: Mastering Physics subscription",
+      "confidence": 0.8,
+      "evidence": "Required Course Materials:",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "disability_services",
+      "text": "• Students who require special accommodations for the class (e.g. for exams, lecture, labs) must contact the instructor at the beginning of the semester. Midterm 1 22.5% Midterm 2 22.5%",
+      "confidence": 0.8,
+      "evidence": "Accommodations:",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "59ac219d3111",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "Page 1 of 4",
+      "confidence": 0.86,
+      "evidence": "Page 1 of 4",
+      "gold_entry": null,
+      "compared_against": [
+        "Principles of Psychology",
+        "Psychology 1"
+      ],
+      "why_unjudged": null,
+      "decision": "wrong",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "59ac219d3111",
+      "school": "University of California, Berkeley",
+      "field": "instructor",
+      "text": "Allison Diamond Altman, M.A",
+      "confidence": 0.95,
+      "evidence": "Allison Diamond Altman, M.A",
+      "gold_entry": "Allison Diamond Altman",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "the gold surname occurs in the emitted name"
+    },
+    {
+      "document": "59ac219d3111",
+      "school": "University of California, Berkeley",
+      "field": "office_hours",
+      "text": "Tuesdays, 10:00am – 10:30am",
+      "confidence": 0.95,
+      "evidence": "Office Hours: Tuesdays, 10:00am – 10:30am",
+      "gold_entry": "Tuesdays, 10:00am - 10:30am",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "every content token of the gold entry occurs in the emitted text"
+    },
+    {
+      "document": "59ac219d3111",
+      "school": "University of California, Berkeley",
+      "field": "materials",
+      "text": "The course will be virtual yet synchronous, meaning that lectures and discussion section materials will not be prerecorded, and will be given in real time through Zoom at the class times (Tuesday/Thursday, 8:00am-9:30am). We will not have GSI’s and sections, and thus you are only required to attend ",
+      "confidence": 0.8,
+      "evidence": "Format:",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "59ac219d3111",
+      "school": "University of California, Berkeley",
+      "field": "academic_integrity",
+      "text": "Both the University and I take academic honesty very seriously. Anyone caught cheating or plagiarizing on an exam or assignment will automatically fail the class. Their behavior will also be brought to the attention of the psychology department and University. Afterward, further actions might then b",
+      "confidence": 0.8,
+      "evidence": "Academic Honesty:",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "a4f1a78adafb",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "MWF 1-2 pm, O. Hallatschek",
+      "confidence": 0.86,
+      "evidence": "MWF 1-2 pm, O. Hallatschek",
+      "gold_entry": null,
+      "compared_against": [
+        "Physics 7A"
+      ],
+      "why_unjudged": null,
+      "decision": "wrong",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "a4f1a78adafb",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 13:00 14:00",
+      "confidence": 0.95,
+      "evidence": "MWF 1-2 pm, O. Hallatschek",
+      "gold_entry": {
+        "days": [
+          "Monday",
+          "Wednesday",
+          "Friday"
+        ],
+        "start": "13:00",
+        "end": "14:00"
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "13:00",
+      "end_time": "14:00",
+      "room": "atschek",
+      "decision": "matched",
+      "rule": "identical day set and clock times, plus the printed room when gold has one"
+    },
+    {
+      "document": "bb8175061ec6",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "Physics 7A Syllabus",
+      "confidence": 0.86,
+      "evidence": "Physics 7A Syllabus",
+      "gold_entry": "Physics 7A",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "bb8175061ec6",
+      "school": "University of California, Berkeley",
+      "field": "office_hours",
+      "text": "MTuWTh 2:30 – 3:30 pm in 384 Le Conte",
+      "confidence": 0.95,
+      "evidence": "Instructor office hours:  MTuWTh 2:30 – 3:30 pm in 384 Le Conte.",
+      "gold_entry": "MTuWTh 2:30 - 3:30 pm in 384 Le Conte",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "every content token of the gold entry occurs in the emitted text"
+    },
+    {
+      "document": "c915151828e4",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "U.S. HISTORY: CIVIL WAR TO THE PRESENT",
+      "confidence": 0.7,
+      "evidence": "U.S. HISTORY: CIVIL WAR TO THE PRESENT",
+      "gold_entry": "U.S. History: Civil War to the Present",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "c915151828e4",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "brief in-class tests",
+      "confidence": 0.9,
+      "evidence": "Two brief in-class tests (I.D.s): 15% each",
+      "gold_entry": {
+        "category": "In-class tests",
+        "weight": 15
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 15,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "c915151828e4",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "Final exam",
+      "confidence": 0.9,
+      "evidence": "Final exam: 30%",
+      "gold_entry": {
+        "category": "Final exam",
+        "weight": 30
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 30,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "c915151828e4",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['TU', 'TH'] 13:30 14:30",
+      "confidence": 0.95,
+      "evidence": "Head GSI, Chase Arnold (administrative questions): Tuesdays & Thursdays, 1:30-2:30pm, 2104 Dwinelle",
+      "gold_entry": null,
+      "compared_against": [],
+      "why_unjudged": null,
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "13:30",
+      "end_time": "14:30",
+      "room": "2104 Dwinelle",
+      "decision": "wrong",
+      "rule": "the gold marks this field absent, so any emitted value is a false positive"
+    },
+    {
+      "document": "c915151828e4",
+      "school": "University of California, Berkeley",
+      "field": "materials",
+      "text": "D. Henkin and R. McLennan, Becoming America, Volume 2 (McGraw-Hill), available for rental in electronic version (ISBN: 9781260233605) or in paperback (ISBN 9781260878783). Elliott West, The Last Indian War: The Nez Perce Story C. Vann Woodward, The Strange Career of Jim Crow Kevin Boyle, Arc of Just",
+      "confidence": 0.8,
+      "evidence": "Required Books",
+      "gold_entry": null,
+      "compared_against": null,
+      "why_unjudged": "the document neither states this field nor marks it absent",
+      "decision": "unjudged",
+      "rule": "no gold item to judge against: the document neither states the field nor marks it absent"
+    },
+    {
+      "document": "c915151828e4",
+      "school": "University of California, Berkeley",
+      "field": "office_hours",
+      "text": "Professor Rebecca McLennan: Tuesdays, 1:30-3:30pm, 2224 Dwinelle Head GSI, Chase Arnold (administrative questions): Tuesdays & Thursdays, 1:30-2:30pm, 2104 Dwinelle",
+      "confidence": 0.9,
+      "evidence": "Office Hours:",
+      "gold_entry": "Tuesdays, 1:30-3:30pm, 2224 Dwinelle",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "every content token of the gold entry occurs in the emitted text"
+    },
+    {
+      "document": "e29efd8298ce",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "Chemistry 1A: General Chemistry",
+      "confidence": 0.86,
+      "evidence": "Chemistry 1A: General Chemistry",
+      "gold_entry": "Chemistry 1A",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "e29efd8298ce",
+      "school": "University of California, Berkeley",
+      "field": "office_hours",
+      "text": "Wednesdays 3-4 PM",
+      "confidence": 0.95,
+      "evidence": "Office Hours:  Wednesdays 3-4 PM",
+      "gold_entry": "Wednesdays 3-4 PM",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "every content token of the gold entry occurs in the emitted text"
+    },
+    {
+      "document": "e70ddde81119",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "Chem 1A: General Chemistry",
+      "confidence": 0.86,
+      "evidence": "Chem 1A: General Chemistry",
+      "gold_entry": "General Chemistry",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "substring match after normalisation, either string containing the other"
+    },
+    {
+      "document": "e70ddde81119",
+      "school": "University of California, Berkeley",
+      "field": "course_code",
+      "text": "CHEM 1A",
+      "confidence": 0.93,
+      "evidence": "CHEM 1A",
+      "gold_entry": "Chem 1A",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "alphanumeric compaction, either string contained in the other"
+    },
+    {
+      "document": "e70ddde81119",
+      "school": "University of California, Berkeley",
+      "field": "office_hours",
+      "text": "M/W 10-11am in Bixby North",
+      "confidence": 0.95,
+      "evidence": "Office hours: M/W 10-11am in Bixby North",
+      "gold_entry": null,
+      "compared_against": [
+        "Tuesdays 10-11:30am in Chemistry Library Room 100E",
+        "Thursdays 2-3:30pm in Chemistry Library Room 100F",
+        "Mondays 3-4pm in Chemistry Library Room 100F",
+        "Fridays 2-3pm in Chemistry Library Room 100F"
+      ],
+      "why_unjudged": null,
+      "decision": "wrong",
+      "rule": "every content token of the gold entry occurs in the emitted text"
+    },
+    {
+      "document": "e7b19e70c789",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['TU', 'TH'] 14:00 15:00",
+      "confidence": 0.95,
+      "evidence": "Lecture: Tuesday/Thursday, 2:00-3:00 PM, Room 100, 2515 Hillegass,",
+      "gold_entry": {
+        "days": [
+          "Tuesday",
+          "Thursday"
+        ],
+        "start": "14:00",
+        "end": "15:00",
+        "room": "Room 100, 2515 Hillegass"
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "14:00",
+      "end_time": "15:00",
+      "room": "100",
+      "decision": "matched",
+      "rule": "identical day set and clock times, plus the printed room when gold has one"
+    },
+    {
+      "document": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "field": "course_code",
+      "text": "LEC 003",
+      "confidence": 0.85,
+      "evidence": "LEC 003",
+      "gold_entry": null,
+      "compared_against": [
+        "Math 1A"
+      ],
+      "why_unjudged": null,
+      "decision": "wrong",
+      "rule": "alphanumeric compaction, either string contained in the other"
+    },
+    {
+      "document": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "field": "instructor",
+      "text": "Sug Woo SHIN (https://math.berkeley.edu/~swshin/) (Sug Woo is my first name), sug.woo.shin@berkeley.edu",
+      "confidence": 0.7,
+      "evidence": "Sug Woo SHIN (https://math.berkeley.edu/~swshin/) (Sug Woo is my first name), sug.woo.shin@berkeley.edu",
+      "gold_entry": "Sug Woo Shin",
+      "compared_against": null,
+      "why_unjudged": null,
+      "decision": "matched",
+      "rule": "the gold surname occurs in the emitted name"
+    },
+    {
+      "document": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "first midterm",
+      "confidence": 0.95,
+      "evidence": "20% first midterm,  20% second midterm,  40% final",
+      "gold_entry": {
+        "category": "First Midterm",
+        "weight": 20
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 20,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "second midterm",
+      "confidence": 0.95,
+      "evidence": "20% first midterm,  20% second midterm,  40% final",
+      "gold_entry": {
+        "category": "Second Midterm",
+        "weight": 20
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 20,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "final",
+      "confidence": 0.95,
+      "evidence": "20% first midterm,  20% second midterm,  40% final",
+      "gold_entry": {
+        "category": "Final Exam",
+        "weight": 40
+      },
+      "compared_against": null,
+      "why_unjudged": null,
+      "weight": 40,
+      "decision": "matched",
+      "rule": "equal integer weight and category-token overlap"
+    },
+    {
+      "document": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "top",
+      "confidence": 0.95,
+      "evidence": "or above if you're in the top 25%, B­ or above if you're in the top 50%, C­ or above if you're in the top 75%. Depending on the class' overall",
+      "gold_entry": null,
+      "compared_against": [
+        {
+          "category": "Homework",
+          "weight": 12
+        },
+        {
+          "category": "Quizzes",
+          "weight": 8
+        },
+        {
+          "category": "First Midterm",
+          "weight": 20
+        },
+        {
+          "category": "Second Midterm",
+          "weight": 20
+        },
+        {
+          "category": "Final Exam",
+          "weight": 40
+        }
+      ],
+      "why_unjudged": null,
+      "weight": 25,
+      "decision": "wrong",
+      "rule": "equal integer weight and category-token overlap"
+    }
+  ],
+  "errors": [
+    {
+      "document": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "SPAN 1002 Syllabus",
+      "confidence": 0.86,
+      "evidence": "SPAN 1002 Syllabus",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "field": "course_title",
+      "text": "SPAN 1001 Syllabus",
+      "confidence": 0.86,
+      "evidence": "SPAN 1001 Syllabus",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "04b77b7a6206",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "Collaboration, Not Competition",
+      "confidence": 0.7,
+      "evidence": "Collaboration, Not Competition",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['TU', 'TH'] 14:10 15:30",
+      "confidence": 0.9,
+      "evidence": "• Time/Location: TuTh 2:10 - 3:30, 1 LeConte Hall",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "14:10",
+      "end_time": "15:30",
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "field": "office_hours",
+      "text": "by appointment",
+      "confidence": 0.72,
+      "evidence": "• Office Hours: by appointment.",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "59ac219d3111",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "Page 1 of 4",
+      "confidence": 0.86,
+      "evidence": "Page 1 of 4",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "a4f1a78adafb",
+      "school": "University of California, Berkeley",
+      "field": "course_title",
+      "text": "MWF 1-2 pm, O. Hallatschek",
+      "confidence": 0.86,
+      "evidence": "MWF 1-2 pm, O. Hallatschek",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "c915151828e4",
+      "school": "University of California, Berkeley",
+      "field": "meetings",
+      "text": "['TU', 'TH'] 13:30 14:30",
+      "confidence": 0.95,
+      "evidence": "Head GSI, Chase Arnold (administrative questions): Tuesdays & Thursdays, 1:30-2:30pm, 2104 Dwinelle",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "13:30",
+      "end_time": "14:30",
+      "room": "2104 Dwinelle",
+      "weight": null
+    },
+    {
+      "document": "e70ddde81119",
+      "school": "University of California, Berkeley",
+      "field": "office_hours",
+      "text": "M/W 10-11am in Bixby North",
+      "confidence": 0.95,
+      "evidence": "Office hours: M/W 10-11am in Bixby North",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "field": "course_code",
+      "text": "LEC 003",
+      "confidence": 0.85,
+      "evidence": "LEC 003",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": null
+    },
+    {
+      "document": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "field": "grading",
+      "text": "top",
+      "confidence": 0.95,
+      "evidence": "or above if you're in the top 25%, B­ or above if you're in the top 50%, C­ or above if you're in the top 75%. Depending on the class' overall",
+      "days": null,
+      "start_time": null,
+      "end_time": null,
+      "room": null,
+      "weight": 25
+    }
+  ],
+  "uncovered": [
+    {
+      "document": "81ac7c66308c",
+      "field": "course_title",
+      "expected": [
+        "English Composition 1",
+        "English Composition I"
+      ]
+    },
+    {
+      "document": "81ac7c66308c",
+      "field": "course_code",
+      "expected": [
+        "ENGL 1101"
+      ]
+    },
+    {
+      "document": "81ac7c66308c",
+      "field": "instructor",
+      "expected": [
+        "Mary Mann"
+      ]
+    },
+    {
+      "document": "8b7ab73b638b",
+      "field": "instructor",
+      "expected": [
+        "Iretta Kearse"
+      ]
+    },
+    {
+      "document": "8f7b10732e0b",
+      "field": "course_code",
+      "expected": [
+        "ENGL 1102"
+      ]
+    },
+    {
+      "document": "8f7b10732e0b",
+      "field": "instructor",
+      "expected": [
+        "Mandy Moore"
+      ]
+    },
+    {
+      "document": "cddee4c60ad9",
+      "field": "course_code",
+      "expected": [
+        "HIST 2112"
+      ]
+    },
+    {
+      "document": "cddee4c60ad9",
+      "field": "instructor",
+      "expected": [
+        "Matthew Hild"
+      ]
+    },
+    {
+      "document": "eb7365425f20",
+      "field": "course_code",
+      "expected": [
+        "CS 1301"
+      ]
+    },
+    {
+      "document": "eb7365425f20",
+      "field": "instructor",
+      "expected": [
+        "David Joyner"
+      ]
+    },
+    {
+      "document": "ed781673d5f5",
+      "field": "course_title",
+      "expected": [
+        "Elementary Spanish II"
+      ]
+    },
+    {
+      "document": "ed781673d5f5",
+      "field": "instructor",
+      "expected": [
+        "Mirla A. González"
+      ]
+    },
+    {
+      "document": "f1146d7b1f4a",
+      "field": "course_title",
+      "expected": [
+        "Government of the U.S.",
+        "Government of the US"
+      ]
+    },
+    {
+      "document": "f1146d7b1f4a",
+      "field": "course_code",
+      "expected": [
+        "POL 1101"
+      ]
+    },
+    {
+      "document": "f1146d7b1f4a",
+      "field": "instructor",
+      "expected": [
+        "Michael Polak"
+      ]
+    },
+    {
+      "document": "f72f6b5037e4",
+      "field": "course_title",
+      "expected": [
+        "Elementary Spanish I"
+      ]
+    },
+    {
+      "document": "f72f6b5037e4",
+      "field": "instructor",
+      "expected": [
+        "Mirla A. González"
+      ]
+    },
+    {
+      "document": "04b77b7a6206",
+      "field": "instructor",
+      "expected": [
+        "Dan"
+      ]
+    },
+    {
+      "document": "04b77b7a6206",
+      "field": "meetings",
+      "expected": [
+        {
+          "days": [
+            "Monday"
+          ],
+          "start": "11:00"
+        }
+      ]
+    },
+    {
+      "document": "363359499064",
+      "field": "course_title",
+      "expected": [
+        "Chemistry 1A"
+      ]
+    },
+    {
+      "document": "363359499064",
+      "field": "instructor",
+      "expected": [
+        "John Arnold",
+        "Marcin Majda"
+      ]
+    },
+    {
+      "document": "363359499064",
+      "field": "grading",
+      "expected": [
+        {
+          "category": "Midterm 1",
+          "weight": 15
+        },
+        {
+          "category": "Midterm 2",
+          "weight": 20
+        },
+        {
+          "category": "Midterm 3",
+          "weight": 20
+        },
+        {
+          "category": "Final Exam",
+          "weight": 35
+        },
+        {
+          "category": "iClicker, Homework, Discussion",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "document": "363359499064",
+      "field": "office_hours",
+      "expected": [
+        "By apt - see calendar on bSpace",
+        "MWF 2.10-3 180 Tan"
+      ]
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "field": "course_title",
+      "expected": [
+        "Physics 7A"
+      ]
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "field": "course_code",
+      "expected": [
+        "Physics 7A"
+      ]
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "field": "meetings",
+      "expected": [
+        {
+          "days": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "start": "14:10",
+          "end": "15:30",
+          "room": "1 LeConte Hall"
+        }
+      ]
+    },
+    {
+      "document": "42ecc30ab3ce",
+      "field": "office_hours",
+      "expected": [
+        "Tuesday 3:30-4:30, 474 Stanley Hall",
+        "Friday 12-1, 474 Stanley Hall"
+      ]
+    },
+    {
+      "document": "59ac219d3111",
+      "field": "course_title",
+      "expected": [
+        "Principles of Psychology",
+        "Psychology 1"
+      ]
+    },
+    {
+      "document": "59ac219d3111",
+      "field": "course_code",
+      "expected": [
+        "Psychology 1"
+      ]
+    },
+    {
+      "document": "59ac219d3111",
+      "field": "meetings",
+      "expected": [
+        {
+          "days": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "start": "08:00",
+          "end": "09:30"
+        }
+      ]
+    },
+    {
+      "document": "59ac219d3111",
+      "field": "grading",
+      "expected": [
+        {
+          "category": "3 Exams",
+          "weight": 300
+        },
+        {
+          "category": "Final Exam",
+          "weight": 100
+        },
+        {
+          "category": "RPP",
+          "weight": 5
+        }
+      ]
+    },
+    {
+      "document": "a4f1a78adafb",
+      "field": "course_title",
+      "expected": [
+        "Physics 7A"
+      ]
+    },
+    {
+      "document": "a4f1a78adafb",
+      "field": "course_code",
+      "expected": [
+        "Physics 7A"
+      ]
+    },
+    {
+      "document": "bb8175061ec6",
+      "field": "instructor",
+      "expected": [
+        "William Golightly"
+      ]
+    },
+    {
+      "document": "bb8175061ec6",
+      "field": "meetings",
+      "expected": [
+        {
+          "days": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday"
+          ],
+          "start": "08:00",
+          "end": "21:30",
+          "room": "1 Le Conte"
+        }
+      ]
+    },
+    {
+      "document": "bb8175061ec6",
+      "field": "grading",
+      "expected": [
+        {
+          "category": "Midterm 1",
+          "weight": 20
+        },
+        {
+          "category": "Midterm 2",
+          "weight": 20
+        },
+        {
+          "category": "Final Exam",
+          "weight": 35
+        },
+        {
+          "category": "Labs",
+          "weight": 15
+        },
+        {
+          "category": "Homework",
+          "weight": 10
+        }
+      ]
+    },
+    {
+      "document": "c915151828e4",
+      "field": "course_code",
+      "expected": [
+        "HISTORY 7B"
+      ]
+    },
+    {
+      "document": "e29efd8298ce",
+      "field": "course_code",
+      "expected": [
+        "Chem 1A",
+        "Chem1a"
+      ]
+    },
+    {
+      "document": "e29efd8298ce",
+      "field": "instructor",
+      "expected": [
+        "Richard J. Saykally"
+      ]
+    },
+    {
+      "document": "e29efd8298ce",
+      "field": "meetings",
+      "expected": [
+        {
+          "days": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "start": "09:00",
+          "end": "10:00",
+          "room": "Pimentel Auditorium"
+        },
+        {
+          "days": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "start": "13:00",
+          "end": "14:00",
+          "room": "Pimentel Auditorium"
+        }
+      ]
+    },
+    {
+      "document": "e29efd8298ce",
+      "field": "grading",
+      "expected": [
+        {
+          "category": "Midterms (3)",
+          "weight": 600
+        },
+        {
+          "category": "Final Exam",
+          "weight": 350
+        },
+        {
+          "category": "Homework /Quizzes",
+          "weight": 50
+        }
+      ]
+    },
+    {
+      "document": "e70ddde81119",
+      "field": "instructor",
+      "expected": [
+        "Phillip Geissler",
+        "Eran Rabani"
+      ]
+    },
+    {
+      "document": "e70ddde81119",
+      "field": "grading",
+      "expected": [
+        {
+          "category": "Midterm 1",
+          "weight": 180
+        },
+        {
+          "category": "Midterm 2",
+          "weight": 180
+        },
+        {
+          "category": "Midterm 3",
+          "weight": 200
+        },
+        {
+          "category": "Final Exam",
+          "weight": 300
+        },
+        {
+          "category": "Homework",
+          "weight": 65
+        },
+        {
+          "category": "Attendance",
+          "weight": 75
+        }
+      ]
+    },
+    {
+      "document": "e70ddde81119",
+      "field": "office_hours",
+      "expected": [
+        "Tuesdays 10-11:30am in Chemistry Library Room 100E",
+        "Thursdays 2-3:30pm in Chemistry Library Room 100F",
+        "Mondays 3-4pm in Chemistry Library Room 100F",
+        "Fridays 2-3pm in Chemistry Library Room 100F"
+      ]
+    },
+    {
+      "document": "e7b19e70c789",
+      "field": "course_title",
+      "expected": [
+        "General Psychology 1-2",
+        "General Psychology"
+      ]
+    },
+    {
+      "document": "e7b19e70c789",
+      "field": "instructor",
+      "expected": [
+        "Bruce Mangan"
+      ]
+    },
+    {
+      "document": "e7b19e70c789",
+      "field": "grading",
+      "expected": [
+        {
+          "category": "Midterm 1",
+          "weight": 100
+        },
+        {
+          "category": "Midterm 2",
+          "weight": 100
+        },
+        {
+          "category": "Final Exam",
+          "weight": 200
+        }
+      ]
+    },
+    {
+      "document": "eee2cb96145a",
+      "field": "course_code",
+      "expected": [
+        "Math 1A"
+      ]
+    },
+    {
+      "document": "eee2cb96145a",
+      "field": "meetings",
+      "expected": [
+        {
+          "days": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "start": "15:30",
+          "end": "17:00",
+          "room": "Valley Life Sciences 2050"
+        }
+      ]
+    },
+    {
+      "document": "eee2cb96145a",
+      "field": "office_hours",
+      "expected": [
+        "Tu 10-11:30 @ 901 Evans",
+        "Th 2:30-3:30 @ student learning center"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "id": "7dd0a6968591",
+      "school": "Georgia Institute of Technology",
+      "title": "HIST 2112 The United States Since 1877, Fall 2026",
+      "emitted": 9,
+      "judged": 7,
+      "matched": 7,
+      "suppressed": 6
+    },
+    {
+      "id": "81ac7c66308c",
+      "school": "Georgia Institute of Technology",
+      "title": "English Composition I",
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "suppressed": 3
+    },
+    {
+      "id": "8b7ab73b638b",
+      "school": "Georgia Institute of Technology",
+      "title": "Introduction to Computer Science",
+      "emitted": 2,
+      "judged": 2,
+      "matched": 2,
+      "suppressed": 8
+    },
+    {
+      "id": "8f7b10732e0b",
+      "school": "Georgia Institute of Technology",
+      "title": "English Composition II",
+      "emitted": 1,
+      "judged": 1,
+      "matched": 1,
+      "suppressed": 3
+    },
+    {
+      "id": "cddee4c60ad9",
+      "school": "Georgia Institute of Technology",
+      "title": "Survey of U.S. History II, Summer 2026",
+      "emitted": 1,
+      "judged": 1,
+      "matched": 1,
+      "suppressed": 3
+    },
+    {
+      "id": "eb7365425f20",
+      "school": "Georgia Institute of Technology",
+      "title": "CS 1301 Introduction to Computing",
+      "emitted": 1,
+      "judged": 1,
+      "matched": 1,
+      "suppressed": 3
+    },
+    {
+      "id": "ed781673d5f5",
+      "school": "Georgia Institute of Technology",
+      "title": "SPAN 1002 Syllabus",
+      "emitted": 8,
+      "judged": 6,
+      "matched": 5,
+      "suppressed": 16
+    },
+    {
+      "id": "f1146d7b1f4a",
+      "school": "Georgia Institute of Technology",
+      "title": "Government of the U.S.",
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "suppressed": 3
+    },
+    {
+      "id": "f72f6b5037e4",
+      "school": "Georgia Institute of Technology",
+      "title": "SPAN 1001 Syllabus, Summer 2026",
+      "emitted": 8,
+      "judged": 6,
+      "matched": 5,
+      "suppressed": 15
+    },
+    {
+      "id": "04b77b7a6206",
+      "school": "University of California, Berkeley",
+      "title": "CS10 Spring 2021: The Beauty and Joy of Computing",
+      "emitted": 2,
+      "judged": 2,
+      "matched": 1,
+      "suppressed": 10
+    },
+    {
+      "id": "363359499064",
+      "school": "University of California, Berkeley",
+      "title": "Chemistry 1A Policies, Fall 2014",
+      "emitted": 4,
+      "judged": 3,
+      "matched": 3,
+      "suppressed": 11
+    },
+    {
+      "id": "42ecc30ab3ce",
+      "school": "University of California, Berkeley",
+      "title": "Physics 7A, Fall 2019",
+      "emitted": 10,
+      "judged": 8,
+      "matched": 6,
+      "suppressed": 25
+    },
+    {
+      "id": "59ac219d3111",
+      "school": "University of California, Berkeley",
+      "title": "Psychology 1, Spring 2021",
+      "emitted": 5,
+      "judged": 3,
+      "matched": 2,
+      "suppressed": 20
+    },
+    {
+      "id": "a4f1a78adafb",
+      "school": "University of California, Berkeley",
+      "title": "Physics 7A Syllabus, Fall 2018",
+      "emitted": 2,
+      "judged": 2,
+      "matched": 1,
+      "suppressed": 19
+    },
+    {
+      "id": "bb8175061ec6",
+      "school": "University of California, Berkeley",
+      "title": "Physics 7A Syllabus, Summer 2018",
+      "emitted": 2,
+      "judged": 2,
+      "matched": 2,
+      "suppressed": 14
+    },
+    {
+      "id": "c915151828e4",
+      "school": "University of California, Berkeley",
+      "title": "HISTORY 7B",
+      "emitted": 6,
+      "judged": 5,
+      "matched": 4,
+      "suppressed": 10
+    },
+    {
+      "id": "e29efd8298ce",
+      "school": "University of California, Berkeley",
+      "title": "Chemistry 1A Course Outline, Spring 2015",
+      "emitted": 2,
+      "judged": 2,
+      "matched": 2,
+      "suppressed": 23
+    },
+    {
+      "id": "e70ddde81119",
+      "school": "University of California, Berkeley",
+      "title": "Syllabus for CHEM 1A General Chemistry (Fall 2018)",
+      "emitted": 3,
+      "judged": 3,
+      "matched": 2,
+      "suppressed": 20
+    },
+    {
+      "id": "e7b19e70c789",
+      "school": "University of California, Berkeley",
+      "title": "General Psychology 1-2, FPF, UC Berkeley, 2017",
+      "emitted": 1,
+      "judged": 1,
+      "matched": 1,
+      "suppressed": 7
+    },
+    {
+      "id": "eee2cb96145a",
+      "school": "University of California, Berkeley",
+      "title": "Calculus (Math 1A), Fall 2017",
+      "emitted": 6,
+      "judged": 6,
+      "matched": 4,
+      "suppressed": 26
+    }
+  ],
+  "confidence": {
+    "min": 0.5,
+    "median": 0.9
+  }
+}

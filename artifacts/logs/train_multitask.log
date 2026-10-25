@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\Adity\Downloads\Pace\pace\synthetic_doc_model.py", line 433, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "C:\Users\Adity\Downloads\Pace\pace\synthetic_doc_model.py", line 326, in main
+    m=train_eval(a.output,a.count,a.seed,a.epochs,a.batch_size,a.max_length,a.base_model,a.corruption_rate)
+  File "C:\Users\Adity\Downloads\Pace\pace\synthetic_doc_model.py", line 244, in train_eval
+    if missing:raise ValueError(f"Training split has no supervised tokens for entity labels: {missing}; check generator and increase --count")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Training split has no supervised tokens for entity labels: ['I-GRADE_LEVEL']; check generator and increase --count

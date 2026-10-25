@@ -1,0 +1,77 @@
+{
+  "rows": 1405290,
+  "groups": 26818,
+  "by_source": {
+    "Dev-the-dev91": 2184,
+    "USC": 55151,
+    "alecwatts": 555,
+    "anordkvist": 63308,
+    "chaseharmon": 40916,
+    "iristun": 533,
+    "syllabus-finetune": 1060,
+    "twangodev": 1241583
+  },
+  "by_label": {
+    "academic_integrity": 68,
+    "additional_information": 21356,
+    "assessment": 7096,
+    "assignments": 894,
+    "attendance_policy": 8,
+    "capacity": 19512,
+    "class_meeting_room": 190440,
+    "class_section": 232734,
+    "class_type": 230363,
+    "confirmation": 5903,
+    "contact_information": 11239,
+    "course_code": 22038,
+    "course_content": 6995,
+    "course_description": 25484,
+    "course_evaluation": 6520,
+    "course_level": 15689,
+    "course_modality": 22859,
+    "course_policies": 27,
+    "course_schedule": 331,
+    "course_title": 20421,
+    "credits": 15834,
+    "disability_services": 43,
+    "drop_add_deadline": 2,
+    "due_date": 84,
+    "entry_requirements": 6198,
+    "exam_schedule": 79,
+    "grades": 5988,
+    "grading_policy": 287,
+    "instructor": 208182,
+    "learning_outcomes": 45410,
+    "materials": 98,
+    "meeting_days": 4255,
+    "meeting_time": 208560,
+    "office_hours": 124,
+    "other": 533,
+    "prerequisites": 13550,
+    "program": 14462,
+    "restrictions": 1384,
+    "session_dates": 22918,
+    "teaching_form": 5611,
+    "term": 11633,
+    "weekly_readings": 78
+  },
+  "group_split": {
+    "train": 1137159,
+    "validation": 140535,
+    "test": 127596
+  },
+  "group_split_groups": {
+    "train": 21455,
+    "validation": 2681,
+    "test": 2682
+  },
+  "cross_institution": {
+    "train": 1404837,
+    "validation": 250,
+    "test": 203
+  },
+  "holdout_schools": [
+    "Georgia Institute of Technology",
+    "University of California, Berkeley"
+  ]
+}

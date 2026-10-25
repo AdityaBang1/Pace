@@ -1,0 +1,44 @@
+{"fold": 0, "holdout_schools": ["Massachusetts Institute of Technology", "Pennsylvania State University", "The Ohio State University", "University of California, Berkeley", "University of California, Los Angeles"]}
+{"loaded_encoder_from": "artifacts\\jev-field", "transferred": 162, "missing": 0, "unexpected": 0}
+{"labels": 42, "train": 133287, "validation": 7888, "test": 447, "parameters": 10278955}
+{"epoch": 1, "loss": 0.38970607394794765, "validation_accuracy": 0.9984787018255578, "validation_macro_f1": 0.951268855618784, "seconds": 82.0}
+{"epoch": 2, "loss": 0.3891116101964772, "validation_accuracy": 0.9984787018255578, "validation_macro_f1": 0.9341286890689261, "seconds": 85.6}
+{"epoch": 3, "loss": 0.38371551379883034, "validation_accuracy": 0.9979716024340771, "validation_macro_f1": 0.9313369041935505, "seconds": 82.1}
+{"epoch": 4, "loss": 0.3794396697188453, "validation_accuracy": 0.9983519269776876, "validation_macro_f1": 0.9544247425729548, "seconds": 81.5}
+{"epoch": 5, "loss": 0.37602360608766405, "validation_accuracy": 0.9987322515212982, "validation_macro_f1": 0.94644488828277, "seconds": 81.4}
+{"epoch": 6, "loss": 0.3726829027100433, "validation_accuracy": 0.9984787018255578, "validation_macro_f1": 0.9683494698112184, "seconds": 81.4}
+{"epoch": 7, "loss": 0.3707538188790246, "validation_accuracy": 0.9988590263691683, "validation_macro_f1": 0.9435800708287786, "seconds": 81.3}
+{"epoch": 8, "loss": 0.36912766948020714, "validation_accuracy": 0.9988590263691683, "validation_macro_f1": 0.9409389840480445, "seconds": 81.3}
+{"epoch": 9, "loss": 0.36850434232958784, "validation_accuracy": 0.9988590263691683, "validation_macro_f1": 0.9613935814646236, "seconds": 81.4}
+{"early_stop_at": 9, "best_epoch": 6}
+{"fold": 1, "holdout_schools": ["Georgia Institute of Technology", "Stanford University", "The University of Texas at Austin", "University of North Carolina at Chapel Hill", "University of Wisconsin\u2013Madison"]}
+{"loaded_encoder_from": "artifacts\\jev-field", "transferred": 162, "missing": 0, "unexpected": 0}
+{"labels": 42, "train": 134494, "validation": 7804, "test": 480, "parameters": 10278955}
+{"epoch": 1, "loss": 0.3905952579624813, "validation_accuracy": 0.9987186058431573, "validation_macro_f1": 0.9625429216917121, "seconds": 82.6}
+{"epoch": 2, "loss": 0.3902785973184969, "validation_accuracy": 0.9996155817529472, "validation_macro_f1": 0.989055809652504, "seconds": 82.2}
+{"epoch": 3, "loss": 0.38453955053432864, "validation_accuracy": 0.9992311635058944, "validation_macro_f1": 0.9426239274587713, "seconds": 82.1}
+{"epoch": 4, "loss": 0.3800186272524563, "validation_accuracy": 0.9993593029215787, "validation_macro_f1": 0.9821468751843323, "seconds": 82.3}
+{"epoch": 5, "loss": 0.37636774204426926, "validation_accuracy": 0.9993593029215787, "validation_macro_f1": 0.9783698004437027, "seconds": 82.0}
+{"early_stop_at": 5, "best_epoch": 2}
+{"fold": 2, "holdout_schools": ["Carnegie Mellon University", "Purdue University", "University of Illinois Urbana-Champaign", "University of Michigan"]}
+{"loaded_encoder_from": "artifacts\\jev-field", "transferred": 162, "missing": 0, "unexpected": 0}
+{"labels": 42, "train": 135089, "validation": 7831, "test": 368, "parameters": 10278955}
+{"epoch": 1, "loss": 0.39185801131481474, "validation_accuracy": 0.9982122334312349, "validation_macro_f1": 0.9008886234959302, "seconds": 82.9}
+{"epoch": 2, "loss": 0.3920879782685502, "validation_accuracy": 0.9985953262673988, "validation_macro_f1": 0.928880257531897, "seconds": 82.5}
+{"epoch": 3, "loss": 0.38524246677248314, "validation_accuracy": 0.9988507214915081, "validation_macro_f1": 0.9418405792918494, "seconds": 82.8}
+{"epoch": 4, "loss": 0.3810668941163881, "validation_accuracy": 0.9984676286553441, "validation_macro_f1": 0.9570992447613057, "seconds": 82.5}
+{"epoch": 5, "loss": 0.37610561396418646, "validation_accuracy": 0.9984676286553441, "validation_macro_f1": 0.9279195855629604, "seconds": 82.6}
+{"epoch": 6, "loss": 0.3736481401984664, "validation_accuracy": 0.9988507214915081, "validation_macro_f1": 0.9470519254911399, "seconds": 82.5}
+{"epoch": 7, "loss": 0.37115913252769545, "validation_accuracy": 0.9989784191035628, "validation_macro_f1": 0.9421858987537537, "seconds": 82.4}
+{"early_stop_at": 7, "best_epoch": 4}
+{
+  "folds": 3,
+  "pooled_test_rows": 1295,
+  "mean_test_accuracy": 0.8737515400577117,
+  "std_test_accuracy": 0.029646221993119247,
+  "mean_test_macro_f1": 0.6981727656740441,
+  "std_test_macro_f1": 0.053703178891442
+}
+  fold 0: holdout=['Massachusetts Institute of Technology', 'Pennsylvania State University', 'The Ohio State University', 'University of California, Berkeley', 'University of California, Los Angeles'] rows=447 acc=0.8322 macroF1=0.6391
+  fold 1: holdout=['Georgia Institute of Technology', 'Stanford University', 'The University of Texas at Austin', 'University of North Carolina at Chapel Hill', 'University of Wisconsin–Madison'] rows=480 acc=0.8896 macroF1=0.6863
+  fold 2: holdout=['Carnegie Mellon University', 'Purdue University', 'University of Illinois Urbana-Champaign', 'University of Michigan'] rows=368 acc=0.8995 macroF1=0.7691

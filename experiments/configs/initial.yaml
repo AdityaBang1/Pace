@@ -1,0 +1,25 @@
+seed: 20261019
+synthetic_examples: 6000
+split:
+  unit: paraphrase-family
+  train_variants: [0, 1, 2]
+  validation_variants: [3]
+  test_variants: [4]
+baseline:
+  model: character-boundary TF-IDF 2-5 grams + logistic regression
+  c: 4.0
+  max_features: 150000
+neural:
+  base_model: sentence-transformers/all-MiniLM-L6-v2
+  max_length: 160
+  mean_pooling: true
+  dropout: 0.15
+  learning_rate: 0.00002
+  weight_decay: 0.01
+  batch_size: 48
+  epochs: 6
+  early_stopping_patience: 2
+  gradient_clip_norm: 1.0
+  calibration: validation-only scalar temperature scaling
+  confidence_threshold_for_abstention: 0.72
+selection_status: initial hypothesis only; not a proven best model until evaluated on real rights-cleared held-out documents

@@ -1,0 +1,23 @@
+{"seed": 20261019, "output": "artifacts\\field-classifier-mix-fair"}
+{"param_groups": [{"name": "layer0", "lr": 1.4630249373465886e-05, "tensors": 3}, {"name": "layer0_nodecay", "lr": 1.4630249373465886e-05, "tensors": 2}, {"name": "layer1", "lr": 1.5400262498385145e-05, "tensors": 6}, {"name": "layer1_nodecay", "lr": 1.5400262498385145e-05, "tensors": 10}, {"name": "layer2", "lr": 1.62108026298791e-05, "tensors": 6}, {"name": "layer2_nodecay", "lr": 1.62108026298791e-05, "tensors": 10}, {"name": "layer3", "lr": 1.706400276829379e-05, "tensors": 6}, {"name": "layer3_nodecay", "lr": 1.706400276829379e-05, "tensors": 10}, {"name": "layer4", "lr": 1.796210817715136e-05, "tensors": 6}, {"name": "layer4_nodecay", "lr": 1.796210817715136e-05, "tensors": 10}, {"name": "layer5", "lr": 1.890748229173827e-05, "tensors": 6}, {"name": "layer5_nodecay", "lr": 1.890748229173827e-05, "tensors": 10}, {"name": "layer6", "lr": 1.9902612938671867e-05, "tensors": 6}, {"name": "layer6_nodecay", "lr": 1.9902612938671867e-05, "tensors": 10}, {"name": "layer7", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer7_nodecay", "lr": 2.0950118882812494e-05, "tensors": 10}, {"name": "layer8", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer8_nodecay", "lr": 2.2052756718749993e-05, "tensors": 10}, {"name": "layer9", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer9_nodecay", "lr": 2.3213428124999993e-05, "tensors": 10}, {"name": "layer10", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer10_nodecay", "lr": 2.44351875e-05, "tensors": 10}, {"name": "layer11", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer11_nodecay", "lr": 2.5721249999999997e-05, "tensors": 10}, {"name": "layer12", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer12_nodecay", "lr": 2.7075e-05, "tensors": 10}, {"name": "layer13", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer13_nodecay", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer14", "lr": 0.001, "tensors": 1}, {"name": "layer14_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 1.7149633289490822, "validation_accuracy": 0.9988601823708206, "validation_macro_f1": 0.9546337556839242, "validation_weighted_f1": 0.9988593571996869, "learning_rate": 1.4442804856577338e-05, "seconds": 103.14176360005513}
+{"epoch": 2, "train_loss": 1.1884033255233812, "validation_accuracy": 0.999113475177305, "validation_macro_f1": 0.9513631356241424, "validation_weighted_f1": 0.9991534325771757, "learning_rate": 1.24495156068866e-05, "seconds": 95.13941330008674}
+{"epoch": 3, "train_loss": 1.175039756485461, "validation_accuracy": 0.9994934143870314, "validation_macro_f1": 0.9866359638413223, "validation_weighted_f1": 0.9994516424512462, "learning_rate": 8.887309986378915e-06, "seconds": 96.26881820010021}
+{"epoch": 4, "train_loss": 1.170104371730495, "validation_accuracy": 0.9992401215805471, "validation_macro_f1": 0.9793868112174158, "validation_weighted_f1": 0.9992107977180044, "learning_rate": 4.928180207175919e-06, "seconds": 99.51520389993675}
+{"epoch": 5, "train_loss": 1.168190153710286, "validation_accuracy": 0.9993667679837892, "validation_macro_f1": 0.9767318960390855, "validation_weighted_f1": 0.9993483536936335, "learning_rate": 1.874709489429705e-06, "seconds": 96.2911326000467}
+{"early_stop_at_epoch": 5, "best_epoch": 3, "best_validation_macro_f1": 0.9866359638413223}
+{
+  "seeds": [
+    20261019
+  ],
+  "test_macro_f1": [
+    0.9691447067308093
+  ],
+  "test_accuracy": [
+    0.9981508387267204
+  ],
+  "mean_macro_f1": 0.9691447067308093,
+  "std_macro_f1": 0.0,
+  "mean_accuracy": 0.9981508387267204,
+  "std_accuracy": 0.0
+}

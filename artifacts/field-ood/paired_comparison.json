@@ -1,0 +1,60 @@
+{
+  "folds": 3,
+  "paired_rows": 1326,
+  "mean_bare_accuracy": 0.5904299809742932,
+  "mean_context_accuracy": 0.8727380401063867,
+  "mean_bare_macro_f1": 0.364024897448993,
+  "mean_context_macro_f1": 0.6848620797220644,
+  "results": [
+    {
+      "fold": 0,
+      "holdout_schools": [
+        "University of California, Berkeley",
+        "The Ohio State University",
+        "Massachusetts Institute of Technology",
+        "Pennsylvania State University",
+        "University of California, Los Angeles"
+      ],
+      "bare_test_rows": 592,
+      "context_test_rows": 447,
+      "paired_rows": 466,
+      "bare_accuracy": 0.6545064377682404,
+      "bare_macro_f1": 0.3760381042396452,
+      "context_accuracy": 0.8347639484978541,
+      "context_macro_f1": 0.6508428976605645
+    },
+    {
+      "fold": 1,
+      "holdout_schools": [
+        "Georgia Institute of Technology",
+        "The University of Texas at Austin",
+        "University of Wisconsin\u2013Madison",
+        "Stanford University",
+        "University of North Carolina at Chapel Hill"
+      ],
+      "bare_test_rows": 594,
+      "context_test_rows": 480,
+      "paired_rows": 485,
+      "bare_accuracy": 0.4927835051546392,
+      "bare_macro_f1": 0.36659429187330794,
+      "context_accuracy": 0.8927835051546392,
+      "context_macro_f1": 0.6957942999153417
+    },
+    {
+      "fold": 2,
+      "holdout_schools": [
+        "Purdue University",
+        "University of Illinois Urbana-Champaign",
+        "Carnegie Mellon University",
+        "University of Michigan"
+      ],
+      "bare_test_rows": 452,
+      "context_test_rows": 368,
+      "paired_rows": 375,
+      "bare_accuracy": 0.624,
+      "bare_macro_f1": 0.3494422962340259,
+      "context_accuracy": 0.8906666666666667,
+      "context_macro_f1": 0.7079490415902868
+    }
+  ]
+}

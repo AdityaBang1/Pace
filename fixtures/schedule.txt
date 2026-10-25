@@ -1,0 +1,6 @@
+Student Schedule - Fall 2026
+
+Period 1  AP Chemistry        Dr. Johnson     Room 118   M W F 8:00-8:50
+Period 2  AP Calculus BC      Ms. Chen        Room 204   M T W TH F 9:05-9:55
+Period 3  US History          Mr. Williams    Room 310   M W F 10:10-11:00
+Period 4  Spanish III         Sra. Ruiz       Room 122   M T TH F 11:15-12:05

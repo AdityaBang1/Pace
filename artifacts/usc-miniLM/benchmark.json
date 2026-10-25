@@ -1,0 +1,15 @@
+{
+  "runs": 120,
+  "dataset": "USC/USC-Course-Catalog natural non-ambiguous cell values",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4070",
+  "latency_including_tokenization_ms_p50": 2.7393500204198062,
+  "latency_including_tokenization_ms_p95": 3.0242999782785773,
+  "throughput_rows_per_second": 360.1595148365062,
+  "input_tokens_p50": 8.0,
+  "input_tokens_p95": 34,
+  "checkpoint_bytes": 90893327,
+  "parameter_count": 22716296,
+  "torch_cuda_peak_allocated_bytes": 103250944,
+  "scope": "batch=1; includes Hugging Face tokenization and PyTorch forward, excludes disk/model load, OCR, document rendering, app overhead; desktop GPU result, not phone performance"
+}

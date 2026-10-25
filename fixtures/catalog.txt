@@ -1,0 +1,14 @@
+Course Catalog 2026-2027
+Mathematics
+
+MATH 1A. Calculus I. 4 units.
+Limits, derivatives, and integrals of functions of one variable.
+Prerequisite: MATH 0B or placement examination.
+
+MATH 1B. Calculus II. 4 units.
+Techniques of integration, sequences and series, and applications.
+Prerequisite: MATH 1A.
+
+CHEM 1A. General Chemistry. 4 units.
+Stoichiometry, atomic structure, and chemical bonding.
+Corequisite: CHEM 1L.

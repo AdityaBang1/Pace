@@ -1,0 +1,3179 @@
+{
+  "overall": {
+    "judged_values": 80,
+    "matched": 73,
+    "precision": 0.9125,
+    "error_upper_bound_95": 0.1580720382083767,
+    "unjudged_values": 132,
+    "documents": 47,
+    "schools": [
+      "Carnegie Mellon University",
+      "Pennsylvania State University",
+      "Purdue University",
+      "Stanford University",
+      "The University of Texas at Austin",
+      "University of California, Los Angeles",
+      "University of Illinois Urbana-Champaign",
+      "University of Michigan",
+      "University of Wisconsin\u2013Madison"
+    ],
+    "excluded_schools": [
+      "Georgia Institute of Technology",
+      "University of California, Berkeley"
+    ],
+    "min_confidence": 0.0,
+    "split": "dev"
+  },
+  "per_field": {
+    "academic_integrity": {
+      "emitted": 5,
+      "judged": 5,
+      "matched": 5,
+      "gold_rows": 25,
+      "gold_covered": 18,
+      "precision": 1.0,
+      "recall": 0.72
+    },
+    "attendance_policy": {
+      "emitted": 1,
+      "judged": 1,
+      "matched": 1,
+      "gold_rows": 2,
+      "gold_covered": 2,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "course_code": {
+      "emitted": 27,
+      "judged": 1,
+      "matched": 1,
+      "gold_rows": 4,
+      "gold_covered": 1,
+      "precision": 1.0,
+      "recall": 0.25
+    },
+    "course_title": {
+      "emitted": 23,
+      "judged": 3,
+      "matched": 3,
+      "gold_rows": 9,
+      "gold_covered": 3,
+      "precision": 1.0,
+      "recall": 0.3333333333333333
+    },
+    "credits": {
+      "emitted": 9,
+      "judged": 1,
+      "matched": 0,
+      "gold_rows": 3,
+      "gold_covered": 0,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    "disability_services": {
+      "emitted": 4,
+      "judged": 4,
+      "matched": 4,
+      "gold_rows": 14,
+      "gold_covered": 12,
+      "precision": 1.0,
+      "recall": 0.8571428571428571
+    },
+    "grading": {
+      "emitted": 70,
+      "judged": 42,
+      "matched": 38,
+      "gold_rows": 179,
+      "gold_covered": 65,
+      "precision": 0.9047619047619048,
+      "recall": 0.36312849162011174
+    },
+    "instructor": {
+      "emitted": 15,
+      "judged": 4,
+      "matched": 2,
+      "gold_rows": 30,
+      "gold_covered": 2,
+      "precision": 0.5,
+      "recall": 0.06666666666666667
+    },
+    "materials": {
+      "emitted": 8,
+      "judged": 5,
+      "matched": 5,
+      "gold_rows": 42,
+      "gold_covered": 16,
+      "precision": 1.0,
+      "recall": 0.38095238095238093
+    },
+    "meetings": {
+      "emitted": 36,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 2,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": 0.0
+    },
+    "office_hours": {
+      "emitted": 14,
+      "judged": 14,
+      "matched": 14,
+      "gold_rows": 43,
+      "gold_covered": 39,
+      "precision": 1.0,
+      "recall": 0.9069767441860465
+    }
+  },
+  "confidence_check": [
+    {
+      "low": 0.0,
+      "high": 0.7,
+      "values": 0,
+      "correct": 0,
+      "precision": null
+    },
+    {
+      "low": 0.7,
+      "high": 0.9,
+      "values": 34,
+      "correct": 33,
+      "precision": 0.9705882352941176
+    },
+    {
+      "low": 0.9,
+      "high": 0.99,
+      "values": 46,
+      "correct": 40,
+      "precision": 0.8695652173913043
+    },
+    {
+      "low": 0.99,
+      "high": 1.0,
+      "values": 0,
+      "correct": 0,
+      "precision": null
+    }
+  ],
+  "grounding": {
+    "titles_emitted": 23,
+    "titles_grounded": 23,
+    "rate": 1.0
+  },
+  "hand_checked": {
+    "documents": 12,
+    "meetings": {
+      "gold_slots": 11,
+      "exact": 9,
+      "accuracy": 0.8181818181818182,
+      "days_correct": 11,
+      "days_scored": 11,
+      "times_correct": 9,
+      "times_scored": 10,
+      "rooms_correct": 9,
+      "rooms_scored": 11,
+      "emitted": 16,
+      "emitted_matched": 9,
+      "precision": 0.5625
+    },
+    "credits": {
+      "gold_documents": 5,
+      "correct": 5,
+      "accuracy": 1.0
+    },
+    "failures": [
+      {
+        "id": "62c0006e",
+        "field": "meetings",
+        "expected": {
+          "days": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "start": "13:00",
+          "end": "13:50",
+          "room": "Mathematical Sciences Building 4000A"
+        },
+        "got": [
+          {
+            "days": [
+              "MO",
+              "WE",
+              "FR"
+            ],
+            "start_time": "13:00",
+            "end_time": "13:50",
+            "room": null,
+            "alternatives": false,
+            "confidence": 0.9,
+            "evidence": {
+              "text": "Time and Place:  MWF 1 pm-1:50 pm (Lecture 3) and 2",
+              "start": 221,
+              "end": 274
+            }
+          }
+        ]
+      },
+      {
+        "id": "62c0006e",
+        "field": "meetings",
+        "expected": {
+          "days": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "start": "14:00",
+          "end": "14:50",
+          "room": "Mathematical Sciences Building 4000A"
+        },
+        "got": [
+          {
+            "days": [
+              "MO",
+              "WE",
+              "FR"
+            ],
+            "start_time": "13:00",
+            "end_time": "13:50",
+            "room": null,
+            "alternatives": false,
+            "confidence": 0.9,
+            "evidence": {
+              "text": "Time and Place:  MWF 1 pm-1:50 pm (Lecture 3) and 2",
+              "start": 221,
+              "end": 274
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "per_document": [
+    {
+      "id": "0b119551766f",
+      "school": "Carnegie Mellon University",
+      "title": "76-101 Interpretation and Argument, Fall 2005, Section AA",
+      "gold_rows": 29,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "639f55586cd0",
+      "school": "Carnegie Mellon University",
+      "title": "21-120 Differential and Integral Calculus Summer I 2011",
+      "gold_rows": 20,
+      "field_gold": false,
+      "emitted": 6,
+      "matched": 5
+    },
+    {
+      "id": "77ebc5143228",
+      "school": "Carnegie Mellon University",
+      "title": "21-120 Differential and Integral Calculus",
+      "gold_rows": 22,
+      "field_gold": false,
+      "emitted": 6,
+      "matched": 4
+    },
+    {
+      "id": "9961b21d7e47",
+      "school": "Carnegie Mellon University",
+      "title": "76-101 Interpretation and Argument, Sections Q and T",
+      "gold_rows": 0,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "b5bc1bcb3694",
+      "school": "Carnegie Mellon University",
+      "title": "MATH 21-120 Differential and Integral Calculus, Spring 2007",
+      "gold_rows": 22,
+      "field_gold": false,
+      "emitted": 12,
+      "matched": 6
+    },
+    {
+      "id": "1276b842fcc2",
+      "school": "Pennsylvania State University",
+      "title": "English 15 for International Students and English Language Learners",
+      "gold_rows": 0,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "425ac42ebca9",
+      "school": "Pennsylvania State University",
+      "title": "BIOL 11 Course Syllabus",
+      "gold_rows": 25,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 1
+    },
+    {
+      "id": "85d4d76705ee",
+      "school": "Pennsylvania State University",
+      "title": "MATH 140 Course Syllabus",
+      "gold_rows": 27,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 1
+    },
+    {
+      "id": "bd0bf567f707",
+      "school": "Pennsylvania State University",
+      "title": "Math 140 Syllabus",
+      "gold_rows": 6,
+      "field_gold": false,
+      "emitted": 7,
+      "matched": 0
+    },
+    {
+      "id": "fc082801ab65",
+      "school": "Pennsylvania State University",
+      "title": "ARCHIVE: BIOL110 Biology 110 \u2013 Basic Concepts and Biodiversity",
+      "gold_rows": 15,
+      "field_gold": false,
+      "emitted": 8,
+      "matched": 2
+    },
+    {
+      "id": "01a98f20b9fd",
+      "school": "Purdue University",
+      "title": "American History to 1877 Sample Syllabus",
+      "gold_rows": 27,
+      "field_gold": false,
+      "emitted": 3,
+      "matched": 0
+    },
+    {
+      "id": "245868b62bdc",
+      "school": "Purdue University",
+      "title": "ENGL 10600 First-Year Composition with Conferences",
+      "gold_rows": 1,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "26509534229d",
+      "school": "Purdue University",
+      "title": "CS 180: Programming I",
+      "gold_rows": 10,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 0
+    },
+    {
+      "id": "664c5638276f",
+      "school": "Purdue University",
+      "title": "PHYS172: Modern Mechanics",
+      "gold_rows": 11,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "aab98f9cd6d4",
+      "school": "Purdue University",
+      "title": "CS 180 Course Syllabus Spring 2012",
+      "gold_rows": 18,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 0
+    },
+    {
+      "id": "c307f6f99b25",
+      "school": "Purdue University",
+      "title": "HIST 151 American History to 1877",
+      "gold_rows": 31,
+      "field_gold": false,
+      "emitted": 10,
+      "matched": 7
+    },
+    {
+      "id": "cabc2f316904",
+      "school": "Purdue University",
+      "title": "BIOL 11000 Fundamentals of Biology I",
+      "gold_rows": 4,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "737fb4674c37",
+      "school": "Stanford University",
+      "title": "CS103 Course Syllabus",
+      "gold_rows": 44,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 0
+    },
+    {
+      "id": "b6c3fcc287c6",
+      "school": "Stanford University",
+      "title": "Writing Syllabus",
+      "gold_rows": 38,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 2
+    },
+    {
+      "id": "f64249f0a86a",
+      "school": "Stanford University",
+      "title": "World History of Science: Course Syllabus",
+      "gold_rows": 58,
+      "field_gold": false,
+      "emitted": 16,
+      "matched": 4
+    },
+    {
+      "id": "01f4fe2da555",
+      "school": "The University of Texas at Austin",
+      "title": "CH301 Principles of Chemistry Spring 2011",
+      "gold_rows": 28,
+      "field_gold": false,
+      "emitted": 10,
+      "matched": 7
+    },
+    {
+      "id": "18ae9f796a66",
+      "school": "The University of Texas at Austin",
+      "title": "HIS 315K External",
+      "gold_rows": 0,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "1c22a5fd9d57",
+      "school": "The University of Texas at Austin",
+      "title": "RHE 306 Syllabus",
+      "gold_rows": 16,
+      "field_gold": false,
+      "emitted": 11,
+      "matched": 3
+    },
+    {
+      "id": "7a0efc5a2e39",
+      "school": "The University of Texas at Austin",
+      "title": "M 408C Differential and Integral Calculus Syllabus",
+      "gold_rows": 81,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 2
+    },
+    {
+      "id": "8f063a9b35dd",
+      "school": "The University of Texas at Austin",
+      "title": "Chemistry 301 Syllabus Fall 2016",
+      "gold_rows": 9,
+      "field_gold": false,
+      "emitted": 6,
+      "matched": 1
+    },
+    {
+      "id": "ce8445f26dec",
+      "school": "The University of Texas at Austin",
+      "title": "HIS 315K, US History 1492-1865, Spring 2019",
+      "gold_rows": 12,
+      "field_gold": false,
+      "emitted": 6,
+      "matched": 1
+    },
+    {
+      "id": "d157828b106f",
+      "school": "The University of Texas at Austin",
+      "title": "M 408C Differential and Integral Calculus Course Outline",
+      "gold_rows": 14,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 1
+    },
+    {
+      "id": "dc439d2e972c",
+      "school": "The University of Texas at Austin",
+      "title": "GOVT 310L Syllabus",
+      "gold_rows": 1,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 0
+    },
+    {
+      "id": "03230f8b0703",
+      "school": "University of California, Los Angeles",
+      "title": "Economics 1 Principles of Economics",
+      "gold_rows": 5,
+      "field_gold": false,
+      "emitted": 3,
+      "matched": 0
+    },
+    {
+      "id": "4f58ca74575e",
+      "school": "University of California, Los Angeles",
+      "title": "SOCIOL 1 Introductory Sociology",
+      "gold_rows": 0,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "62c0006e5346",
+      "school": "University of California, Los Angeles",
+      "title": "Math 31A: Differential and Integral Calculus",
+      "gold_rows": 23,
+      "field_gold": false,
+      "emitted": 5,
+      "matched": 1
+    },
+    {
+      "id": "2d2552a5f42b",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "SOC 100 ONL Syllabus",
+      "gold_rows": 18,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 2
+    },
+    {
+      "id": "51e338bc7669",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "Syllabus for Math 220, Spring 2021",
+      "gold_rows": 30,
+      "field_gold": false,
+      "emitted": 6,
+      "matched": 5
+    },
+    {
+      "id": "699043231aba",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "CS 125 Spring 2019 Syllabus",
+      "gold_rows": 15,
+      "field_gold": false,
+      "emitted": 6,
+      "matched": 5
+    },
+    {
+      "id": "9b9d406077b6",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "Course Policy for Chemistry 102A, Spring 2021",
+      "gold_rows": 41,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 0
+    },
+    {
+      "id": "a612c6ca659e",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "STAT 100 Syllabus Spring 2021",
+      "gold_rows": 38,
+      "field_gold": false,
+      "emitted": 7,
+      "matched": 5
+    },
+    {
+      "id": "ab8f4a4da8e4",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "Math 220 Calculus Lecture Syllabus",
+      "gold_rows": 14,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "e60e003fc402",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "CS 124 - Intro to Computer Science I",
+      "gold_rows": 13,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "597fc82ee427",
+      "school": "University of Michigan",
+      "title": "Chemistry 130 Syllabus Fall 2003",
+      "gold_rows": 46,
+      "field_gold": false,
+      "emitted": 3,
+      "matched": 1
+    },
+    {
+      "id": "e928374d67fd",
+      "school": "University of Michigan",
+      "title": "Chemistry 130 Syllabus Fall 2002",
+      "gold_rows": 16,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "ea18223e077e",
+      "school": "University of Michigan",
+      "title": "P.S. 101 Introduction to American Government",
+      "gold_rows": 26,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 1
+    },
+    {
+      "id": "1279607f5c0f",
+      "school": "University of Wisconsin\u2013Madison",
+      "title": "Chemistry 103 Fall 2011 Syllabus",
+      "gold_rows": 55,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 1
+    },
+    {
+      "id": "5ec8c4a7efdf",
+      "school": "University of Wisconsin\u2013Madison",
+      "title": "Chemistry 103 Syllabus",
+      "gold_rows": 69,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 0
+    },
+    {
+      "id": "6b178698353a",
+      "school": "University of Wisconsin\u2013Madison",
+      "title": "History 101 \u2013 American History to the Civil War",
+      "gold_rows": 5,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 1
+    },
+    {
+      "id": "a020d189ce2c",
+      "school": "University of Wisconsin\u2013Madison",
+      "title": "Economics 101 Introductory Microeconomics",
+      "gold_rows": 9,
+      "field_gold": false,
+      "emitted": 6,
+      "matched": 1
+    },
+    {
+      "id": "cbdcfb8ddb5b",
+      "school": "University of Wisconsin\u2013Madison",
+      "title": "Spanish 101 Syllabus",
+      "gold_rows": 5,
+      "field_gold": false,
+      "emitted": 12,
+      "matched": 2
+    },
+    {
+      "id": "e311399cdfb5",
+      "school": "University of Wisconsin\u2013Madison",
+      "title": "Sociology 120: Marriage and the Family",
+      "gold_rows": 14,
+      "field_gold": false,
+      "emitted": 10,
+      "matched": 1
+    }
+  ],
+  "values": [
+    {
+      "field": "instructor",
+      "text": "Will Gunther",
+      "confidence": 0.8,
+      "evidence": "Will Gunther",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 20,
+      "confidence": 0.87,
+      "evidence": "Homework: 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Quizzes",
+      "weight": 20,
+      "confidence": 0.87,
+      "evidence": "Quizzes: 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Midterm",
+      "weight": 30,
+      "confidence": 0.87,
+      "evidence": "Midterm: 30%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 30,
+      "confidence": 0.87,
+      "evidence": "Final Exam: 30%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Noon-1pm or by appointment",
+      "confidence": 0.9,
+      "evidence": "O\ufb03ce Hours:",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Spencer Unger, Wean Hall 7207, sunger@andrew.cmu.edu",
+      "confidence": 0.7,
+      "evidence": "Spencer Unger, Wean Hall 7207, sunger@andrew.cmu.edu",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 25,
+      "confidence": 0.9,
+      "evidence": "Homework: 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "tests",
+      "weight": 25,
+      "confidence": 0.9,
+      "evidence": "Each of two tests 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final",
+      "weight": 25,
+      "confidence": 0.9,
+      "evidence": "The Final: 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'TU', 'WE', 'TH', 'FR'] 09:00 10:20",
+      "days": [
+        "MO",
+        "TU",
+        "WE",
+        "TH",
+        "FR"
+      ],
+      "start_time": "09:00",
+      "end_time": "10:20",
+      "room": "Gates Hillman Center 4211",
+      "confidence": 0.95,
+      "evidence": "Lecture: Monday through Friday, 9 to 10:20 AM, Gates Hillman Center 4211",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Tentatively, Tuesday and Thursday 10:30 AM to 12 PM",
+      "confidence": 0.95,
+      "evidence": "O\ufb03ce Hours: Tentatively, Tuesday and Thursday 10:30 AM to 12 PM",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "David A. Van Every",
+      "confidence": 0.95,
+      "evidence": "David A. Van Every",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Differential and Integral Calculus",
+      "confidence": 0.7,
+      "evidence": "Differential and Integral Calculus",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "MATH 21-120",
+      "confidence": 0.93,
+      "evidence": "MATH 21-120",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Weining Kang, WEH 6218, 268-8486",
+      "confidence": 0.7,
+      "evidence": "Weining Kang, WEH 6218, 268-8486",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "\u2022 15% Homework, 10% Quizzes, 15% Exam 1, 15% Exam 2, 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Quizzes",
+      "weight": 10,
+      "confidence": 0.9,
+      "evidence": "\u2022 15% Homework, 10% Quizzes, 15% Exam 1, 15% Exam 2, 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Exam 1",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "\u2022 15% Homework, 10% Quizzes, 15% Exam 1, 15% Exam 2, 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Exam 2",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "\u2022 15% Homework, 10% Quizzes, 15% Exam 1, 15% Exam 2, 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 12:30 13:20",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "12:30",
+      "end_time": "13:20",
+      "room": "MM 103",
+      "confidence": 0.95,
+      "evidence": "\u2022 Lecture: MWF 12:30pm -- 1:20pm MM 103",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 08:30 09:20",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "08:30",
+      "end_time": "09:20",
+      "room": "DH 1212",
+      "confidence": 0.95,
+      "evidence": "\u2022 Recitation (A): TuTh 8:30am -- 9:20am DH 1212",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 09:30 10:20",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "09:30",
+      "end_time": "10:20",
+      "room": "PH 226B",
+      "confidence": 0.95,
+      "evidence": "\u2022 Recitation (B): TuTh 9:30am -- 10:20am PH 226B",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 09:30 10:20",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "09:30",
+      "end_time": "10:20",
+      "room": "BH 136A",
+      "confidence": 0.95,
+      "evidence": "\u2022 Recitation (C): TuTh 9:30am -- 10:20am BH 136A",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "M 7:00pm -- 9:00pm, W 8:00pm -- 9:00pm in WEH",
+      "confidence": 0.95,
+      "evidence": "\u2022 Office hours: M 7:00pm -- 9:00pm, W 8:00pm -- 9:00pm in WEH",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "BIOL 11: Introductory Biology I",
+      "confidence": 0.86,
+      "evidence": "BIOL 11: Introductory Biology I",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "BIOL 11",
+      "confidence": 0.93,
+      "evidence": "BIOL 11",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 3.0,
+      "confidence": 0.95,
+      "evidence": "3 credits",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Jennifer Gruber MS, ABD PhD",
+      "confidence": 0.95,
+      "evidence": "Jennifer Gruber MS, ABD PhD",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "MATH 140, Calculus with Analytic Geometry I",
+      "confidence": 0.86,
+      "evidence": "MATH 140, Calculus with Analytic Geometry I",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "MATH 140",
+      "confidence": 0.93,
+      "evidence": "MATH 140",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 4.0,
+      "confidence": 0.95,
+      "evidence": "4 semester hours",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "In this course, academic misconduct includes, but is not limited to: Copying the work of another student on an exam, quiz, or assignment; Passing off the work of another individual as your own; Using non-approved devices or aids on exams, quizzes, or assignments; Having unauthorized possession of ex",
+      "confidence": 0.8,
+      "evidence": "Academic Misconduct",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Syllabus | Math 140",
+      "confidence": 0.86,
+      "evidence": "Syllabus | Math 140",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Quizzes",
+      "weight": 10,
+      "confidence": 0.87,
+      "evidence": "Quizzes 10%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Exam 1",
+      "weight": 20,
+      "confidence": 0.87,
+      "evidence": "Exam 1 20%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Exam 2",
+      "weight": 20,
+      "confidence": 0.87,
+      "evidence": "Exam 2 20%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Exam 3",
+      "weight": 20,
+      "confidence": 0.87,
+      "evidence": "Exam 3 20%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 30,
+      "confidence": 0.87,
+      "evidence": "Final Exam 30%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'TU', 'WE', 'TH'] 08:00 10:15",
+      "days": [
+        "MO",
+        "TU",
+        "WE",
+        "TH"
+      ],
+      "start_time": "08:00",
+      "end_time": "10:15",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Class Meetings:  MTWTh 8:00-10:15 (Zoom)",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "BIOL110",
+      "confidence": 0.85,
+      "evidence": "BIOL110",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Jacqueline McLaughlin",
+      "confidence": 0.8,
+      "evidence": "Jacqueline McLaughlin",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Class",
+      "weight": 60,
+      "confidence": 0.95,
+      "evidence": "Class (60% of grade):",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Laboratory",
+      "weight": 40,
+      "confidence": 0.95,
+      "evidence": "Laboratory (40% of grade):",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 11:00 11:50",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "11:00",
+      "end_time": "11:50",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Monday, Wednesday, Friday 11:00 AM \u2013 11:50 AM",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE'] 13:00 15:00",
+      "days": [
+        "MO",
+        "WE"
+      ],
+      "start_time": "13:00",
+      "end_time": "15:00",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Monday and Wednesday, 1:00 PM \u2013 3:00 PM or by appointment",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Monday and Wednesday, 1:00 PM \u2013 3:00 PM or by appointment Office Phone: (610) 285-5109 E-mail: jshea@psu.edu Computer Resources: Biology 110: Independent Research Project --> Independent Research Project",
+      "confidence": 0.9,
+      "evidence": "Office Hours:",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "Textbook: Biology , Campbell and Reece (Eighth Edition)",
+      "confidence": 0.8,
+      "evidence": "Course Materials",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "American History to 1877",
+      "confidence": 0.86,
+      "evidence": "American History to 1877",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "UNIV 319",
+      "confidence": 0.85,
+      "evidence": "UNIV 319",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "\u2022 The Gorn, Roberts, and Bilhartz book will be available at University Book Store and at Follett's. \u2022 The Young and Nelson books will be available at Von's Book Shop. \u2022 Most other required readings listed on the syllabus will be available at the Reserve Book section of the Undergraduate Library \u2022 Si",
+      "confidence": 0.8,
+      "evidence": "NOTE:",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "ENGL 106",
+      "confidence": 0.85,
+      "evidence": "ENGL 106",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "CS 180: Programming I",
+      "confidence": 0.86,
+      "evidence": "CS 180: Programming I",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "CS 180",
+      "confidence": 0.85,
+      "evidence": "CS 180",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "WHFBN63",
+      "confidence": 0.5,
+      "evidence": "WHFBN63",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "CS 180 -- Course Syllabus",
+      "confidence": 0.92,
+      "evidence": "CS 180 -- Course Syllabus",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "CS 180",
+      "confidence": 0.93,
+      "evidence": "CS 180",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Hist. 151: American History to 1877",
+      "confidence": 0.86,
+      "evidence": "Hist. 151: American History to 1877",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "MTHW 210",
+      "confidence": 0.85,
+      "evidence": "MTHW 210",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 3.0,
+      "confidence": 0.95,
+      "evidence": "3 Credit",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Reading Quizzes",
+      "weight": 25,
+      "confidence": 0.9,
+      "evidence": "Reading Quizzes: 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "First Exam",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "First Exam: 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Second Exam",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "Second Exam: 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Third Exam",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "Third Exam: 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 20,
+      "confidence": 0.9,
+      "evidence": "Final Exam: 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Virtual via Zoom by appointment",
+      "confidence": 0.72,
+      "evidence": "Office Hours: Virtual via Zoom by appointment",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "Eric Foner, Give Me Liberty!: An American History, Vol. 1: To 1877. Seagull Seventh Edition, (New York: W.W. Norton & Co., 2023). Eric Foner., Voices of Freedom: A Documentary History, Volume 1. Seventh Edition, (New York: W.W. Norton & Co., 2023). These books can either be purchased through the Uni",
+      "confidence": 0.8,
+      "evidence": "Required Books",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "WHFBN63",
+      "confidence": 0.5,
+      "evidence": "WHFBN63",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "CS103",
+      "confidence": 0.5,
+      "evidence": "CS103",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 18:00 19:50",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "18:00",
+      "end_time": "19:50",
+      "room": "Hewlett 201",
+      "confidence": 0.95,
+      "evidence": "Our lectures are MWF 6:00 - 7:50 PM in Hewlett 201. Lectures will be recorded and posted on the course Canvas page.",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "DISCOURSES OF ECOLOGY",
+      "confidence": 0.7,
+      "evidence": "DISCOURSES OF ECOLOGY",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "The PWR policy on plagiarism reads as follows:",
+      "confidence": 0.8,
+      "evidence": "Plagiarism",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "World History of Science",
+      "confidence": 0.7,
+      "evidence": "World History of Science",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Paper 1",
+      "weight": 20,
+      "confidence": 0.95,
+      "evidence": "Paper 1 (5-6 pages) \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 20% Due February 11 at 11:00 AM",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Paper 2",
+      "weight": 25,
+      "confidence": 0.95,
+      "evidence": "Paper 2 (6-7 pages) \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 25% Due March 10 at 11:00 AM",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 30,
+      "confidence": 0.95,
+      "evidence": "Final Exam \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 30% Mar. 20 3:30-6:30 PM",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Class Participation",
+      "weight": 25,
+      "confidence": 0.95,
+      "evidence": "Class Participation \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 13:15 14:05",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "13:15",
+      "end_time": "14:05",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Tues-Thurs 1:15-2:05 Annenberg Auditorium",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['WE', 'FR'] 11:00 11:50",
+      "days": [
+        "WE",
+        "FR"
+      ],
+      "start_time": "11:00",
+      "end_time": "11:50",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Joann Kleinneiur\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 14\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 WF\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 11:00-11:50a",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['WE', 'FR'] 14:15 15:05",
+      "days": [
+        "WE",
+        "FR"
+      ],
+      "start_time": "14:15",
+      "end_time": "15:05",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "( joannk@stanford.edu )\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 15\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 WF\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 2:15-3:05p",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['WE', 'FR'] 15:15 16:05",
+      "days": [
+        "WE",
+        "FR"
+      ],
+      "start_time": "15:15",
+      "end_time": "16:05",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "16\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 WF\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 3:15-4:05p",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 15:15 16:05",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "15:15",
+      "end_time": "16:05",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Molly McCarthy\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0 2\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 TTh\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 3:15-4:05p",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 16:15 17:05",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "16:15",
+      "end_time": "17:05",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "( mollym1@stanford.edu )\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0 3\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 TTh\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 4:15-5:05p",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 17:15 18:05",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "17:15",
+      "end_time": "18:05",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "4\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 TTh\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 5:15-6:05p",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['WE', 'FR'] 10:00 10:50",
+      "days": [
+        "WE",
+        "FR"
+      ],
+      "start_time": "10:00",
+      "end_time": "10:50",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "( sanderm@stanford )\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 12\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 WF\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 10:00-10:50a",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['WE', 'FR'] 13:15 14:05",
+      "days": [
+        "WE",
+        "FR"
+      ],
+      "start_time": "13:15",
+      "end_time": "14:05",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "13\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 WF\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 1:15-2:05p",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['WE', 'FR'] 09:00 09:50",
+      "days": [
+        "WE",
+        "FR"
+      ],
+      "start_time": "09:00",
+      "end_time": "09:50",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Melissa Stevenson\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0 5\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 WF\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 9-9:50a",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 18:00 18:50",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "18:00",
+      "end_time": "18:50",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Course Coordinator, Winter & Spring \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 10\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 TTh\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 6:00-6:50p",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Principles of Chemistry - McCord",
+      "confidence": 0.7,
+      "evidence": "Principles of Chemistry - McCord",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "CH301",
+      "confidence": 0.93,
+      "evidence": "CH301",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Dr. Paul McCord",
+      "confidence": 0.95,
+      "evidence": "Dr. Paul McCord",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 5,
+      "confidence": 0.9,
+      "evidence": "5% Homework",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "iClicker",
+      "weight": 5,
+      "confidence": 0.9,
+      "evidence": "5% iClicker",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final",
+      "weight": 30,
+      "confidence": 0.9,
+      "evidence": "30% Final",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "homework average",
+      "weight": 5,
+      "confidence": 0.8,
+      "evidence": "Do know that if you chose to NOT take the final, then \"Method 3\" will be used to calculate your overall course grade. The exam average for \"Method 3\" includes A",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "iclicker-quiz average",
+      "weight": 5,
+      "confidence": 0.8,
+      "evidence": "Do know that if you chose to NOT take the final, then \"Method 3\" will be used to calculate your overall course grade. The exam average for \"Method 3\" includes A",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 11:00 12:00",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "11:00",
+      "end_time": "12:00",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Hours:  MWF 11-12noon",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "Please notify me of any modification/adaptation you may require to accommodate a disability-related need. You will be requested to provide documentation to the Dean of Students' Office, in order that the most appropriate accommodations can be determined. Specialized services are available on campus ",
+      "confidence": 0.8,
+      "evidence": "Students with Disabilities",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "HIS 315k External",
+      "confidence": 0.86,
+      "evidence": "HIS 315k External",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "RHE 306 \u2013 Syllabus \u2013 Cate Blouke",
+      "confidence": 0.86,
+      "evidence": "RHE 306 \u2013 Syllabus \u2013 Cate Blouke",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "RHE 306",
+      "confidence": 0.85,
+      "evidence": "RHE 306",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Cate Blouke",
+      "confidence": 0.95,
+      "evidence": "Cate Blouke",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Paper 1-1",
+      "weight": 5,
+      "confidence": 0.9,
+      "evidence": "Paper 1-1 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0\u00a0 5%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Paper 1-2",
+      "weight": 10,
+      "confidence": 0.9,
+      "evidence": "Paper 1-2\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 10%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Paper 2-1",
+      "weight": 10,
+      "confidence": 0.9,
+      "evidence": "Paper 2-1\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 10%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Paper 2-2",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "Paper 2-2 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0 15%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Paper 3-1",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "Paper 3-1\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 15%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Paper 3-2",
+      "weight": 15,
+      "confidence": 0.9,
+      "evidence": "Paper 3-2 (w/presentation) \u00a0 15%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Each week, I will hold regularly scheduled office hours set aside for helping you with issues related to the course. Coming to my office hours ensures you will receive individual attention and support that I cannot provide in class. While you may drop by my office hours without prior notice, this do",
+      "confidence": 0.72,
+      "evidence": "Office Hours:",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "The University of Texas at Austin provides upon request appropriate academic accommodations for qualified students with disabilities. For more information, contact Services for Students with Disabilities (SSD), at (512) 471-6259 [voice] or (866) 329-3986. Emergency Information: Occupants of building",
+      "confidence": 0.8,
+      "evidence": "Students with Disabilities:",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Joe Kileel, jkileel@math.utexas.edu",
+      "confidence": 0.7,
+      "evidence": "Joe Kileel, jkileel@math.utexas.edu",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 12:30 14:00",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "12:30",
+      "end_time": "14:00",
+      "room": "JGB 2.216",
+      "confidence": 0.95,
+      "evidence": "Lectures: TueThu 12:30-2pm in JGB 2.216. Aug 27 \u2013 Dec 5, with Nov 26 and 28 off.",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE']",
+      "days": [
+        "MO",
+        "WE"
+      ],
+      "start_time": null,
+      "end_time": null,
+      "room": "CPE 2.210",
+      "confidence": 0.82,
+      "evidence": "Discussion Sections: MonWed in CPE 2.210. Aug 28 \u2013 Dec 9, with Sept 2, Nov 25 and 27 off.",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "MonWed 12:15-1:45pm in PMA 11.104",
+      "confidence": 0.95,
+      "evidence": "Of\ufb01ce Hours: MonWed 12:15-1:45pm in PMA 11.104",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Chemistry Course Content",
+      "confidence": 0.7,
+      "evidence": "Chemistry Course Content",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "CH301",
+      "confidence": 0.5,
+      "evidence": "CH301",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "final exam",
+      "weight": 25,
+      "confidence": 0.82,
+      "evidence": "final exam 25 %",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "REEF (adjusted on Canvas)",
+      "weight": 5,
+      "confidence": 0.82,
+      "evidence": "REEF (adjusted on Canvas) 5 %",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH']",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": null,
+      "end_time": null,
+      "room": "WEL 2.224",
+      "confidence": 0.82,
+      "evidence": "Uniques: 49970 and 49975\u00a0 \u00b7 TTh in WEL 2.224",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "Please notify me of any modification/adaptation you may require to accommodate a disability-related need. You will be requested to provide documentation to the Dean of Students' Office, in order that the most appropriate accommodations can be determined. Specialized services are available on campus ",
+      "confidence": 0.8,
+      "evidence": "Students with Disabilities",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "HIS 315K",
+      "confidence": 0.93,
+      "evidence": "HIS 315K",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 11:00 12:00",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "11:00",
+      "end_time": "12:00",
+      "room": "WCH 1.120",
+      "confidence": 0.95,
+      "evidence": "38760, MWF 11-12, WCH 1.120",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 13:00 14:00",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "13:00",
+      "end_time": "14:00",
+      "room": "WCH 1.120",
+      "confidence": 0.95,
+      "evidence": "38770, MWF, 1-2, WCH 1.120",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 13:00 14:00",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "13:00",
+      "end_time": "14:00",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "38770, MWF 1-2:  Wednesday, 5/15, 2 pm - 5 pm",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 14:00 17:00",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "14:00",
+      "end_time": "17:00",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "38770, MWF 1-2:  Wednesday, 5/15, 2 pm - 5 pm",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Wednesday, Fridays, 2:30-3:30 PM",
+      "confidence": 0.95,
+      "evidence": "Office hours: Wednesday, Fridays, 2:30-3:30 PM",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Skills and Experience Flag: Quantitative Reasoning",
+      "confidence": 0.7,
+      "evidence": "Skills and Experience Flag: Quantitative Reasoning",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 4.0,
+      "confidence": 0.95,
+      "evidence": "Credits:\u00a04",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Midterm Exam",
+      "weight": 35,
+      "confidence": 0.87,
+      "evidence": "Midterm\u00a0Exam 35%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "B C D",
+      "weight": 63,
+      "confidence": 0.95,
+      "evidence": "A\u2010\u00a0\u00a0\u00a092.9\u201090%\u00a0\u00a0\u00a0B\u00a0 \u00a0\u00a086.9\u201083%\u00a0\u00a0\u00a0C\u00a0 \u00a0\u00a076.9\u201073%\u00a0\u00a0\u00a0D\u00a0 \u00a0\u00a066.9\u201063%",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Syllabus for PSCI 310L",
+      "confidence": 0.86,
+      "evidence": "Syllabus for PSCI 310L",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "GOVT 310L",
+      "confidence": 0.93,
+      "evidence": "GOVT 310L",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Syllabus",
+      "confidence": 0.8,
+      "evidence": "Syllabus",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "Bulletin Board Link Name where \"filename\" corresponds to an HTML file you have created and \"Link Name\" is the name you want to appear on the page.--> Syllabus for PSCI 310L: A Weekly Course Outline and Reading List",
+      "confidence": 0.8,
+      "evidence": "Resources",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Principles of Economics",
+      "confidence": 0.7,
+      "evidence": "Principles of Economics",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Kimberly Boswell",
+      "confidence": 0.8,
+      "evidence": "Kimberly Boswell",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 10:45 12:50",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "10:45",
+      "end_time": "12:50",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Tuesday and Thursdays; 10:45 \u2013 12:50 pm; (The course will be administered in an online, synchronous format,",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 5.0,
+      "confidence": 0.7,
+      "evidence": "5 units",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Math 31A: Differential and Integral Calculus",
+      "confidence": 0.92,
+      "evidence": "Math 31A: Differential and Integral Calculus",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "MWF 1",
+      "confidence": 0.85,
+      "evidence": "MWF 1",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Matthias Aschenbrenner",
+      "confidence": 0.8,
+      "evidence": "Matthias Aschenbrenner",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 13:00 13:50",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "13:00",
+      "end_time": "13:50",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Time and Place:  MWF 1 pm-1:50 pm (Lecture 3) and 2",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "M 3:30 pm-5 pm, F 10:30 am-12 am, or by",
+      "confidence": 0.95,
+      "evidence": "Office Hours:  M 3:30 pm-5 pm, F 10:30 am-12 am, or by",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "SOC 100 ONL Syllabus",
+      "confidence": 0.92,
+      "evidence": "SOC 100 ONL Syllabus",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "SOC 100",
+      "confidence": 0.93,
+      "evidence": "SOC 100",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "The Illinois Student Code should be considered as a part of this Syllabus. Students should pay particular attention to Article 1, Part 4: Academic Integrity. The Code is available to you at: https://studentcode.illinois.edu/ . Academic dishonesty may result in a failing grade. Every student is expec",
+      "confidence": 0.8,
+      "evidence": "Academic Integrity",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "To obtain disability-related academic adjustments and/or auxiliary aids, students with disabilities must contact the course teacher and the Disability Resources and Educational Services (DRES) as soon as possible. To contact DRES you may visit 1207 S. Oak St., Champaign, IL 61820. Or you may call 21",
+      "confidence": 0.8,
+      "evidence": "Disability Accommodations",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Sarka Petrickova, petrckv2@illinois.edu",
+      "confidence": 0.7,
+      "evidence": "Sarka Petrickova, petrckv2@illinois.edu",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "WebAssign",
+      "weight": 15,
+      "confidence": 0.95,
+      "evidence": "WebAssign 15% (Lecture-quizzes 5% + Homework 10%)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Participation in discussion sections",
+      "weight": 10,
+      "confidence": 0.95,
+      "evidence": "Participation in discussion sections: 10%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Midterm Exams",
+      "weight": 50,
+      "confidence": 0.95,
+      "evidence": "6 Midterm Exams: 50% (Highest five scores:  10% each.)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 25,
+      "confidence": 0.95,
+      "evidence": "Final Exam:  25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "Violations of academic integrity will be taken seriously, and will be handled under the procedures of Article I, Part 4 of the student code. Resources for students with disabilities: To obtain disability-related academic adjustments or auxiliary aids, students with disabilities should contact the co",
+      "confidence": 0.8,
+      "evidence": "Academic integrity",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "CS 125",
+      "confidence": 0.93,
+      "evidence": "CS 125",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "machine problems",
+      "weight": 40,
+      "confidence": 0.95,
+      "evidence": "machine problems (MPs)  (40%),",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "one-hour midterms",
+      "weight": 30,
+      "confidence": 0.95,
+      "evidence": "three one-hour  midterms  (30% total) evenly spaced during the semester,",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 20,
+      "confidence": 0.87,
+      "evidence": "Homework 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Lab Participation",
+      "weight": 5,
+      "confidence": 0.87,
+      "evidence": "Lab Participation 5%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Lecture Participation",
+      "weight": 5,
+      "confidence": 0.87,
+      "evidence": "Lecture Participation 5%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Electronic calculator with log function",
+      "confidence": 0.7,
+      "evidence": "Electronic calculator with log function",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "CHEM 102A",
+      "confidence": 0.93,
+      "evidence": "CHEM 102A",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'TU', 'WE', 'TH', 'FR'] 12:00 18:00",
+      "days": [
+        "MO",
+        "TU",
+        "WE",
+        "TH",
+        "FR"
+      ],
+      "start_time": "12:00",
+      "end_time": "18:00",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Drop-in Zoom \u2013 Available Monday through Friday, 12 - 6 pm.  General chemistry TAs",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'SA'] 10:00 18:00",
+      "days": [
+        "MO",
+        "SA"
+      ],
+      "start_time": "10:00",
+      "end_time": "18:00",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "the CLP from Monday \u2013 Saturday, 10 am \u2013 6 pm.",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "STAT 100",
+      "confidence": 0.85,
+      "evidence": "STAT 100",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Karle Flanagan",
+      "confidence": 0.95,
+      "evidence": "Karle Flanagan",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Exams",
+      "weight": 60,
+      "confidence": 0.95,
+      "evidence": "3 Exams: 60% (each worth 20%)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 15,
+      "confidence": 0.95,
+      "evidence": "Homework: 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 25,
+      "confidence": 0.95,
+      "evidence": "Final Exam: 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "Required Workbook: Stat 100 Incomplete Lecture Notes Workbook. Either the Fall 2020 or Spring 2021 editions (They are both green) by Ellen Fireman, Karle Flanagan, and John Marden. Available at the Illini Union Bookstore for $35. This notebook is the only thing that\u2019s required to purchase for Stat 1",
+      "confidence": 0.8,
+      "evidence": "Course Materials",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "STAT 100 Office Hours will be offered each week Monday-Friday from 2pm-5pm via Zoom . Feel free to stop by anytime for help. If you are unavailable during these times and want to meet, send us an email at stat100@illinois.edu and we will set up a time!",
+      "confidence": 0.9,
+      "evidence": "Office Hours",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "CS 124",
+      "confidence": 0.93,
+      "evidence": "CS 124",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "TI 80",
+      "confidence": 0.5,
+      "evidence": "TI 80",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 5.0,
+      "confidence": 0.95,
+      "evidence": "5 credit",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "\u2022 The textbook is General Chemistry by Ebbing and Gammon, 7th edition (Houghton- Mifflin). You will need to purchase the Course Pack, which includes the textbook, plus the Solutions Manual for end-of-chapter problems and a accompanying CD- ROM, at one of the local bookstores. These include Ulrich\u2019s ",
+      "confidence": 0.8,
+      "evidence": "Required Course Materials",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "TI 80",
+      "confidence": 0.5,
+      "evidence": "TI 80",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "We have two required books, a textbook and a reader. The reader is Pietro Nivola and David Rosenbloom, eds., Classic Readings in American Politics, 3rd edition. N.Y.: St. Martin's Worth Publishers, 1999. ISBN 0-312-08419-6 The textbook is Ken Kollman's The American Political System., 2nd edition. N.",
+      "confidence": 0.8,
+      "evidence": "REQUIRED BOOKS",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "MWF 1351",
+      "confidence": 0.85,
+      "evidence": "MWF 1351",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 4.0,
+      "confidence": 0.95,
+      "evidence": "4 credit",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 15:30 16:20",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "15:30",
+      "end_time": "16:20",
+      "room": "1351 Chemistry",
+      "confidence": 0.95,
+      "evidence": "3:30 \u2013 4:20 PM MWF 1351 Chemistry",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Monday 4:30 \u2013 5:30 PM, Wednesday 2:30 \u2013 3:30 PM",
+      "confidence": 0.9,
+      "evidence": "Office Hours",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 4.0,
+      "confidence": 0.95,
+      "evidence": "4 credit",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE', 'FR'] 14:25 15:15",
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "14:25",
+      "end_time": "15:15",
+      "room": "1351Chemistry",
+      "confidence": 0.95,
+      "evidence": "2:25\u2013 3:15 PM M, W, F 1351Chemistry",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'FR'] 08:30 16:30",
+      "days": [
+        "MO",
+        "FR"
+      ],
+      "start_time": "08:30",
+      "end_time": "16:30",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Monday-Friday 8:30 am - 4:30 pm",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Monday-Friday 8:30 am - 4:30 pm",
+      "confidence": 0.9,
+      "evidence": "Office Hours:",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "INTRODUCTORY MICROECONOMICS",
+      "confidence": 0.7,
+      "evidence": "INTRODUCTORY MICROECONOMICS",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Elizabeth Sawyer Kelly",
+      "confidence": 0.95,
+      "evidence": "Elizabeth Sawyer Kelly",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Top",
+      "weight": 20,
+      "confidence": 0.9,
+      "evidence": "Top 20%:  A",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Next",
+      "weight": 20,
+      "confidence": 0.9,
+      "evidence": "Next 20%:  AB",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Bottom",
+      "weight": 20,
+      "confidence": 0.9,
+      "evidence": "Bottom 20%:  C, D and F",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "\u201cSociety depends upon some minimal level of integrity in our graduates, not just upon their academic knowledge or skills.\u201d - Gary Pavela, founding member of The Center for Academic Integrity Academic misconduct is a vital issue concerning all members of the University community. Those who engage in ",
+      "confidence": 0.8,
+      "evidence": "Academic Integrity:",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "First semester Spanish",
+      "confidence": 0.7,
+      "evidence": "First semester Spanish",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "MTWR 00",
+      "confidence": 0.93,
+      "evidence": "MTWR 00",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Unit Exams",
+      "weight": 20,
+      "confidence": 0.95,
+      "evidence": "Unit Exams (20%), see calendar on Canvas",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Midterm Exam",
+      "weight": 15,
+      "confidence": 0.95,
+      "evidence": "Midterm Exam (15%), see calendar on Canvas",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 15,
+      "confidence": 0.95,
+      "evidence": "Final Exam (15%), see calendar on Canvas",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 20,
+      "confidence": 0.95,
+      "evidence": "Homework (20%)",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Written assignments",
+      "weight": 10,
+      "confidence": 0.95,
+      "evidence": "Written assignments (10%)",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Oral assignments",
+      "weight": 10,
+      "confidence": 0.95,
+      "evidence": "Oral assignments (10%)",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Participation",
+      "weight": 10,
+      "confidence": 0.95,
+      "evidence": "Participation (10%)",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "MTWR 0:00-00:00 or by",
+      "confidence": 0.95,
+      "evidence": "Office Hours: MTWR 0:00-00:00 or by",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "-Canvas: https://canvas.wisc.edu/courses/117473 -Connect: http://connect.mheducation.com Course description and Learning Outcomes Spanish 101 involves language practice through writing, reading, speaking and listening. During the course, students will attempt to: \u2022 Communicate, with few errors, in S",
+      "confidence": 0.8,
+      "evidence": "Resources",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "attendance_policy",
+      "text": "Consistent attendance in a communicative language course is essential. Therefore, students are required to come to class whenever possible. To alleviate any negative impact on your grade, you are allotted a total of four (4) absences during the semester without penalty. Each additional absence beyon",
+      "confidence": 0.8,
+      "evidence": "Attendance",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Sociology 120: Marriage and the Family",
+      "confidence": 0.86,
+      "evidence": "Sociology 120: Marriage and the Family",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "credits",
+      "text": 4.0,
+      "confidence": 0.95,
+      "evidence": "Credits: 4",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "big deal",
+      "weight": 5,
+      "confidence": 0.85,
+      "evidence": "fourth absence. Please note that 5% for attendance is a big deal: 5% can amount to a half letter",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Exams",
+      "weight": 60,
+      "confidence": 0.87,
+      "evidence": "Exams: 60%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Section Attendance",
+      "weight": 5,
+      "confidence": 0.95,
+      "evidence": "Section Attendance:       5%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Section Participation",
+      "weight": 11,
+      "confidence": 0.95,
+      "evidence": "Section Participation:   11%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "News Reflections",
+      "weight": 14,
+      "confidence": 0.87,
+      "evidence": "News Reflections 14%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Reading Quizzes",
+      "weight": 10,
+      "confidence": 0.95,
+      "evidence": "Reading Quizzes             10%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 09:30 10:45",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "09:30",
+      "end_time": "10:45",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "Tues & Thurs, 9:30-10:45am",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Tue & Thu 11:00-noon",
+      "confidence": 0.95,
+      "evidence": "Office Hours: Tue & Thu 11:00-noon",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    }
+  ],
+  "gold_sources": {
+    "field": 0,
+    "span": 80
+  },
+  "reliability": [
+    {
+      "low": 0.0,
+      "high": 0.7,
+      "values": 0,
+      "correct": 0,
+      "precision": null,
+      "precision_lower_95": null
+    },
+    {
+      "low": 0.7,
+      "high": 0.9,
+      "values": 34,
+      "correct": 33,
+      "precision": 0.9705882352941176,
+      "precision_lower_95": 0.867926174868522
+    },
+    {
+      "low": 0.9,
+      "high": 0.99,
+      "values": 46,
+      "correct": 40,
+      "precision": 0.8695652173913043,
+      "precision_lower_95": 0.7587016900902365
+    },
+    {
+      "low": 0.99,
+      "high": 1.0,
+      "values": 0,
+      "correct": 0,
+      "precision": null,
+      "precision_lower_95": null
+    }
+  ],
+  "sweep": [
+    {
+      "threshold": 0.0,
+      "accepted": 80,
+      "judged_values": 80,
+      "coverage": 1.0,
+      "precision": 0.9125,
+      "precision_lower_95": 0.8419279617916233,
+      "errors": 7
+    },
+    {
+      "threshold": 0.5,
+      "accepted": 80,
+      "judged_values": 80,
+      "coverage": 1.0,
+      "precision": 0.9125,
+      "precision_lower_95": 0.8419279617916233,
+      "errors": 7
+    },
+    {
+      "threshold": 0.6,
+      "accepted": 80,
+      "judged_values": 80,
+      "coverage": 1.0,
+      "precision": 0.9125,
+      "precision_lower_95": 0.8419279617916233,
+      "errors": 7
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 80,
+      "judged_values": 80,
+      "coverage": 1.0,
+      "precision": 0.9125,
+      "precision_lower_95": 0.8419279617916233,
+      "errors": 7
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 74,
+      "judged_values": 80,
+      "coverage": 0.925,
+      "precision": 0.9054054054054054,
+      "precision_lower_95": 0.8296586124523949,
+      "errors": 7
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 46,
+      "judged_values": 80,
+      "coverage": 0.575,
+      "precision": 0.8695652173913043,
+      "precision_lower_95": 0.7587016900902365,
+      "errors": 6
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 23,
+      "judged_values": 80,
+      "coverage": 0.2875,
+      "precision": 0.8695652173913043,
+      "precision_lower_95": 0.6963622984425384,
+      "errors": 3
+    },
+    {
+      "threshold": 0.97,
+      "accepted": 0,
+      "judged_values": 80,
+      "coverage": 0.0,
+      "precision": null,
+      "precision_lower_95": null,
+      "errors": 0
+    },
+    {
+      "threshold": 0.98,
+      "accepted": 0,
+      "judged_values": 80,
+      "coverage": 0.0,
+      "precision": null,
+      "precision_lower_95": null,
+      "errors": 0
+    },
+    {
+      "threshold": 0.99,
+      "accepted": 0,
+      "judged_values": 80,
+      "coverage": 0.0,
+      "precision": null,
+      "precision_lower_95": null,
+      "errors": 0
+    },
+    {
+      "threshold": 0.995,
+      "accepted": 0,
+      "judged_values": 80,
+      "coverage": 0.0,
+      "precision": null,
+      "precision_lower_95": null,
+      "errors": 0
+    }
+  ],
+  "operating_point": {
+    "threshold": null,
+    "target": 0.95,
+    "certified": false,
+    "note": "no threshold certifies precision 0.95 at 95% confidence on this sample",
+    "best": {
+      "threshold": 0.0,
+      "precision": 0.9125,
+      "precision_lower_95": 0.8419279617916233,
+      "coverage": 1.0
+    }
+  },
+  "known_failures": {
+    "note": "Bugs seen while reading the test documents in the previous pass. Each was found after that test run and left unfixed there. This pass fixed the causes on the development split only, and re-scored the untouched test split once afterwards.",
+    "rule_decisions": [
+      "Only top-level breakdown items count as grading gold. The four sub-weights on PHYS S102E ('written test' 15, 'oral test' 5, 'online section discussion' 10, 'participation' 10) are printed inside a parent category, so the rule scores them as misses when emitted. The extractor no longer emits them: a nested breakdown of a category it already returned is kept out of the top-level list, which is why this pass has 33 grading values rather than 36."
+    ],
+    "failures": [
+      {
+        "document": "4346b068 (ENG 4146)",
+        "field": "office_hours",
+        "status": "fixed",
+        "dev_check": "A body that opens another labelled field ('Class:', 'Course Dates:', 'Lecture Times:') is rejected, and a flattened line is cut at that label. On dev, two office-hours sections whose body ran into the next field are now cut at that field (one returns 'Noon-1pm or by appointment' instead of the following 'Course Dates'/'Lecture Times' block), one 'TBA' body is rejected, and no emitted office-hours value contains another field's label; 14/14 judged office-hours values are correct.",
+        "note": "The extracted office-hours value is the *next* section's body ('Class: Thursday E1-E3 ... Screening: Wednesday ...'), not the section the evidence span points at ('Office Hours: Wednesday periods 9-11')."
+      },
+      {
+        "document": "8c7d8e3a (RLST S324E)",
+        "field": "office_hours",
+        "status": "open",
+        "dev_check": "Still open. The heading is right and the prose that follows is about the course, not about office hours; rejecting it needs a judgement about the body's topic that the current cues cannot make without also dropping real narrative office hours (dev 1c22a5fd is the same shape and is correct).",
+        "note": "Office-hours body is the course overview text that follows the heading, so 'By appointment' never appears in the value. Emitted at confidence 1.000."
+      },
+      {
+        "document": "eb304425 (PHYS S102E)",
+        "field": "office_hours",
+        "status": "open",
+        "dev_check": "Same shape as 8c7d8e3a and still open: the following block mentions contact details, which is a legitimate office-hours cue, so the value is not rejected.",
+        "note": "Office-hours body is the instructor/email block that follows, not 'Schedule via email'. Emitted at confidence 1.000."
+      },
+      {
+        "document": "774089f9 (MATH 244)",
+        "field": "office_hours",
+        "status": "fixed",
+        "dev_check": "A placeholder body ('TBD', 'TBA', 'None.') is rejected before any cue check, and the glued bullet is cut off the value. On dev, a 'TBA' office-hours body (5ec8c4a7) is rejected; the same rule is covered by a unit test.",
+        "note": "The document states only 'Office Hours: TBD', which is not an office hour; the body is emitted anyway (with the next bullet glued on), at confidence 1.000."
+      },
+      {
+        "document": "7b40ccd4 (ANTHRO S3809)",
+        "field": "office_hours",
+        "status": "fixed",
+        "dev_check": "Same placeholder gate as 774089f9, plus the cut that drops the glued email line.",
+        "note": "Same shape: 'Office Hours of Professor: TBD' is emitted as a value, glued to the email line."
+      },
+      {
+        "document": "07d7460b (ECO 3704)",
+        "field": "course_code",
+        "status": "fixed",
+        "dev_check": "A code preceded by 'Office:', 'Room:', 'Hall' or 'in' is rejected, and an explicitly labelled 'Course Code:' line is preferred. On dev, documents with 'Office: PAR 404' and 'Office: WEL 5.239' now return RHE 306 and CH301.",
+        "note": "The instructor's office number 'MAT 328' is emitted as the course code, at confidence 0.991; the document's actual code is printed on an adjacent line as 'Course Code: ECO 3704'."
+      },
+      {
+        "document": "63260c26 (PCB 3402)",
+        "field": "course_code",
+        "status": "fixed",
+        "dev_check": "Rooms are rejected by the preceding-location cue, the dotted room form ('WEL 5.132') and schedule lines ('MWF 1351'). On dev, 'Office/hours: WEH 6213/TBA' no longer wins the field.",
+        "note": "The meeting room 'CRR 0521' is emitted as a course code, at confidence 0.982."
+      },
+      {
+        "document": "64ad5c96 (STA 4322)",
+        "field": "course_code",
+        "status": "fixed",
+        "dev_check": "Same location rules as 63260c26. A code without a catalogue label now carries confidence 0.5 rather than the section softmax, so it no longer looks certain.",
+        "note": "The room 'FLO 100' is emitted as a course code; here the confidence (0.002) at least admits it is a guess."
+      },
+      {
+        "document": "64ad5c96 (STA 4322)",
+        "field": "grading",
+        "status": "fixed",
+        "dev_check": "A parenthetical that carries two weights is read as a breakdown, not as categories; a weight inside parentheses is a component when the line already stated a top-level one; and either end of an 'X-Y%' range is skipped. On dev, 51e338bc ('WebAssign 15% (Lecture-quizzes 5% + Homework 10%)') now returns WebAssign 15 only, total 100, and 639f5558's 90-100% scale rows are gone.",
+        "note": "The parenthetical '(25% lowest, 35% best)' is split into category fragments 'lowest' and 'best)' at confidence 0.996, and 'Extra Credit 0-1%' becomes the category 'Extra Credit 0'."
+      },
+      {
+        "document": "eb304425 (PHYS S102E)",
+        "field": "grading",
+        "status": "fixed",
+        "dev_check": "The nested categories are recorded as components of the parent weight and suppressed, including when the document repeats them on their own lines later. On dev, 51e338bc's repeated 'Lecture-quizzes 5' and 'Homework 10' lines no longer inflate the breakdown.",
+        "note": "Nested sub-weights are flattened into top-level categories: 'written test' 15%, 'oral test' 5%, 'online section discussion' 10%, 'participation' 10%. The values are printed in the document, but a reader summing the categories now gets more than 100%."
+      },
+      {
+        "document": "07d7460b (ECO 3704)",
+        "field": "course_title",
+        "status": "fixed",
+        "dev_check": "Section headings are not titles: generic headings ('General Information', 'Summary Assignment and Grading', 'Teaching Assistants', 'Supplementary Materials'), place names, clock times, contact lines and code-only or session lines are rejected before ranking. On dev, 3/3 judged titles are correct and no chosen title is one of the rejected heading forms.",
+        "note": "'General Information' \u2014 a section heading that occurs verbatim in the document \u2014 is returned as the title at confidence 0.995."
+      },
+      {
+        "document": "8c7d8e3a (RLST S324E)",
+        "field": "course_code",
+        "status": "fixed",
+        "dev_check": "Session codes ('SA25', 'FA24') are rejected outright.",
+        "note": "The session code 'SA25' in the title line is emitted as a course code."
+      },
+      {
+        "document": "value-level gold, this pass",
+        "field": "office_hours",
+        "status": "open",
+        "dev_check": "Not attempted: found after the test split had been scored, so fixing it would need a second look at the test set. The dev split has the same shape (a 'Class Time:' section typed office hours on fc082801), but the record keeps one value per policy field and the real office-hours section later in that document overwrites it, so the eval never scored it. The fix is to reject a section whose own heading is a schedule label when it is typed as office hours.",
+        "note": "A section headed 'Class Times' is typed `office_hours` and emitted with the class schedule ('Mondays, Wednesdays, and Fridays 1:00 - 3:15 pm on Zoom') at confidence 0.95, so the value is confidently wrong and no cue check can tell it is a schedule."
+      }
+    ]
+  }
+}

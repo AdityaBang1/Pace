@@ -1,0 +1,26 @@
+{"fold": 0, "holdout_schools": ["Massachusetts Institute of Technology", "Pennsylvania State University", "The Ohio State University", "University of California, Berkeley", "University of California, Los Angeles"]}
+{"loaded_encoder_from": "artifacts\\jev-field-v2-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 232394, "validation": 7888, "test": 447, "parameters": 15331563}
+{"sampler_power": 0.5, "rarest": [["attendance_policy", 0], ["drop_add_deadline", 2], ["course_modality", 4], ["disability_services", 18], ["academic_integrity", 24]]}
+{"epoch": 1, "loss": 0.5558405739034531, "validation_accuracy": 0.9983519269776876, "validation_macro_f1": 0.9384527104108232, "seconds": 191.5}
+{"epoch": 2, "loss": 0.39804865736099043, "validation_accuracy": 0.9983519269776876, "validation_macro_f1": 0.9558695733933835, "seconds": 194.9}
+{"epoch": 3, "loss": 0.38817857876481543, "validation_accuracy": 0.998605476673428, "validation_macro_f1": 0.9570851311553651, "seconds": 186.9}
+{"epoch": 4, "loss": 0.38216342626279487, "validation_accuracy": 0.9987322515212982, "validation_macro_f1": 0.9636193637426089, "seconds": 187.3}
+{"epoch": 5, "loss": 0.37882233625793144, "validation_accuracy": 0.998605476673428, "validation_macro_f1": 0.963932741411954, "seconds": 187.1}
+{"epoch": 6, "loss": 0.37373631405101937, "validation_accuracy": 0.9987322515212982, "validation_macro_f1": 0.9635824284367948, "seconds": 187.2}
+{"epoch": 7, "loss": 0.3714378063684648, "validation_accuracy": 0.9987322515212982, "validation_macro_f1": 0.9638627194726822, "seconds": 187.3}
+{"early_stop_at": 7, "best_epoch": 5}
+{
+  "folds": 1,
+  "pooled_test_rows": 447,
+  "mean_test_accuracy": 0.7293064876957495,
+  "std_test_accuracy": 0.0,
+  "mean_test_macro_f1": 0.47934413629633954,
+  "std_test_macro_f1": 0.0
+}
+  fold 0: holdout=['Massachusetts Institute of Technology', 'Pennsylvania State University', 'The Ohio State University', 'University of California, Berkeley', 'University of California, Los Angeles'] rows=447 acc=0.7293 macroF1=0.4793
+{"fold": 3, "holdout_schools": ["Columbia University"]}
+{"loaded_encoder_from": "artifacts\\jev-field-v2-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 187022, "validation": 7896, "test": 248642, "parameters": 15331563}
+{"sampler_power": 0.5, "rarest": [["drop_add_deadline", 2], ["course_modality", 5], ["attendance_policy", 9], ["class_type", 16], ["meeting_days", 21]]}
+{"epoch": 1, "loss": 0.5733848374929184, "validation_accuracy": 0.9981003039513677, "validation_macro_f1": 0.960686682579849, "seconds": 152.1}

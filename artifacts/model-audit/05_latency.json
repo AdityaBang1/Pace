@@ -1,0 +1,26 @@
+{
+  "jev-field-v2@cpu": {
+    "rows": 512,
+    "total_seconds": 0.62,
+    "ms_per_row": 1.22,
+    "rows_per_second": 820.7
+  },
+  "field-classifier-minilm@cpu": {
+    "rows": 512,
+    "total_seconds": 0.34,
+    "ms_per_row": 0.67,
+    "rows_per_second": 1497.3
+  },
+  "jev-field-v2@cuda": {
+    "rows": 512,
+    "total_seconds": 0.08,
+    "ms_per_row": 0.16,
+    "rows_per_second": 6247.7
+  },
+  "field-classifier-minilm@cuda": {
+    "rows": 512,
+    "total_seconds": 0.04,
+    "ms_per_row": 0.09,
+    "rows_per_second": 11437.0
+  }
+}

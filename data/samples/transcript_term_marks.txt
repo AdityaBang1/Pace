@@ -1,0 +1,17 @@
+                     2025-2026 Grade 09   Term 2
+Course                                          Mark  Weight  Credit
+
+  2025-2026 Grade 09   Term 2
+220725y Accel Adv                                94  1.0000       1
+Alg:Concept&Connect
+200715b Accel Geo                                94  0.5000     0.5
+B:Concept&Connect
+42075y AP Human Geography                        90  1.0000       1
+32115y Biology I Honors                          93  1.0000       1
+700605y Intro to Business and                    98  1.0000       1
+Tech
+708325y Intro to Software Tech                  100  1.0000       1
+12135y Literature &                              91  1.0000       1
+Composition I Hnr
+50715y Spanish II                                97  1.0000       1
+                     Credit: 7.500   GPA: 4.13333

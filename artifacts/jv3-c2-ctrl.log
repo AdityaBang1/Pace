@@ -1,0 +1,5 @@
+{"loaded_encoder_from": "artifacts\\jev-field-v2", "transferred": 162, "missing": 0, "unexpected": 0}
+{"labels": 42, "train": 200440, "validation": 7760, "test": 534, "parameters": 15331563}
+{"sampler_power": 0.5, "rarest": [["drop_add_deadline", 2], ["course_modality", 5], ["attendance_policy", 8], ["disability_services", 18], ["course_policies", 25]]}
+{"epoch": 1, "loss": 0.38427985222631944, "validation_accuracy": 0.9983247422680412, "validation_macro_f1": 0.9679414698175353, "seconds": 370.5}
+{"epoch": 2, "loss": 0.38224074898209154, "validation_accuracy": 0.998840206185567, "validation_macro_f1": 0.9680309490684023, "seconds": 410.9}

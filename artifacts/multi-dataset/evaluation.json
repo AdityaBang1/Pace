@@ -1,0 +1,168 @@
+{
+  "schema_version": "pace-multidataset-evaluation/0.1",
+  "perqa_sample_provenance": {
+    "dataset_revision": "ff40fdce3875a6fc262e04d2cdd5de610b2211a5",
+    "sample_sha256": "c564a5f5751f2cb88b5a94534f71f4e50096fff3e184896aac7dd9b22e4de151",
+    "observable_events": {
+      "split": "test",
+      "offset": 0,
+      "requested_length": 20
+    },
+    "canonicalized_events": {
+      "split": "test",
+      "offset": 0,
+      "requested_length": 20,
+      "evaluated_linked_unique_ids_only": true
+    }
+  },
+  "tasks_are_separate": true,
+  "metrics_are_not_aggregated_across_tasks": true,
+  "cu_docbench_input_sha256": "657965beddc424193cde29c0463aedb5146478db21c18a61021856d0815c1873",
+  "cu_docbench_layout": {
+    "task": "document_block_layout_type_classification",
+    "dataset": "iristun/CU-DocBench",
+    "dataset_revision": "c00e12b958ad01c0c6a5ae10d8f407160fbd0c20",
+    "license": "MIT declared by dataset card; original source-document rights may differ",
+    "prediction_source": "precomputed dataset prediction: gemini-3-pro-preview",
+    "protocol": "match page-local block IDs; missing predictions count as false negatives; extra and mistyped blocks count as false positives",
+    "documents": 23,
+    "gold_pages": 100,
+    "pages_with_predictions": 100,
+    "prediction_error_pages": 0,
+    "gold_blocks": 1065,
+    "predicted_blocks": 1088,
+    "matched_blocks": 1055,
+    "missing_blocks": 10,
+    "extra_blocks": 33,
+    "type_correct": 1028,
+    "coverage": 0.9906103286384976,
+    "type_accuracy_over_gold": 0.9652582159624413,
+    "micro_precision": 0.9448529411764706,
+    "micro_recall": 0.9652582159624413,
+    "micro_f1": 0.9549465861588481,
+    "per_type": {
+      "code": {
+        "support": 14,
+        "predicted": 14,
+        "true_positive": 14,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "equation": {
+        "support": 30,
+        "predicted": 30,
+        "true_positive": 30,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "image": {
+        "support": 111,
+        "predicted": 107,
+        "true_positive": 107,
+        "precision": 1.0,
+        "recall": 0.963963963963964,
+        "f1": 0.981651376146789
+      },
+      "list": {
+        "support": 133,
+        "predicted": 133,
+        "true_positive": 133,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "table": {
+        "support": 47,
+        "predicted": 48,
+        "true_positive": 46,
+        "precision": 0.9583333333333334,
+        "recall": 0.9787234042553191,
+        "f1": 0.968421052631579
+      },
+      "text": {
+        "support": 562,
+        "predicted": 572,
+        "true_positive": 534,
+        "precision": 0.9335664335664335,
+        "recall": 0.9501779359430605,
+        "f1": 0.9417989417989417
+      },
+      "title": {
+        "support": 168,
+        "predicted": 184,
+        "true_positive": 164,
+        "precision": 0.8913043478260869,
+        "recall": 0.9761904761904762,
+        "f1": 0.9318181818181818
+      }
+    },
+    "confusion": {
+      "code": {
+        "code": 14
+      },
+      "equation": {
+        "equation": 30
+      },
+      "image": {
+        "image": 107,
+        "missing": 1,
+        "text": 3
+      },
+      "list": {
+        "list": 133
+      },
+      "table": {
+        "missing": 1,
+        "table": 46
+      },
+      "text": {
+        "missing": 8,
+        "table": 2,
+        "text": 534,
+        "title": 18
+      },
+      "title": {
+        "text": 4,
+        "title": 164
+      }
+    },
+    "scope_limit": "Evaluates supplied VLM layout predictions, not Pace schedule extraction or a model trained by this command."
+  },
+  "perqa_structured_temporal_smoke": {
+    "task": "synthetic_structured_temporal_event_field_smoke_test",
+    "dataset": "pchristm/PerQA",
+    "dataset_revision": "ff40fdce3875a6fc262e04d2cdd5de610b2211a5",
+    "license": "CC-BY-4.0 declared by dataset card; attribute Philipp Christmann and Gerhard Weikum",
+    "config": "observable_events + canonicalized_events",
+    "split": "test",
+    "observable_rows": 20,
+    "canonicalized_rows_evaluated": 18,
+    "linked_observable_rows": 20,
+    "distinct_linked_canonical_events": 18,
+    "event_data_json_valid": 20,
+    "properties_mentioned_json_valid": 20,
+    "synthetic_rows_confirmed": 38,
+    "non_null_temporal_values": 78,
+    "valid_non_null_temporal_values": 78,
+    "non_null_temporal_value_valid_rate": 1.0,
+    "surface_declared_temporal_fields": 8,
+    "valid_surface_declared_temporal_fields": 8,
+    "surface_declared_temporal_field_valid_rate": 1.0,
+    "event_types": {
+      "calendar": 2,
+      "movie_stream": 1,
+      "music_stream": 15,
+      "social_media": 1,
+      "workout": 1
+    },
+    "reference_date": "PerQA questions use 2024-11-25; question SQL is not executed by this smoke test",
+    "scope_limit": "Structured synthetic event/schema smoke test only; not natural-language syllabus extraction or schedule-scanner calibration."
+  },
+  "schedule_scanner": {
+    "trained_or_calibrated_on_these_datasets": false,
+    "inference_confidence_changed": false,
+    "real_syllabus_calibration": "blocked_pending_independent_human_labeled_licensed_task_matched_data"
+  }
+}

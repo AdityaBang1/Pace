@@ -1,0 +1,276 @@
+{
+  "course_records": 38,
+  "fields": {
+    "title": {
+      "expected_label": "course_title",
+      "column_header": "COURSE TITLE",
+      "rows": 38,
+      "agreement": 0.47368421052631576,
+      "with_header_agreement": 1.0,
+      "top_predictions": [
+        [
+          "course_title",
+          18
+        ],
+        [
+          "program",
+          7
+        ],
+        [
+          "assignments",
+          4
+        ],
+        [
+          "additional_information",
+          3
+        ]
+      ],
+      "with_header_predictions": [
+        [
+          "course_title",
+          38
+        ]
+      ],
+      "examples": [
+        {
+          "text": "Elective Intensive",
+          "predicted": "course_title",
+          "percent": 98.99
+        },
+        {
+          "text": "AK Studies",
+          "predicted": "course_title",
+          "percent": 98.86
+        },
+        {
+          "text": "Elective Intensive",
+          "predicted": "course_title",
+          "percent": 98.99
+        },
+        {
+          "text": "US Government",
+          "predicted": "course_title",
+          "percent": 99.06
+        },
+        {
+          "text": "Intro to Programming",
+          "predicted": "course_title",
+          "percent": 98.98
+        }
+      ]
+    },
+    "credit": {
+      "expected_label": "credits",
+      "column_header": "CREDIT",
+      "rows": 38,
+      "agreement": 0.0,
+      "with_header_agreement": 0.0,
+      "top_predictions": [
+        [
+          "course_code",
+          38
+        ]
+      ],
+      "with_header_predictions": [
+        [
+          "program",
+          38
+        ]
+      ],
+      "examples": [
+        {
+          "text": "0.250",
+          "predicted": "course_code",
+          "percent": 95.81
+        },
+        {
+          "text": "0.500",
+          "predicted": "course_code",
+          "percent": 85.62
+        },
+        {
+          "text": "0.000",
+          "predicted": "course_code",
+          "percent": 75.12
+        },
+        {
+          "text": "0.250",
+          "predicted": "course_code",
+          "percent": 95.81
+        },
+        {
+          "text": "0.500",
+          "predicted": "course_code",
+          "percent": 85.62
+        }
+      ]
+    },
+    "mark": {
+      "expected_label": "grades",
+      "column_header": "GRADE",
+      "rows": 38,
+      "agreement": 0.868421052631579,
+      "with_header_agreement": 0.0,
+      "top_predictions": [
+        [
+          "grades",
+          33
+        ],
+        [
+          "program",
+          5
+        ]
+      ],
+      "with_header_predictions": [
+        [
+          "grading_policy",
+          38
+        ]
+      ],
+      "examples": [
+        {
+          "text": "A",
+          "predicted": "grades",
+          "percent": 99.75
+        },
+        {
+          "text": "B",
+          "predicted": "grades",
+          "percent": 99.84
+        },
+        {
+          "text": "NC",
+          "predicted": "program",
+          "percent": 98.56
+        },
+        {
+          "text": "A-",
+          "predicted": "grades",
+          "percent": 99.81
+        },
+        {
+          "text": "B+",
+          "predicted": "grades",
+          "percent": 99.66
+        }
+      ]
+    },
+    "grade_level": {
+      "expected_label": "course_level",
+      "column_header": "LEVEL",
+      "rows": 38,
+      "agreement": 0.0,
+      "with_header_agreement": 1.0,
+      "top_predictions": [
+        [
+          "class_section",
+          25
+        ],
+        [
+          "course_evaluation",
+          13
+        ]
+      ],
+      "with_header_predictions": [
+        [
+          "course_level",
+          38
+        ]
+      ],
+      "examples": [
+        {
+          "text": "09",
+          "predicted": "class_section",
+          "percent": 99.12
+        },
+        {
+          "text": "09",
+          "predicted": "class_section",
+          "percent": 99.12
+        },
+        {
+          "text": "10",
+          "predicted": "course_evaluation",
+          "percent": 72.31
+        },
+        {
+          "text": "10",
+          "predicted": "course_evaluation",
+          "percent": 72.31
+        },
+        {
+          "text": "10",
+          "predicted": "course_evaluation",
+          "percent": 72.31
+        }
+      ]
+    },
+    "date": {
+      "expected_label": null,
+      "column_header": "DATE",
+      "rows": 38,
+      "agreement": 0.0,
+      "with_header_agreement": 0.0,
+      "top_predictions": [
+        [
+          "other",
+          30
+        ],
+        [
+          "assignments",
+          8
+        ]
+      ],
+      "with_header_predictions": [
+        [
+          "session_dates",
+          38
+        ]
+      ],
+      "examples": [
+        {
+          "text": "03/20/04",
+          "predicted": "other",
+          "percent": 84.07
+        },
+        {
+          "text": "12/20/03",
+          "predicted": "assignments",
+          "percent": 70.98
+        },
+        {
+          "text": "03/20/05",
+          "predicted": "other",
+          "percent": 96.46
+        },
+        {
+          "text": "12/20/04",
+          "predicted": "assignments",
+          "percent": 88.49
+        },
+        {
+          "text": "05/30/05",
+          "predicted": "other",
+          "percent": 98.8
+        }
+      ]
+    }
+  },
+  "vocabulary_gaps": [
+    "date"
+  ],
+  "gap_predictions": [
+    [
+      "other",
+      30
+    ],
+    [
+      "assignments",
+      8
+    ]
+  ],
+  "note": "Synthetic mock transcript: this measures vocabulary coverage, not accuracy on real student records.",
+  "checkpoint": "artifacts/field-classifier-minilm",
+  "context_checkpoint": "artifacts/field-classifier-context",
+  "source": "data/samples/mock_transcript_lepid_rowwise.txt"
+}

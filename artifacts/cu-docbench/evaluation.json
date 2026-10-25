@@ -1,0 +1,427 @@
+{
+  "benchmark": "iristun/CU-DocBench",
+  "purpose": "Out-of-domain multi-page academic document & block evaluation (zero-shot transfer from USC catalog model + deterministic candidate extraction)",
+  "documents_evaluated": 23,
+  "block_domain_summary": {
+    "total_non_image_blocks": 953,
+    "thai_script_blocks": 410,
+    "html_table_blocks": 47
+  },
+  "english_syllabus_block_transfer": {
+    "evaluated_blocks": 14,
+    "correct": 14,
+    "accuracy": 1.0,
+    "examples": [
+      {
+        "file_name": "pr_syllabus.pdf",
+        "page": 1,
+        "block": 0,
+        "expected": "course_title",
+        "predicted": "course_title",
+        "confidence": 0.9999067783355713,
+        "correct": true,
+        "text": "IST Pattern Recognition"
+      },
+      {
+        "file_name": "pr_syllabus.pdf",
+        "page": 1,
+        "block": 1,
+        "expected": "meeting_time",
+        "predicted": "meeting_time",
+        "confidence": 0.9999338388442993,
+        "correct": true,
+        "text": "Tuesdays 9:00-12:00"
+      },
+      {
+        "file_name": "pr_syllabus.pdf",
+        "page": 1,
+        "block": 3,
+        "expected": "course_title",
+        "predicted": "course_title",
+        "confidence": 0.9998935461044312,
+        "correct": true,
+        "text": "Pattern Recognition"
+      },
+      {
+        "file_name": "pr_syllabus.pdf",
+        "page": 1,
+        "block": 4,
+        "expected": "course_description",
+        "predicted": "course_description",
+        "confidence": 0.9993705153465271,
+        "correct": true,
+        "text": "- What is pattern recognition\n  - Types of classification problems\n- Generative models\n  - Maximum likelihood estimate\n  - Maximum a posteri"
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 1,
+        "block": 5,
+        "expected": "course_title",
+        "predicted": "course_title",
+        "confidence": 0.9998345375061035,
+        "correct": true,
+        "text": "Course Title"
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 1,
+        "block": 7,
+        "expected": "course_title",
+        "predicted": "course_title",
+        "confidence": 0.9999182224273682,
+        "correct": true,
+        "text": "English : Computer Engineering Mathematics"
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 1,
+        "block": 8,
+        "expected": "credit_units",
+        "predicted": "credit_units",
+        "confidence": 0.9996883869171143,
+        "correct": true,
+        "text": "Credit 3.0(3.0–0.0–6.0)"
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 1,
+        "block": 10,
+        "expected": "course_title",
+        "predicted": "course_title",
+        "confidence": 0.9999067783355713,
+        "correct": true,
+        "text": "Faculty/Equivalent FACULTY OF ENGINEERING"
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 1,
+        "block": 11,
+        "expected": "course_title",
+        "predicted": "course_title",
+        "confidence": 0.9998971223831177,
+        "correct": true,
+        "text": "Department DEPARTMENT OF COMPUTER ENGINEERING"
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 1,
+        "block": 26,
+        "expected": "course_description",
+        "predicted": "course_description",
+        "confidence": 0.9998062252998352,
+        "correct": true,
+        "text": "Linear algebra, vector, matrix, inverse matrix, solution to system of linear equations, factorization, vector space, subspace, rank, dimensi"
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 2,
+        "block": 0,
+        "expected": "course_description",
+        "predicted": "course_description",
+        "confidence": 0.9998032450675964,
+        "correct": true,
+        "text": "value decomposition, computer programming for linear algebra."
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 3,
+        "block": 12,
+        "expected": "course_description",
+        "predicted": "course_description",
+        "confidence": 0.9998480081558228,
+        "correct": true,
+        "text": "Bruce Solomon. Linear Algebra Geometry and Transformation. CRC Press. ISBN. 13: 978-1-4822-9930-4. eBook"
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 3,
+        "block": 14,
+        "expected": "course_description",
+        "predicted": "course_description",
+        "confidence": 0.9560540914535522,
+        "correct": true,
+        "text": "Jim Hefferon. Linear Algebra."
+      },
+      {
+        "file_name": "cem1_syllabus.pdf",
+        "page": 3,
+        "block": 17,
+        "expected": "course_description",
+        "predicted": "course_description",
+        "confidence": 0.9969136714935303,
+        "correct": true,
+        "text": "Khan Academy's Linear Algebra. https://www.khanacademy.org/join/VK4DKKS9."
+      }
+    ]
+  },
+  "out_of_distribution_stress_test": {
+    "thai_and_html_table_syllabus_blocks": 73,
+    "high_confidence_over_0_80_count": 62,
+    "high_confidence_over_0_80_rate": 0.8493150684931506,
+    "finding": "An English catalog-cell classifier is overconfident on out-of-distribution Thai-script blocks and raw HTML tables, demonstrating why language/layout pre-filters and proposal-only human confirmation are required before applying catalog models to full documents."
+  },
+  "documents": [
+    {
+      "file_name": "sps_syllabus.pdf",
+      "document_type": "Syllabus",
+      "pages": 3,
+      "non_image_blocks": 24,
+      "thai_script_blocks": 22,
+      "html_table_blocks": 3,
+      "extracted_candidate_counts": {
+        "percentage": 4,
+        "grade": 3
+      }
+    },
+    {
+      "file_name": "sps_slide1.pdf",
+      "document_type": "Slide",
+      "pages": 8,
+      "non_image_blocks": 39,
+      "thai_script_blocks": 0,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {
+        "course_code": 1,
+        "grade": 52
+      }
+    },
+    {
+      "file_name": "sps_assignment1.pdf",
+      "document_type": "Assignment",
+      "pages": 2,
+      "non_image_blocks": 28,
+      "thai_script_blocks": 0,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {
+        "course_code": 9,
+        "date": 2,
+        "percentage": 11,
+        "grade": 24
+      }
+    },
+    {
+      "file_name": "sps_assignment1_sol.pdf",
+      "document_type": "Solution",
+      "pages": 3,
+      "non_image_blocks": 51,
+      "thai_script_blocks": 0,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {
+        "grade": 93
+      }
+    },
+    {
+      "file_name": "pr_syllabus.pdf",
+      "document_type": "Syllabus",
+      "pages": 3,
+      "non_image_blocks": 13,
+      "thai_script_blocks": 4,
+      "html_table_blocks": 1,
+      "extracted_candidate_counts": {
+        "course_code": 2,
+        "percentage": 13,
+        "grade": 8
+      }
+    },
+    {
+      "file_name": "pr_slide1.pdf",
+      "document_type": "Slide",
+      "pages": 8,
+      "non_image_blocks": 76,
+      "thai_script_blocks": 3,
+      "html_table_blocks": 2,
+      "extracted_candidate_counts": {
+        "course_code": 2,
+        "grade": 2
+      }
+    },
+    {
+      "file_name": "pr_hw1.pdf",
+      "document_type": "Assignment",
+      "pages": 5,
+      "non_image_blocks": 68,
+      "thai_script_blocks": 0,
+      "html_table_blocks": 2,
+      "extracted_candidate_counts": {
+        "course_code": 1,
+        "percentage": 1,
+        "grade": 12
+      }
+    },
+    {
+      "file_name": "pr_hw1_sol.pdf",
+      "document_type": "Solution",
+      "pages": 6,
+      "non_image_blocks": 96,
+      "thai_script_blocks": 0,
+      "html_table_blocks": 1,
+      "extracted_candidate_counts": {
+        "course_code": 5,
+        "date": 6,
+        "percentage": 2,
+        "grade": 12
+      }
+    },
+    {
+      "file_name": "ข้อบังคับจุฬาฯ-ว่าด้วยวินัยนิสิต-พ.ศ.-2568_compressed.pdf",
+      "document_type": "Formal Document",
+      "pages": 8,
+      "non_image_blocks": 121,
+      "thai_script_blocks": 121,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {}
+    },
+    {
+      "file_name": "Report67_Student.pdf",
+      "document_type": "Report",
+      "pages": 5,
+      "non_image_blocks": 21,
+      "thai_script_blocks": 18,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {}
+    },
+    {
+      "file_name": "O10-คู่มือการดำเนินการคำร้องลทร.pdf",
+      "document_type": "Manual",
+      "pages": 5,
+      "non_image_blocks": 22,
+      "thai_script_blocks": 22,
+      "html_table_blocks": 5,
+      "extracted_candidate_counts": {}
+    },
+    {
+      "file_name": "manual_avs.pdf",
+      "document_type": "Manual",
+      "pages": 4,
+      "non_image_blocks": 18,
+      "thai_script_blocks": 14,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {}
+    },
+    {
+      "file_name": "jt39.pdf",
+      "document_type": "Form",
+      "pages": 1,
+      "non_image_blocks": 11,
+      "thai_script_blocks": 10,
+      "html_table_blocks": 2,
+      "extracted_candidate_counts": {
+        "course_code": 1,
+        "grade": 1
+      }
+    },
+    {
+      "file_name": "jt42-1.pdf",
+      "document_type": "Form",
+      "pages": 1,
+      "non_image_blocks": 17,
+      "thai_script_blocks": 16,
+      "html_table_blocks": 5,
+      "extracted_candidate_counts": {
+        "course_code": 5
+      }
+    },
+    {
+      "file_name": "GroupPhotoGrad2024_Thai.pdf",
+      "document_type": "Announcement",
+      "pages": 4,
+      "non_image_blocks": 38,
+      "thai_script_blocks": 27,
+      "html_table_blocks": 10,
+      "extracted_candidate_counts": {
+        "course_code": 1
+      }
+    },
+    {
+      "file_name": "registrationmanual_TH_240704.pdf",
+      "document_type": "Slide",
+      "pages": 8,
+      "non_image_blocks": 56,
+      "thai_script_blocks": 55,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {
+        "course_code": 15,
+        "grade": 2
+      }
+    },
+    {
+      "file_name": "example_transcript.pdf",
+      "document_type": "Transcript",
+      "pages": 2,
+      "non_image_blocks": 22,
+      "thai_script_blocks": 9,
+      "html_table_blocks": 4,
+      "extracted_candidate_counts": {
+        "course_code": 8,
+        "date": 6,
+        "grade": 14
+      }
+    },
+    {
+      "file_name": "filled_face_recognition_form_student.pdf",
+      "document_type": "Form",
+      "pages": 1,
+      "non_image_blocks": 13,
+      "thai_script_blocks": 1,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {
+        "course_code": 15
+      }
+    },
+    {
+      "file_name": "filled_proxy.pdf",
+      "document_type": "Form",
+      "pages": 1,
+      "non_image_blocks": 26,
+      "thai_script_blocks": 25,
+      "html_table_blocks": 0,
+      "extracted_candidate_counts": {}
+    },
+    {
+      "file_name": "life_knowledge_syllabus.pdf",
+      "document_type": "Syllabus",
+      "pages": 3,
+      "non_image_blocks": 44,
+      "thai_script_blocks": 38,
+      "html_table_blocks": 2,
+      "extracted_candidate_counts": {
+        "course_code": 1,
+        "percentage": 1,
+        "grade": 13
+      }
+    },
+    {
+      "file_name": "lk_office_syndrome63.pdf",
+      "document_type": "Slide",
+      "pages": 8,
+      "non_image_blocks": 27,
+      "thai_script_blocks": 21,
+      "html_table_blocks": 1,
+      "extracted_candidate_counts": {}
+    },
+    {
+      "file_name": "cps_unit_1_job_application.pdf",
+      "document_type": "Coursebook",
+      "pages": 8,
+      "non_image_blocks": 64,
+      "thai_script_blocks": 0,
+      "html_table_blocks": 3,
+      "extracted_candidate_counts": {
+        "course_code": 3,
+        "grade": 1
+      }
+    },
+    {
+      "file_name": "cem1_syllabus.pdf",
+      "document_type": "Syllabus",
+      "pages": 3,
+      "non_image_blocks": 58,
+      "thai_script_blocks": 4,
+      "html_table_blocks": 6,
+      "extracted_candidate_counts": {
+        "course_code": 9,
+        "grade": 31
+      }
+    }
+  ]
+}

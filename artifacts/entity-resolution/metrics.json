@@ -1,0 +1,247 @@
+{
+  "task": "course entity resolution (pairwise same-course decision)",
+  "features": [
+    "char_cosine",
+    "token_jaccard",
+    "containment",
+    "sequence_ratio",
+    "code_equal",
+    "number_conflict",
+    "level_conflict",
+    "level_agreement",
+    "length_ratio",
+    "word_overlap",
+    "content_number_conflict",
+    "prefix_overlap",
+    "empty_left",
+    "empty_right"
+  ],
+  "rows": {
+    "train": 14758,
+    "validation": 3196,
+    "test": 2954
+  },
+  "ambiguous_same_name_pairs_excluded": 153,
+  "decision_policy": "veto on level/name-number conflict; identical names with different catalogue numbers return 'uncertain'",
+  "label_balance": {
+    "train_positive": 8697
+  },
+  "threshold_selection": "lowest validation threshold with false-merge rate <= 0.005",
+  "threshold": 0.95,
+  "validation_sweep": [
+    {
+      "threshold": 0.5,
+      "pairs": 3196,
+      "precision": 0.9836,
+      "recall": 0.9941,
+      "f1": 0.9889,
+      "false_merges": 31,
+      "false_merge_rate": 0.0235,
+      "false_splits": 11
+    },
+    {
+      "threshold": 0.6,
+      "pairs": 3196,
+      "precision": 0.9888,
+      "recall": 0.9915,
+      "f1": 0.9902,
+      "false_merges": 21,
+      "false_merge_rate": 0.0159,
+      "false_splits": 16
+    },
+    {
+      "threshold": 0.7,
+      "pairs": 3196,
+      "precision": 0.9887,
+      "recall": 0.9829,
+      "f1": 0.9858,
+      "false_merges": 21,
+      "false_merge_rate": 0.0159,
+      "false_splits": 32
+    },
+    {
+      "threshold": 0.8,
+      "pairs": 3196,
+      "precision": 0.9919,
+      "recall": 0.9739,
+      "f1": 0.9828,
+      "false_merges": 15,
+      "false_merge_rate": 0.0114,
+      "false_splits": 49
+    },
+    {
+      "threshold": 0.9,
+      "pairs": 3196,
+      "precision": 0.995,
+      "recall": 0.959,
+      "f1": 0.9767,
+      "false_merges": 9,
+      "false_merge_rate": 0.0068,
+      "false_splits": 77
+    },
+    {
+      "threshold": 0.95,
+      "pairs": 3196,
+      "precision": 0.9971,
+      "recall": 0.9067,
+      "f1": 0.9497,
+      "false_merges": 5,
+      "false_merge_rate": 0.0038,
+      "false_splits": 175
+    }
+  ],
+  "test": {
+    "threshold": 0.95,
+    "pairs": 2954,
+    "precision": 0.9969,
+    "recall": 0.917,
+    "f1": 0.9553,
+    "false_merges": 5,
+    "false_merge_rate": 0.0042,
+    "false_splits": 146
+  },
+  "test_by_kind": {
+    "negative:cross_school_stem": {
+      "threshold": 0.95,
+      "pairs": 2,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 0
+    },
+    "negative:easy": {
+      "threshold": 0.95,
+      "pairs": 591,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 0
+    },
+    "negative:level": {
+      "threshold": 0.95,
+      "pairs": 291,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_merges": 1,
+      "false_merge_rate": 0.0034,
+      "false_splits": 0
+    },
+    "negative:neighbour": {
+      "threshold": 0.95,
+      "pairs": 135,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_merges": 3,
+      "false_merge_rate": 0.0222,
+      "false_splits": 0
+    },
+    "negative:same_subject": {
+      "threshold": 0.95,
+      "pairs": 177,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "false_merges": 1,
+      "false_merge_rate": 0.0056,
+      "false_splits": 0
+    },
+    "positive:abbreviation": {
+      "threshold": 0.95,
+      "pairs": 85,
+      "precision": 1.0,
+      "recall": 0.4941,
+      "f1": 0.6614,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 43
+    },
+    "positive:case": {
+      "threshold": 0.95,
+      "pairs": 672,
+      "precision": 1.0,
+      "recall": 0.9985,
+      "f1": 0.9993,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 1
+    },
+    "positive:code_prefix": {
+      "threshold": 0.95,
+      "pairs": 256,
+      "precision": 1.0,
+      "recall": 0.8086,
+      "f1": 0.8942,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 49
+    },
+    "positive:code_suffix": {
+      "threshold": 0.95,
+      "pairs": 230,
+      "precision": 1.0,
+      "recall": 0.8348,
+      "f1": 0.91,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 38
+    },
+    "positive:expansion": {
+      "threshold": 0.95,
+      "pairs": 3,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 0
+    },
+    "positive:ocr": {
+      "threshold": 0.95,
+      "pairs": 2,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 1
+    },
+    "positive:punctuation": {
+      "threshold": 0.95,
+      "pairs": 108,
+      "precision": 1.0,
+      "recall": 0.9722,
+      "f1": 0.9859,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 3
+    },
+    "positive:reorder": {
+      "threshold": 0.95,
+      "pairs": 402,
+      "precision": 1.0,
+      "recall": 0.9726,
+      "f1": 0.9861,
+      "false_merges": 0,
+      "false_merge_rate": 0.0,
+      "false_splits": 11
+    }
+  },
+  "institution_holdout": {
+    "threshold": 0.95,
+    "pairs": 1750,
+    "precision": 0.997,
+    "recall": 0.964,
+    "f1": 0.9802,
+    "false_merges": 3,
+    "false_merge_rate": 0.0042,
+    "false_splits": 37
+  },
+  "known_limitation": "positive pairs are surface variants of real catalog titles; negatives are real distinct courses. A same-course pair written with a different title is not in this benchmark.",
+  "seed": 20261024
+}

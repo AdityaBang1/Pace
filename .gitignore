@@ -1,0 +1,49 @@
+# --- OS noise -------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- JavaScript / Expo ----------------------------------------------------
+node_modules/
+.expo/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+
+# Freebuff Desktop's workspace marker (must not be committed)
+.freebuff/
+
+# --- Python ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# --- Local configuration and secrets --------------------------------------
+.env
+.env.*
+!.env.example
+
+# --- Research corpora -----------------------------------------------------
+# Raw downloads, generated splits and synthetic corpora are rebuilt by the
+# scripts in scripts/ and pace/ (see README). Only the small sample set that
+# the tests and the demo read is committed.
+data/*
+!data/samples/
+
+# --- Trained weights ------------------------------------------------------
+# Checkpoints and exported graphs stay out of Git; the model cards, metrics and
+# experiment notes beside them are committed, and `npm run export:models`
+# rebuilds the mobile bundle from a checkpoint.
+artifacts/**/*.pt
+artifacts/**/*.pth
+artifacts/**/*.onnx
+artifacts/**/*.bin
+artifacts/**/*.joblib
+artifacts/**/*.pkl
+artifacts/**/*.safetensors
+artifacts/**/*.data
+artifacts/**/*.gguf
+artifacts/**/*.jsonl

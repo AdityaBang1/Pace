@@ -1,0 +1,17 @@
+{"loaded_encoder_from": "artifacts\\jev-field-v4", "transferred": 162, "missing": 0, "unexpected": 0}
+{"labels": 42, "train": 172623, "validation": 7896, "test": 7571, "parameters": 15331563}
+{"sampler_power": 0.5, "rarest": [["drop_add_deadline", 2], ["course_modality", 5], ["attendance_policy", 17], ["class_type", 18], ["meeting_days", 22]]}
+{"epoch": 1, "loss": 0.40136120564407773, "validation_accuracy": 0.999113475177305, "validation_macro_f1": 0.9806874383781362, "seconds": 140.8}
+{
+  "parameter_count": 15331563,
+  "best_epoch": 1,
+  "temperature": 0.5607293844223022,
+  "test": {
+    "rows": 7571,
+    "accuracy": 0.998018755778629,
+    "macro_f1": 0.9726672195155575,
+    "weighted_f1": 0.9980248884505092,
+    "ece_10bin": 0.0011061333437731482,
+    "mean_confidence": 0.9989333748817444
+  }
+}

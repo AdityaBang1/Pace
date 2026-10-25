@@ -1,0 +1,21 @@
+{"seed": 20261019, "output": "artifacts\\field-classifier-context"}
+{"param_groups": [{"name": "layer0", "lr": 1.9902612938671867e-05, "tensors": 3}, {"name": "layer0_nodecay", "lr": 1.9902612938671867e-05, "tensors": 2}, {"name": "layer1", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer1_nodecay", "lr": 2.0950118882812494e-05, "tensors": 10}, {"name": "layer2", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer2_nodecay", "lr": 2.2052756718749993e-05, "tensors": 10}, {"name": "layer3", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer3_nodecay", "lr": 2.3213428124999993e-05, "tensors": 10}, {"name": "layer4", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer4_nodecay", "lr": 2.44351875e-05, "tensors": 10}, {"name": "layer5", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer5_nodecay", "lr": 2.5721249999999997e-05, "tensors": 10}, {"name": "layer6", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer6_nodecay", "lr": 2.7075e-05, "tensors": 10}, {"name": "layer7", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer7_nodecay", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer8", "lr": 0.001, "tensors": 1}, {"name": "layer8_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 1.691403761703634, "validation_accuracy": 0.9987335359675785, "validation_macro_f1": 0.9569943425078348, "validation_weighted_f1": 0.9988599504281225, "learning_rate": 1.9647118475132286e-05, "seconds": 40.02703810000094}
+{"epoch": 2, "train_loss": 0.8603969222837777, "validation_accuracy": 0.9989868287740629, "validation_macro_f1": 0.9530203572374466, "validation_weighted_f1": 0.999075465606753, "learning_rate": 1.693473885929704e-05, "seconds": 40.67837590002455}
+{"epoch": 3, "train_loss": 0.8503033586100421, "validation_accuracy": 0.9989868287740629, "validation_macro_f1": 0.9557760131452585, "validation_weighted_f1": 0.99905653043739, "learning_rate": 1.2088787142744447e-05, "seconds": 40.11648910003714}
+{"early_stop_at_epoch": 3, "best_epoch": 1, "best_validation_macro_f1": 0.9569943425078348}
+{
+  "seeds": [
+    20261019
+  ],
+  "test_macro_f1": [
+    0.8927649675427478
+  ],
+  "test_accuracy": [
+    0.9966979262977149
+  ],
+  "mean_macro_f1": 0.8927649675427478,
+  "std_macro_f1": 0.0,
+  "mean_accuracy": 0.9966979262977149,
+  "std_accuracy": 0.0
+}

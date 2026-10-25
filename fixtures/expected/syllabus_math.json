@@ -1,0 +1,542 @@
+{
+  "schema_version": "pace.academic-ir/0.3",
+  "schema": {
+    "version": "pace.academic-ir/0.3",
+    "migrated_from": null,
+    "id_policy": "sha256(document_id, kind, origin); stable across reads"
+  },
+  "document": {
+    "id": "doc_36c826cd782398fe",
+    "characters": 297,
+    "cleaned_characters": 297,
+    "truncated_for_evidence": false,
+    "evidence_coordinates": "cleaned_text",
+    "sections_detected": 5,
+    "sections_suppressed": 0,
+    "entities_suppressed": 0,
+    "gate": "open",
+    "document_type": {
+      "label": "syllabus",
+      "proposed_label": "syllabus",
+      "confidence": 0.7684,
+      "academic": true,
+      "abstained": false,
+      "top": [
+        {
+          "label": "syllabus",
+          "probability": 0.7684
+        },
+        {
+          "label": "other",
+          "probability": 0.1148
+        },
+        {
+          "label": "course_catalog",
+          "probability": 0.0993
+        }
+      ]
+    },
+    "document_type_unavailable_because": null
+  },
+  "course": {
+    "course_title": "MATH 1A: Calculus I",
+    "course_code": "MATH 1A",
+    "instructor": "Dr. Lena Ortiz"
+  },
+  "grading": [
+    {
+      "category": "Problem Sets",
+      "weight": 30,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Problem Sets 30%",
+        "start": 152,
+        "end": 168
+      },
+      "weights_sum": 100,
+      "weights_sum_consistent": true
+    },
+    {
+      "category": "Midterm Exam",
+      "weight": 30,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Midterm Exam 30%",
+        "start": 169,
+        "end": 185
+      },
+      "weights_sum": 100,
+      "weights_sum_consistent": true
+    },
+    {
+      "category": "Final Exam",
+      "weight": 40,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Final Exam 40%",
+        "start": 186,
+        "end": 200
+      },
+      "weights_sum": 100,
+      "weights_sum_consistent": true
+    }
+  ],
+  "grading_total_percent": 100,
+  "grading_total_consistent": true,
+  "meetings": [
+    {
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "11:00",
+      "end_time": "12:15",
+      "room": "Evans 10",
+      "alternatives": false,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "TU TH 11:00-12:15 in Evans 10",
+        "start": 113,
+        "end": 142
+      }
+    }
+  ],
+  "policies": {
+    "office_hours": {
+      "value": "Mondays 3-5pm in Room 214",
+      "field": "office_hours",
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Office Hours: Mondays 3-5pm in Room 214",
+        "start": 58,
+        "end": 98
+      },
+      "candidates": [
+        {
+          "value": "Mondays 3-5pm in Room 214",
+          "confidence": 0.95,
+          "section": "Office Hours: Mondays 3-5pm in Room 214",
+          "status": "chosen",
+          "reason": null
+        }
+      ]
+    }
+  },
+  "sections": [
+    {
+      "id": "sec_1bffd8999aa8",
+      "heading": "Instructor: Dr. Lena Ortiz",
+      "label": "instructor",
+      "task": "instructor_contact",
+      "confidence": 0.9961,
+      "band": "high",
+      "confidence_source": "model",
+      "start": 31,
+      "end": 58,
+      "source_text": "Instructor: Dr. Lena Ortiz\n"
+    },
+    {
+      "id": "sec_d9fa355f81aa",
+      "heading": "Office Hours: Mondays 3-5pm in Room 214",
+      "label": "office_hours",
+      "task": "instructor_contact",
+      "confidence": 0.9999,
+      "band": "high",
+      "confidence_source": "model",
+      "start": 58,
+      "end": 98,
+      "source_text": "Office Hours: Mondays 3-5pm in Room 214\n"
+    },
+    {
+      "id": "sec_10ceb653c51b",
+      "heading": "Meeting Times",
+      "label": "meeting_time",
+      "task": "schedule",
+      "confidence": 0.9979,
+      "band": "high",
+      "confidence_source": "model",
+      "start": 99,
+      "end": 113,
+      "source_text": "Meeting Times\n"
+    },
+    {
+      "id": "sec_3749ed2815ad",
+      "heading": "Grading",
+      "label": "grading_policy",
+      "task": "materials_assessment",
+      "confidence": 0.9997,
+      "band": "high",
+      "confidence_source": "model",
+      "start": 144,
+      "end": 152,
+      "source_text": "Grading\n"
+    },
+    {
+      "id": "sec_e619ec79ca2c",
+      "heading": "Attendance Policy",
+      "label": "attendance_policy",
+      "task": "policy",
+      "confidence": 0.9717,
+      "band": "high",
+      "confidence_source": "model",
+      "start": 202,
+      "end": 220,
+      "source_text": "Attendance Policy\n"
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent_3b7e4f871125",
+      "kind": "course",
+      "field": "course_title",
+      "value": "MATH 1A: Calculus I",
+      "confidence": 0.86,
+      "confidence_source": "rule",
+      "band": null,
+      "evidence_id": "ev_3af8c4f9b713",
+      "requires_confirmation": true
+    },
+    {
+      "id": "ent_b0023e4c271e",
+      "kind": "course_code",
+      "field": "course_code",
+      "value": "MATH 1A",
+      "confidence": 0.93,
+      "confidence_source": "rule",
+      "band": null,
+      "evidence_id": "ev_b964c3703820",
+      "requires_confirmation": true
+    },
+    {
+      "id": "ent_a270a05974ec",
+      "kind": "instructor",
+      "field": "instructor",
+      "value": "Dr. Lena Ortiz",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "evidence_id": "ev_bff1c64c9c37",
+      "requires_confirmation": true
+    },
+    {
+      "id": "ent_b3f332fb7221",
+      "kind": "grade_category",
+      "field": "grading",
+      "value": "Problem Sets 30%",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "evidence_id": "ev_44da7a87e72f",
+      "requires_confirmation": true,
+      "weight": 30
+    },
+    {
+      "id": "ent_5a10ebde98ae",
+      "kind": "grade_category",
+      "field": "grading",
+      "value": "Midterm Exam 30%",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "evidence_id": "ev_1dd6a9ec4a8e",
+      "requires_confirmation": true,
+      "weight": 30
+    },
+    {
+      "id": "ent_2d4529fce259",
+      "kind": "grade_category",
+      "field": "grading",
+      "value": "Final Exam 40%",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "evidence_id": "ev_73565a028757",
+      "requires_confirmation": true,
+      "weight": 40
+    },
+    {
+      "id": "ent_1ed6cd90beb0",
+      "kind": "meeting",
+      "field": "meetings",
+      "value": "TU TH 11:00-12:15",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "evidence_id": "ev_e5a1d4257e64",
+      "requires_confirmation": true
+    },
+    {
+      "id": "ent_60e2353401ad",
+      "kind": "policy",
+      "field": "office_hours",
+      "value": "Mondays 3-5pm in Room 214",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "evidence_id": "ev_66002a578b6d",
+      "requires_confirmation": true
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel_bea0dd8f80d9",
+      "type": "WEIGHT_OF",
+      "from": "ent_b3f332fb7221",
+      "to": "30%",
+      "weight": 30,
+      "evidence_id": "ev_44da7a87e72f",
+      "predicted": false,
+      "requires_confirmation": true
+    },
+    {
+      "id": "rel_1fb5db93093f",
+      "type": "WEIGHT_OF",
+      "from": "ent_5a10ebde98ae",
+      "to": "30%",
+      "weight": 30,
+      "evidence_id": "ev_1dd6a9ec4a8e",
+      "predicted": false,
+      "requires_confirmation": true
+    },
+    {
+      "id": "rel_eaca10456269",
+      "type": "WEIGHT_OF",
+      "from": "ent_2d4529fce259",
+      "to": "40%",
+      "weight": 40,
+      "evidence_id": "ev_73565a028757",
+      "predicted": false,
+      "requires_confirmation": true
+    },
+    {
+      "id": "rel_2746a4ccacb7",
+      "type": "MEETS_ON",
+      "from": "ent_1ed6cd90beb0",
+      "to": "TU TH 11:00-12:15",
+      "evidence_id": "ev_e5a1d4257e64",
+      "predicted": false,
+      "requires_confirmation": true
+    },
+    {
+      "id": "rel_cbd2e388905a",
+      "type": "TAUGHT_BY",
+      "from": "ent_3b7e4f871125",
+      "to": "ent_a270a05974ec",
+      "evidence_id": "ev_bff1c64c9c37",
+      "predicted": false,
+      "requires_confirmation": true
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev_3af8c4f9b713",
+      "field": "course_title",
+      "value": "MATH 1A: Calculus I",
+      "confidence": 0.86,
+      "confidence_source": "rule",
+      "band": null,
+      "source_text": "MATH 1A: Calculus I",
+      "start": 0,
+      "end": 19,
+      "grounded_in_source": true,
+      "requires_confirmation": true
+    },
+    {
+      "id": "ev_b964c3703820",
+      "field": "course_code",
+      "value": "MATH 1A",
+      "confidence": 0.93,
+      "confidence_source": "rule",
+      "band": null,
+      "source_text": "MATH 1A",
+      "start": 0,
+      "end": 19,
+      "grounded_in_source": true,
+      "requires_confirmation": true
+    },
+    {
+      "id": "ev_bff1c64c9c37",
+      "field": "instructor",
+      "value": "Dr. Lena Ortiz",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "source_text": "Dr. Lena Ortiz",
+      "start": 31,
+      "end": 57,
+      "grounded_in_source": true,
+      "requires_confirmation": true
+    },
+    {
+      "id": "ev_44da7a87e72f",
+      "field": "grading",
+      "value": "Problem Sets 30%",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "source_text": "Problem Sets 30%",
+      "start": 152,
+      "end": 168,
+      "grounded_in_source": true,
+      "requires_confirmation": true
+    },
+    {
+      "id": "ev_1dd6a9ec4a8e",
+      "field": "grading",
+      "value": "Midterm Exam 30%",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "source_text": "Midterm Exam 30%",
+      "start": 169,
+      "end": 185,
+      "grounded_in_source": true,
+      "requires_confirmation": true
+    },
+    {
+      "id": "ev_73565a028757",
+      "field": "grading",
+      "value": "Final Exam 40%",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "source_text": "Final Exam 40%",
+      "start": 186,
+      "end": 200,
+      "grounded_in_source": true,
+      "requires_confirmation": true
+    },
+    {
+      "id": "ev_e5a1d4257e64",
+      "field": "meetings",
+      "value": "TU TH 11:00-12:15",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "source_text": "TU TH 11:00-12:15 in Evans 10",
+      "start": 113,
+      "end": 142,
+      "grounded_in_source": true,
+      "requires_confirmation": true
+    },
+    {
+      "id": "ev_66002a578b6d",
+      "field": "office_hours",
+      "value": "Mondays 3-5pm in Room 214",
+      "confidence": 0.95,
+      "confidence_source": "rule",
+      "band": null,
+      "source_text": "Office Hours: Mondays 3-5pm in Room 214",
+      "start": 58,
+      "end": 98,
+      "grounded_in_source": true,
+      "requires_confirmation": true
+    }
+  ],
+  "suppressed": [
+    {
+      "field": "course_title",
+      "value": "Fall 2026",
+      "reason": "a session or term line",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Instructor: Dr. Lena Ortiz",
+      "reason": "a labelled attribute, not a course name",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Office Hours: Mondays 3-5pm in Room 214",
+      "reason": "a labelled attribute, not a course name",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "TU TH 11:00-12:15 in Evans 10",
+      "reason": "a clock time",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Grading",
+      "reason": "a section heading",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Attendance Policy",
+      "reason": "a section heading",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Meeting Times",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 0.01"
+    },
+    {
+      "field": "meetings",
+      "value": "Office Hours: Mondays 3-5pm in Room 214",
+      "reason": "an office-hours line, not a class meeting",
+      "evidence": "Office Hours: Mondays 3-5pm in Room 214"
+    },
+    {
+      "field": "meetings",
+      "value": "Midterm Exam 30%",
+      "reason": "an exam line, not a class meeting",
+      "evidence": "Midterm Exam 30%"
+    },
+    {
+      "field": "meetings",
+      "value": "Final Exam 40%",
+      "reason": "an exam line, not a class meeting",
+      "evidence": "Final Exam 40%"
+    },
+    {
+      "field": "attendance_policy",
+      "value": null,
+      "reason": "body is not about the field",
+      "evidence": "Attendance Policy"
+    }
+  ],
+  "confidence": {
+    "sections_in_distribution_ece": 0.0016,
+    "sections_unseen_university_ece": 0.1665,
+    "sections_unseen_university_accuracy": 0.783,
+    "rule_values_development_precision": 0.917,
+    "rule_values_holdout_precision": 0.955,
+    "holdout_documents": 12,
+    "alt_reader": {
+      "checkpoint": "artifacts/jev-field-v4",
+      "sections_in_distribution_ece": 0.001,
+      "sections_unseen_documents_ece": 0.1325,
+      "sections_unseen_documents_accuracy": 0.839,
+      "value_level_gold_precision": 0.939,
+      "value_level_gold_lower_95": 0.867,
+      "why_not_default": "picked a grading line as course_title on a sample syllabus"
+    },
+    "bands": {
+      "high": ">=0.97",
+      "medium": "0.85-0.97",
+      "low": "<0.85"
+    },
+    "bands_apply_to": "section labels only (model probabilities)",
+    "value_confidences": "set by the rule that read the value (0.60-0.97), not a probability; their measured precision is the rule number above",
+    "note": "A high band is a preselect-and-confirm signal, not an assertion. On unseen universities 0.98+ model confidence measured 0.828 precision. Every value this module returns requires a human confirmation."
+  },
+  "model": {
+    "engine_version": "0.3.0",
+    "checkpoint": "artifacts/field-classifier-minilm",
+    "context_checkpoint": "artifacts/field-classifier-context",
+    "family": "encoder-classifier",
+    "parameters": 22729386,
+    "max_state_tokens": 256,
+    "temperature": 0.6466508507728577,
+    "document_type_checkpoint": "artifacts\\doc-type"
+  },
+  "warnings": [],
+  "requires_confirmation": true,
+  "commit_policy": "proposals_only_user_confirmation_required"
+}

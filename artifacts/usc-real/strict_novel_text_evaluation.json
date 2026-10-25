@@ -1,0 +1,307 @@
+{
+  "task": "USC natural catalog-cell field classification",
+  "protocol": "subject-held-out test subjects; test strings normalized for whitespace/case; remove any test string present in train or validation; score one row per remaining exact test string",
+  "important_limit": "This is still one scraped USC Spring 2024 source and uses naturally available field labels. It does not measure OCR, arbitrary syllabus extraction, other institutions, or independently human-annotated semantics.",
+  "split_audit": {
+    "train_rows": 23175,
+    "validation_rows": 5102,
+    "test_rows_original": 5522,
+    "unique_texts_in_train": 6880,
+    "unique_texts_in_validation": 1684,
+    "test_rows_seen_in_train_or_validation_removed": 3685,
+    "duplicate_test_rows_removed": 298,
+    "strict_test_unique_novel_text_rows": 1539,
+    "strict_test_subjects": 31
+  },
+  "models": {
+    "char_tfidf_logistic": {
+      "accuracy": 0.9902534113060428,
+      "macro_f1": 0.9940916492764956,
+      "weighted_f1": 0.9902524597763918,
+      "errors": 15,
+      "classification_report": {
+        "course_description": {
+          "precision": 0.989010989010989,
+          "recall": 0.9921259842519685,
+          "f1-score": 0.9905660377358491,
+          "support": 635.0
+        },
+        "course_title": {
+          "precision": 0.9880546075085325,
+          "recall": 0.9863713798977853,
+          "f1-score": 0.9872122762148338,
+          "support": 587.0
+        },
+        "credit_units": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 8.0
+        },
+        "meeting_time": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 16.0
+        },
+        "prerequisites": {
+          "precision": 0.9957805907172996,
+          "recall": 0.9957805907172996,
+          "f1-score": 0.9957805907172996,
+          "support": 237.0
+        },
+        "restrictions": {
+          "precision": 1.0,
+          "recall": 0.9821428571428571,
+          "f1-score": 0.990990990990991,
+          "support": 56.0
+        },
+        "accuracy": 0.9902534113060428,
+        "macro avg": {
+          "precision": 0.9954743645394702,
+          "recall": 0.9927368020016517,
+          "f1-score": 0.9940916492764956,
+          "support": 1539.0
+        },
+        "weighted avg": {
+          "precision": 0.9902599302335844,
+          "recall": 0.9902534113060428,
+          "f1-score": 0.9902524597763918,
+          "support": 1539.0
+        }
+      },
+      "subject_bootstrap_accuracy_95ci": {
+        "subjects": 31,
+        "accuracy_ci95_low": 0.9856524452599468,
+        "accuracy_ci95_high": 0.9945506733653873
+      },
+      "error_examples": [
+        {
+          "subject": "usc-subject:ACCT",
+          "text": "Selected Topics in Accounting Research",
+          "true": "course_title",
+          "predicted": "course_description"
+        },
+        {
+          "subject": "usc-subject:CE",
+          "text": "Civil and Environmental Engineering capstone design project incorporating all disciplines of Civil Engineering and Environmental Engineering.",
+          "true": "course_description",
+          "predicted": "course_title"
+        },
+        {
+          "subject": "usc-subject:CE",
+          "text": "Registration open to the following major(s): Civil Engineering, Civil Engineering (Transportation Engineering), Civil Engineering (Transportation Systems), Civil Engineering (Water and Waste Management), Construction Management, Civil Engineering (Construction Engineering), Environmental Engineering, Civil Engineering (Structural Engineering), Civil Engineering (Advanced Design and Construction,Technology)",
+          "true": "restrictions",
+          "predicted": "course_title"
+        },
+        {
+          "subject": "usc-subject:CTCS",
+          "text": "Exercise in writing film and television criticism using new and classic films and television programs.",
+          "true": "course_description",
+          "predicted": "course_title"
+        },
+        {
+          "subject": "usc-subject:EDUC",
+          "text": "Applying Knowledge and Strategies for Teaching All Students",
+          "true": "course_title",
+          "predicted": "course_description"
+        },
+        {
+          "subject": "usc-subject:EDUC",
+          "text": "Blended Learning Experiences for Students in Urban Schools",
+          "true": "course_title",
+          "predicted": "course_description"
+        },
+        {
+          "subject": "usc-subject:ENGL",
+          "text": "English Drama to 1800",
+          "true": "course_title",
+          "predicted": "prerequisites"
+        },
+        {
+          "subject": "usc-subject:IDSN",
+          "text": "Overview of Intellectual Property Laws for Creatives and Entrepreneurs",
+          "true": "course_title",
+          "predicted": "course_description"
+        },
+        {
+          "subject": "usc-subject:LING",
+          "text": "LING 285",
+          "true": "prerequisites",
+          "predicted": "course_title"
+        },
+        {
+          "subject": "usc-subject:MEDS",
+          "text": "The basics of human anatomy (gross anatomy, histology, radiographic anatomy), physiology (cellular physiology, organ system areas) and pathology (general, systemic, cellular pathology).",
+          "true": "course_description",
+          "predicted": "course_title"
+        },
+        {
+          "subject": "usc-subject:MUCO",
+          "text": "Arranging and composing for chorus.",
+          "true": "course_description",
+          "predicted": "course_title"
+        },
+        {
+          "subject": "usc-subject:MUCO",
+          "text": "Selected Topics in Graduate Composition",
+          "true": "course_title",
+          "predicted": "course_description"
+        },
+        {
+          "subject": "usc-subject:MUIN",
+          "text": "Current Topics, Case Studies, and Analysis",
+          "true": "course_title",
+          "predicted": "course_description"
+        },
+        {
+          "subject": "usc-subject:RED",
+          "text": "Applications of Real Estate Finance to Problems of Development",
+          "true": "course_title",
+          "predicted": "course_description"
+        },
+        {
+          "subject": "usc-subject:RED",
+          "text": "Macro and micro-analysis of urban property markets; demographics; location choice; regulation",
+          "true": "course_description",
+          "predicted": "course_title"
+        }
+      ]
+    },
+    "usc-miniLM": {
+      "accuracy": 0.9993502274204028,
+      "macro_f1": 0.9997268190175991,
+      "weighted_f1": 0.999350247901808,
+      "errors": 1,
+      "classification_report": {
+        "course_description": {
+          "precision": 1.0,
+          "recall": 0.9984251968503937,
+          "f1-score": 0.9992119779353822,
+          "support": 635.0
+        },
+        "course_title": {
+          "precision": 0.9982993197278912,
+          "recall": 1.0,
+          "f1-score": 0.9991489361702127,
+          "support": 587.0
+        },
+        "credit_units": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 8.0
+        },
+        "meeting_time": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 16.0
+        },
+        "prerequisites": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 237.0
+        },
+        "restrictions": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 56.0
+        },
+        "accuracy": 0.9993502274204028,
+        "macro avg": {
+          "precision": 0.9997165532879819,
+          "recall": 0.9997375328083989,
+          "f1-score": 0.9997268190175991,
+          "support": 1539.0
+        },
+        "weighted avg": {
+          "precision": 0.9993513324758104,
+          "recall": 0.9993502274204028,
+          "f1-score": 0.999350247901808,
+          "support": 1539.0
+        }
+      },
+      "subject_bootstrap_accuracy_95ci": {
+        "subjects": 31,
+        "accuracy_ci95_low": 0.997957444485555,
+        "accuracy_ci95_high": 1.0
+      },
+      "error_examples": [
+        {
+          "subject": "usc-subject:ENGL",
+          "text": "Introduction to the techniques and practice of writing narrative in fiction and literary non-fiction",
+          "true": "course_description",
+          "predicted": "course_title"
+        }
+      ],
+      "device": "cuda"
+    },
+    "usc-deberta-xsmall": {
+      "accuracy": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0,
+      "errors": 0,
+      "classification_report": {
+        "course_description": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 635.0
+        },
+        "course_title": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 587.0
+        },
+        "credit_units": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 8.0
+        },
+        "meeting_time": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 16.0
+        },
+        "prerequisites": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 237.0
+        },
+        "restrictions": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 56.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 1539.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 1539.0
+        }
+      },
+      "subject_bootstrap_accuracy_95ci": {
+        "subjects": 31,
+        "accuracy_ci95_low": 1.0,
+        "accuracy_ci95_high": 1.0
+      },
+      "error_examples": [],
+      "device": "cuda"
+    }
+  }
+}

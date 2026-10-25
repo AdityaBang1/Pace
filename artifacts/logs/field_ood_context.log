@@ -1,0 +1,105 @@
+C:\Users\Adity\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sklearn\metrics\_classification.py:614: UserWarning: A single label was found in 'y_true' and 'y_pred'. For the confusion matrix to have the correct shape, use the 'labels' parameter to pass all known labels.
+  warnings.warn(
+{"leave_one_source_out": "USC"}
+{"param_groups": [{"name": "layer0", "lr": 1.9902612938671867e-05, "tensors": 3}, {"name": "layer0_nodecay", "lr": 1.9902612938671867e-05, "tensors": 2}, {"name": "layer1", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer1_nodecay", "lr": 2.0950118882812494e-05, "tensors": 10}, {"name": "layer2", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer2_nodecay", "lr": 2.2052756718749993e-05, "tensors": 10}, {"name": "layer3", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer3_nodecay", "lr": 2.3213428124999993e-05, "tensors": 10}, {"name": "layer4", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer4_nodecay", "lr": 2.44351875e-05, "tensors": 10}, {"name": "layer5", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer5_nodecay", "lr": 2.5721249999999997e-05, "tensors": 10}, {"name": "layer6", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer6_nodecay", "lr": 2.7075e-05, "tensors": 10}, {"name": "layer7", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer7_nodecay", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer8", "lr": 0.001, "tensors": 1}, {"name": "layer8_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 1.8265140358906067, "validation_accuracy": 0.9931053237778347, "validation_macro_f1": 0.7795130985789177, "validation_weighted_f1": 0.9930031999151763, "learning_rate": 1.8628653777783184e-05, "seconds": 31.921857300039846}
+{"epoch": 2, "train_loss": 0.45526563298744965, "validation_accuracy": 0.9944490657793703, "validation_macro_f1": 0.7850375348652607, "validation_weighted_f1": 0.9941879445520504, "learning_rate": 1.2080794798295513e-05, "seconds": 25.00461990002077}
+{"epoch": 3, "train_loss": 0.4425952231050819, "validation_accuracy": 0.9945770412080881, "validation_macro_f1": 0.7864732921852446, "validation_weighted_f1": 0.9942771174004487, "learning_rate": 4.368351914158244e-06, "seconds": 25.043983199982904}
+{"epoch": 4, "train_loss": 0.44033783364466866, "validation_accuracy": 0.9945610442794983, "validation_macro_f1": 0.786160343866223, "validation_weighted_f1": 0.9942579736057818, "learning_rate": 9.951306469335934e-07, "seconds": 24.93185049999738}
+{"leave_one_source_out": "anordkvist"}
+{"param_groups": [{"name": "layer0", "lr": 1.9902612938671867e-05, "tensors": 3}, {"name": "layer0_nodecay", "lr": 1.9902612938671867e-05, "tensors": 2}, {"name": "layer1", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer1_nodecay", "lr": 2.0950118882812494e-05, "tensors": 10}, {"name": "layer2", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer2_nodecay", "lr": 2.2052756718749993e-05, "tensors": 10}, {"name": "layer3", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer3_nodecay", "lr": 2.3213428124999993e-05, "tensors": 10}, {"name": "layer4", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer4_nodecay", "lr": 2.44351875e-05, "tensors": 10}, {"name": "layer5", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer5_nodecay", "lr": 2.5721249999999997e-05, "tensors": 10}, {"name": "layer6", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer6_nodecay", "lr": 2.7075e-05, "tensors": 10}, {"name": "layer7", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer7_nodecay", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer8", "lr": 0.001, "tensors": 1}, {"name": "layer8_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 1.7769977524876595, "validation_accuracy": 0.9219888312498228, "validation_macro_f1": 0.6203060473041109, "validation_weighted_f1": 0.937384275692874, "learning_rate": 1.8636051785927613e-05, "seconds": 11.149008899985347}
+{"epoch": 2, "train_loss": 0.3593994901556036, "validation_accuracy": 0.9889162910678345, "validation_macro_f1": 0.7014724503190661, "validation_weighted_f1": 0.9882032116237914, "learning_rate": 1.2090496714917786e-05, "seconds": 11.057909399969503}
+{"epoch": 3, "train_loss": 0.3415530856212844, "validation_accuracy": 0.989228108966182, "validation_macro_f1": 0.7002717312381103, "validation_weighted_f1": 0.9884120968933949, "learning_rate": 4.372124119054223e-06, "seconds": 11.247069200035185}
+{"epoch": 4, "train_loss": 0.33893605639105256, "validation_accuracy": 0.9892564560478498, "validation_macro_f1": 0.7005362547602929, "validation_weighted_f1": 0.9884431777168199, "learning_rate": 9.951306469335934e-07, "seconds": 13.852686800004449}
+{"early_stop_at_epoch": 4, "best_epoch": 2, "best_validation_macro_f1": 0.7014724503190661}
+{"leave_one_source_out": "twangodev"}
+{"param_groups": [{"name": "layer0", "lr": 1.9902612938671867e-05, "tensors": 3}, {"name": "layer0_nodecay", "lr": 1.9902612938671867e-05, "tensors": 2}, {"name": "layer1", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer1_nodecay", "lr": 2.0950118882812494e-05, "tensors": 10}, {"name": "layer2", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer2_nodecay", "lr": 2.2052756718749993e-05, "tensors": 10}, {"name": "layer3", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer3_nodecay", "lr": 2.3213428124999993e-05, "tensors": 10}, {"name": "layer4", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer4_nodecay", "lr": 2.44351875e-05, "tensors": 10}, {"name": "layer5", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer5_nodecay", "lr": 2.5721249999999997e-05, "tensors": 10}, {"name": "layer6", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer6_nodecay", "lr": 2.7075e-05, "tensors": 10}, {"name": "layer7", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer7_nodecay", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer8", "lr": 0.001, "tensors": 1}, {"name": "layer8_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 1.9156795666956987, "validation_accuracy": 0.9919363870534215, "validation_macro_f1": 0.8175473795204871, "validation_weighted_f1": 0.9927825914381809, "learning_rate": 1.8628653777783184e-05, "seconds": 22.793808299989905}
+{"epoch": 2, "train_loss": 0.4467930448738905, "validation_accuracy": 0.995094635457498, "validation_macro_f1": 0.8408023201527204, "validation_weighted_f1": 0.9952325429286045, "learning_rate": 1.2080794798295513e-05, "seconds": 23.111293099995237}
+{"epoch": 3, "train_loss": 0.42839418282218306, "validation_accuracy": 0.9953186247060141, "validation_macro_f1": 0.8422588684786303, "validation_weighted_f1": 0.995414539445467, "learning_rate": 4.368351914158244e-06, "seconds": 22.603268500010017}
+{"epoch": 4, "train_loss": 0.43290044815950496, "validation_accuracy": 0.9952514279314593, "validation_macro_f1": 0.8423637759232789, "validation_weighted_f1": 0.9953569760999356, "learning_rate": 9.951306469335934e-07, "seconds": 22.94903499999782}
+{"leave_one_source_out": "chaseharmon"}
+{"param_groups": [{"name": "layer0", "lr": 1.9902612938671867e-05, "tensors": 3}, {"name": "layer0_nodecay", "lr": 1.9902612938671867e-05, "tensors": 2}, {"name": "layer1", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer1_nodecay", "lr": 2.0950118882812494e-05, "tensors": 10}, {"name": "layer2", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer2_nodecay", "lr": 2.2052756718749993e-05, "tensors": 10}, {"name": "layer3", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer3_nodecay", "lr": 2.3213428124999993e-05, "tensors": 10}, {"name": "layer4", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer4_nodecay", "lr": 2.44351875e-05, "tensors": 10}, {"name": "layer5", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer5_nodecay", "lr": 2.5721249999999997e-05, "tensors": 10}, {"name": "layer6", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer6_nodecay", "lr": 2.7075e-05, "tensors": 10}, {"name": "layer7", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer7_nodecay", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer8", "lr": 0.001, "tensors": 1}, {"name": "layer8_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 1.8342599442326708, "validation_accuracy": 0.992738672168642, "validation_macro_f1": 0.786255545157218, "validation_weighted_f1": 0.9930445964506418, "learning_rate": 1.8629262587195224e-05, "seconds": 25.510378500039224}
+{"epoch": 2, "train_loss": 0.48436851716159207, "validation_accuracy": 0.9943860659277386, "validation_macro_f1": 0.7974699821025117, "validation_weighted_f1": 0.9942763943041394, "learning_rate": 1.2081592283073975e-05, "seconds": 25.268748199974652}
+{"epoch": 3, "train_loss": 0.47629439752352865, "validation_accuracy": 0.9944980247269005, "validation_macro_f1": 0.799452027072309, "validation_weighted_f1": 0.9944128240377026, "learning_rate": 4.368661896157789e-06, "seconds": 23.359780099999625}
+{"epoch": 4, "train_loss": 0.4726043507750881, "validation_accuracy": 0.9945140188410665, "validation_macro_f1": 0.7990051704294743, "validation_weighted_f1": 0.994431028800379, "learning_rate": 9.951306469335934e-07, "seconds": 25.294826400000602}
+{
+  "per_source": {
+    "Dev-the-dev91": {
+      "rows": 102,
+      "accuracy": 0.8137,
+      "macro_f1": 0.5375
+    },
+    "USC": {
+      "rows": 743,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    "alecwatts": {
+      "rows": 9,
+      "accuracy": 0.8889,
+      "macro_f1": 0.7143
+    },
+    "anordkvist": {
+      "rows": 3653,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    "chaseharmon": {
+      "rows": 545,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    "iristun": {
+      "rows": 21,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    },
+    "syllabus-finetune": {
+      "rows": 60,
+      "accuracy": 0.9167,
+      "macro_f1": 0.8111
+    },
+    "twangodev": {
+      "rows": 2438,
+      "accuracy": 1.0,
+      "macro_f1": 1.0
+    }
+  },
+  "leave_one_source_out": [
+    {
+      "held_out_source": "USC",
+      "rows": 5508,
+      "accuracy": 0.6531,
+      "macro_f1": 0.2439,
+      "supported_accuracy": 0.696,
+      "unsupported_rows": 340
+    },
+    {
+      "held_out_source": "anordkvist",
+      "rows": 36270,
+      "accuracy": 0.0695,
+      "macro_f1": 0.0751,
+      "supported_accuracy": 0.2104,
+      "unsupported_rows": 24298
+    },
+    {
+      "held_out_source": "twangodev",
+      "rows": 25332,
+      "accuracy": 0.806,
+      "macro_f1": 0.2639,
+      "supported_accuracy": 0.8381,
+      "unsupported_rows": 970
+    },
+    {
+      "held_out_source": "chaseharmon",
+      "rows": 5486,
+      "accuracy": 0.7457,
+      "macro_f1": 0.343,
+      "supported_accuracy": 0.7457,
+      "unsupported_rows": 0
+    }
+  ]
+}

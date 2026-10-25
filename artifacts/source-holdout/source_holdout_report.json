@@ -1,0 +1,704 @@
+{
+  "folds": 5,
+  "mean_accuracy": 0.7314470682191505,
+  "mean_macro_f1": 0.26345314628437455,
+  "mean_accuracy_on_seen_labels": 0.7927129777763658,
+  "results": [
+    {
+      "held_out_source": "anordkvist/gu-course-syllabus",
+      "held_out_rows": 62170,
+      "train_rows": 40000,
+      "labels_never_seen": [
+        "confirmation",
+        "course_evaluation",
+        "entry_requirements",
+        "teaching_form"
+      ],
+      "labels_in_fold": [
+        "additional_information",
+        "assessment",
+        "confirmation",
+        "course_code",
+        "course_content",
+        "course_evaluation",
+        "course_level",
+        "entry_requirements",
+        "grades",
+        "learning_outcomes",
+        "teaching_form"
+      ],
+      "accuracy": 0.43574071095383626,
+      "macro_f1": 0.12144866580784072,
+      "weighted_f1": 0.43195511920368124,
+      "ece_10bin": 0.38239158715562016,
+      "mean_confidence": 0.8181322981094564,
+      "accuracy_on_labels_seen_in_training": 0.6702127659574468,
+      "rows_with_labels_seen_in_training": 40420,
+      "per_class_f1": {
+        "course_code": 0.987645478961504,
+        "course_level": 0.0435228905768836,
+        "entry_requirements": 0.0,
+        "confirmation": 0.0,
+        "course_content": 0.8779039133975188,
+        "learning_outcomes": 0.8523530952588841,
+        "teaching_form": 0.0,
+        "grades": 0.9199503864135101,
+        "assessment": 0.31372914530711155,
+        "course_evaluation": 0.0,
+        "additional_information": 0.8628417223982165
+      },
+      "per_class_support": {
+        "course_code": 2812,
+        "course_level": 4759,
+        "entry_requirements": 5902,
+        "confirmation": 5981,
+        "course_content": 9676,
+        "learning_outcomes": 4910,
+        "teaching_form": 5377,
+        "grades": 5222,
+        "assessment": 8861,
+        "course_evaluation": 4490,
+        "additional_information": 4180
+      },
+      "top_confusions": [
+        [
+          "teaching_form -> course_description",
+          5117
+        ],
+        [
+          "course_level -> course_description",
+          3732
+        ],
+        [
+          "assessment -> assignments",
+          2955
+        ],
+        [
+          "confirmation -> due_date",
+          2419
+        ],
+        [
+          "course_evaluation -> course_content",
+          2019
+        ],
+        [
+          "confirmation -> office_hours",
+          1682
+        ],
+        [
+          "assessment -> learning_outcomes",
+          1411
+        ],
+        [
+          "entry_requirements -> prerequisites",
+          1351
+        ],
+        [
+          "assessment -> exam_schedule",
+          1326
+        ],
+        [
+          "confirmation -> course_description",
+          1184
+        ],
+        [
+          "entry_requirements -> materials",
+          1155
+        ],
+        [
+          "entry_requirements -> course_description",
+          1119
+        ],
+        [
+          "course_evaluation -> contact_information",
+          1074
+        ],
+        [
+          "entry_requirements -> program",
+          872
+        ],
+        [
+          "course_level -> restrictions",
+          844
+        ],
+        [
+          "assessment -> academic_integrity",
+          694
+        ],
+        [
+          "course_evaluation -> course_description",
+          663
+        ],
+        [
+          "entry_requirements -> additional_information",
+          570
+        ],
+        [
+          "entry_requirements -> academic_integrity",
+          442
+        ],
+        [
+          "confirmation -> restrictions",
+          351
+        ]
+      ],
+      "trained_test_accuracy": 0.4358050506675245,
+      "trained_test_macro_f1": 0.1214626927350058
+    },
+    {
+      "held_out_source": "chaseharmon/MIT_Course_Catalog",
+      "held_out_rows": 17277,
+      "train_rows": 40000,
+      "labels_never_seen": [],
+      "labels_in_fold": [
+        "additional_information",
+        "class_type",
+        "course_code",
+        "course_description",
+        "course_level",
+        "course_title",
+        "credits",
+        "prerequisites",
+        "term"
+      ],
+      "accuracy": 0.9864559819413092,
+      "macro_f1": 0.27482944725756203,
+      "weighted_f1": 0.9924445774099873,
+      "ece_10bin": 0.005934646216960619,
+      "mean_confidence": 0.9922074593968874,
+      "accuracy_on_labels_seen_in_training": 0.9864559819413092,
+      "rows_with_labels_seen_in_training": 17277,
+      "per_class_f1": {
+        "course_title": 0.9950700570835496,
+        "course_code": 0.9904357066950054,
+        "course_description": 0.9955343852337005,
+        "course_level": 0.9090909090909091,
+        "class_type": 1.0,
+        "credits": 0.9724770642201835,
+        "prerequisites": 0.9834862385321101,
+        "term": 0.9626556016597511,
+        "additional_information": 0.985792349726776
+      },
+      "per_class_support": {
+        "course_title": 3867,
+        "course_code": 4749,
+        "course_description": 6744,
+        "course_level": 6,
+        "class_type": 4,
+        "credits": 222,
+        "prerequisites": 1101,
+        "term": 121,
+        "additional_information": 463
+      },
+      "top_confusions": [
+        [
+          "course_code -> assignments",
+          36
+        ],
+        [
+          "course_description -> learning_outcomes",
+          18
+        ],
+        [
+          "course_code -> course_schedule",
+          12
+        ],
+        [
+          "course_code -> contact_information",
+          12
+        ],
+        [
+          "prerequisites -> instructor",
+          11
+        ],
+        [
+          "credits -> meeting_time",
+          10
+        ],
+        [
+          "course_description -> academic_integrity",
+          7
+        ],
+        [
+          "additional_information -> other",
+          7
+        ],
+        [
+          "prerequisites -> assignments",
+          6
+        ],
+        [
+          "course_code -> class_section",
+          6
+        ],
+        [
+          "course_title -> learning_outcomes",
+          5
+        ],
+        [
+          "course_description -> course_content",
+          5
+        ],
+        [
+          "course_title -> program",
+          5
+        ],
+        [
+          "course_code -> program",
+          5
+        ],
+        [
+          "course_description -> course_title",
+          5
+        ],
+        [
+          "course_code -> office_hours",
+          5
+        ],
+        [
+          "course_description -> materials",
+          5
+        ],
+        [
+          "prerequisites -> contact_information",
+          4
+        ],
+        [
+          "additional_information -> contact_information",
+          4
+        ],
+        [
+          "course_title -> course_description",
+          4
+        ]
+      ],
+      "trained_test_accuracy": 0.9864559819413092,
+      "trained_test_macro_f1": 0.27482944725756203
+    },
+    {
+      "held_out_source": "USC/USC-Course-Catalog",
+      "held_out_rows": 19811,
+      "train_rows": 40000,
+      "labels_never_seen": [
+        "restrictions"
+      ],
+      "labels_in_fold": [
+        "class_section",
+        "class_type",
+        "course_code",
+        "course_description",
+        "course_title",
+        "credits",
+        "instructor",
+        "meeting_days",
+        "meeting_time",
+        "prerequisites",
+        "program",
+        "restrictions"
+      ],
+      "accuracy": 0.9714804906365151,
+      "macro_f1": 0.32916205693337297,
+      "weighted_f1": 0.9673736593784081,
+      "ece_10bin": 0.016009019781510446,
+      "mean_confidence": 0.9874895104180256,
+      "accuracy_on_labels_seen_in_training": 0.9894098293234629,
+      "rows_with_labels_seen_in_training": 19452,
+      "per_class_f1": {
+        "course_title": 0.9665575636829372,
+        "course_code": 0.9886413280908694,
+        "course_description": 0.9915287371301968,
+        "program": 0.9828767123287672,
+        "class_type": 1.0,
+        "instructor": 0.9874840357598978,
+        "credits": 0.9830508474576272,
+        "class_section": 0.9985068548934437,
+        "restrictions": 0.0,
+        "prerequisites": 0.9813614262560778,
+        "meeting_time": 0.9948542024013722,
+        "meeting_days": 0.0
+      },
+      "per_class_support": {
+        "course_title": 3414,
+        "course_code": 4576,
+        "course_description": 3857,
+        "program": 291,
+        "class_type": 5,
+        "instructor": 1934,
+        "credits": 120,
+        "class_section": 3687,
+        "restrictions": 359,
+        "prerequisites": 1251,
+        "meeting_time": 290,
+        "meeting_days": 27
+      },
+      "top_confusions": [
+        [
+          "restrictions -> course_title",
+          210
+        ],
+        [
+          "restrictions -> contact_information",
+          67
+        ],
+        [
+          "restrictions -> course_schedule",
+          28
+        ],
+        [
+          "course_description -> learning_outcomes",
+          26
+        ],
+        [
+          "prerequisites -> course_code",
+          25
+        ],
+        [
+          "course_code -> instructor",
+          24
+        ],
+        [
+          "meeting_days -> course_code",
+          18
+        ],
+        [
+          "course_description -> course_content",
+          12
+        ],
+        [
+          "restrictions -> entry_requirements",
+          11
+        ],
+        [
+          "restrictions -> office_hours",
+          11
+        ],
+        [
+          "restrictions -> instructor",
+          10
+        ],
+        [
+          "course_title -> course_description",
+          9
+        ],
+        [
+          "prerequisites -> instructor",
+          7
+        ],
+        [
+          "class_section -> course_code",
+          6
+        ],
+        [
+          "restrictions -> course_level",
+          5
+        ],
+        [
+          "course_code -> course_schedule",
+          5
+        ],
+        [
+          "meeting_days -> program",
+          5
+        ],
+        [
+          "restrictions -> course_content",
+          5
+        ],
+        [
+          "course_code -> prerequisites",
+          5
+        ],
+        [
+          "restrictions -> academic_integrity",
+          5
+        ]
+      ],
+      "trained_test_accuracy": 0.9714804906365151,
+      "trained_test_macro_f1": 0.32916205693337297
+    },
+    {
+      "held_out_source": "Dev-the-dev91/syllabus-cleaned",
+      "held_out_rows": 2775,
+      "train_rows": 40000,
+      "labels_never_seen": [
+        "academic_integrity",
+        "attendance_policy",
+        "course_policies",
+        "disability_services",
+        "drop_add_deadline",
+        "exam_schedule"
+      ],
+      "labels_in_fold": [
+        "academic_integrity",
+        "additional_information",
+        "assessment",
+        "assignments",
+        "attendance_policy",
+        "class_meeting_room",
+        "contact_information",
+        "course_code",
+        "course_content",
+        "course_description",
+        "course_level",
+        "course_policies",
+        "course_schedule",
+        "course_title",
+        "credits",
+        "disability_services",
+        "drop_add_deadline",
+        "due_date",
+        "exam_schedule",
+        "grades",
+        "grading_policy",
+        "instructor",
+        "learning_outcomes",
+        "materials",
+        "meeting_days",
+        "meeting_time",
+        "office_hours",
+        "prerequisites",
+        "program",
+        "session_dates",
+        "term"
+      ],
+      "accuracy": 0.3347747747747748,
+      "macro_f1": 0.18326620450759462,
+      "weighted_f1": 0.34330405068188985,
+      "ece_10bin": 0.5892952222974451,
+      "mean_confidence": 0.9240699970722198,
+      "accuracy_on_labels_seen_in_training": 0.3887029288702929,
+      "rows_with_labels_seen_in_training": 2390,
+      "per_class_f1": {
+        "course_title": 0.40718562874251496,
+        "course_code": 0.78,
+        "course_description": 0.2017167381974249,
+        "program": 0.5263157894736842,
+        "course_level": 0.26666666666666666,
+        "instructor": 0.6290322580645161,
+        "office_hours": 0.024844720496894408,
+        "contact_information": 0.4095238095238095,
+        "credits": 0.0,
+        "prerequisites": 0.06382978723404255,
+        "course_content": 0.411214953271028,
+        "learning_outcomes": 0.1797752808988764,
+        "materials": 0.024193548387096774,
+        "assignments": 0.7057163020465773,
+        "due_date": 0.3333333333333333,
+        "grading_policy": 0.031746031746031744,
+        "grades": 0.3795620437956204,
+        "assessment": 0.08069164265129683,
+        "meeting_time": 0.16853932584269662,
+        "meeting_days": 0.03571428571428571,
+        "class_meeting_room": 0.09090909090909091,
+        "course_schedule": 0.4755244755244755,
+        "exam_schedule": 0.0,
+        "session_dates": 0.2608695652173913,
+        "term": 0.6756756756756757,
+        "drop_add_deadline": 0.0,
+        "attendance_policy": 0.0,
+        "academic_integrity": 0.0,
+        "course_policies": 0.0,
+        "disability_services": 0.0,
+        "additional_information": 0.16806722689075632
+      },
+      "per_class_support": {
+        "course_title": 38,
+        "course_code": 47,
+        "course_description": 90,
+        "program": 10,
+        "course_level": 3,
+        "instructor": 80,
+        "office_hours": 156,
+        "contact_information": 122,
+        "credits": 31,
+        "prerequisites": 27,
+        "course_content": 64,
+        "learning_outcomes": 47,
+        "materials": 202,
+        "assignments": 816,
+        "due_date": 95,
+        "grading_policy": 244,
+        "grades": 53,
+        "assessment": 18,
+        "meeting_time": 26,
+        "meeting_days": 2,
+        "class_meeting_room": 2,
+        "course_schedule": 105,
+        "exam_schedule": 131,
+        "session_dates": 19,
+        "term": 37,
+        "drop_add_deadline": 2,
+        "attendance_policy": 19,
+        "academic_integrity": 135,
+        "course_policies": 52,
+        "disability_services": 46,
+        "additional_information": 56
+      },
+      "top_confusions": [
+        [
+          "assignments -> assessment",
+          75
+        ],
+        [
+          "due_date -> meeting_time",
+          67
+        ],
+        [
+          "academic_integrity -> course_description",
+          63
+        ],
+        [
+          "grading_policy -> grades",
+          57
+        ],
+        [
+          "exam_schedule -> assignments",
+          55
+        ],
+        [
+          "exam_schedule -> assessment",
+          49
+        ],
+        [
+          "assignments -> learning_outcomes",
+          45
+        ],
+        [
+          "grading_policy -> assessment",
+          43
+        ],
+        [
+          "materials -> course_content",
+          42
+        ],
+        [
+          "assignments -> other",
+          41
+        ],
+        [
+          "assignments -> course_description",
+          40
+        ],
+        [
+          "grading_policy -> assignments",
+          34
+        ],
+        [
+          "course_policies -> course_description",
+          30
+        ],
+        [
+          "assignments -> course_title",
+          30
+        ],
+        [
+          "office_hours -> course_description",
+          28
+        ],
+        [
+          "materials -> course_description",
+          28
+        ],
+        [
+          "materials -> assessment",
+          27
+        ],
+        [
+          "materials -> other",
+          27
+        ],
+        [
+          "office_hours -> prerequisites",
+          25
+        ],
+        [
+          "materials -> learning_outcomes",
+          24
+        ]
+      ],
+      "trained_test_accuracy": 0.33513513513513515,
+      "trained_test_macro_f1": 0.18366880737297153
+    },
+    {
+      "held_out_source": "alecwatts/umich-course-descriptions",
+      "held_out_rows": 337,
+      "train_rows": 40000,
+      "labels_never_seen": [],
+      "labels_in_fold": [
+        "course_code",
+        "course_description",
+        "course_title",
+        "credits",
+        "grades",
+        "prerequisites"
+      ],
+      "accuracy": 0.9287833827893175,
+      "macro_f1": 0.4085593569155025,
+      "weighted_f1": 0.9552024466445592,
+      "ece_10bin": 0.03261251354076029,
+      "mean_confidence": 0.9523769272187343,
+      "accuracy_on_labels_seen_in_training": 0.9287833827893175,
+      "rows_with_labels_seen_in_training": 337,
+      "per_class_f1": {
+        "course_title": 0.9932885906040269,
+        "course_code": 0.9935483870967742,
+        "course_description": 0.9049773755656109,
+        "credits": 1.0,
+        "prerequisites": 0.970873786407767,
+        "grades": 0.8571428571428571
+      },
+      "per_class_support": {
+        "course_title": 74,
+        "course_code": 78,
+        "course_description": 121,
+        "credits": 6,
+        "prerequisites": 50,
+        "grades": 8
+      },
+      "top_confusions": [
+        [
+          "course_description -> course_schedule",
+          9
+        ],
+        [
+          "course_description -> course_content",
+          3
+        ],
+        [
+          "course_description -> prerequisites",
+          3
+        ],
+        [
+          "course_description -> contact_information",
+          3
+        ],
+        [
+          "course_code -> class_meeting_room",
+          1
+        ],
+        [
+          "course_description -> office_hours",
+          1
+        ],
+        [
+          "course_description -> course_level",
+          1
+        ],
+        [
+          "grades -> grading_policy",
+          1
+        ],
+        [
+          "grades -> program",
+          1
+        ],
+        [
+          "course_description -> course_title",
+          1
+        ]
+      ],
+      "trained_test_accuracy": 0.9287833827893175,
+      "trained_test_macro_f1": 0.4085593569155025
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "stage": "choice",
+  "base_architecture": "ELECTRA-small shaped (Jev/TinyDecide): 12x256, 4 heads, ffn 768",
+  "parameter_count": 10278955,
+  "labels": [
+    "course_title",
+    "course_code",
+    "course_description",
+    "program",
+    "course_level",
+    "class_type",
+    "instructor",
+    "office_hours",
+    "contact_information",
+    "credits",
+    "capacity",
+    "class_section",
+    "entry_requirements",
+    "restrictions",
+    "confirmation",
+    "prerequisites",
+    "course_content",
+    "learning_outcomes",
+    "teaching_form",
+    "materials",
+    "weekly_readings",
+    "assignments",
+    "due_date",
+    "grading_policy",
+    "grades",
+    "assessment",
+    "course_evaluation",
+    "meeting_time",
+    "meeting_days",
+    "class_meeting_room",
+    "course_modality",
+    "course_schedule",
+    "exam_schedule",
+    "session_dates",
+    "term",
+    "drop_add_deadline",
+    "attendance_policy",
+    "academic_integrity",
+    "course_policies",
+    "disability_services",
+    "additional_information",
+    "other"
+  ],
+  "question": "Which academic field does this text belong to?",
+  "train_rows": 133287,
+  "validation_rows": 7888,
+  "test_rows": 447,
+  "best_epoch": 6,
+  "epochs_run": 9,
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.38970607394794765,
+      "validation_accuracy": 0.9984787018255578,
+      "validation_macro_f1": 0.951268855618784,
+      "seconds": 82.0
+    },
+    {
+      "epoch": 2,
+      "loss": 0.3891116101964772,
+      "validation_accuracy": 0.9984787018255578,
+      "validation_macro_f1": 0.9341286890689261,
+      "seconds": 85.6
+    },
+    {
+      "epoch": 3,
+      "loss": 0.38371551379883034,
+      "validation_accuracy": 0.9979716024340771,
+      "validation_macro_f1": 0.9313369041935505,
+      "seconds": 82.1
+    },
+    {
+      "epoch": 4,
+      "loss": 0.3794396697188453,
+      "validation_accuracy": 0.9983519269776876,
+      "validation_macro_f1": 0.9544247425729548,
+      "seconds": 81.5
+    },
+    {
+      "epoch": 5,
+      "loss": 0.37602360608766405,
+      "validation_accuracy": 0.9987322515212982,
+      "validation_macro_f1": 0.94644488828277,
+      "seconds": 81.4
+    },
+    {
+      "epoch": 6,
+      "loss": 0.3726829027100433,
+      "validation_accuracy": 0.9984787018255578,
+      "validation_macro_f1": 0.9683494698112184,
+      "seconds": 81.4
+    },
+    {
+      "epoch": 7,
+      "loss": 0.3707538188790246,
+      "validation_accuracy": 0.9988590263691683,
+      "validation_macro_f1": 0.9435800708287786,
+      "seconds": 81.3
+    },
+    {
+      "epoch": 8,
+      "loss": 0.36912766948020714,
+      "validation_accuracy": 0.9988590263691683,
+      "validation_macro_f1": 0.9409389840480445,
+      "seconds": 81.3
+    },
+    {
+      "epoch": 9,
+      "loss": 0.36850434232958784,
+      "validation_accuracy": 0.9988590263691683,
+      "validation_macro_f1": 0.9613935814646236,
+      "seconds": 81.4
+    }
+  ],
+  "temperature": 0.5988678336143494,
+  "option_dropout": 0.15,
+  "validation": {
+    "rows": 7888,
+    "accuracy": 0.9984787018255578,
+    "macro_f1": 0.9683494698112184,
+    "weighted_f1": 0.9983952312691473,
+    "ece_10bin": 0.05741318926200055,
+    "mean_confidence": 0.942113995552063
+  },
+  "test": {
+    "rows": 447,
+    "accuracy": 0.8322147651006712,
+    "macro_f1": 0.6391497817964449,
+    "weighted_f1": 0.8357356844278019,
+    "ece_10bin": 0.1275759778700152,
+    "mean_confidence": 0.9542031288146973
+  },
+  "device": "cuda",
+  "train_seconds": 738.0
+}

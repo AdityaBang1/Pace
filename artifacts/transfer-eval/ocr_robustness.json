@@ -1,0 +1,56 @@
+{
+  "rows": "data/processed/transfer/unseen-syllabus/test.jsonl",
+  "results": {
+    "jev-field-v4": {
+      "clean": {
+        "rows": 1638,
+        "accuracy": 0.8327228327228328,
+        "macro_f1": 0.5959942496606598,
+        "accuracy_drop": 0.0,
+        "macro_f1_drop": 0.0
+      },
+      "lookalike_chars": {
+        "rows": 1638,
+        "accuracy": 0.8021978021978022,
+        "macro_f1": 0.5837014279879544,
+        "accuracy_drop": 0.0305,
+        "macro_f1_drop": 0.0123
+      },
+      "joined_words": {
+        "rows": 1638,
+        "accuracy": 0.7509157509157509,
+        "macro_f1": 0.5219527388708229,
+        "accuracy_drop": 0.0818,
+        "macro_f1_drop": 0.074
+      },
+      "duplicated_lines": {
+        "rows": 1638,
+        "accuracy": 0.8199023199023199,
+        "macro_f1": 0.5751169768317053,
+        "accuracy_drop": 0.0128,
+        "macro_f1_drop": 0.0209
+      },
+      "punctuation": {
+        "rows": 1638,
+        "accuracy": 0.826007326007326,
+        "macro_f1": 0.6063772211950514,
+        "accuracy_drop": 0.0067,
+        "macro_f1_drop": -0.0104
+      },
+      "flattened_layout": {
+        "rows": 1638,
+        "accuracy": 0.8327228327228328,
+        "macro_f1": 0.5959942496606598,
+        "accuracy_drop": 0.0,
+        "macro_f1_drop": 0.0
+      },
+      "all_combined": {
+        "rows": 1638,
+        "accuracy": 0.717948717948718,
+        "macro_f1": 0.48107922985269425,
+        "accuracy_drop": 0.1148,
+        "macro_f1_drop": 0.1149
+      }
+    }
+  }
+}

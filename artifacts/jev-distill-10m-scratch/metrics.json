@@ -1,0 +1,50 @@
+{
+  "teacher": "artifacts\\jev-field-v4",
+  "parameter_count": 10278955,
+  "teacher_parameter_count": 15331563,
+  "train_rows": 171123,
+  "validation_rows": 7896,
+  "test_rows": 7571,
+  "best_epoch": 2,
+  "epochs_run": 3,
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 3.079654977953649,
+      "validation_accuracy": 0.9834093211752786,
+      "validation_macro_f1": 0.6851719093115024,
+      "seconds": 245.2
+    },
+    {
+      "epoch": 2,
+      "loss": 2.858407367022086,
+      "validation_accuracy": 0.9920212765957447,
+      "validation_macro_f1": 0.7980828894583715,
+      "seconds": 246.7
+    },
+    {
+      "epoch": 3,
+      "loss": 2.8223198026450556,
+      "validation_accuracy": 0.9915146909827761,
+      "validation_macro_f1": 0.7714847760422663,
+      "seconds": 248.9
+    }
+  ],
+  "temperature": 2.0,
+  "alpha": 0.5,
+  "question": "Which academic field does this text belong to?",
+  "arch": {},
+  "validation": {
+    "validation_accuracy": 0.9915146909827761,
+    "validation_macro_f1": 0.7714847760422663
+  },
+  "test": {
+    "rows": 7571,
+    "accuracy": 0.9900937788931449,
+    "macro_f1": 0.7585958641568598,
+    "weighted_f1": 0.9893503166175373,
+    "ece_10bin": 0.45151217126725074,
+    "mean_confidence": 0.5386306643486023
+  },
+  "device": "cuda"
+}

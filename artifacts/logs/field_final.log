@@ -1,0 +1,8 @@
+[00:26:21] bare-value cross-institution starting
+[00:52:58] bare-value cross-institution finished (exit 0)
+[00:52:58] heading-aware cross-institution starting
+scripts/run_field_final.sh: line 31:   707 Killed                  PYTHONIOENCODING=utf-8 python -m pace.field_cross --corpus data/processed/field_context/corpus.jsonl --output artifacts/field-crossinstitution-context --epochs 6 --folds 3 --fold-plan "$PLAN" > "$LOGDIR/field_cross_context.log" 2>&1
+[00:56:32] heading-aware cross-institution finished (exit 0)
+[00:56:32] paired comparison starting
+[00:56:39] paired comparison finished (exit 0)
+[00:56:39] ALL DONE

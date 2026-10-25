@@ -1,0 +1,753 @@
+{
+  "folds": 3,
+  "per_fold": [
+    {
+      "fold": 0,
+      "holdout_schools": [
+        "Carnegie Mellon University",
+        "Pennsylvania State University",
+        "Stanford University",
+        "University of California, Berkeley"
+      ],
+      "rows": 544,
+      "accuracy": 0.4025735294117647,
+      "macro_f1": 0.3410848751967933,
+      "weighted_f1": 0.4881024837376196,
+      "mean_confidence": 0.831660563537084,
+      "ece_10bin": 0.42908703412531934,
+      "classes": 25,
+      "per_class_f1": {
+        "academic_integrity": 0.4375,
+        "additional_information": 0.09523809523809523,
+        "assessment": 0.3333333333333333,
+        "assignments": 0.40875912408759124,
+        "attendance_policy": 0.0,
+        "contact_information": 0.7777777777777778,
+        "course_code": 0.11764705882352941,
+        "course_content": 0.4444444444444444,
+        "course_description": 0.058823529411764705,
+        "course_policies": 0.4,
+        "course_schedule": 0.3902439024390244,
+        "course_title": 0.07692307692307693,
+        "credits": 0.0,
+        "disability_services": 0.5454545454545454,
+        "drop_add_deadline": 0.0,
+        "due_date": 0.9019607843137255,
+        "exam_schedule": 0.6,
+        "grading_policy": 0.7611940298507462,
+        "instructor": 0.2857142857142857,
+        "learning_outcomes": 0.0,
+        "materials": 0.35714285714285715,
+        "office_hours": 0.5,
+        "prerequisites": 0.3076923076923077,
+        "session_dates": 0.0,
+        "term": 0.7272727272727273
+      },
+      "per_class_support": {
+        "academic_integrity": 25,
+        "additional_information": 3,
+        "assessment": 4,
+        "assignments": 207,
+        "attendance_policy": 4,
+        "contact_information": 9,
+        "course_code": 2,
+        "course_content": 8,
+        "course_description": 1,
+        "course_policies": 6,
+        "course_schedule": 17,
+        "course_title": 4,
+        "credits": 4,
+        "disability_services": 4,
+        "drop_add_deadline": 2,
+        "due_date": 28,
+        "exam_schedule": 26,
+        "grading_policy": 79,
+        "instructor": 3,
+        "learning_outcomes": 1,
+        "materials": 39,
+        "office_hours": 48,
+        "prerequisites": 6,
+        "session_dates": 8,
+        "term": 6
+      },
+      "top_confusions": [
+        [
+          "assignments -> other",
+          25
+        ],
+        [
+          "assignments -> course_title",
+          19
+        ],
+        [
+          "assignments -> class_section",
+          17
+        ],
+        [
+          "assignments -> restrictions",
+          12
+        ],
+        [
+          "office_hours -> meeting_time",
+          11
+        ],
+        [
+          "assignments -> instructor",
+          8
+        ],
+        [
+          "assignments -> course_schedule",
+          8
+        ],
+        [
+          "assignments -> weekly_readings",
+          8
+        ],
+        [
+          "assignments -> prerequisites",
+          8
+        ],
+        [
+          "materials -> course_description",
+          7
+        ],
+        [
+          "assignments -> course_code",
+          7
+        ],
+        [
+          "assignments -> additional_information",
+          7
+        ],
+        [
+          "office_hours -> course_description",
+          6
+        ],
+        [
+          "grading_policy -> grades",
+          6
+        ],
+        [
+          "materials -> additional_information",
+          5
+        ]
+      ]
+    },
+    {
+      "fold": 1,
+      "holdout_schools": [
+        "Massachusetts Institute of Technology",
+        "The Ohio State University",
+        "University of California, Los Angeles",
+        "University of Illinois Urbana-Champaign",
+        "University of Michigan"
+      ],
+      "rows": 538,
+      "accuracy": 0.5947955390334573,
+      "macro_f1": 0.4692805951730678,
+      "weighted_f1": 0.6547138843892852,
+      "mean_confidence": 0.8891975547578255,
+      "ece_10bin": 0.2944020157243682,
+      "classes": 29,
+      "per_class_f1": {
+        "academic_integrity": 0.3888888888888889,
+        "additional_information": 0.38095238095238093,
+        "assessment": 0.0,
+        "assignments": 0.7987220447284346,
+        "attendance_policy": 0.0,
+        "contact_information": 0.7647058823529411,
+        "course_code": 0.26666666666666666,
+        "course_content": 0.4888888888888889,
+        "course_description": 0.15625,
+        "course_level": 1.0,
+        "course_policies": 0.4,
+        "course_schedule": 0.6086956521739131,
+        "course_title": 0.25,
+        "credits": 0.6,
+        "disability_services": 0.46153846153846156,
+        "due_date": 0.7307692307692307,
+        "exam_schedule": 0.7636363636363637,
+        "grades": 0.5714285714285714,
+        "grading_policy": 0.7166666666666667,
+        "instructor": 0.3333333333333333,
+        "learning_outcomes": 0.5714285714285714,
+        "materials": 0.4,
+        "meeting_days": 0.2222222222222222,
+        "meeting_time": 0.16666666666666666,
+        "office_hours": 0.5333333333333333,
+        "prerequisites": 0.6,
+        "program": 0.5454545454545454,
+        "session_dates": 0.0,
+        "term": 0.8888888888888888
+      },
+      "per_class_support": {
+        "academic_integrity": 28,
+        "additional_information": 8,
+        "assessment": 1,
+        "assignments": 177,
+        "attendance_policy": 2,
+        "contact_information": 20,
+        "course_code": 2,
+        "course_content": 22,
+        "course_description": 7,
+        "course_level": 5,
+        "course_policies": 7,
+        "course_schedule": 21,
+        "course_title": 4,
+        "credits": 5,
+        "disability_services": 20,
+        "due_date": 32,
+        "exam_schedule": 30,
+        "grades": 17,
+        "grading_policy": 73,
+        "instructor": 1,
+        "learning_outcomes": 4,
+        "materials": 21,
+        "meeting_days": 1,
+        "meeting_time": 1,
+        "office_hours": 8,
+        "prerequisites": 3,
+        "program": 3,
+        "session_dates": 6,
+        "term": 9
+      },
+      "top_confusions": [
+        [
+          "assignments -> course_description",
+          13
+        ],
+        [
+          "disability_services -> course_description",
+          12
+        ],
+        [
+          "due_date -> class_section",
+          11
+        ],
+        [
+          "materials -> course_description",
+          10
+        ],
+        [
+          "grading_policy -> course_code",
+          9
+        ],
+        [
+          "academic_integrity -> course_description",
+          8
+        ],
+        [
+          "assignments -> course_title",
+          7
+        ],
+        [
+          "assignments -> meeting_time",
+          6
+        ],
+        [
+          "assignments -> course_schedule",
+          5
+        ],
+        [
+          "session_dates -> course_schedule",
+          5
+        ],
+        [
+          "grading_policy -> assignments",
+          4
+        ],
+        [
+          "grading_policy -> meeting_days",
+          4
+        ],
+        [
+          "academic_integrity -> program",
+          4
+        ],
+        [
+          "course_content -> additional_information",
+          3
+        ],
+        [
+          "assignments -> grading_policy",
+          3
+        ]
+      ]
+    },
+    {
+      "fold": 2,
+      "holdout_schools": [
+        "Georgia Institute of Technology",
+        "Purdue University",
+        "The University of Texas at Austin",
+        "University of North Carolina at Chapel Hill",
+        "University of Wisconsin\u2013Madison"
+      ],
+      "rows": 556,
+      "accuracy": 0.4766187050359712,
+      "macro_f1": 0.41199754442513636,
+      "weighted_f1": 0.5502582612223524,
+      "mean_confidence": 0.9041037321519508,
+      "ece_10bin": 0.42748502711597963,
+      "classes": 25,
+      "per_class_f1": {
+        "academic_integrity": 0.45454545454545453,
+        "additional_information": 0.26666666666666666,
+        "assignments": 0.535031847133758,
+        "attendance_policy": 0.0,
+        "contact_information": 0.72,
+        "course_code": 0.3157894736842105,
+        "course_content": 0.5517241379310345,
+        "course_description": 0.2,
+        "course_level": 0.0,
+        "course_policies": 0.5714285714285714,
+        "course_schedule": 0.3673469387755102,
+        "course_title": 0.17647058823529413,
+        "credits": 0.0,
+        "disability_services": 0.2727272727272727,
+        "due_date": 0.8888888888888888,
+        "exam_schedule": 0.6046511627906976,
+        "grades": 0.5217391304347826,
+        "grading_policy": 0.697986577181208,
+        "instructor": 0.21052631578947367,
+        "learning_outcomes": 0.5714285714285714,
+        "materials": 0.56,
+        "office_hours": 0.7272727272727273,
+        "program": 0.2857142857142857,
+        "session_dates": 0.0,
+        "term": 0.8
+      },
+      "per_class_support": {
+        "academic_integrity": 15,
+        "additional_information": 4,
+        "assignments": 213,
+        "attendance_policy": 2,
+        "contact_information": 27,
+        "course_code": 5,
+        "course_content": 13,
+        "course_description": 9,
+        "course_level": 1,
+        "course_policies": 14,
+        "course_schedule": 22,
+        "course_title": 7,
+        "credits": 1,
+        "disability_services": 19,
+        "due_date": 9,
+        "exam_schedule": 23,
+        "grades": 16,
+        "grading_policy": 90,
+        "instructor": 2,
+        "learning_outcomes": 5,
+        "materials": 17,
+        "office_hours": 28,
+        "program": 2,
+        "session_dates": 6,
+        "term": 6
+      },
+      "top_confusions": [
+        [
+          "assignments -> course_title",
+          47
+        ],
+        [
+          "assignments -> course_schedule",
+          17
+        ],
+        [
+          "grading_policy -> assignments",
+          12
+        ],
+        [
+          "assignments -> class_meeting_room",
+          12
+        ],
+        [
+          "course_schedule -> course_description",
+          9
+        ],
+        [
+          "academic_integrity -> course_description",
+          9
+        ],
+        [
+          "assignments -> course_code",
+          8
+        ],
+        [
+          "assignments -> instructor",
+          8
+        ],
+        [
+          "materials -> course_description",
+          7
+        ],
+        [
+          "grading_policy -> instructor",
+          6
+        ],
+        [
+          "disability_services -> other",
+          6
+        ],
+        [
+          "office_hours -> course_description",
+          5
+        ],
+        [
+          "session_dates -> credits",
+          5
+        ],
+        [
+          "grades -> grading_policy",
+          5
+        ],
+        [
+          "assignments -> contact_information",
+          5
+        ]
+      ]
+    }
+  ],
+  "pooled": {
+    "rows": 1638,
+    "accuracy": 0.4908424908424908,
+    "macro_f1": 0.38771048735428804,
+    "weighted_f1": 0.5670876724451684,
+    "mean_confidence": 0.8751485385228135,
+    "ece_10bin": 0.3843060476803226,
+    "classes": 30,
+    "per_class_f1": {
+      "academic_integrity": 0.4222222222222222,
+      "additional_information": 0.24561403508771928,
+      "assessment": 0.19047619047619047,
+      "assignments": 0.5882352941176471,
+      "attendance_policy": 0.0,
+      "contact_information": 0.7450980392156863,
+      "course_code": 0.23529411764705882,
+      "course_content": 0.5,
+      "course_description": 0.15730337078651685,
+      "course_level": 0.7142857142857143,
+      "course_policies": 0.4878048780487805,
+      "course_schedule": 0.45588235294117646,
+      "course_title": 0.1694915254237288,
+      "credits": 0.17647058823529413,
+      "disability_services": 0.4067796610169492,
+      "drop_add_deadline": 0.0,
+      "due_date": 0.8264462809917356,
+      "exam_schedule": 0.6621621621621622,
+      "grades": 0.4745762711864407,
+      "grading_policy": 0.7245657568238213,
+      "instructor": 0.2564102564102564,
+      "learning_outcomes": 0.4444444444444444,
+      "materials": 0.4144144144144144,
+      "meeting_days": 0.11764705882352941,
+      "meeting_time": 0.0625,
+      "office_hours": 0.5826771653543307,
+      "prerequisites": 0.35,
+      "program": 0.4,
+      "session_dates": 0.0,
+      "term": 0.8205128205128205
+    },
+    "per_class_support": {
+      "academic_integrity": 68,
+      "additional_information": 15,
+      "assessment": 5,
+      "assignments": 597,
+      "attendance_policy": 8,
+      "contact_information": 56,
+      "course_code": 9,
+      "course_content": 43,
+      "course_description": 17,
+      "course_level": 6,
+      "course_policies": 27,
+      "course_schedule": 60,
+      "course_title": 15,
+      "credits": 10,
+      "disability_services": 43,
+      "drop_add_deadline": 2,
+      "due_date": 69,
+      "exam_schedule": 79,
+      "grades": 33,
+      "grading_policy": 242,
+      "instructor": 6,
+      "learning_outcomes": 10,
+      "materials": 77,
+      "meeting_days": 1,
+      "meeting_time": 1,
+      "office_hours": 84,
+      "prerequisites": 9,
+      "program": 5,
+      "session_dates": 20,
+      "term": 21
+    },
+    "top_confusions": [
+      [
+        "assignments -> course_title",
+        73
+      ],
+      [
+        "assignments -> other",
+        30
+      ],
+      [
+        "assignments -> course_schedule",
+        30
+      ],
+      [
+        "materials -> course_description",
+        24
+      ],
+      [
+        "academic_integrity -> course_description",
+        21
+      ],
+      [
+        "grading_policy -> assignments",
+        19
+      ],
+      [
+        "assignments -> course_description",
+        19
+      ],
+      [
+        "assignments -> class_section",
+        18
+      ],
+      [
+        "disability_services -> course_description",
+        17
+      ],
+      [
+        "assignments -> instructor",
+        16
+      ],
+      [
+        "due_date -> class_section",
+        16
+      ],
+      [
+        "office_hours -> meeting_time",
+        15
+      ],
+      [
+        "assignments -> course_code",
+        15
+      ],
+      [
+        "course_schedule -> course_description",
+        14
+      ],
+      [
+        "assignments -> class_meeting_room",
+        13
+      ]
+    ],
+    "family": {
+      "rows": 1638,
+      "accuracy": 0.5427350427350427,
+      "per_family": {
+        "admin": {
+          "rows": 78,
+          "accuracy": 0.6666666666666666
+        },
+        "grading": {
+          "rows": 275,
+          "accuracy": 0.6327272727272727
+        },
+        "identity": {
+          "rows": 52,
+          "accuracy": 0.8461538461538461
+        },
+        "people": {
+          "rows": 146,
+          "accuracy": 0.5958904109589042
+        },
+        "rules": {
+          "rows": 155,
+          "accuracy": 0.3741935483870968
+        },
+        "when": {
+          "rows": 253,
+          "accuracy": 0.6403162055335968
+        },
+        "work": {
+          "rows": 679,
+          "accuracy": 0.45949926362297494
+        }
+      }
+    }
+  },
+  "clean": {
+    "rows": 1489,
+    "accuracy": 0.44056413700470115,
+    "macro_f1": 0.3223501258420148,
+    "weighted_f1": 0.5172858342535592,
+    "mean_confidence": 0.863670592023031,
+    "ece_10bin": 0.42310645501832983,
+    "classes": 29,
+    "per_class_f1": {
+      "academic_integrity": 0.3157894736842105,
+      "additional_information": 0.24561403508771928,
+      "assessment": 0.19047619047619047,
+      "assignments": 0.5660818713450292,
+      "attendance_policy": 0.0,
+      "contact_information": 0.6976744186046512,
+      "course_code": 0.23529411764705882,
+      "course_content": 0.43902439024390244,
+      "course_description": 0.14857142857142858,
+      "course_level": 0.0,
+      "course_policies": 0.36363636363636365,
+      "course_schedule": 0.38333333333333336,
+      "course_title": 0.17094017094017094,
+      "credits": 0.17647058823529413,
+      "disability_services": 0.18604651162790697,
+      "drop_add_deadline": 0.0,
+      "due_date": 0.8264462809917356,
+      "exam_schedule": 0.5,
+      "grades": 0.27906976744186046,
+      "grading_policy": 0.6801152737752162,
+      "instructor": 0.2564102564102564,
+      "learning_outcomes": 0.4444444444444444,
+      "materials": 0.3434343434343434,
+      "meeting_time": 0.0625,
+      "office_hours": 0.5309734513274337,
+      "prerequisites": 0.23529411764705882,
+      "program": 0.25,
+      "session_dates": 0.0,
+      "term": 0.8205128205128205
+    },
+    "per_class_support": {
+      "academic_integrity": 61,
+      "additional_information": 15,
+      "assessment": 5,
+      "assignments": 574,
+      "attendance_policy": 8,
+      "contact_information": 48,
+      "course_code": 9,
+      "course_content": 38,
+      "course_description": 15,
+      "course_level": 1,
+      "course_policies": 23,
+      "course_schedule": 52,
+      "course_title": 15,
+      "credits": 10,
+      "disability_services": 35,
+      "drop_add_deadline": 2,
+      "due_date": 69,
+      "exam_schedule": 55,
+      "grades": 25,
+      "grading_policy": 214,
+      "instructor": 6,
+      "learning_outcomes": 10,
+      "materials": 71,
+      "meeting_time": 1,
+      "office_hours": 77,
+      "prerequisites": 6,
+      "program": 3,
+      "session_dates": 20,
+      "term": 21
+    },
+    "top_confusions": [
+      [
+        "assignments -> course_title",
+        73
+      ],
+      [
+        "assignments -> other",
+        30
+      ],
+      [
+        "assignments -> course_schedule",
+        30
+      ],
+      [
+        "materials -> course_description",
+        24
+      ],
+      [
+        "academic_integrity -> course_description",
+        21
+      ],
+      [
+        "grading_policy -> assignments",
+        19
+      ],
+      [
+        "assignments -> course_description",
+        19
+      ],
+      [
+        "assignments -> class_section",
+        18
+      ],
+      [
+        "disability_services -> course_description",
+        17
+      ],
+      [
+        "assignments -> instructor",
+        16
+      ],
+      [
+        "due_date -> class_section",
+        16
+      ],
+      [
+        "office_hours -> meeting_time",
+        15
+      ],
+      [
+        "assignments -> course_code",
+        15
+      ],
+      [
+        "course_schedule -> course_description",
+        14
+      ],
+      [
+        "assignments -> class_meeting_room",
+        13
+      ]
+    ],
+    "family": {
+      "rows": 1489,
+      "accuracy": 0.49697783747481533,
+      "per_family": {
+        "admin": {
+          "rows": 73,
+          "accuracy": 0.6438356164383562
+        },
+        "grading": {
+          "rows": 239,
+          "accuracy": 0.5774058577405857
+        },
+        "identity": {
+          "rows": 43,
+          "accuracy": 0.813953488372093
+        },
+        "people": {
+          "rows": 131,
+          "accuracy": 0.549618320610687
+        },
+        "rules": {
+          "rows": 133,
+          "accuracy": 0.2706766917293233
+        },
+        "when": {
+          "rows": 220,
+          "accuracy": 0.5863636363636363
+        },
+        "work": {
+          "rows": 650,
+          "accuracy": 0.43538461538461537
+        }
+      }
+    }
+  },
+  "clean_rows": 1489,
+  "generic_value_overlap_rows": 149,
+  "mean_fold_accuracy": 0.49132925782706444,
+  "std_fold_accuracy": 0.0791607037121962,
+  "mean_fold_macro_f1": 0.4074543382649991,
+  "std_fold_macro_f1": 0.052434188571446244
+}

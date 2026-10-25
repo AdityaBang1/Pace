@@ -1,0 +1,723 @@
+{
+  "checkpoint": "artifacts/field-classifier-minilm",
+  "context_checkpoint": null,
+  "device": "cuda",
+  "documents": [
+    {
+      "document_id": "36335949906469f7f0bb95dcfb4f9bdca786df70b5b43dc40c8c2152011c83ac",
+      "school": "University of California, Berkeley",
+      "document_title": "Chemistry 1A Policies, Fall 2014",
+      "sections_found": 6,
+      "sections_classified": 6,
+      "heading_body_agreement": 0.3333333333333333,
+      "sections": [
+        {
+          "section_index": 0,
+          "source_text": "INTRODUCTION",
+          "predicted_field": "course_title",
+          "predicted_task": "course_identity",
+          "percent": 86.4,
+          "alternatives": [
+            {
+              "label": "grading_policy",
+              "task": "materials_assessment",
+              "probability": 0.01818951405584812,
+              "percent": 1.82
+            },
+            {
+              "label": "course_content",
+              "task": "course_structure",
+              "probability": 0.014253199100494385,
+              "percent": 1.43
+            }
+          ],
+          "body_excerpt": "We, and the world around us are made of chemicals: molecules and solid-state materials in various physical forms (solids, liquids, gases) render life on earth p",
+          "body_field": "course_description",
+          "body_percent": 76.35,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 1,
+          "source_text": "Email",
+          "predicted_field": "contact_information",
+          "predicted_task": "instructor_contact",
+          "percent": 98.98,
+          "alternatives": [
+            {
+              "label": "attendance_policy",
+              "task": "policy",
+              "probability": 0.0013679267140105367,
+              "percent": 0.14
+            },
+            {
+              "label": "academic_integrity",
+              "task": "policy",
+              "probability": 0.0010054755257442594,
+              "percent": 0.1
+            }
+          ],
+          "body_excerpt": "arnold@berkeley.edu majda@berkeley.edu Office 526 Latimer B40 Hildebrand Office Hrs By apt \u2013 see calendar on bSpace MWF 2.10-3 180 Tan Class Meetings: MWF 9:10-",
+          "body_field": "contact_information",
+          "body_percent": 98.64,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 2,
+          "source_text": "Course Materials",
+          "predicted_field": "materials",
+          "predicted_task": "materials_assessment",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "academic_integrity",
+              "task": "policy",
+              "probability": 1.4697604456159752e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 1.4316621673060581e-05,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "\uf0b7 Sapling online homework (includes an online textbook) \uf0b7 iClicker \uf0b7 Recommended textbook: Chemistry: A Molecular Approach by Tro (Prentice Hall) 2nd ed (3rd ed",
+          "body_field": "materials",
+          "body_percent": 93.06,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 3,
+          "source_text": "Final Exam",
+          "predicted_field": "assignments",
+          "predicted_task": "materials_assessment",
+          "percent": 99.84,
+          "alternatives": [
+            {
+              "label": "disability_services",
+              "task": "policy",
+              "probability": 0.00018855689268093556,
+              "percent": 0.02
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 0.00017724772624205798,
+              "percent": 0.02
+            }
+          ],
+          "body_excerpt": "35 D 45\u221249% iClicker, Homework, Discussion 10 F <45.0% Total 100% The grade you earn is based on the scale above. Note that we do not curve the grades. In doing",
+          "body_field": "grades",
+          "body_percent": 84.16,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 4,
+          "source_text": "POLICIES",
+          "predicted_field": "course_policies",
+          "predicted_task": "policy",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "disability_services",
+              "task": "policy",
+              "probability": 1.0591691534500569e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 8.665462701173965e-06,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "\uf0b7 Lecture attendance and active participation is expected. Points are awarded for iClicker quizzes during lecture. \uf0b7 You may attend any of the lecture sections ",
+          "body_field": "assignments",
+          "body_percent": 62.54,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 5,
+          "source_text": "policies",
+          "predicted_field": "course_policies",
+          "predicted_task": "policy",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "disability_services",
+              "task": "policy",
+              "probability": 1.0591691534500569e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 8.665462701173965e-06,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "are strictly enforced. See: asuc.org/honorcode/faq.php and sa.berkeley.edu/code-of-conduct. An online quiz (Sapling) to test your understanding of this issue is",
+          "body_field": "academic_integrity",
+          "body_percent": 62.62,
+          "heading_body_agree": false
+        }
+      ]
+    },
+    {
+      "document_id": "e29efd8298ce5059bc6b8283c81d80b7011e1e5d63e70d2de2472e78dda84630",
+      "school": "University of California, Berkeley",
+      "document_title": "Chemistry 1A Course Outline, Spring 2015",
+      "sections_found": 10,
+      "sections_classified": 10,
+      "heading_body_agreement": 0.6,
+      "sections": [
+        {
+          "section_index": 0,
+          "source_text": "COURSE OUTLINE",
+          "predicted_field": "course_content",
+          "predicted_task": "course_structure",
+          "percent": 99.23,
+          "alternatives": [
+            {
+              "label": "course_policies",
+              "task": "policy",
+              "probability": 0.0010957036865875125,
+              "percent": 0.11
+            },
+            {
+              "label": "materials",
+              "task": "materials_assessment",
+              "probability": 0.0009313298505730927,
+              "percent": 0.09
+            }
+          ],
+          "body_excerpt": "Chemistry 1A: General Chemistry Spring Semester 2015 Lectures: Mondays, Wednesdays, and Fridays 9-10 AM, 1-2 PM Pimentel Auditorium Chem1A Webpages: bCourses(bc",
+          "body_field": "course_content",
+          "body_percent": 80.03,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 1,
+          "source_text": "Instructor:",
+          "predicted_field": "instructor",
+          "predicted_task": "instructor_contact",
+          "percent": 92.27,
+          "alternatives": [
+            {
+              "label": "course_policies",
+              "task": "policy",
+              "probability": 0.008100023493170738,
+              "percent": 0.81
+            },
+            {
+              "label": "due_date",
+              "task": "materials_assessment",
+              "probability": 0.0072139413096010685,
+              "percent": 0.72
+            }
+          ],
+          "body_excerpt": "Professor Richard J. Saykally D31 Hildebrand Hall 642-8269",
+          "body_field": "class_meeting_room",
+          "body_percent": 99.27,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 2,
+          "source_text": "Office Hours:  Wednesdays 3-4 PM",
+          "predicted_field": "office_hours",
+          "predicted_task": "instructor_contact",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "materials",
+              "task": "materials_assessment",
+              "probability": 1.4108838513493538e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 1.3953712368675042e-05,
+              "percent": 0.0
+            }
+          ],
+          "inline_value": "Wednesdays 3-4 PM",
+          "inline_field": "meeting_time",
+          "inline_percent": 56.75,
+          "body_excerpt": "E-Mail: saykally@berkeley.edu Webpage: http://www.cchem.berkeley.edu/rjsgrp/index.html Head TA: Royce Lam D36 Hildebrand Hall E-Mail: rlam879@berkeley.edu",
+          "body_field": "contact_information",
+          "body_percent": 99.48,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 3,
+          "source_text": "Prerequisites:",
+          "predicted_field": "prerequisites",
+          "predicted_task": "course_structure",
+          "percent": 96.36,
+          "alternatives": [
+            {
+              "label": "entry_requirements",
+              "task": "enrollment",
+              "probability": 0.016114026308059692,
+              "percent": 1.61
+            },
+            {
+              "label": "materials",
+              "task": "materials_assessment",
+              "probability": 0.0029787730891257524,
+              "percent": 0.3
+            }
+          ],
+          "body_excerpt": "High School Chemistry is recommended Text: Nivaldo Tro; Chemistry: A Molecular Approach, 3rd Edition",
+          "body_field": "materials",
+          "body_percent": 97.94,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 4,
+          "source_text": "Course Content:",
+          "predicted_field": "course_content",
+          "predicted_task": "course_structure",
+          "percent": 99.53,
+          "alternatives": [
+            {
+              "label": "materials",
+              "task": "materials_assessment",
+              "probability": 0.0007673203363083303,
+              "percent": 0.08
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 0.0004892735159955919,
+              "percent": 0.05
+            }
+          ],
+          "body_excerpt": "To the maximum extent possible, this course will be a survey of modern topics in chemistry. It will include basic principles as well as contemporary application",
+          "body_field": "course_content",
+          "body_percent": 99.33,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 5,
+          "source_text": "Homework:",
+          "predicted_field": "assignments",
+          "predicted_task": "materials_assessment",
+          "percent": 99.89,
+          "alternatives": [
+            {
+              "label": "attendance_policy",
+              "task": "policy",
+              "probability": 0.00014183660096023232,
+              "percent": 0.01
+            },
+            {
+              "label": "weekly_readings",
+              "task": "materials_assessment",
+              "probability": 0.0001305538899032399,
+              "percent": 0.01
+            }
+          ],
+          "body_excerpt": "Weekly homework will be assigned and submitted on the Mastering Chemistry website. You will receive full credit (1 point) for an assignment if you answer 70% of",
+          "body_field": "assignments",
+          "body_percent": 99.99,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 6,
+          "source_text": "Exams:",
+          "predicted_field": "exam_schedule",
+          "predicted_task": "schedule",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "office_hours",
+              "task": "instructor_contact",
+              "probability": 1.8400010958430357e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "attendance_policy",
+              "task": "policy",
+              "probability": 1.6953794329310767e-05,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "Midterms will be held evenings from 7:00 to 8:30 (Feb. 10, March 10, April 2). Do not schedule courses having conflicts with these times. No makeup exams will b",
+          "body_field": "exam_schedule",
+          "body_percent": 99.99,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 7,
+          "source_text": "Final Exam:",
+          "predicted_field": "assignments",
+          "predicted_task": "materials_assessment",
+          "percent": 99.82,
+          "alternatives": [
+            {
+              "label": "disability_services",
+              "task": "policy",
+              "probability": 0.00021752344036940485,
+              "percent": 0.02
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 0.00018746987916529179,
+              "percent": 0.02
+            }
+          ],
+          "body_excerpt": "Exam Group 9: Wednesday, May 13, 2015 8-11 AM Discussion: Discussion sections will be conducted by graduate student instructors. Students are strongly encourage",
+          "body_field": "exam_schedule",
+          "body_percent": 99.49,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 8,
+          "source_text": "quiz",
+          "predicted_field": "assignments",
+          "predicted_task": "materials_assessment",
+          "percent": 99.72,
+          "alternatives": [
+            {
+              "label": "due_date",
+              "task": "materials_assessment",
+              "probability": 0.0003802841529250145,
+              "percent": 0.04
+            },
+            {
+              "label": "disability_services",
+              "task": "policy",
+              "probability": 0.0002845478884410113,
+              "percent": 0.03
+            }
+          ],
+          "body_excerpt": "will be given at the end of each discussion section.",
+          "body_field": "assignments",
+          "body_percent": 82.61,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 9,
+          "source_text": "Grading:",
+          "predicted_field": "grading_policy",
+          "predicted_task": "materials_assessment",
+          "percent": 99.98,
+          "alternatives": [
+            {
+              "label": "attendance_policy",
+              "task": "policy",
+              "probability": 3.251870657550171e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "due_date",
+              "task": "materials_assessment",
+              "probability": 2.6560619517113082e-05,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "The composition of your course grade will be: Midterms (3) 600 pts Final Exam (Cumulative) 350 pts Homework /Quizzes 50 pts The course is not graded on a curve ",
+          "body_field": "grading_policy",
+          "body_percent": 99.97,
+          "heading_body_agree": true
+        }
+      ]
+    },
+    {
+      "document_id": "e70ddde8111922ccff2e0dd6ae857b7c39bec22d5bb7fe65dfe110bff3192609",
+      "school": "University of California, Berkeley",
+      "document_title": "Syllabus for CHEM 1A General Chemistry (Fall 2018)",
+      "sections_found": 11,
+      "sections_classified": 11,
+      "heading_body_agreement": 0.5555555555555556,
+      "sections": [
+        {
+          "section_index": 0,
+          "source_text": "Instructors",
+          "predicted_field": "instructor",
+          "predicted_task": "instructor_contact",
+          "percent": 94.83,
+          "alternatives": [
+            {
+              "label": "prerequisites",
+              "task": "course_structure",
+              "probability": 0.006673312745988369,
+              "percent": 0.67
+            },
+            {
+              "label": "exam_schedule",
+              "task": "schedule",
+              "probability": 0.006105905398726463,
+              "percent": 0.61
+            }
+          ],
+          "body_excerpt": "9am and 11am lectures: Professor Phillip Geissler 4/10/2019 Syllabus for CHEM 1A General Chemistry (Fall 2018) https://bcourses.berkeley.edu/courses/1473528/ass",
+          "body_field": "office_hours",
+          "body_percent": 99.61,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 1,
+          "source_text": "Office Hours",
+          "predicted_field": "office_hours",
+          "predicted_task": "instructor_contact",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "academic_integrity",
+              "task": "policy",
+              "probability": 1.6932524886215106e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 1.5018204067018814e-05,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "Tuesdays 10-11:30am in Chemistry Library Room 100E Thursdays 2-3:30pm in Chemistry Library Room 100F 1pm lecture: Professor Eran Rabani 220 Gilman Hall eran.rab",
+          "body_field": "office_hours",
+          "body_percent": 99.95,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 2,
+          "source_text": "Office Hours",
+          "predicted_field": "office_hours",
+          "predicted_task": "instructor_contact",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "academic_integrity",
+              "task": "policy",
+              "probability": 1.6932524886215106e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 1.5018204067018814e-05,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "Mondays 3-4pm in Chemistry Library Room 100F Fridays 2-3pm in Chemistry Library Room 100F Sta\ufb00 Instructional Support Director: Dr. Rose Beeler rbeeler@berkeley.",
+          "body_field": "office_hours",
+          "body_percent": 99.99,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 3,
+          "source_text": "Office hours: M/W 10-11am in Bixby North",
+          "predicted_field": "office_hours",
+          "predicted_task": "instructor_contact",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "weekly_readings",
+              "task": "materials_assessment",
+              "probability": 1.2759051969624124e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "course_policies",
+              "task": "policy",
+              "probability": 1.0348738214815967e-05,
+              "percent": 0.0
+            }
+          ],
+          "inline_value": "M/W 10-11am in Bixby North",
+          "inline_field": "office_hours",
+          "inline_percent": 67.42,
+          "body_excerpt": "4/10/2019 Syllabus for CHEM 1A General Chemistry (Fall 2018) https://bcourses.berkeley.edu/courses/1473528/assignments/syllabus 3/15 Kiera Wilhelm Office hours ",
+          "body_field": "office_hours",
+          "body_percent": 98.39,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 4,
+          "source_text": "Grading",
+          "predicted_field": "grading_policy",
+          "predicted_task": "materials_assessment",
+          "percent": 99.97,
+          "alternatives": [
+            {
+              "label": "due_date",
+              "task": "materials_assessment",
+              "probability": 3.6150777305010706e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 3.425750037422404e-05,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "4/10/2019 Syllabus for CHEM 1A General Chemistry (Fall 2018) https://bcourses.berkeley.edu/courses/1473528/assignments/syllabus 4/15 This course is not graded o",
+          "body_field": "course_schedule",
+          "body_percent": 71.27,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 5,
+          "source_text": "Homework:                               65",
+          "predicted_field": "assignments",
+          "predicted_task": "materials_assessment",
+          "percent": 99.8,
+          "alternatives": [
+            {
+              "label": "attendance_policy",
+              "task": "policy",
+              "probability": 0.00029184334562160075,
+              "percent": 0.03
+            },
+            {
+              "label": "course_policies",
+              "task": "policy",
+              "probability": 0.00020956395019311458,
+              "percent": 0.02
+            }
+          ],
+          "inline_value": "65",
+          "inline_field": "class_section",
+          "inline_percent": 99.53
+        },
+        {
+          "section_index": 6,
+          "source_text": "Attendance:                              75",
+          "predicted_field": "attendance_policy",
+          "predicted_task": "policy",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "disability_services",
+              "task": "policy",
+              "probability": 1.2871422768512275e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "course_policies",
+              "task": "policy",
+              "probability": 1.1034728231607005e-05,
+              "percent": 0.0
+            }
+          ],
+          "inline_value": "75",
+          "inline_field": "class_section",
+          "inline_percent": 99.46,
+          "body_excerpt": "The grading scheme is as follows (cutoffs may be lowered but they will not be raised): 850 \u2013 1000: A 700 \u2013 849: B 550 \u2013 699: C 350 \u2013 549: D 0 \u2013 349: F",
+          "body_field": "grading_policy",
+          "body_percent": 95.14,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 7,
+          "source_text": "Homework",
+          "predicted_field": "assignments",
+          "predicted_task": "materials_assessment",
+          "percent": 99.83,
+          "alternatives": [
+            {
+              "label": "weekly_readings",
+              "task": "materials_assessment",
+              "probability": 0.0002173209359170869,
+              "percent": 0.02
+            },
+            {
+              "label": "attendance_policy",
+              "task": "policy",
+              "probability": 0.00017162112635560334,
+              "percent": 0.02
+            }
+          ],
+          "body_excerpt": "Weekly homework will be assigned and submitted through the Sapling Learning system. Homework is meant to promote learning, so multiple attempts for each problem",
+          "body_field": "assignments",
+          "body_percent": 99.98,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 8,
+          "source_text": "Exams",
+          "predicted_field": "exam_schedule",
+          "predicted_task": "schedule",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "course_policies",
+              "task": "policy",
+              "probability": 1.5167495803325437e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "attendance_policy",
+              "task": "policy",
+              "probability": 1.3626899090013467e-05,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "Midterm exams will be held on Tuesday evenings: September 18 (8-10 pm), October 16 (8-10pm), and November 13 (8-10pm). The Final Exam is Monday, December 10, 3-",
+          "body_field": "exam_schedule",
+          "body_percent": 99.98,
+          "heading_body_agree": true
+        },
+        {
+          "section_index": 9,
+          "source_text": "Readings",
+          "predicted_field": "weekly_readings",
+          "predicted_task": "materials_assessment",
+          "percent": 99.99,
+          "alternatives": [
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 1.4914768144080881e-05,
+              "percent": 0.0
+            },
+            {
+              "label": "academic_integrity",
+              "task": "policy",
+              "probability": 1.3373018191487063e-05,
+              "percent": 0.0
+            }
+          ],
+          "body_excerpt": "Lecture # 1 W 8/22 Introduction to the molecular world Fund. B, and 1A.1 1 F 8/24 Stoichiometry at macroscopic and microscopic scales Fund. E, L, M 2 M 8/27 Qua",
+          "body_field": "assignments",
+          "body_percent": 99.98,
+          "heading_body_agree": false
+        },
+        {
+          "section_index": 10,
+          "source_text": "Final Exam",
+          "predicted_field": "assignments",
+          "predicted_task": "materials_assessment",
+          "percent": 99.84,
+          "alternatives": [
+            {
+              "label": "disability_services",
+              "task": "policy",
+              "probability": 0.00018855689268093556,
+              "percent": 0.02
+            },
+            {
+              "label": "drop_add_deadline",
+              "task": "schedule",
+              "probability": 0.00017724772624205798,
+              "percent": 0.02
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "documents": 3,
+    "sections_found": 27,
+    "sections_classified": 27,
+    "heading_body_agreement": 0.52,
+    "fallbacks": 0
+  }
+}

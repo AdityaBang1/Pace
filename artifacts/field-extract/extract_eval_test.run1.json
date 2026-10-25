@@ -1,0 +1,2714 @@
+{
+  "overall": {
+    "judged_values": 83,
+    "matched": 61,
+    "precision": 0.7349397590361446,
+    "error_upper_bound_95": 0.3563920095476041,
+    "unjudged_values": 30,
+    "documents": 26,
+    "schools": [
+      "Massachusetts Institute of Technology",
+      "The Ohio State University",
+      "University of Florida",
+      "University of North Carolina at Chapel Hill",
+      "Yale University"
+    ],
+    "excluded_schools": [
+      "Georgia Institute of Technology",
+      "University of California, Berkeley"
+    ],
+    "min_confidence": 0.0,
+    "split": "test"
+  },
+  "per_field": {
+    "academic_integrity": {
+      "emitted": 5,
+      "judged": 2,
+      "matched": 2,
+      "gold_rows": 13,
+      "gold_covered": 13,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "attendance_policy": {
+      "emitted": 1,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 2,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": 0.0
+    },
+    "course_code": {
+      "emitted": 14,
+      "judged": 8,
+      "matched": 4,
+      "gold_rows": 0,
+      "gold_covered": 0,
+      "precision": 0.5,
+      "recall": null
+    },
+    "course_title": {
+      "emitted": 16,
+      "judged": 10,
+      "matched": 9,
+      "gold_rows": 2,
+      "gold_covered": 1,
+      "precision": 0.9,
+      "recall": 0.5
+    },
+    "credits": {
+      "emitted": 1,
+      "judged": 1,
+      "matched": 1,
+      "gold_rows": 5,
+      "gold_covered": 0,
+      "precision": 1.0,
+      "recall": 0.0
+    },
+    "disability_services": {
+      "emitted": 6,
+      "judged": 5,
+      "matched": 5,
+      "gold_rows": 15,
+      "gold_covered": 15,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "grading": {
+      "emitted": 42,
+      "judged": 40,
+      "matched": 30,
+      "gold_rows": 21,
+      "gold_covered": 2,
+      "precision": 0.75,
+      "recall": 0.09523809523809523
+    },
+    "instructor": {
+      "emitted": 9,
+      "judged": 7,
+      "matched": 7,
+      "gold_rows": 13,
+      "gold_covered": 0,
+      "precision": 1.0,
+      "recall": 0.0
+    },
+    "materials": {
+      "emitted": 7,
+      "judged": 2,
+      "matched": 0,
+      "gold_rows": 6,
+      "gold_covered": 0,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    "meetings": {
+      "emitted": 3,
+      "judged": 2,
+      "matched": 2,
+      "gold_rows": 0,
+      "gold_covered": 0,
+      "precision": 1.0,
+      "recall": null
+    },
+    "office_hours": {
+      "emitted": 9,
+      "judged": 6,
+      "matched": 1,
+      "gold_rows": 3,
+      "gold_covered": 2,
+      "precision": 0.16666666666666666,
+      "recall": 0.6666666666666666
+    }
+  },
+  "confidence_check": [
+    {
+      "low": 0.0,
+      "high": 0.7,
+      "values": 45,
+      "correct": 36,
+      "precision": 0.8
+    },
+    {
+      "low": 0.7,
+      "high": 0.9,
+      "values": 1,
+      "correct": 1,
+      "precision": 1.0
+    },
+    {
+      "low": 0.9,
+      "high": 0.99,
+      "values": 10,
+      "correct": 6,
+      "precision": 0.6
+    },
+    {
+      "low": 0.99,
+      "high": 1.0,
+      "values": 27,
+      "correct": 18,
+      "precision": 0.6666666666666666
+    }
+  ],
+  "grounding": {
+    "titles_emitted": 16,
+    "titles_grounded": 16,
+    "rate": 1.0
+  },
+  "hand_checked": {
+    "documents": 0,
+    "meetings": {
+      "gold_slots": 0,
+      "exact": 0,
+      "accuracy": null,
+      "days_correct": 0,
+      "days_scored": 0,
+      "times_correct": 0,
+      "times_scored": 0,
+      "rooms_correct": 0,
+      "rooms_scored": 0,
+      "emitted": 0,
+      "emitted_matched": 0,
+      "precision": null
+    },
+    "credits": {
+      "gold_documents": 0,
+      "correct": 0,
+      "accuracy": null
+    },
+    "failures": []
+  },
+  "per_document": [
+    {
+      "id": "0725535ee144",
+      "school": "Massachusetts Institute of Technology",
+      "title": "Spanish I OCW Download Page",
+      "gold_rows": 16,
+      "field_gold": false,
+      "emitted": 3,
+      "matched": 1
+    },
+    {
+      "id": "2eaab0ec5d3e",
+      "school": "Massachusetts Institute of Technology",
+      "title": "7.012 Introduction to Biology Syllabus",
+      "gold_rows": 33,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 1
+    },
+    {
+      "id": "71a38b96e597",
+      "school": "Massachusetts Institute of Technology",
+      "title": "Spanish I 21G.701 / 751",
+      "gold_rows": 3,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 1
+    },
+    {
+      "id": "bd6e938bdc25",
+      "school": "Massachusetts Institute of Technology",
+      "title": "18.01 Single Variable Calculus Syllabus",
+      "gold_rows": 35,
+      "field_gold": false,
+      "emitted": 3,
+      "matched": 1
+    },
+    {
+      "id": "c18a048239b3",
+      "school": "Massachusetts Institute of Technology",
+      "title": "8.01SC Classical Mechanics Syllabus",
+      "gold_rows": 27,
+      "field_gold": false,
+      "emitted": 7,
+      "matched": 2
+    },
+    {
+      "id": "ec92c528f32e",
+      "school": "Massachusetts Institute of Technology",
+      "title": "5.111SC Principles of Chemical Science Syllabus",
+      "gold_rows": 27,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 1
+    },
+    {
+      "id": "4f9d9a573a94",
+      "school": "The Ohio State University",
+      "title": "POLITSC 1100: Introduction to American Politics",
+      "gold_rows": 2,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 0
+    },
+    {
+      "id": "5588d28d5272",
+      "school": "The Ohio State University",
+      "title": "Biology 1113 Course Goals and Objectives",
+      "gold_rows": 0,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "58ee76ce423b",
+      "school": "The Ohio State University",
+      "title": "Comm 1101 Syllabus",
+      "gold_rows": 20,
+      "field_gold": false,
+      "emitted": 3,
+      "matched": 1
+    },
+    {
+      "id": "7244e9d54194",
+      "school": "The Ohio State University",
+      "title": "PHYSICS 1250: Mechanics, Work and Energy, Thermal Physics",
+      "gold_rows": 14,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 1
+    },
+    {
+      "id": "88d10978cb1b",
+      "school": "The Ohio State University",
+      "title": "SOCIOL 1101: Introductory Sociology",
+      "gold_rows": 3,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "d91927a16a2d",
+      "school": "The Ohio State University",
+      "title": "Spanish 1101 Syllabus",
+      "gold_rows": 1,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 0
+    },
+    {
+      "id": "ee9edde1c612",
+      "school": "The Ohio State University",
+      "title": "MATH 1151: Calculus I",
+      "gold_rows": 4,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 1
+    },
+    {
+      "id": "07d7460be7ff",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 11,
+      "matched": 6
+    },
+    {
+      "id": "4346b068eff9",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 4,
+      "matched": 3
+    },
+    {
+      "id": "63260c26aef4",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 2,
+      "matched": 1
+    },
+    {
+      "id": "64ad5c967320",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 9,
+      "matched": 4
+    },
+    {
+      "id": "799d201bb8b8",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 9,
+      "matched": 7
+    },
+    {
+      "id": "8c890a2d29e3",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 8,
+      "matched": 7
+    },
+    {
+      "id": "78f0b4a73369",
+      "school": "University of North Carolina at Chapel Hill",
+      "title": "Syllabus: Linguistics 101, UNC-Chapel Hill",
+      "gold_rows": 18,
+      "field_gold": false,
+      "emitted": 3,
+      "matched": 0
+    },
+    {
+      "id": "1d9d02bcf058",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 2,
+      "matched": 2
+    },
+    {
+      "id": "26b4ef3d7ff4",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 9,
+      "matched": 8
+    },
+    {
+      "id": "774089f9e016",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 5,
+      "matched": 4
+    },
+    {
+      "id": "7b40ccd4e185",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 2,
+      "matched": 1
+    },
+    {
+      "id": "8c7d8e3a2e08",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 7,
+      "matched": 5
+    },
+    {
+      "id": "eb3044257d2a",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 8,
+      "matched": 3
+    }
+  ],
+  "values": [
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.0,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "The downloaded course may not work on mobile devices. We recommend using a computer with the downloaded course package.",
+      "confidence": 0.5538,
+      "evidence": "Note:",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "Creative Commons License Terms and Conditions Proud member of: \u00a9 2001\u20132026 Massachusetts Institute of Technology function hideLinksOffline(){ if (!window.navigator.onLine) { const stripLinks = document.querySelectorAll(\".strip-link-offline\") const hideOffline = document.querySelectorAll(\".hide-offli",
+      "confidence": 0.9999,
+      "evidence": "Accessibility",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.0,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "Creative Commons License Terms and Conditions Proud member of: \u00a9 2001\u20132026 Massachusetts Institute of Technology function hideLinksOffline(){ if (!window.navigator.onLine) { const stripLinks = document.querySelectorAll(\".strip-link-offline\") const hideOffline = document.querySelectorAll(\".hide-offli",
+      "confidence": 0.9999,
+      "evidence": "Accessibility",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Spanish I",
+      "confidence": 0.9906,
+      "evidence": "Spanish I",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Composition 1. Version 1",
+      "weight": 50,
+      "confidence": 0.0008,
+      "evidence": "Composition 1. Version 1: 50%; version 2:  50%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "version 2",
+      "weight": 50,
+      "confidence": 0.0008,
+      "evidence": "Composition 1. Version 1: 50%; version 2:  50%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Sections: (1) 10:00-11:00 AM; MTWR in 14N-313 (2) 1:00-2:00 PM; MTWR in 16-654 There will also be a copy of the textbook on reserve at Hayden Library.",
+      "confidence": 0.9999,
+      "evidence": "Office Hours: Tue 2-3PM, Thu 2-4PM (14N-329b)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.0,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Prof. David Jerison Departments",
+      "confidence": 0.9485,
+      "evidence": "Prof. David Jerison Departments",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "Creative Commons License Terms and Conditions Proud member of: \u00a9 2001\u20132026 Massachusetts Institute of Technology function hideLinksOffline(){ if (!window.navigator.onLine) { const stripLinks = document.querySelectorAll(\".strip-link-offline\") const hideOffline = document.querySelectorAll(\".hide-offli",
+      "confidence": 0.9999,
+      "evidence": "Accessibility",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.0,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "3 Midterm Exams",
+      "weight": 45,
+      "confidence": 0.9937,
+      "evidence": "3 Midterm Exams 45%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 25,
+      "confidence": 0.0,
+      "evidence": "Final Exam 25%",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Problem Sets",
+      "weight": 10,
+      "confidence": 0.0,
+      "evidence": "Problem Sets 10%",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Class Participation",
+      "weight": 20,
+      "confidence": 0.9961,
+      "evidence": "Class Participation 20%",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "This first course in the physics curriculum introduces classical mechanics. Historically, a set of core concepts \u2014 space, time, mass, force, momentum, torque, and angular momentum \u2014 were introduced in classical mechanics in order to solve the most famous physics problem, the motion of the planets. T",
+      "confidence": 0.9052,
+      "evidence": "Course Overview",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "Creative Commons License Terms and Conditions Proud member of: \u00a9 2001\u20132026 Massachusetts Institute of Technology function hideLinksOffline(){ if (!window.navigator.onLine) { const stripLinks = document.querySelectorAll(\".strip-link-offline\") const hideOffline = document.querySelectorAll(\".hide-offli",
+      "confidence": 0.9999,
+      "evidence": "Accessibility",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.0,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Prof. Catherine Drennan Departments",
+      "confidence": 0.9485,
+      "evidence": "Prof. Catherine Drennan Departments",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Principles of Chemical Science provides an introduction to the chemistry of biological, inorganic, and organic molecules. The emphasis is on basic principles of atomic and molecular electronic structure, thermodynamics, acid-base and redox equilibria, chemical kinetics, and catalysis.",
+      "confidence": 0.4292,
+      "evidence": "Overview",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "disability_services",
+      "text": "Creative Commons License Terms and Conditions Proud member of: \u00a9 2001\u20132026 Massachusetts Institute of Technology function hideLinksOffline(){ if (!window.navigator.onLine) { const stripLinks = document.querySelectorAll(\".strip-link-offline\") const hideOffline = document.querySelectorAll(\".hide-offli",
+      "confidence": 0.9999,
+      "evidence": "Accessibility",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Introduction to American Politics | Department of Political Science",
+      "confidence": 0.9908,
+      "evidence": "Introduction to American Politics | Department of Political Science",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "About The Ohio State Faculty/Staff Offices",
+      "confidence": 0.5229,
+      "evidence": "About",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "The History of Communication",
+      "confidence": 0.9895,
+      "evidence": "The History of Communication",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "It is the responsibility of the Committee on Academic Misconduct to investigate or establish procedures for the investigation of all reported cases of student academic misconduct. The term \u201cacademic misconduct\u201d includes all forms of student academic misconduct wherever committed; illustrated by, but",
+      "confidence": 0.9999,
+      "evidence": "Academic Misconduct",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "Lecture Methods and Limitations Overview",
+      "confidence": 0.543,
+      "evidence": "Overview",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "About Columbus and Ohio About Ohio State Contact us",
+      "confidence": 0.2426,
+      "evidence": "About",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "Department Calendars FAQ Department resources OSU resources National resources Web resources",
+      "confidence": 0.9999,
+      "evidence": "Code of Conduct",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Introductory Sociology | Department of Sociology",
+      "confidence": 0.9898,
+      "evidence": "Introductory Sociology | Department of Sociology",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Spanish 1101 | Monika Major",
+      "confidence": 0.0001,
+      "evidence": "Spanish 1101 | Monika Major",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "materials",
+      "text": "Twitter Spanish 1101 Monika Major major.13@osu.edu Tel\u00e9fono: 567-242-7191 Oficina: 310D Galvin Hall (in the Philip A. Heath Center for Teaching and Learning) Office Hours M,W,F by appointment Spanish 1101 Syllabus Texts and Materials CarmenBooks \u00a1Arriba! Comunicaci\u00f3n y cultura (7 th ed.) 2019 Releas",
+      "confidence": 0.9403,
+      "evidence": "Resources",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Calculus I | Department of Mathematics",
+      "confidence": 0.9511,
+      "evidence": "Calculus I | Department of Mathematics",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "General Information",
+      "confidence": 0.995,
+      "evidence": "General Information",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_code",
+      "text": "MAT 328",
+      "confidence": 0.9905,
+      "evidence": "MAT 328",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "instructor",
+      "text": "Kristian Estevez (Kj719@ufl.edu)",
+      "confidence": 0.0003,
+      "evidence": "Kristian Estevez (Kj719@ufl.edu)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Assignments",
+      "weight": 10,
+      "confidence": 0.0015,
+      "evidence": "Assignments 10% Assignments 10%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Assignments 10% Assignments",
+      "weight": 10,
+      "confidence": 0.0015,
+      "evidence": "Assignments 10% Assignments 10%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Midterm 1",
+      "weight": 30,
+      "confidence": 0.0142,
+      "evidence": "Midterm 1 30% Midterm 1 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Midterm Midterm",
+      "weight": 20,
+      "confidence": 0.0142,
+      "evidence": "Midterm 1 30% Midterm 1 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Midterm 2",
+      "weight": 30,
+      "confidence": 0.0041,
+      "evidence": "Midterm 2 30% Midterm 2 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "materials",
+      "text": "Krugman, P., Obstfeld, M., and Melitz, M. International Economics: Theory and Policy. Addison Wesley, 2014. 3",
+      "confidence": 0.9999,
+      "evidence": "Textbooks",
+      "judged": false,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "You are expected to abide by the University\u2019s rules for academic honesty and UF\u2019s Honor Pledge. These are available for your review at http://www.dso.ufl.edu/judicial/academic.php. Cheating, plagiarism, making false statements, and any other action that violates these rules will be prosecuted to the",
+      "confidence": 0.9999,
+      "evidence": "Academic Honesty",
+      "judged": false,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "disability_services",
+      "text": "Students requesting classroom accommodation for disabilities must first register with the Disability Resource Center. The DRC will provide documentation to the student, who must then provide this documentation to me. The DRC phone number is 392-8565. If you are taking exams with the DRC, I highly re",
+      "confidence": 0.9999,
+      "evidence": "Disability Accommodations",
+      "judged": false,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_title",
+      "text": "ENG 4146: Long-Form Filmmaking",
+      "confidence": 0.982,
+      "evidence": "ENG 4146: Long-Form Filmmaking",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_code",
+      "text": "ENG 4146",
+      "confidence": 0.0005,
+      "evidence": "ENG 4146",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "instructor",
+      "text": "Trevor Mowchun",
+      "confidence": 0.9955,
+      "evidence": "Trevor Mowchun",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "office_hours",
+      "text": "Class: Thursday E1-E3 (7:20-10:10pm) (TUR 2334) Screening: Wednesday E1-E3 (7:20-10:10pm) (ROLFS 115) \u2013 Projectionist: Alex Franco Film lab technician: Owen Ward (TUR 4303)",
+      "confidence": 0.9998,
+      "evidence": "Office Hours: Wednesday periods 9-11",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_title",
+      "text": "PCB3402 Disease Ecology & Evolution (Fall 2023)",
+      "confidence": 0.0076,
+      "evidence": "PCB3402 Disease Ecology & Evolution (Fall 2023)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_code",
+      "text": "CRR 0521",
+      "confidence": 0.9823,
+      "evidence": "CRR 0521",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_title",
+      "text": "Introduction to Statistics Theory",
+      "confidence": 0.9915,
+      "evidence": "Introduction to Statistics Theory",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_code",
+      "text": "FLO 100",
+      "confidence": 0.0022,
+      "evidence": "FLO 100",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "instructor",
+      "text": "Demetris Athienitis",
+      "confidence": 0.9857,
+      "evidence": "Demetris Athienitis",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "lowest",
+      "weight": 25,
+      "confidence": 0.9955,
+      "evidence": "Exams 1, 2 (25% lowest, 35% best)",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "best)",
+      "weight": 35,
+      "confidence": 0.9955,
+      "evidence": "Exams 1, 2 (25% lowest, 35% best)",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 20,
+      "confidence": 0.0001,
+      "evidence": "Homework 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Quizzes",
+      "weight": 20,
+      "confidence": 0.1548,
+      "evidence": "Quizzes 20% (includes Intro quiz, lowest quiz dropped)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Extra Credit 0",
+      "weight": 1,
+      "confidence": 0.5985,
+      "evidence": "Extra Credit 0-1% (class and discussion forum participation)",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "Students are held accountable to the UF Student Honor and Conduct Code. Evaluations Students are expected to provide professional and respectful feedback on the quality of instruction in this course by completing course evaluations online via GatorEvals. Guidance on how to give feedback in a profess",
+      "confidence": 0.9999,
+      "evidence": "Academic Misconduct",
+      "judged": false,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_title",
+      "text": "AMH4373: History of American Capitalism",
+      "confidence": 0.0224,
+      "evidence": "AMH4373: History of American Capitalism",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_code",
+      "text": "AMH4373",
+      "confidence": 0.0048,
+      "evidence": "AMH4373",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "credits",
+      "text": 3.0,
+      "confidence": 0.9945,
+      "evidence": "3 credits",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Long Essays",
+      "weight": 40,
+      "confidence": 0.7149,
+      "evidence": "Long Essays (40%): Two (2) mandatory essays of 1,500-2,000 word length that draw upon",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Brief Responses",
+      "weight": 30,
+      "confidence": 0.1092,
+      "evidence": "Brief Responses (30%): Five (5) brief responses to the course material that are 500-750",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Final Essay Examination",
+      "weight": 25,
+      "confidence": 0.0006,
+      "evidence": "Final Essay Examination (25%): A final essay of 1,500-2,000 words that will draw upon the",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Attendance",
+      "weight": 5,
+      "confidence": 0.0186,
+      "evidence": "Attendance (5%): Students will attend and participate over the course of the semester.",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "materials",
+      "text": "\uf0b7 Sharon Murphy, Other People\u2019s Money: How Banking Worked in the Early American Republic. Baltimore: Johns Hopkins University Press, 2017. ISBN 1421421755 (required book) \uf0b7 Edward Balleisen, Fraud: An American History from Barnum to Madoff. Princeton, NJ: Princeton University Press, 2018. ISBN 97806",
+      "confidence": 0.9999,
+      "evidence": "Course Materials",
+      "judged": false,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "attendance_policy",
+      "text": "Requirements for class attendance and make-up exams, assignments, and other work in this course are consistent with university policies that can be found at: https://catalog.ufl.edu/ugrad/current/regulations/info/attendance.aspx. Students requiring accommodation Students who experience learning barr",
+      "confidence": 0.7787,
+      "evidence": "Attendance policy",
+      "judged": false,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_title",
+      "text": "ECO 4934 : Econometrics II",
+      "confidence": 0.6905,
+      "evidence": "ECO 4934 : Econometrics II",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_code",
+      "text": "ECO 4934",
+      "confidence": 0.1545,
+      "evidence": "ECO 4934",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "instructor",
+      "text": "Dr. Perihan Saygin Fall 2018",
+      "confidence": 0.957,
+      "evidence": "Dr. Perihan Saygin Fall 2018",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Exam 1",
+      "weight": 25,
+      "confidence": 0.0001,
+      "evidence": "Exam 1 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Exam 2",
+      "weight": 25,
+      "confidence": 0.0001,
+      "evidence": "Exam 2 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Assignments",
+      "weight": 40,
+      "confidence": 0.0011,
+      "evidence": "Assignments 40%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Participation",
+      "weight": 10,
+      "confidence": 0.9931,
+      "evidence": "Participation 10%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "You are expected to abide by the University\u2019s rules for academic honesty. These are available for your review at http://www.dso.u\ufb02.edu/judicial/academic.php. Cheating, plagiarism, and any other action that violates these rules will be prosecuted to the fullest extent. It should be noted that creatin",
+      "confidence": 0.9999,
+      "evidence": "Academic Honesty",
+      "judged": false,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_title",
+      "text": "Course organization",
+      "confidence": 0.8905,
+      "evidence": "Course organization",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "MW 11",
+      "confidence": 0.0229,
+      "evidence": "MW 11",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE'] 11:00 11:50",
+      "days": [
+        "MO",
+        "WE"
+      ],
+      "start_time": "11:00",
+      "end_time": "11:50",
+      "room": null,
+      "confidence": 0.7662,
+      "evidence": "MW 11\u201311:50",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "PLSC 227: The U.S. Congress (Yale Summer Session Online)",
+      "confidence": 0.0001,
+      "evidence": "PLSC 227: The U.S. Congress (Yale Summer Session Online)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_code",
+      "text": "PLSC 227",
+      "confidence": 0.0069,
+      "evidence": "PLSC 227",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_title",
+      "text": "Black Women Writers",
+      "confidence": 0.9913,
+      "evidence": "Black Women Writers",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Reading quizzes & Homework",
+      "weight": 20,
+      "confidence": 0.0001,
+      "evidence": "Reading quizzes & Homework: 20%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Class participation",
+      "weight": 25,
+      "confidence": 0.9905,
+      "evidence": "Class participation (Presentations Included): 25%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Weekly Postings",
+      "weight": 15,
+      "confidence": 0.9955,
+      "evidence": "Weekly Postings: 15%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Final Essay",
+      "weight": 10,
+      "confidence": 0.0001,
+      "evidence": "Final Essay: 10%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Close Reading",
+      "weight": 10,
+      "confidence": 0.0001,
+      "evidence": "Close Reading 10% Weeks 2",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Presentations",
+      "weight": 10,
+      "confidence": 0.9622,
+      "evidence": "Presentations 10% Weekly",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Book Review",
+      "weight": 10,
+      "confidence": 0.0,
+      "evidence": "Book Review 10% Week 4",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "materials",
+      "text": "Katherine Collins, Whatever Happened to Interracial Love Lorraine Hansberry, A Raisin in the Sun Harriet Jacobs, Incidents in the Life of a Slave Girl Janet Mock, Redefining Realness: My Path to Womanhood, Identity, Love & So Much More Toni Morrison, The Bluest Eye Ann Petry, The Street Alice Walker",
+      "confidence": 0.9999,
+      "evidence": "Required Readings",
+      "judged": false,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Class Participation",
+      "weight": 10,
+      "confidence": 0.5409,
+      "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Homework",
+      "weight": 30,
+      "confidence": 0.5409,
+      "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Midterm Exam",
+      "weight": 30,
+      "confidence": 0.5409,
+      "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 30,
+      "confidence": 0.5409,
+      "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "office_hours",
+      "text": "\u2022 Office Hours: TBD \u2022 Course Website: forthcoming",
+      "confidence": 0.9895,
+      "evidence": "\u2022 Class Times: Mondays, Wednesdays, and Fridays 1:00 - 3:15 pm on Zoom",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "instructor",
+      "text": "Paul Kockelman, Department of Anthropology",
+      "confidence": 0.186,
+      "evidence": "Paul Kockelman, Department of Anthropology",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "office_hours",
+      "text": "paul.kockelman@yale.edu Office Hours of Professor: TBD Abstract: This course explores the relationships between language, culture, and cognition to investigate what 'meaning' is and why it matters. Students will explore how linguistic structures relate to language use and understanding as well as ho",
+      "confidence": 0.3511,
+      "evidence": "Professor: Paul Kockelman, Department of Anthropology,",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_code",
+      "text": "SA25",
+      "confidence": 0.3734,
+      "evidence": "SA25",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "instructor",
+      "text": "Eliyahu Stern, eliyahu.stern@yale.edu",
+      "confidence": 0.0001,
+      "evidence": "Eliyahu Stern, eliyahu.stern@yale.edu",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Mid Term",
+      "weight": 30,
+      "confidence": 0.9906,
+      "evidence": "Mid Term 30%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Class Participation",
+      "weight": 30,
+      "confidence": 0.011,
+      "evidence": "Class Participation 30% (Includes One In-Class Pop Quiz)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "Final Paper",
+      "weight": 40,
+      "confidence": 0.0001,
+      "evidence": "Final Paper 40%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "meetings",
+      "text": "['TU', 'TH'] 13:00 16:15",
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "13:00",
+      "end_time": "16:15",
+      "room": null,
+      "confidence": 0.1396,
+      "evidence": "Time : Session A, Tuesdays, Thursdays 1:00-4:15",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "office_hours",
+      "text": "Course Overview: This seminar explores the history of right-wing political thought from the late eighteenth century to the present, with an emphasis on the core ideas and beliefs that animate contemporary right-wing political movements. This course seeks to answer the questions: what constitutes the",
+      "confidence": 0.9999,
+      "evidence": "Office Hours : By appointment",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "course_title",
+      "text": "Hollywood Astrophysics",
+      "confidence": 0.9876,
+      "evidence": "Hollywood Astrophysics",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "instructor",
+      "text": "Frank Robinson",
+      "confidence": 0.9956,
+      "evidence": "Frank Robinson",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "written test",
+      "weight": 15,
+      "confidence": 0.2628,
+      "evidence": "\u2022 20% Exam 1 composed of a written test (15%) and an oral test (5%)",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "oral test",
+      "weight": 5,
+      "confidence": 0.2628,
+      "evidence": "\u2022 20% Exam 1 composed of a written test (15%) and an oral test (5%)",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "online section discussion",
+      "weight": 10,
+      "confidence": 0.9655,
+      "evidence": "\u2022 20% Participation in online section discussion (10%) and lecture mini-quiz",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "grading",
+      "text": "participation",
+      "weight": 10,
+      "confidence": 0.9993,
+      "evidence": "participation (10%)",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE'] 10:00 11:30",
+      "days": [
+        "MO",
+        "WE"
+      ],
+      "start_time": "10:00",
+      "end_time": "11:30",
+      "room": null,
+      "confidence": 0.0002,
+      "evidence": "Online Virtual Classroom Meeting: Monday & Wednesday 10:00am-11:30am (EST)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "field"
+    },
+    {
+      "field": "office_hours",
+      "text": "\u2022 Email: frank.robinson@yale.edu Teaching Fellow: Iver Warburton",
+      "confidence": 0.9997,
+      "evidence": "\u2022 Office Hours: Schedule via email",
+      "judged": true,
+      "matched": false,
+      "gold_source": "field"
+    }
+  ],
+  "gold_sources": {
+    "field": 68,
+    "span": 15
+  },
+  "reliability": [
+    {
+      "low": 0.0,
+      "high": 0.7,
+      "values": 45,
+      "correct": 36,
+      "precision": 0.8,
+      "precision_lower_95": 0.6769385031325654
+    },
+    {
+      "low": 0.7,
+      "high": 0.9,
+      "values": 1,
+      "correct": 1,
+      "precision": 1.0,
+      "precision_lower_95": 0.050000000000000044
+    },
+    {
+      "low": 0.9,
+      "high": 0.99,
+      "values": 10,
+      "correct": 6,
+      "precision": 0.6,
+      "precision_lower_95": 0.3035372125640424
+    },
+    {
+      "low": 0.99,
+      "high": 1.0,
+      "values": 27,
+      "correct": 18,
+      "precision": 0.6666666666666666,
+      "precision_lower_95": 0.4905217587959859
+    }
+  ],
+  "sweep": [
+    {
+      "threshold": 0.0,
+      "accepted": 83,
+      "coverage": 1.0,
+      "precision": 0.7349397590361446,
+      "precision_lower_95": 0.6436079904523959,
+      "errors": 22
+    },
+    {
+      "threshold": 0.5,
+      "accepted": 45,
+      "coverage": 0.5421686746987951,
+      "precision": 0.6666666666666666,
+      "precision_lower_95": 0.5340622572811529,
+      "errors": 15
+    },
+    {
+      "threshold": 0.6,
+      "accepted": 39,
+      "coverage": 0.46987951807228917,
+      "precision": 0.6666666666666666,
+      "precision_lower_95": 0.5231119453807922,
+      "errors": 13
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 38,
+      "coverage": 0.4578313253012048,
+      "precision": 0.6578947368421053,
+      "precision_lower_95": 0.5120381749047631,
+      "errors": 13
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 37,
+      "coverage": 0.4457831325301205,
+      "precision": 0.6486486486486487,
+      "precision_lower_95": 0.5004513709379559,
+      "errors": 13
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 37,
+      "coverage": 0.4457831325301205,
+      "precision": 0.6486486486486487,
+      "precision_lower_95": 0.5004513709379559,
+      "errors": 13
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 36,
+      "coverage": 0.43373493975903615,
+      "precision": 0.6666666666666666,
+      "precision_lower_95": 0.5165849506810201,
+      "errors": 12
+    },
+    {
+      "threshold": 0.97,
+      "accepted": 32,
+      "coverage": 0.3855421686746988,
+      "precision": 0.65625,
+      "precision_lower_95": 0.4958085058394508,
+      "errors": 11
+    },
+    {
+      "threshold": 0.98,
+      "accepted": 32,
+      "coverage": 0.3855421686746988,
+      "precision": 0.65625,
+      "precision_lower_95": 0.4958085058394508,
+      "errors": 11
+    },
+    {
+      "threshold": 0.99,
+      "accepted": 27,
+      "coverage": 0.3253012048192771,
+      "precision": 0.6666666666666666,
+      "precision_lower_95": 0.4905217587959859,
+      "errors": 9
+    },
+    {
+      "threshold": 0.995,
+      "accepted": 19,
+      "coverage": 0.2289156626506024,
+      "precision": 0.5789473684210527,
+      "precision_lower_95": 0.36811520702051537,
+      "errors": 8
+    }
+  ],
+  "operating_point": {
+    "threshold": null,
+    "target": 0.95,
+    "certified": false,
+    "note": "no threshold certifies precision 0.95 at 95% confidence on this sample",
+    "best": {
+      "threshold": 0.0,
+      "precision": 0.7349397590361446,
+      "precision_lower_95": 0.6436079904523959,
+      "coverage": 1.0
+    }
+  },
+  "field_gold": {
+    "documents": 12,
+    "schools": [
+      "University of Florida",
+      "Yale University"
+    ],
+    "values": [
+      {
+        "field": "course_title",
+        "text": "General Information",
+        "confidence": 0.995,
+        "evidence": "General Information",
+        "judged": true,
+        "matched": false,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "MAT 328",
+        "confidence": 0.9905,
+        "evidence": "MAT 328",
+        "judged": true,
+        "matched": false,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Kristian Estevez (Kj719@ufl.edu)",
+        "confidence": 0.0003,
+        "evidence": "Kristian Estevez (Kj719@ufl.edu)",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Assignments",
+        "weight": 10,
+        "confidence": 0.0015,
+        "evidence": "Assignments 10% Assignments 10%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Assignments 10% Assignments",
+        "weight": 10,
+        "confidence": 0.0015,
+        "evidence": "Assignments 10% Assignments 10%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Midterm 1",
+        "weight": 30,
+        "confidence": 0.0142,
+        "evidence": "Midterm 1 30% Midterm 1 20%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Midterm Midterm",
+        "weight": 20,
+        "confidence": 0.0142,
+        "evidence": "Midterm 1 30% Midterm 1 20%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Midterm 2",
+        "weight": 30,
+        "confidence": 0.0041,
+        "evidence": "Midterm 2 30% Midterm 2 20%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "materials",
+        "text": "Krugman, P., Obstfeld, M., and Melitz, M. International Economics: Theory and Policy. Addison Wesley, 2014. 3",
+        "confidence": 0.9999,
+        "evidence": "Textbooks",
+        "judged": false,
+        "matched": false,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "academic_integrity",
+        "text": "You are expected to abide by the University\u2019s rules for academic honesty and UF\u2019s Honor Pledge. These are available for your review at http://www.dso.ufl.edu/judicial/academic.php. Cheating, plagiarism, making false statements, and any other action that violates these rules will be prosecuted to the",
+        "confidence": 0.9999,
+        "evidence": "Academic Honesty",
+        "judged": false,
+        "matched": false,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "disability_services",
+        "text": "Students requesting classroom accommodation for disabilities must first register with the Disability Resource Center. The DRC will provide documentation to the student, who must then provide this documentation to me. The DRC phone number is 392-8565. If you are taking exams with the DRC, I highly re",
+        "confidence": 0.9999,
+        "evidence": "Disability Accommodations",
+        "judged": false,
+        "matched": false,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "ENG 4146: Long-Form Filmmaking",
+        "confidence": 0.982,
+        "evidence": "ENG 4146: Long-Form Filmmaking",
+        "judged": true,
+        "matched": true,
+        "document": "4346b068eff9",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "ENG 4146",
+        "confidence": 0.0005,
+        "evidence": "ENG 4146",
+        "judged": true,
+        "matched": true,
+        "document": "4346b068eff9",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Trevor Mowchun",
+        "confidence": 0.9955,
+        "evidence": "Trevor Mowchun",
+        "judged": true,
+        "matched": true,
+        "document": "4346b068eff9",
+        "school": "University of Florida"
+      },
+      {
+        "field": "office_hours",
+        "text": "Class: Thursday E1-E3 (7:20-10:10pm) (TUR 2334) Screening: Wednesday E1-E3 (7:20-10:10pm) (ROLFS 115) \u2013 Projectionist: Alex Franco Film lab technician: Owen Ward (TUR 4303)",
+        "confidence": 0.9998,
+        "evidence": "Office Hours: Wednesday periods 9-11",
+        "judged": true,
+        "matched": false,
+        "document": "4346b068eff9",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "PCB3402 Disease Ecology & Evolution (Fall 2023)",
+        "confidence": 0.0076,
+        "evidence": "PCB3402 Disease Ecology & Evolution (Fall 2023)",
+        "judged": true,
+        "matched": true,
+        "document": "63260c26aef4",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "CRR 0521",
+        "confidence": 0.9823,
+        "evidence": "CRR 0521",
+        "judged": true,
+        "matched": false,
+        "document": "63260c26aef4",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "Introduction to Statistics Theory",
+        "confidence": 0.9915,
+        "evidence": "Introduction to Statistics Theory",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "FLO 100",
+        "confidence": 0.0022,
+        "evidence": "FLO 100",
+        "judged": true,
+        "matched": false,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Demetris Athienitis",
+        "confidence": 0.9857,
+        "evidence": "Demetris Athienitis",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "lowest",
+        "weight": 25,
+        "confidence": 0.9955,
+        "evidence": "Exams 1, 2 (25% lowest, 35% best)",
+        "judged": true,
+        "matched": false,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "best)",
+        "weight": 35,
+        "confidence": 0.9955,
+        "evidence": "Exams 1, 2 (25% lowest, 35% best)",
+        "judged": true,
+        "matched": false,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Homework",
+        "weight": 20,
+        "confidence": 0.0001,
+        "evidence": "Homework 20%",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Quizzes",
+        "weight": 20,
+        "confidence": 0.1548,
+        "evidence": "Quizzes 20% (includes Intro quiz, lowest quiz dropped)",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Extra Credit 0",
+        "weight": 1,
+        "confidence": 0.5985,
+        "evidence": "Extra Credit 0-1% (class and discussion forum participation)",
+        "judged": true,
+        "matched": false,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "academic_integrity",
+        "text": "Students are held accountable to the UF Student Honor and Conduct Code. Evaluations Students are expected to provide professional and respectful feedback on the quality of instruction in this course by completing course evaluations online via GatorEvals. Guidance on how to give feedback in a profess",
+        "confidence": 0.9999,
+        "evidence": "Academic Misconduct",
+        "judged": false,
+        "matched": false,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "AMH4373: History of American Capitalism",
+        "confidence": 0.0224,
+        "evidence": "AMH4373: History of American Capitalism",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "AMH4373",
+        "confidence": 0.0048,
+        "evidence": "AMH4373",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "credits",
+        "text": 3.0,
+        "confidence": 0.9945,
+        "evidence": "3 credits",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Long Essays",
+        "weight": 40,
+        "confidence": 0.7149,
+        "evidence": "Long Essays (40%): Two (2) mandatory essays of 1,500-2,000 word length that draw upon",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Brief Responses",
+        "weight": 30,
+        "confidence": 0.1092,
+        "evidence": "Brief Responses (30%): Five (5) brief responses to the course material that are 500-750",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Final Essay Examination",
+        "weight": 25,
+        "confidence": 0.0006,
+        "evidence": "Final Essay Examination (25%): A final essay of 1,500-2,000 words that will draw upon the",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Attendance",
+        "weight": 5,
+        "confidence": 0.0186,
+        "evidence": "Attendance (5%): Students will attend and participate over the course of the semester.",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "materials",
+        "text": "\uf0b7 Sharon Murphy, Other People\u2019s Money: How Banking Worked in the Early American Republic. Baltimore: Johns Hopkins University Press, 2017. ISBN 1421421755 (required book) \uf0b7 Edward Balleisen, Fraud: An American History from Barnum to Madoff. Princeton, NJ: Princeton University Press, 2018. ISBN 97806",
+        "confidence": 0.9999,
+        "evidence": "Course Materials",
+        "judged": false,
+        "matched": false,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "attendance_policy",
+        "text": "Requirements for class attendance and make-up exams, assignments, and other work in this course are consistent with university policies that can be found at: https://catalog.ufl.edu/ugrad/current/regulations/info/attendance.aspx. Students requiring accommodation Students who experience learning barr",
+        "confidence": 0.7787,
+        "evidence": "Attendance policy",
+        "judged": false,
+        "matched": false,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "ECO 4934 : Econometrics II",
+        "confidence": 0.6905,
+        "evidence": "ECO 4934 : Econometrics II",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "ECO 4934",
+        "confidence": 0.1545,
+        "evidence": "ECO 4934",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Dr. Perihan Saygin Fall 2018",
+        "confidence": 0.957,
+        "evidence": "Dr. Perihan Saygin Fall 2018",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Exam 1",
+        "weight": 25,
+        "confidence": 0.0001,
+        "evidence": "Exam 1 25%",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Exam 2",
+        "weight": 25,
+        "confidence": 0.0001,
+        "evidence": "Exam 2 25%",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Assignments",
+        "weight": 40,
+        "confidence": 0.0011,
+        "evidence": "Assignments 40%",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Participation",
+        "weight": 10,
+        "confidence": 0.9931,
+        "evidence": "Participation 10%",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "academic_integrity",
+        "text": "You are expected to abide by the University\u2019s rules for academic honesty. These are available for your review at http://www.dso.u\ufb02.edu/judicial/academic.php. Cheating, plagiarism, and any other action that violates these rules will be prosecuted to the fullest extent. It should be noted that creatin",
+        "confidence": 0.9999,
+        "evidence": "Academic Honesty",
+        "judged": false,
+        "matched": false,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "PLSC 227: The U.S. Congress (Yale Summer Session Online)",
+        "confidence": 0.0001,
+        "evidence": "PLSC 227: The U.S. Congress (Yale Summer Session Online)",
+        "judged": true,
+        "matched": true,
+        "document": "1d9d02bcf058",
+        "school": "Yale University"
+      },
+      {
+        "field": "course_code",
+        "text": "PLSC 227",
+        "confidence": 0.0069,
+        "evidence": "PLSC 227",
+        "judged": true,
+        "matched": true,
+        "document": "1d9d02bcf058",
+        "school": "Yale University"
+      },
+      {
+        "field": "course_title",
+        "text": "Black Women Writers",
+        "confidence": 0.9913,
+        "evidence": "Black Women Writers",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Reading quizzes & Homework",
+        "weight": 20,
+        "confidence": 0.0001,
+        "evidence": "Reading quizzes & Homework: 20%",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Class participation",
+        "weight": 25,
+        "confidence": 0.9905,
+        "evidence": "Class participation (Presentations Included): 25%",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Weekly Postings",
+        "weight": 15,
+        "confidence": 0.9955,
+        "evidence": "Weekly Postings: 15%",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Final Essay",
+        "weight": 10,
+        "confidence": 0.0001,
+        "evidence": "Final Essay: 10%",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Close Reading",
+        "weight": 10,
+        "confidence": 0.0001,
+        "evidence": "Close Reading 10% Weeks 2",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Presentations",
+        "weight": 10,
+        "confidence": 0.9622,
+        "evidence": "Presentations 10% Weekly",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Book Review",
+        "weight": 10,
+        "confidence": 0.0,
+        "evidence": "Book Review 10% Week 4",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "materials",
+        "text": "Katherine Collins, Whatever Happened to Interracial Love Lorraine Hansberry, A Raisin in the Sun Harriet Jacobs, Incidents in the Life of a Slave Girl Janet Mock, Redefining Realness: My Path to Womanhood, Identity, Love & So Much More Toni Morrison, The Bluest Eye Ann Petry, The Street Alice Walker",
+        "confidence": 0.9999,
+        "evidence": "Required Readings",
+        "judged": false,
+        "matched": false,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Class Participation",
+        "weight": 10,
+        "confidence": 0.5409,
+        "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+        "judged": true,
+        "matched": true,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Homework",
+        "weight": 30,
+        "confidence": 0.5409,
+        "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+        "judged": true,
+        "matched": true,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Midterm Exam",
+        "weight": 30,
+        "confidence": 0.5409,
+        "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+        "judged": true,
+        "matched": true,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Final Exam",
+        "weight": 30,
+        "confidence": 0.5409,
+        "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+        "judged": true,
+        "matched": true,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "office_hours",
+        "text": "\u2022 Office Hours: TBD \u2022 Course Website: forthcoming",
+        "confidence": 0.9895,
+        "evidence": "\u2022 Class Times: Mondays, Wednesdays, and Fridays 1:00 - 3:15 pm on Zoom",
+        "judged": true,
+        "matched": false,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "instructor",
+        "text": "Paul Kockelman, Department of Anthropology",
+        "confidence": 0.186,
+        "evidence": "Paul Kockelman, Department of Anthropology",
+        "judged": true,
+        "matched": true,
+        "document": "7b40ccd4e185",
+        "school": "Yale University"
+      },
+      {
+        "field": "office_hours",
+        "text": "paul.kockelman@yale.edu Office Hours of Professor: TBD Abstract: This course explores the relationships between language, culture, and cognition to investigate what 'meaning' is and why it matters. Students will explore how linguistic structures relate to language use and understanding as well as ho",
+        "confidence": 0.3511,
+        "evidence": "Professor: Paul Kockelman, Department of Anthropology,",
+        "judged": true,
+        "matched": false,
+        "document": "7b40ccd4e185",
+        "school": "Yale University"
+      },
+      {
+        "field": "course_code",
+        "text": "SA25",
+        "confidence": 0.3734,
+        "evidence": "SA25",
+        "judged": true,
+        "matched": false,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "instructor",
+        "text": "Eliyahu Stern, eliyahu.stern@yale.edu",
+        "confidence": 0.0001,
+        "evidence": "Eliyahu Stern, eliyahu.stern@yale.edu",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Mid Term",
+        "weight": 30,
+        "confidence": 0.9906,
+        "evidence": "Mid Term 30%",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Class Participation",
+        "weight": 30,
+        "confidence": 0.011,
+        "evidence": "Class Participation 30% (Includes One In-Class Pop Quiz)",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Final Paper",
+        "weight": 40,
+        "confidence": 0.0001,
+        "evidence": "Final Paper 40%",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "meetings",
+        "text": "['TU', 'TH'] 13:00 16:15",
+        "days": [
+          "TU",
+          "TH"
+        ],
+        "start_time": "13:00",
+        "end_time": "16:15",
+        "room": null,
+        "confidence": 0.1396,
+        "evidence": "Time : Session A, Tuesdays, Thursdays 1:00-4:15",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "office_hours",
+        "text": "Course Overview: This seminar explores the history of right-wing political thought from the late eighteenth century to the present, with an emphasis on the core ideas and beliefs that animate contemporary right-wing political movements. This course seeks to answer the questions: what constitutes the",
+        "confidence": 0.9999,
+        "evidence": "Office Hours : By appointment",
+        "judged": true,
+        "matched": false,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "course_title",
+        "text": "Hollywood Astrophysics",
+        "confidence": 0.9876,
+        "evidence": "Hollywood Astrophysics",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "instructor",
+        "text": "Frank Robinson",
+        "confidence": 0.9956,
+        "evidence": "Frank Robinson",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "written test",
+        "weight": 15,
+        "confidence": 0.2628,
+        "evidence": "\u2022 20% Exam 1 composed of a written test (15%) and an oral test (5%)",
+        "judged": true,
+        "matched": false,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "oral test",
+        "weight": 5,
+        "confidence": 0.2628,
+        "evidence": "\u2022 20% Exam 1 composed of a written test (15%) and an oral test (5%)",
+        "judged": true,
+        "matched": false,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "online section discussion",
+        "weight": 10,
+        "confidence": 0.9655,
+        "evidence": "\u2022 20% Participation in online section discussion (10%) and lecture mini-quiz",
+        "judged": true,
+        "matched": false,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "participation",
+        "weight": 10,
+        "confidence": 0.9993,
+        "evidence": "participation (10%)",
+        "judged": true,
+        "matched": false,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "meetings",
+        "text": "['MO', 'WE'] 10:00 11:30",
+        "days": [
+          "MO",
+          "WE"
+        ],
+        "start_time": "10:00",
+        "end_time": "11:30",
+        "room": null,
+        "confidence": 0.0002,
+        "evidence": "Online Virtual Classroom Meeting: Monday & Wednesday 10:00am-11:30am (EST)",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "office_hours",
+        "text": "\u2022 Email: frank.robinson@yale.edu Teaching Fellow: Iver Warburton",
+        "confidence": 0.9997,
+        "evidence": "\u2022 Office Hours: Schedule via email",
+        "judged": true,
+        "matched": false,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      }
+    ],
+    "overall": {
+      "judged": 68,
+      "matched": 51,
+      "unjudged": 8,
+      "precision": 0.75,
+      "precision_lower_95": 0.6489283798986798,
+      "confidence": 0.95,
+      "min_confidence": 0.0
+    },
+    "per_field": {
+      "academic_integrity": {
+        "emitted": 3,
+        "judged": 0,
+        "matched": 0,
+        "precision": null
+      },
+      "attendance_policy": {
+        "emitted": 1,
+        "judged": 0,
+        "matched": 0,
+        "precision": null
+      },
+      "course_code": {
+        "emitted": 8,
+        "judged": 8,
+        "matched": 4,
+        "precision": 0.5
+      },
+      "course_title": {
+        "emitted": 9,
+        "judged": 9,
+        "matched": 8,
+        "precision": 0.8888888888888888
+      },
+      "credits": {
+        "emitted": 1,
+        "judged": 1,
+        "matched": 1,
+        "precision": 1.0
+      },
+      "disability_services": {
+        "emitted": 1,
+        "judged": 0,
+        "matched": 0,
+        "precision": null
+      },
+      "grading": {
+        "emitted": 36,
+        "judged": 36,
+        "matched": 29,
+        "precision": 0.8055555555555556
+      },
+      "instructor": {
+        "emitted": 7,
+        "judged": 7,
+        "matched": 7,
+        "precision": 1.0
+      },
+      "materials": {
+        "emitted": 3,
+        "judged": 0,
+        "matched": 0,
+        "precision": null
+      },
+      "meetings": {
+        "emitted": 2,
+        "judged": 2,
+        "matched": 2,
+        "precision": 1.0
+      },
+      "office_hours": {
+        "emitted": 5,
+        "judged": 5,
+        "matched": 0,
+        "precision": 0.0
+      }
+    },
+    "recall": {
+      "course_code": [
+        5,
+        17
+      ],
+      "course_title": [
+        8,
+        12
+      ],
+      "credits": [
+        1,
+        2
+      ],
+      "grading": [
+        30,
+        45
+      ],
+      "instructor": [
+        7,
+        12
+      ],
+      "meetings": [
+        2,
+        12
+      ],
+      "office_hours": [
+        0,
+        10
+      ]
+    },
+    "reliability": [
+      {
+        "low": 0.0,
+        "high": 0.7,
+        "values": 42,
+        "correct": 36,
+        "precision": 0.8571428571428571,
+        "precision_lower_95": 0.7373838453478332
+      },
+      {
+        "low": 0.7,
+        "high": 0.9,
+        "values": 1,
+        "correct": 1,
+        "precision": 1.0,
+        "precision_lower_95": 0.050000000000000044
+      },
+      {
+        "low": 0.9,
+        "high": 0.99,
+        "values": 8,
+        "correct": 5,
+        "precision": 0.625,
+        "precision_lower_95": 0.28924081650180944
+      },
+      {
+        "low": 0.99,
+        "high": 1.0,
+        "values": 17,
+        "correct": 9,
+        "precision": 0.5294117647058824,
+        "precision_lower_95": 0.3108295694782405
+      }
+    ],
+    "sweep": [
+      {
+        "threshold": 0.0,
+        "accepted": 68,
+        "coverage": 0.8947368421052632,
+        "precision": 0.75,
+        "precision_lower_95": 0.6489283798986798,
+        "errors": 17
+      },
+      {
+        "threshold": 0.5,
+        "accepted": 32,
+        "coverage": 0.42105263157894735,
+        "precision": 0.625,
+        "precision_lower_95": 0.4643606983616162,
+        "errors": 12
+      },
+      {
+        "threshold": 0.6,
+        "accepted": 27,
+        "coverage": 0.35526315789473684,
+        "precision": 0.5925925925925926,
+        "precision_lower_95": 0.41706865117075964,
+        "errors": 11
+      },
+      {
+        "threshold": 0.7,
+        "accepted": 26,
+        "coverage": 0.34210526315789475,
+        "precision": 0.5769230769230769,
+        "precision_lower_95": 0.398424154755433,
+        "errors": 11
+      },
+      {
+        "threshold": 0.8,
+        "accepted": 25,
+        "coverage": 0.32894736842105265,
+        "precision": 0.56,
+        "precision_lower_95": 0.37862156339288666,
+        "errors": 11
+      },
+      {
+        "threshold": 0.9,
+        "accepted": 25,
+        "coverage": 0.32894736842105265,
+        "precision": 0.56,
+        "precision_lower_95": 0.37862156339288666,
+        "errors": 11
+      },
+      {
+        "threshold": 0.95,
+        "accepted": 25,
+        "coverage": 0.32894736842105265,
+        "precision": 0.56,
+        "precision_lower_95": 0.37862156339288666,
+        "errors": 11
+      },
+      {
+        "threshold": 0.97,
+        "accepted": 22,
+        "coverage": 0.2894736842105263,
+        "precision": 0.5454545454545454,
+        "precision_lower_95": 0.3525440815834855,
+        "errors": 10
+      },
+      {
+        "threshold": 0.98,
+        "accepted": 22,
+        "coverage": 0.2894736842105263,
+        "precision": 0.5454545454545454,
+        "precision_lower_95": 0.3525440815834855,
+        "errors": 10
+      },
+      {
+        "threshold": 0.99,
+        "accepted": 17,
+        "coverage": 0.2236842105263158,
+        "precision": 0.5294117647058824,
+        "precision_lower_95": 0.3108295694782405,
+        "errors": 8
+      },
+      {
+        "threshold": 0.995,
+        "accepted": 10,
+        "coverage": 0.13157894736842105,
+        "precision": 0.3,
+        "precision_lower_95": 0.0872644339141504,
+        "errors": 7
+      }
+    ],
+    "operating_point": {
+      "threshold": null,
+      "target": 0.95,
+      "certified": false,
+      "note": "no threshold certifies precision 0.95 at 95% confidence on this sample",
+      "best": {
+        "threshold": 0.0,
+        "precision": 0.75,
+        "precision_lower_95": 0.6489283798986798,
+        "coverage": 0.8947368421052632
+      }
+    },
+    "floor_operating_point": {
+      "threshold": null,
+      "target": 0.9,
+      "certified": false,
+      "note": "no threshold certifies precision 0.90 at 95% confidence on this sample",
+      "best": {
+        "threshold": 0.0,
+        "precision": 0.75,
+        "precision_lower_95": 0.6489283798986798,
+        "coverage": 0.8947368421052632
+      }
+    }
+  }
+}

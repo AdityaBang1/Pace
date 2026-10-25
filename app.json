@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "Pace",
+    "slug": "pace",
+    "version": "1.0.0",
+    "scheme": "pace",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.pace.academic",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Pace uses the camera to read the academic documents you photograph. Photos stay on this device.",
+        "NSPhotoLibraryUsageDescription": "Pace reads an academic document from a photo you choose. Photos stay on this device.",
+        "NSPhotoLibraryAddUsageDescription": "Pace can save the page image you imported next to your course so you can check the source later.",
+        "ITSAppUsesNonExemptEncryption": false,
+        "CADisableMinimumFrameDurationOnPhone": true
+      }
+    },
+    "android": {
+      "package": "app.pace.academic",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#101114"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-asset",
+      "expo-sqlite",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "resizeMode": "contain",
+          "backgroundColor": "#101114",
+          "dark": {
+            "backgroundColor": "#101114"
+          }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Pace reads an academic document from a photo you choose. Photos stay on this device.",
+          "cameraPermission": "Pace uses the camera to read the documents you photograph.",
+          "microphonePermission": false
+        }
+      ],
+      "expo-document-picker",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

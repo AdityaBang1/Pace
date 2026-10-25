@@ -1,0 +1,9 @@
+BLUE BOTTLE COFFEE
+Order #4471        Table 12
+2 x Cortado            9.00
+1 x Almond Croissant   4.25
+Subtotal               13.25
+Tax                     1.16
+Total                  14.41
+Card **** 8821   Tip 20%
+Thank you

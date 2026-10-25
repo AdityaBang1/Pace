@@ -1,0 +1,24 @@
+{
+  "checkpoint": "artifacts/jev-field-v2",
+  "rows": 600,
+  "labels": 42,
+  "fp32": {
+    "state_dict_mb": 61.385,
+    "seconds": 1.5735,
+    "ms_per_row": 2.622
+  },
+  "int8_dynamic": {
+    "state_dict_mb": 36.648,
+    "seconds": 1.1898,
+    "ms_per_row": 1.983
+  },
+  "size_ratio": 1.675,
+  "speedup": 1.322,
+  "argmax_agreement": 1.0,
+  "probability_mae": 3.2098969504587e-06,
+  "probability_max_abs_delta": 9.435415267944336e-05,
+  "accuracy_fp32": 1.0,
+  "accuracy_int8": 1.0,
+  "rows_that_changed": [],
+  "notes": "eager torch dynamic quantization; MHA fastpath disabled (torch bug with quantized Linear)"
+}

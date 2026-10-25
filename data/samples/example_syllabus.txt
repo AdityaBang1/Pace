@@ -1,0 +1,25 @@
+MATH 1A: Calculus
+Spring 2027 — Section 003
+
+Instructor: Dr. Lena Ortiz
+Email: lortiz@example.edu
+
+This is a 4 credit hours course.
+
+Class Meetings
+Lecture: TuTh 11:00-12:30 in Evans 10.
+
+Grading
+Problem Sets 30%
+Midterm Exam 30%
+Final Exam 40%
+Problem Sets 30%
+
+Office Hours
+Mondays 1-2 PM in Evans 330.
+
+Office Hours
+Fridays 2-3 PM in Evans 330.
+
+Attendance
+Attendance is not graded, but problem sets are due at the start of section.

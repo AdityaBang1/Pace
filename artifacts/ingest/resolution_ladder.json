@@ -1,0 +1,1492 @@
+{
+  "schema_version": 1,
+  "control": "data\\samples\\transcript_term_marks.png",
+  "capture": "data\\samples\\transcript_term_marks_256x202.png",
+  "backend": {
+    "name": "rapidocr",
+    "version": "unknown"
+  },
+  "gold_rows": 8,
+  "exact_widths": [
+    1224,
+    1100,
+    1024,
+    900,
+    512
+  ],
+  "exact_down_to_width": 900,
+  "wrong_widths": [],
+  "smallest_exact_width": 512,
+  "largest_wrong_width": null,
+  "guarantee": {
+    "statement": "Every value in the verified fields is either equal to the fixture or null with a reason; no rung may differ.",
+    "wrong_values": 0,
+    "measurements": 19,
+    "rungs": 18,
+    "includes_user_capture": true,
+    "unverified": {
+      "statement": "Every other value these measurements emitted \u2014 titles, term text, GPA, printed total credits, assessment values \u2014 was never checked against the fixture. Each such value is marked `unverified` on the record that carries it, and is counted here under its field.",
+      "checked": 0,
+      "fields": {
+        "term": {
+          "values": 67,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 67,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 9,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 12,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "school_name": {
+          "values": 10,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      }
+    }
+  },
+  "ladder": [
+    {
+      "file": "page_1224x1584.png",
+      "width": 1224,
+      "rows": 8,
+      "elapsed_ms": 3198,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 32,
+        "confirmed": 32,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 18
+      },
+      "pages": [
+        {
+          "page": 1,
+          "confirmed": 32,
+          "repaired": 0,
+          "unconfirmed": 0,
+          "unread": 0,
+          "cells_checked": 32
+        }
+      ],
+      "unverified": {
+        "term": {
+          "values": 8,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 8,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "mark": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "weight": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "credit": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": true,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 1584
+    },
+    {
+      "file": "page_1100x1424.png",
+      "width": 1100,
+      "rows": 8,
+      "elapsed_ms": 1446,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 32,
+        "confirmed": 32,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 18
+      },
+      "pages": [
+        {
+          "page": 1,
+          "confirmed": 32,
+          "repaired": 0,
+          "unconfirmed": 0,
+          "unread": 0,
+          "cells_checked": 32
+        }
+      ],
+      "unverified": {
+        "term": {
+          "values": 8,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 8,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "mark": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "weight": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "credit": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": true,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 1424
+    },
+    {
+      "file": "page_1024x1325.png",
+      "width": 1024,
+      "rows": 8,
+      "elapsed_ms": 1557,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 32,
+        "confirmed": 32,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 18
+      },
+      "pages": [
+        {
+          "page": 1,
+          "confirmed": 32,
+          "repaired": 0,
+          "unconfirmed": 0,
+          "unread": 0,
+          "cells_checked": 32
+        }
+      ],
+      "unverified": {
+        "term": {
+          "values": 8,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 8,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "mark": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "weight": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "credit": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": true,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 1325
+    },
+    {
+      "file": "page_900x1165.png",
+      "width": 900,
+      "rows": 8,
+      "elapsed_ms": 1376,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 32,
+        "confirmed": 32,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 18
+      },
+      "pages": [
+        {
+          "page": 1,
+          "confirmed": 32,
+          "repaired": 0,
+          "unconfirmed": 0,
+          "unread": 0,
+          "cells_checked": 32
+        }
+      ],
+      "unverified": {
+        "term": {
+          "values": 8,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 8,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "mark": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "weight": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "credit": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": true,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 1165
+    },
+    {
+      "file": "page_800x1035.png",
+      "width": 800,
+      "rows": 7,
+      "elapsed_ms": 1343,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 28,
+        "confirmed": 18,
+        "repaired": 3,
+        "unconfirmed": 0,
+        "unread": 7,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 16
+      },
+      "pages": [
+        {
+          "page": 1,
+          "confirmed": 18,
+          "repaired": 3,
+          "unconfirmed": 0,
+          "unread": 7,
+          "cells_checked": 28
+        }
+      ],
+      "unverified": {
+        "term": {
+          "values": 7,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 7,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 7,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 1
+        },
+        "mark": {
+          "correct": 7,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 1
+        },
+        "weight": {
+          "correct": 7,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 1
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 7,
+          "wrong": 0,
+          "missing": 1
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 7,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 1035
+    },
+    {
+      "file": "page_700x906.png",
+      "width": 700,
+      "rows": 6,
+      "elapsed_ms": 1347,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 24,
+        "confirmed": 18,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 6,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 14
+      },
+      "pages": [
+        {
+          "page": 1,
+          "confirmed": 18,
+          "repaired": 0,
+          "unconfirmed": 0,
+          "unread": 6,
+          "cells_checked": 24
+        }
+      ],
+      "unverified": {
+        "term": {
+          "values": 6,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 6,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 6,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 2
+        },
+        "mark": {
+          "correct": 6,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 2
+        },
+        "weight": {
+          "correct": 6,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 2
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 6,
+          "wrong": 0,
+          "missing": 2
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 6,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 906
+    },
+    {
+      "file": "page_600x776.png",
+      "width": 600,
+      "rows": 6,
+      "elapsed_ms": 1460,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 24,
+        "confirmed": 15,
+        "repaired": 1,
+        "unconfirmed": 0,
+        "unread": 8,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 14
+      },
+      "pages": [
+        {
+          "page": 1,
+          "confirmed": 15,
+          "repaired": 1,
+          "unconfirmed": 0,
+          "unread": 8,
+          "cells_checked": 24
+        }
+      ],
+      "unverified": {
+        "term": {
+          "values": 6,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 6,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 6,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 2
+        },
+        "mark": {
+          "correct": 4,
+          "unread": 2,
+          "wrong": 0,
+          "missing": 2
+        },
+        "weight": {
+          "correct": 6,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 2
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 6,
+          "wrong": 0,
+          "missing": 2
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 8,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 776
+    },
+    {
+      "file": "page_512x663.png",
+      "width": 512,
+      "rows": 8,
+      "elapsed_ms": 1469,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 32,
+        "confirmed": 31,
+        "repaired": 1,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 18
+      },
+      "pages": [
+        {
+          "page": 1,
+          "confirmed": 31,
+          "repaired": 1,
+          "unconfirmed": 0,
+          "unread": 0,
+          "cells_checked": 32
+        }
+      ],
+      "unverified": {
+        "term": {
+          "values": 8,
+          "checked": 0,
+          "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+        },
+        "title": {
+          "values": 8,
+          "checked": 0,
+          "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+        },
+        "total_credits": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "mark": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "weight": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        },
+        "credit": {
+          "correct": 8,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 0
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": true,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 663
+    },
+    {
+      "file": "page_448x580.png",
+      "width": 448,
+      "rows": 0,
+      "elapsed_ms": 1544,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 2
+      },
+      "pages": [],
+      "unverified": {
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 580
+    },
+    {
+      "file": "page_400x518.png",
+      "width": 400,
+      "rows": 0,
+      "elapsed_ms": 1424,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 2
+      },
+      "pages": [],
+      "unverified": {
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 518
+    },
+    {
+      "file": "page_352x456.png",
+      "width": 352,
+      "rows": 0,
+      "elapsed_ms": 1397,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 2
+      },
+      "pages": [],
+      "unverified": {
+        "gpa": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        },
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 456
+    },
+    {
+      "file": "page_320x414.png",
+      "width": 320,
+      "rows": 0,
+      "elapsed_ms": 1345,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 1
+      },
+      "pages": [],
+      "unverified": {
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 414
+    },
+    {
+      "file": "page_288x373.png",
+      "width": 288,
+      "rows": 0,
+      "elapsed_ms": 1368,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 1
+      },
+      "pages": [],
+      "unverified": {
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 373
+    },
+    {
+      "file": "page_256x331.png",
+      "width": 256,
+      "rows": 0,
+      "elapsed_ms": 978,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 1
+      },
+      "pages": [],
+      "unverified": {
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 331
+    },
+    {
+      "file": "page_224x290.png",
+      "width": 224,
+      "rows": 0,
+      "elapsed_ms": 1186,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 1
+      },
+      "pages": [],
+      "unverified": {
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 290
+    },
+    {
+      "file": "page_192x248.png",
+      "width": 192,
+      "rows": 0,
+      "elapsed_ms": 994,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 1
+      },
+      "pages": [],
+      "unverified": {
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 248
+    },
+    {
+      "file": "page_160x207.png",
+      "width": 160,
+      "rows": 0,
+      "elapsed_ms": 997,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 1
+      },
+      "pages": [],
+      "unverified": {
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 207
+    },
+    {
+      "file": "page_128x166.png",
+      "width": 128,
+      "rows": 0,
+      "elapsed_ms": 1109,
+      "verification": {
+        "status": "checked",
+        "cells_checked": 0,
+        "confirmed": 0,
+        "repaired": 0,
+        "unconfirmed": 0,
+        "unread": 0,
+        "verified_fields": [
+          "course_code",
+          "mark",
+          "weight",
+          "credit"
+        ],
+        "unverified_values": 1
+      },
+      "pages": [],
+      "unverified": {
+        "school_name": {
+          "values": 1,
+          "checked": 0,
+          "reason": "a header value is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+        }
+      },
+      "fields": {
+        "course_code": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "mark": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "weight": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        },
+        "credit": {
+          "correct": 0,
+          "unread": 0,
+          "wrong": 0,
+          "missing": 8
+        }
+      },
+      "wrong_total": 0,
+      "unread_total": 0,
+      "exact_rows": false,
+      "source": {
+        "kind": "image",
+        "exact_source_text": false
+      },
+      "height": 166
+    }
+  ],
+  "user_capture": {
+    "file": "transcript_term_marks_256x202.png",
+    "width": 256,
+    "rows": 8,
+    "elapsed_ms": 2794,
+    "verification": {
+      "status": "checked",
+      "cells_checked": 32,
+      "confirmed": 30,
+      "repaired": 2,
+      "unconfirmed": 0,
+      "unread": 0,
+      "verified_fields": [
+        "course_code",
+        "mark",
+        "weight",
+        "credit"
+      ],
+      "unverified_values": 18
+    },
+    "pages": [
+      {
+        "page": 1,
+        "confirmed": 30,
+        "repaired": 2,
+        "unconfirmed": 0,
+        "unread": 0,
+        "cells_checked": 32
+      }
+    ],
+    "unverified": {
+      "term": {
+        "values": 8,
+        "checked": 0,
+        "reason": "this value is transcribed from the page and never cell-checked; only course code, mark, weight and credit are"
+      },
+      "title": {
+        "values": 8,
+        "checked": 0,
+        "reason": "a title is long, wraps, and is not a number: it is read by the page pass only and never re-read from its own crop"
+      },
+      "total_credits": {
+        "values": 1,
+        "checked": 0,
+        "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+      },
+      "gpa": {
+        "values": 1,
+        "checked": 0,
+        "reason": "a footer figure is read once from the page and never re-read from its own crop, so it is not part of the per-cell guarantee"
+      }
+    },
+    "fields": {
+      "course_code": {
+        "correct": 8,
+        "unread": 0,
+        "wrong": 0,
+        "missing": 0
+      },
+      "mark": {
+        "correct": 8,
+        "unread": 0,
+        "wrong": 0,
+        "missing": 0
+      },
+      "weight": {
+        "correct": 8,
+        "unread": 0,
+        "wrong": 0,
+        "missing": 0
+      },
+      "credit": {
+        "correct": 8,
+        "unread": 0,
+        "wrong": 0,
+        "missing": 0
+      }
+    },
+    "wrong_total": 0,
+    "unread_total": 0,
+    "exact_rows": true,
+    "source": {
+      "kind": "image",
+      "exact_source_text": false
+    }
+  },
+  "notes": [
+    "Each rung is the control page downscaled with LANCZOS to that width.",
+    "wrong counts values that differ from the fixture; unread counts values the verifier refused to emit. The bar is zero wrong."
+  ]
+}

@@ -1,0 +1,385 @@
+{
+ "checkpoint": "artifacts\\field-classifier-minilm",
+ "max_length": 192,
+ "temperature": 0.6466508507728577,
+ "labels": [
+  "course_title",
+  "course_code",
+  "course_description",
+  "program",
+  "course_level",
+  "class_type",
+  "instructor",
+  "office_hours",
+  "contact_information",
+  "credits",
+  "capacity",
+  "class_section",
+  "entry_requirements",
+  "restrictions",
+  "confirmation",
+  "prerequisites",
+  "course_content",
+  "learning_outcomes",
+  "teaching_form",
+  "materials",
+  "weekly_readings",
+  "assignments",
+  "due_date",
+  "grading_policy",
+  "grades",
+  "assessment",
+  "course_evaluation",
+  "meeting_time",
+  "meeting_days",
+  "class_meeting_room",
+  "course_modality",
+  "course_schedule",
+  "exam_schedule",
+  "session_dates",
+  "term",
+  "drop_add_deadline",
+  "attendance_policy",
+  "academic_integrity",
+  "course_policies",
+  "disability_services",
+  "additional_information",
+  "other"
+ ],
+ "tokens": [
+  {
+   "text": "MATH 1A: Calculus I",
+   "ids": [
+    101,
+    8785,
+    20720,
+    1024,
+    19276,
+    1045,
+    102
+   ]
+  },
+  {
+   "text": "AP Chemistry",
+   "ids": [
+    101,
+    9706,
+    6370,
+    102
+   ]
+  },
+  {
+   "text": "Grading Policy",
+   "ids": [
+    101,
+    26886,
+    3343,
+    102
+   ]
+  },
+  {
+   "text": "Tests 40%",
+   "ids": [
+    101,
+    5852,
+    2871,
+    1003,
+    102
+   ]
+  },
+  {
+   "text": "TU TH 11:00-12:15 in Evans 10",
+   "ids": [
+    101,
+    10722,
+    16215,
+    2340,
+    1024,
+    4002,
+    1011,
+    2260,
+    1024,
+    2321,
+    1999,
+    6473,
+    2184,
+    102
+   ]
+  },
+  {
+   "text": "Office Hours: Mondays 3-5pm in Room 214",
+   "ids": [
+    101,
+    2436,
+    2847,
+    1024,
+    28401,
+    1017,
+    1011,
+    1019,
+    9737,
+    1999,
+    2282,
+    19936,
+    102
+   ]
+  },
+  {
+   "text": "Dr. Allison Johnson",
+   "ids": [
+    101,
+    2852,
+    1012,
+    10786,
+    3779,
+    102
+   ]
+  },
+  {
+   "text": "CHEM 1A. General Chemistry. 4 units.",
+   "ids": [
+    101,
+    18178,
+    2213,
+    20720,
+    1012,
+    2236,
+    6370,
+    1012,
+    1018,
+    3197,
+    1012,
+    102
+   ]
+  },
+  {
+   "text": "Fall 2026 - Section 003",
+   "ids": [
+    101,
+    2991,
+    16798,
+    2575,
+    1011,
+    2930,
+    4002,
+    2509,
+    102
+   ]
+  },
+  {
+   "text": "Prerequisite: MATH 1A.",
+   "ids": [
+    101,
+    3653,
+    2890,
+    24871,
+    1024,
+    8785,
+    20720,
+    1012,
+    102
+   ]
+  },
+  {
+   "text": "Students may miss two lectures without penalty.",
+   "ids": [
+    101,
+    2493,
+    2089,
+    3335,
+    2048,
+    8921,
+    2302,
+    6531,
+    1012,
+    102
+   ]
+  },
+  {
+   "text": "Café résumé naïve",
+   "ids": [
+    101,
+    7668,
+    13746,
+    15743,
+    102
+   ]
+  },
+  {
+   "text": "AP Chem1stry — J0hnson 4O%",
+   "ids": [
+    101,
+    9706,
+    18178,
+    2213,
+    2487,
+    3367,
+    2854,
+    1517,
+    1046,
+    2692,
+    7295,
+    3385,
+    1018,
+    2080,
+    1003,
+    102
+   ]
+  },
+  {
+   "text": "   ",
+   "ids": [
+    101,
+    102
+   ]
+  },
+  {
+   "text": "",
+   "ids": [
+    101,
+    102
+   ]
+  },
+  {
+   "text": "!!!",
+   "ids": [
+    101,
+    999,
+    999,
+    999,
+    102
+   ]
+  },
+  {
+   "text": "MATH101",
+   "ids": [
+    101,
+    8785,
+    10790,
+    2487,
+    102
+   ]
+  },
+  {
+   "text": "MATH-1010",
+   "ids": [
+    101,
+    8785,
+    1011,
+    7886,
+    2692,
+    102
+   ]
+  },
+  {
+   "text": "Biology vs AP Biology",
+   "ids": [
+    101,
+    7366,
+    5443,
+    9706,
+    7366,
+    102
+   ]
+  },
+  {
+   "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "ids": [
+    101,
+    100,
+    102
+   ]
+  }
+ ],
+ "sections": [
+  {
+   "fixture": "catalog.txt",
+   "headings": [
+    {
+     "heading": "Prerequisite: MATH 0B or placement examination.",
+     "label": "entry_requirements",
+     "confidence": 0.9546,
+     "band": "medium"
+    },
+    {
+     "heading": "Prerequisite: MATH 1A.",
+     "label": "entry_requirements",
+     "confidence": 0.8419,
+     "band": "low"
+    }
+   ],
+   "detected": 2
+  },
+  {
+   "fixture": "receipt.txt",
+   "headings": [],
+   "detected": 0
+  },
+  {
+   "fixture": "schedule.txt",
+   "headings": [],
+   "detected": 0
+  },
+  {
+   "fixture": "syllabus_chem.txt",
+   "headings": [
+    {
+     "heading": "Email: ajohnson@northside.edu",
+     "label": "contact_information",
+     "confidence": 0.9933,
+     "band": "high"
+    },
+    {
+     "heading": "Grading Policy",
+     "label": "grading_policy",
+     "confidence": 0.9997,
+     "band": "high"
+    },
+    {
+     "heading": "Academic Integrity",
+     "label": "academic_integrity",
+     "confidence": 0.9999,
+     "band": "high"
+    }
+   ],
+   "detected": 3
+  },
+  {
+   "fixture": "syllabus_math.txt",
+   "headings": [
+    {
+     "heading": "Instructor: Dr. Lena Ortiz",
+     "label": "instructor",
+     "confidence": 0.9961,
+     "band": "high"
+    },
+    {
+     "heading": "Office Hours: Mondays 3-5pm in Room 214",
+     "label": "office_hours",
+     "confidence": 0.9999,
+     "band": "high"
+    },
+    {
+     "heading": "Meeting Times",
+     "label": "meeting_time",
+     "confidence": 0.9979,
+     "band": "high"
+    },
+    {
+     "heading": "Grading",
+     "label": "grading_policy",
+     "confidence": 0.9997,
+     "band": "high"
+    },
+    {
+     "heading": "Attendance Policy",
+     "label": "attendance_policy",
+     "confidence": 0.9717,
+     "band": "high"
+    }
+   ],
+   "detected": 5
+  }
+ ],
+ "note": "sections use the same heading -> heading+value fallback the app implements (threshold 0.8), so label and probability are directly comparable"
+}

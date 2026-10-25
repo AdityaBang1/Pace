@@ -1,0 +1,115 @@
+{
+  "task": "synthetic academic document type + entity extraction",
+  "variants": [
+    {
+      "variant": "6 layers",
+      "checkpoint_dir": "artifacts/synthetic-multitask-v8",
+      "encoder_layers": 6,
+      "parameters": 22732081,
+      "checkpoint_bytes": 90958791,
+      "int8_checkpoint_bytes": 58654218,
+      "int8_entity_span_f1": 0.9982595906361074,
+      "document_type_accuracy_clean": 1.0,
+      "document_type_accuracy_corrupted": 1.0,
+      "entity_span_f1_clean": 0.9996811771919069,
+      "entity_span_precision_clean": 0.9994115627911538,
+      "entity_span_recall_clean": 0.999950937101364,
+      "entity_span_f1_corrupted": 0.9990930261061405,
+      "entity_span_f1_corrupted_context_only": 0.9995340739105912,
+      "transcript_entity_span_f1": 0.9990496232435001,
+      "gold_spans": 20382,
+      "false_positive_spans": 12,
+      "false_negative_spans": 1,
+      "window_latency": {
+        "cuda": {
+          "latency_ms_p50": 5.080150032881647,
+          "latency_ms_p95": 6.755999987944961
+        },
+        "cpu": {
+          "latency_ms_p50": 3.644999989774078,
+          "latency_ms_p95": 5.078599962871522
+        }
+      },
+      "document_latency": {
+        "device": "cuda",
+        "windows": 5,
+        "latency_ms_p50": 33.407800015993416,
+        "characters": 3127
+      }
+    },
+    {
+      "variant": "4 layers",
+      "checkpoint_dir": "artifacts/synthetic-multitask-l4-v8",
+      "encoder_layers": 4,
+      "parameters": 19183153,
+      "checkpoint_bytes": 76754848,
+      "int8_checkpoint_bytes": 55052946,
+      "int8_entity_span_f1": 0.9968625913034953,
+      "document_type_accuracy_clean": 1.0,
+      "document_type_accuracy_corrupted": 1.0,
+      "entity_span_f1_clean": 0.9995095635115253,
+      "entity_span_precision_clean": 0.9991175605451514,
+      "entity_span_recall_clean": 0.9999018742027279,
+      "entity_span_f1_corrupted": 0.9988970317899949,
+      "entity_span_f1_corrupted_context_only": 0.999092892691657,
+      "transcript_entity_span_f1": 0.9987782529016493,
+      "gold_spans": 20382,
+      "false_positive_spans": 18,
+      "false_negative_spans": 2,
+      "window_latency": {
+        "cuda": {
+          "latency_ms_p50": 3.5785000072792172,
+          "latency_ms_p95": 3.949299978557974
+        },
+        "cpu": {
+          "latency_ms_p50": 1.8566000217106193,
+          "latency_ms_p95": 2.69799999659881
+        }
+      },
+      "document_latency": {
+        "device": "cuda",
+        "windows": 5,
+        "latency_ms_p50": 32.579699996858835,
+        "characters": 3127
+      }
+    },
+    {
+      "variant": "2 layers",
+      "checkpoint_dir": "artifacts/synthetic-multitask-l2-v8",
+      "encoder_layers": 2,
+      "parameters": 15634225,
+      "checkpoint_bytes": 62550848,
+      "int8_checkpoint_bytes": 51451701,
+      "int8_entity_span_f1": 0.9940105121623274,
+      "document_type_accuracy_clean": 1.0,
+      "document_type_accuracy_corrupted": 1.0,
+      "entity_span_f1_clean": 0.9984806155957457,
+      "entity_span_precision_clean": 0.9974539757148453,
+      "entity_span_recall_clean": 0.9995093710136395,
+      "entity_span_f1_corrupted": 0.9967444251340171,
+      "entity_span_f1_corrupted_context_only": 0.9978931896129348,
+      "transcript_entity_span_f1": 0.9974235541392636,
+      "gold_spans": 20382,
+      "false_positive_spans": 52,
+      "false_negative_spans": 10,
+      "window_latency": {
+        "cuda": {
+          "latency_ms_p50": 2.231899998150766,
+          "latency_ms_p95": 2.319200022611767
+        },
+        "cpu": {
+          "latency_ms_p50": 1.397500018356368,
+          "latency_ms_p95": 2.3077999940142035
+        }
+      },
+      "document_latency": {
+        "device": "cuda",
+        "windows": 5,
+        "latency_ms_p50": 37.5793999992311,
+        "characters": 3127
+      }
+    }
+  ],
+  "comparison_basis": "Same seed, same generated corpus, same school/template hold-out for every variant. The only difference is the number of transformer layers the shared encoder keeps.",
+  "scope_limit": "Synthetic-only measurements on procedurally generated text. They are not real-document, real OCR, institution-transfer or production evidence."
+}

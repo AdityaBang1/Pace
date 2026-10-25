@@ -1,0 +1,522 @@
+{
+  "model": {
+    "name": "PageSpotter",
+    "description": "one fully convolutional network; per-position character presence and class at half resolution; no template, no grid, no detector stage, no parser",
+    "parameters": 290161,
+    "output_stride": 2,
+    "frame": [
+      1224,
+      1584
+    ],
+    "charset": 64
+  },
+  "data": {
+    "train_documents": 800,
+    "heldout_documents": 60,
+    "train_pages": 1379,
+    "heldout_pages": 104,
+    "train_seed": 20261022,
+    "heldout_seed": 880123,
+    "split": "by document: no held-out page belongs to a training document",
+    "family": "portrait US letter at 2 px/pt, the renderer's columns, 9-10 pt Arial (Helvetica metrics), wrapped titles, lower-case course codes",
+    "degradation": "illumination, blur and JPEG; a quarter of training pages clean; held-out pages all degraded",
+    "targets": "presence on every printed glyph; class only on the four measured fields",
+    "example_gold": [
+      {
+        "course_code": "708584o",
+        "mark": "56",
+        "weight": 0.5,
+        "credit": 0.5,
+        "weight_text": "0.5000",
+        "credit_text": "0.5"
+      },
+      {
+        "course_code": "914929p",
+        "mark": "61",
+        "weight": 1.0,
+        "credit": 1.0,
+        "weight_text": "1.0000",
+        "credit_text": "1"
+      }
+    ]
+  },
+  "training": {
+    "epochs": 12,
+    "batch_size": 4,
+    "optimizer": "AdamW 1e-3 one-cycle",
+    "device": "cuda",
+    "wall_seconds": 932.2,
+    "reproducibility": "seeded; cuDNN kernels are not deterministic"
+  },
+  "thresholds": {
+    "peak": 0.35,
+    "min_confidence": 0.5,
+    "tuned_on_evaluation_documents": false
+  },
+  "reading": {
+    "views": 2,
+    "arithmetic": "float64: the network is read as a double copy, so the fields do not depend on whether a CPU or a GPU ran the convolutions",
+    "second_view": "shift (3.0, 2.0) px, scale 1.015 about the centre",
+    "rule": "a field is emitted only where both readings produced the same raw text; any disagreement is a refusal",
+    "unpaired": "rows only one reading saw are counted, never emitted"
+  },
+  "heldout_documents": {
+    "documents": 60,
+    "pages": 104,
+    "rows_expected": 564,
+    "rows_decoded": 937,
+    "rows_read_correctly": 396,
+    "rows_partly_read": 112,
+    "rows_refused": 56,
+    "fields": {
+      "course_code": {
+        "emitted": 512,
+        "refused": 56,
+        "wrong": 4
+      },
+      "mark": {
+        "emitted": 486,
+        "refused": 78,
+        "wrong": 1
+      },
+      "weight": {
+        "emitted": 438,
+        "refused": 126,
+        "wrong": 1
+      },
+      "credit": {
+        "emitted": 414,
+        "refused": 150,
+        "wrong": 1
+      }
+    },
+    "wrong_total": 7,
+    "wrong_values": [
+      {
+        "field": "credit",
+        "expected": 0.5,
+        "got": 5.0
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "71707u"
+      },
+      {
+        "field": "weight",
+        "expected": 1.0,
+        "got": 1.9
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "10685l"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "38893l"
+      },
+      {
+        "field": "mark",
+        "expected": "76",
+        "got": "78"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "61295l"
+      }
+    ],
+    "unpaired_rows": 12,
+    "unpaired_first_view": 6,
+    "unpaired_second_view": 6
+  },
+  "heldout_single_view": {
+    "documents": 60,
+    "pages": 104,
+    "rows_expected": 564,
+    "rows_decoded": 937,
+    "rows_read_correctly": 437,
+    "rows_partly_read": 86,
+    "rows_refused": 41,
+    "fields": {
+      "course_code": {
+        "emitted": 537,
+        "refused": 41,
+        "wrong": 14
+      },
+      "mark": {
+        "emitted": 516,
+        "refused": 48,
+        "wrong": 5
+      },
+      "weight": {
+        "emitted": 493,
+        "refused": 71,
+        "wrong": 12
+      },
+      "credit": {
+        "emitted": 449,
+        "refused": 115,
+        "wrong": 8
+      }
+    },
+    "wrong_total": 39,
+    "wrong_values": [
+      {
+        "field": "credit",
+        "expected": 0.5,
+        "got": 5.0
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "971089k"
+      },
+      {
+        "field": "mark",
+        "expected": "57",
+        "got": "87"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "71707u"
+      },
+      {
+        "field": "weight",
+        "expected": 0.5,
+        "got": 6.5
+      },
+      {
+        "field": "weight",
+        "expected": 1.0,
+        "got": 1.9
+      },
+      {
+        "field": "credit",
+        "expected": 0.5,
+        "got": 5.0
+      },
+      {
+        "field": "weight",
+        "expected": 0.75,
+        "got": 0.7506
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "10685l"
+      },
+      {
+        "field": "weight",
+        "expected": 1.0,
+        "got": 1.9
+      },
+      {
+        "field": "weight",
+        "expected": 1.0,
+        "got": 1.06
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "97111o"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "68175n"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "38893l"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "28526l"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "54278t"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "48894g"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "94519t"
+      },
+      {
+        "field": "weight",
+        "expected": 1.0,
+        "got": 1.9
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "924172l"
+      },
+      {
+        "field": "weight",
+        "expected": 1.0,
+        "got": 1.9006
+      },
+      {
+        "field": "mark",
+        "expected": "76",
+        "got": "78"
+      },
+      {
+        "field": "weight",
+        "expected": 0.5,
+        "got": 0.5006
+      },
+      {
+        "field": "weight",
+        "expected": 0.75,
+        "got": 0.79
+      },
+      {
+        "field": "mark",
+        "expected": "56",
+        "got": "96"
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "33884f"
+      },
+      {
+        "field": "credit",
+        "expected": 0.5,
+        "got": 5.0
+      },
+      {
+        "field": "credit",
+        "expected": 0.5,
+        "got": 5.0
+      },
+      {
+        "field": "weight",
+        "expected": 0.75,
+        "got": 0.79
+      },
+      {
+        "field": "credit",
+        "expected": 0.25,
+        "got": 25.0
+      },
+      {
+        "field": "weight",
+        "expected": 0.75,
+        "got": 9.79
+      },
+      {
+        "field": "credit",
+        "expected": 0.75,
+        "got": 9.78
+      },
+      {
+        "field": "credit",
+        "expected": 0.25,
+        "got": 6.98
+      },
+      {
+        "field": "mark",
+        "expected": "76",
+        "got": "78"
+      },
+      {
+        "field": "credit",
+        "expected": 0.25,
+        "got": 6.25
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "61295l"
+      },
+      {
+        "field": "mark",
+        "expected": "71",
+        "got": "74"
+      },
+      {
+        "field": "weight",
+        "expected": 0.5,
+        "got": 0.806
+      },
+      {
+        "field": "course_code",
+        "expected": null,
+        "got": "56203f"
+      }
+    ],
+    "unpaired_rows": 0,
+    "unpaired_first_view": 0,
+    "unpaired_second_view": 0
+  },
+  "real_pages": {
+    "gold_rows": 8,
+    "pages": {
+      "pdf page, 2x raster": {
+        "documents": 1,
+        "pages": 1,
+        "rows_expected": 8,
+        "rows_decoded": 15,
+        "rows_read_correctly": 8,
+        "rows_partly_read": 0,
+        "rows_refused": 0,
+        "fields": {
+          "course_code": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "mark": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "weight": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "credit": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          }
+        },
+        "wrong_total": 0,
+        "wrong_values": [],
+        "unpaired_rows": 0,
+        "unpaired_first_view": 0,
+        "unpaired_second_view": 0
+      },
+      "rendered PNG": {
+        "documents": 1,
+        "pages": 1,
+        "rows_expected": 8,
+        "rows_decoded": 15,
+        "rows_read_correctly": 8,
+        "rows_partly_read": 0,
+        "rows_refused": 0,
+        "fields": {
+          "course_code": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "mark": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "weight": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "credit": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          }
+        },
+        "wrong_total": 0,
+        "wrong_values": [],
+        "unpaired_rows": 0,
+        "unpaired_first_view": 0,
+        "unpaired_second_view": 0
+      },
+      "256x202 capture": {
+        "documents": 1,
+        "pages": 1,
+        "rows_expected": 8,
+        "rows_decoded": 57,
+        "rows_read_correctly": 0,
+        "rows_partly_read": 0,
+        "rows_refused": 8,
+        "fields": {
+          "course_code": {
+            "emitted": 0,
+            "refused": 8,
+            "wrong": 0
+          },
+          "mark": {
+            "emitted": 0,
+            "refused": 8,
+            "wrong": 0
+          },
+          "weight": {
+            "emitted": 0,
+            "refused": 8,
+            "wrong": 0
+          },
+          "credit": {
+            "emitted": 0,
+            "refused": 8,
+            "wrong": 0
+          }
+        },
+        "wrong_total": 0,
+        "wrong_values": [],
+        "unpaired_rows": 21,
+        "unpaired_first_view": 9,
+        "unpaired_second_view": 12
+      },
+      "degraded PNG (0.5 deg, blur 0.6, JPEG 60)": {
+        "documents": 1,
+        "pages": 1,
+        "rows_expected": 8,
+        "rows_decoded": 15,
+        "rows_read_correctly": 8,
+        "rows_partly_read": 0,
+        "rows_refused": 0,
+        "fields": {
+          "course_code": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "mark": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "weight": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          },
+          "credit": {
+            "emitted": 8,
+            "refused": 0,
+            "wrong": 0
+          }
+        },
+        "wrong_total": 0,
+        "wrong_values": [],
+        "unpaired_rows": 0,
+        "unpaired_first_view": 0,
+        "unpaired_second_view": 0
+      }
+    }
+  },
+  "limitations": [
+    "synthetic documents drawn in the real family; the only real page is the fixture's render, not a camera capture",
+    "page furniture (titles, headings) is located but not transcribed",
+    "characters are read one by one; a missed character usually loses its whole field, which is why refusal, not accuracy, is the safety property",
+    "row grouping, the row pairing and the column split are decoding rules, not learned; a row is paired only where the pairing is unambiguous, so rows closer together than the decoding jitter are refused rather than confirmed against a neighbour"
+  ]
+}

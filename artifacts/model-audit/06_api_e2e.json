@@ -1,0 +1,434 @@
+{
+  "summary": {
+    "documents": 12,
+    "titles_read": 9,
+    "codes_read": 7,
+    "instructors_read": 8,
+    "grading_breakdowns": 8,
+    "grading_sums_to_100": 6,
+    "meetings_read": 2,
+    "mean_read_seconds": 0.16,
+    "evidence_grounded": 72,
+    "evidence_total": 73
+  },
+  "documents": [
+    {
+      "id": "774089f9e016",
+      "school": "Yale University",
+      "characters": 2530,
+      "read_seconds": 0.11,
+      "course": {},
+      "grading": [
+        [
+          "Class Participation",
+          10
+        ],
+        [
+          "Homework",
+          30
+        ],
+        [
+          "Midterm Exam",
+          30
+        ],
+        [
+          "Final Exam",
+          30
+        ]
+      ],
+      "grading_total": 100,
+      "grading_consistent": true,
+      "meetings": [],
+      "policies": [
+        "office_hours"
+      ],
+      "sections": 6,
+      "evidence": 5,
+      "grounded": 5,
+      "warnings": []
+    },
+    {
+      "id": "eb3044257d2a",
+      "school": "Yale University",
+      "characters": 7454,
+      "read_seconds": 0.12,
+      "course": {
+        "course_title": "Hollywood Astrophysics",
+        "instructor": "Frank Robinson"
+      },
+      "grading": [
+        [
+          "Exam 1",
+          20
+        ],
+        [
+          "Exam 2",
+          20
+        ],
+        [
+          "Exam 3",
+          20
+        ],
+        [
+          "participation",
+          10
+        ]
+      ],
+      "grading_total": 70,
+      "grading_consistent": false,
+      "meetings": [
+        [
+          [
+            "MO",
+            "WE"
+          ],
+          "10:00",
+          "11:30",
+          null
+        ]
+      ],
+      "policies": [
+        "office_hours"
+      ],
+      "sections": 7,
+      "evidence": 8,
+      "grounded": 8,
+      "warnings": [
+        "grading weights sum to 70, not 100: the document may print nested sub-weights or the reader may have missed a row"
+      ]
+    },
+    {
+      "id": "1d9d02bcf058",
+      "school": "Yale University",
+      "characters": 10928,
+      "read_seconds": 0.19,
+      "course": {
+        "course_title": "PLSC 227: The U.S. Congress (Yale Summer Session Online)",
+        "course_code": "PLSC 227"
+      },
+      "grading": [],
+      "grading_total": null,
+      "grading_consistent": null,
+      "meetings": [],
+      "policies": [
+        "office_hours"
+      ],
+      "sections": 10,
+      "evidence": 3,
+      "grounded": 3,
+      "warnings": []
+    },
+    {
+      "id": "8c7d8e3a2e08",
+      "school": "Yale University",
+      "characters": 9390,
+      "read_seconds": 0.09,
+      "course": {
+        "course_title": "Teaching Assistant: TBD",
+        "instructor": "Eliyahu Stern, eliyahu.stern@yale.edu"
+      },
+      "grading": [
+        [
+          "Mid Term",
+          30
+        ],
+        [
+          "Class Participation",
+          30
+        ],
+        [
+          "Final Paper",
+          40
+        ]
+      ],
+      "grading_total": 100,
+      "grading_consistent": true,
+      "meetings": [
+        [
+          [
+            "TU",
+            "TH"
+          ],
+          "13:00",
+          "16:15",
+          null
+        ]
+      ],
+      "policies": [
+        "office_hours"
+      ],
+      "sections": 4,
+      "evidence": 7,
+      "grounded": 7,
+      "warnings": []
+    },
+    {
+      "id": "26b4ef3d7ff4",
+      "school": "Yale University",
+      "characters": 12892,
+      "read_seconds": 0.11,
+      "course": {
+        "course_title": "Black Women Writers"
+      },
+      "grading": [
+        [
+          "Reading quizzes & Homework",
+          20
+        ],
+        [
+          "Class participation",
+          25
+        ],
+        [
+          "Weekly Postings",
+          15
+        ],
+        [
+          "Final Essay",
+          10
+        ],
+        [
+          "Close Reading",
+          10
+        ],
+        [
+          "Presentations",
+          10
+        ],
+        [
+          "Book Review",
+          10
+        ]
+      ],
+      "grading_total": 100,
+      "grading_consistent": true,
+      "meetings": [],
+      "policies": [
+        "materials"
+      ],
+      "sections": 5,
+      "evidence": 9,
+      "grounded": 9,
+      "warnings": []
+    },
+    {
+      "id": "7b40ccd4e185",
+      "school": "Yale University",
+      "characters": 6913,
+      "read_seconds": 0.06,
+      "course": {
+        "instructor": "Paul Kockelman, Department of Anthropology"
+      },
+      "grading": [],
+      "grading_total": null,
+      "grading_consistent": null,
+      "meetings": [],
+      "policies": [],
+      "sections": 2,
+      "evidence": 1,
+      "grounded": 1,
+      "warnings": []
+    },
+    {
+      "id": "799d201bb8b8",
+      "school": "University of Florida",
+      "characters": 13124,
+      "read_seconds": 0.23,
+      "course": {
+        "course_title": "AMH4373: History of American Capitalism",
+        "course_code": "AMH4373",
+        "credits": 3.0
+      },
+      "grading": [
+        [
+          "Long Essays",
+          40
+        ],
+        [
+          "Brief Responses",
+          30
+        ],
+        [
+          "Final Essay Examination",
+          25
+        ],
+        [
+          "Attendance",
+          5
+        ]
+      ],
+      "grading_total": 100,
+      "grading_consistent": true,
+      "meetings": [],
+      "policies": [
+        "attendance_policy"
+      ],
+      "sections": 12,
+      "evidence": 8,
+      "grounded": 8,
+      "warnings": []
+    },
+    {
+      "id": "64ad5c967320",
+      "school": "University of Florida",
+      "characters": 8954,
+      "read_seconds": 0.2,
+      "course": {
+        "course_title": "Introduction to Statistics Theory",
+        "course_code": "STA 4322",
+        "instructor": "Demetris Athienitis"
+      },
+      "grading": [
+        [
+          "Homework",
+          20
+        ],
+        [
+          "Quizzes",
+          20
+        ]
+      ],
+      "grading_total": 40,
+      "grading_consistent": false,
+      "meetings": [],
+      "policies": [
+        "academic_integrity"
+      ],
+      "sections": 9,
+      "evidence": 6,
+      "grounded": 6,
+      "warnings": [
+        "grading weights sum to 40, not 100: the document may print nested sub-weights or the reader may have missed a row"
+      ]
+    },
+    {
+      "id": "63260c26aef4",
+      "school": "University of Florida",
+      "characters": 14311,
+      "read_seconds": 0.23,
+      "course": {
+        "course_code": "PCB3402",
+        "instructor": "Ana V. Longo"
+      },
+      "grading": [],
+      "grading_total": null,
+      "grading_consistent": null,
+      "meetings": [],
+      "policies": [
+        "office_hours"
+      ],
+      "sections": 11,
+      "evidence": 3,
+      "grounded": 2,
+      "warnings": [
+        "1 value(s) do not match their own source span: ['instructor']"
+      ]
+    },
+    {
+      "id": "8c890a2d29e3",
+      "school": "University of Florida",
+      "characters": 13079,
+      "read_seconds": 0.22,
+      "course": {
+        "course_title": "ECO 4934 : Econometrics II",
+        "course_code": "ECO 4934",
+        "instructor": "Dr. Perihan Saygin Fall 2018"
+      },
+      "grading": [
+        [
+          "Exam 1",
+          25
+        ],
+        [
+          "Exam 2",
+          25
+        ],
+        [
+          "Assignments",
+          40
+        ],
+        [
+          "Participation",
+          10
+        ]
+      ],
+      "grading_total": 100,
+      "grading_consistent": true,
+      "meetings": [],
+      "policies": [
+        "academic_integrity"
+      ],
+      "sections": 10,
+      "evidence": 8,
+      "grounded": 8,
+      "warnings": []
+    },
+    {
+      "id": "4346b068eff9",
+      "school": "University of Florida",
+      "characters": 15514,
+      "read_seconds": 0.16,
+      "course": {
+        "course_title": "ENG 4146: Long-Form Filmmaking",
+        "course_code": "ENG 4146",
+        "instructor": "Trevor Mowchun"
+      },
+      "grading": [],
+      "grading_total": null,
+      "grading_consistent": null,
+      "meetings": [],
+      "policies": [
+        "office_hours"
+      ],
+      "sections": 7,
+      "evidence": 4,
+      "grounded": 4,
+      "warnings": []
+    },
+    {
+      "id": "07d7460be7ff",
+      "school": "University of Florida",
+      "characters": 4575,
+      "read_seconds": 0.16,
+      "course": {
+        "course_title": "Course Code: ECO 3704",
+        "course_code": "ECO 3704",
+        "instructor": "Kristian Estevez (Kj719@ufl.edu)"
+      },
+      "grading": [
+        [
+          "Assignments",
+          10
+        ],
+        [
+          "Assignments 10% Assignments",
+          10
+        ],
+        [
+          "Midterm 1",
+          30
+        ],
+        [
+          "Midterm Midterm",
+          20
+        ],
+        [
+          "Midterm 2",
+          30
+        ]
+      ],
+      "grading_total": 100,
+      "grading_consistent": true,
+      "meetings": [],
+      "policies": [
+        "office_hours",
+        "academic_integrity",
+        "disability_services"
+      ],
+      "sections": 8,
+      "evidence": 11,
+      "grounded": 11,
+      "warnings": []
+    }
+  ]
+}

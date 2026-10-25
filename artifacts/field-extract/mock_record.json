@@ -1,0 +1,341 @@
+{
+  "course": {
+    "course_title": {
+      "value": "CHEM 1A: General Chemistry",
+      "field": "course_title",
+      "confidence": 0.86,
+      "rule": "code_bearing_title",
+      "evidence": {
+        "text": "CHEM 1A: General Chemistry",
+        "start": 0,
+        "end": 26
+      },
+      "occurrences": 1,
+      "grounded": true
+    },
+    "course_code": {
+      "value": "CHEM 1A",
+      "field": "course_code",
+      "confidence": 0.93,
+      "rule": "code_pattern",
+      "evidence": {
+        "text": "CHEM 1A",
+        "start": 0,
+        "end": 26
+      }
+    },
+    "credits": {
+      "value": 4.0,
+      "field": "credits",
+      "confidence": 0.95,
+      "rule": "credit_pattern",
+      "evidence": {
+        "text": "4 credit",
+        "start": 282,
+        "end": 314
+      }
+    },
+    "instructor": {
+      "value": "Dr. Maya Okonkwo",
+      "field": "instructor",
+      "confidence": 0.95,
+      "rule": "instructor_label",
+      "evidence": {
+        "text": "Dr. Maya Okonkwo",
+        "start": 52,
+        "end": 80
+      }
+    }
+  },
+  "grading": [
+    {
+      "category": "Homework",
+      "weight": 20,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Homework 20%",
+        "start": 437,
+        "end": 449
+      },
+      "weights_sum": 100,
+      "weights_sum_consistent": true
+    },
+    {
+      "category": "Laboratory",
+      "weight": 25,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Laboratory 25%",
+        "start": 450,
+        "end": 464
+      },
+      "weights_sum": 100,
+      "weights_sum_consistent": true
+    },
+    {
+      "category": "Midterm Exam",
+      "weight": 25,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Midterm Exam 25%",
+        "start": 465,
+        "end": 481
+      },
+      "weights_sum": 100,
+      "weights_sum_consistent": true
+    },
+    {
+      "category": "Final Exam",
+      "weight": 30,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Final Exam 30%",
+        "start": 482,
+        "end": 496
+      },
+      "weights_sum": 100,
+      "weights_sum_consistent": true
+    }
+  ],
+  "meetings": [
+    {
+      "days": [
+        "MO",
+        "WE",
+        "FR"
+      ],
+      "start_time": "09:10",
+      "end_time": "10:00",
+      "room": "Pimentel Hall",
+      "alternatives": false,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Lecture: MWF 9:10-10:00 AM in Pimentel Hall",
+        "start": 331,
+        "end": 374
+      }
+    },
+    {
+      "days": [
+        "TU",
+        "TH"
+      ],
+      "start_time": "14:00",
+      "end_time": "14:50",
+      "room": "Latimer 120",
+      "alternatives": false,
+      "confidence": 0.95,
+      "evidence": {
+        "text": "Discussion Section: TuTh 2:00-2:50 PM in Latimer 120",
+        "start": 375,
+        "end": 427
+      }
+    }
+  ],
+  "policies": {
+    "office_hours": {
+      "value": "Wednesdays 3-4 PM and Fridays 10-11 AM in Latimer 210",
+      "field": "office_hours",
+      "confidence": 0.9,
+      "evidence": {
+        "text": "Office Hours",
+        "start": 632,
+        "end": 645
+      },
+      "candidates": [
+        {
+          "value": "Wednesdays 3-4 PM and Fridays 10-11 AM in Latimer 210",
+          "confidence": 0.9,
+          "section": "Office Hours",
+          "status": "chosen",
+          "reason": null
+        }
+      ]
+    },
+    "attendance_policy": {
+      "value": "Lecture attendance is expected but not graded. Laboratory attendance is required; two unexcused lab absences lower the laboratory grade by one letter",
+      "field": "attendance_policy",
+      "confidence": 0.8,
+      "evidence": {
+        "text": "Attendance",
+        "start": 701,
+        "end": 712
+      },
+      "candidates": [
+        {
+          "value": "Lecture attendance is expected but not graded. Laboratory attendance is required; two unexcused lab absences lower the laboratory grade by one letter",
+          "confidence": 0.8,
+          "section": "Attendance",
+          "status": "chosen",
+          "reason": null
+        }
+      ]
+    },
+    "academic_integrity": {
+      "value": "All submitted work must be your own. Collaborating on homework is permitted; copying another student's write-up is not",
+      "field": "academic_integrity",
+      "confidence": 0.8,
+      "evidence": {
+        "text": "Academic Integrity",
+        "start": 864,
+        "end": 883
+      },
+      "candidates": [
+        {
+          "value": "All submitted work must be your own. Collaborating on homework is permitted; copying another student's write-up is not",
+          "confidence": 0.8,
+          "section": "Academic Integrity",
+          "status": "chosen",
+          "reason": null
+        }
+      ]
+    },
+    "disability_services": {
+      "value": "Students needing accommodations should contact the Disabled Students Program within the first two weeks of the term so arrangements can be made",
+      "field": "disability_services",
+      "confidence": 0.8,
+      "evidence": {
+        "text": "Students with Disabilities",
+        "start": 1004,
+        "end": 1031
+      },
+      "candidates": [
+        {
+          "value": "Students needing accommodations should contact the Disabled Students Program within the first two weeks of the term so arrangements can be made",
+          "confidence": 0.8,
+          "section": "Students with Disabilities",
+          "status": "chosen",
+          "reason": null
+        }
+      ]
+    }
+  },
+  "suppressed": [
+    {
+      "field": "course_title",
+      "value": "Fall 2026 \u2014 Section 002",
+      "reason": "a session or term line",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Email: mokonkwo@example.edu",
+      "reason": "a contact line",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Course Description",
+      "reason": "generic section heading",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Class Meetings",
+      "reason": "a session or term line",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Lecture: MWF 9:10-10:00 AM in Pimentel Hall",
+      "reason": "a session or term line",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Discussion Section: TuTh 2:00-2:50 PM in Latimer 120",
+      "reason": "a clock time",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Grading",
+      "reason": "a section heading",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Laboratory 25%",
+      "reason": "a session or term line",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Midterm: Thursday, October 15, 7:00-9:00 PM, Wheeler Auditorium",
+      "reason": "a place name",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Final: Tuesday, December 15, 7:00-10:00 PM, Wheeler Auditorium",
+      "reason": "a place name",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Office Hours",
+      "reason": "a section heading",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Lecture attendance is expected but not graded. Laboratory attendance is",
+      "reason": "a session or term line",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Homework 20%",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 2.45"
+    },
+    {
+      "field": "course_title",
+      "value": "Midterm Exam 25%",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 2.44"
+    },
+    {
+      "field": "course_title",
+      "value": "Final Exam 30%",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 2.44"
+    },
+    {
+      "field": "course_title",
+      "value": "Wednesdays 3-4 PM and Fridays 10-11 AM in Latimer 210",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 2.42"
+    },
+    {
+      "field": "course_code",
+      "value": "MWF 9",
+      "reason": "line is about a place, not the course",
+      "evidence": "Lecture: MWF 9:10-10:00 AM in Pimentel Hall"
+    },
+    {
+      "field": "meetings",
+      "value": "Midterm Exam 25%",
+      "reason": "an exam line, not a class meeting",
+      "evidence": "Midterm Exam 25%"
+    },
+    {
+      "field": "meetings",
+      "value": "Final Exam 30%",
+      "reason": "an exam line, not a class meeting",
+      "evidence": "Final Exam 30%"
+    },
+    {
+      "field": "meetings",
+      "value": "Office Hours",
+      "reason": "an office-hours line, not a class meeting",
+      "evidence": "Office Hours"
+    }
+  ],
+  "sections_typed": 9,
+  "min_confidence": 0.0,
+  "grading_total_percent": 100,
+  "grading_total_consistent": true,
+  "source": "data/samples/mock_syllabus.txt",
+  "checkpoint": "artifacts/field-classifier-minilm"
+}

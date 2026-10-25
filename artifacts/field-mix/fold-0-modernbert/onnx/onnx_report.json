@@ -1,0 +1,42 @@
+{
+  "checkpoint": "artifacts\\field-mix\\fold-0-modernbert",
+  "base_model": "answerdotai/ModernBERT-base",
+  "parameter_count": 149046570,
+  "labels": 42,
+  "max_length": 160,
+  "rows": 200,
+  "sizes_bytes": {
+    "pytorch_checkpoint": 596221395,
+    "onnx_fp32": 596833193,
+    "onnx_int8": 150135186
+  },
+  "parity": {
+    "fp32_max_abs_logit_diff": 6.29425048828125e-05,
+    "fp32_label_agreement": 1.0,
+    "int8_label_agreement": 0.755
+  },
+  "accuracy_on_file": {
+    "pytorch": 0.735,
+    "onnx_fp32": 0.735,
+    "onnx_int8": 0.615
+  },
+  "cpu_latency": {
+    "threads": 4,
+    "rows": 200,
+    "pytorch": {
+      "latency_ms_p50": 97.55679999943823,
+      "latency_ms_p95": 173.83970005903393,
+      "mean_ms": 93.71067600266542
+    },
+    "onnx_fp32": {
+      "latency_ms_p50": 90.41289996821433,
+      "latency_ms_p95": 193.5832001036033,
+      "mean_ms": 86.58237049705349
+    },
+    "onnx_int8": {
+      "latency_ms_p50": 50.41810008697212,
+      "latency_ms_p95": 104.72000006120652,
+      "mean_ms": 46.7252830020152
+    }
+  }
+}

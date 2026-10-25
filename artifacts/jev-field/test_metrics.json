@@ -1,0 +1,164 @@
+{
+  "checkpoint": "",
+  "model": "choice",
+  "rows": 7571,
+  "skipped_outside_vocabulary": 0,
+  "accuracy": 0.9981508387267204,
+  "macro_f1": 0.9155448085562949,
+  "weighted_f1": 0.9982271922293536,
+  "mean_confidence": 0.9987709556808718,
+  "ece_10bin": 0.000724064856629956,
+  "temperature": 0.5794634819030762,
+  "per_class_f1": {
+    "course_title": 0.999137187230371,
+    "course_code": 1.0,
+    "course_description": 0.9983108108108109,
+    "program": 1.0,
+    "course_level": 1.0,
+    "class_type": 1.0,
+    "instructor": 0.9962825278810409,
+    "office_hours": 0.8181818181818182,
+    "contact_information": 1.0,
+    "credits": 0.9696969696969697,
+    "capacity": 1.0,
+    "class_section": 1.0,
+    "entry_requirements": 1.0,
+    "restrictions": 1.0,
+    "confirmation": 1.0,
+    "prerequisites": 1.0,
+    "course_content": 0.9991063449508489,
+    "learning_outcomes": 1.0,
+    "teaching_form": 1.0,
+    "materials": 0.6153846153846154,
+    "weekly_readings": 1.0,
+    "assignments": 0.990990990990991,
+    "due_date": 1.0,
+    "grading_policy": 0.9411764705882353,
+    "grades": 1.0,
+    "assessment": 1.0,
+    "course_evaluation": 1.0,
+    "meeting_time": 1.0,
+    "meeting_days": 1.0,
+    "class_meeting_room": 1.0,
+    "course_schedule": 1.0,
+    "exam_schedule": 0.8888888888888888,
+    "session_dates": 1.0,
+    "term": 1.0,
+    "attendance_policy": 0.0,
+    "disability_services": 0.5,
+    "additional_information": 0.9890909090909091,
+    "other": 1.0
+  },
+  "per_class_support": {
+    "course_title": 579,
+    "course_code": 627,
+    "course_description": 593,
+    "program": 79,
+    "course_level": 177,
+    "class_type": 1,
+    "instructor": 268,
+    "office_hours": 13,
+    "contact_information": 544,
+    "credits": 17,
+    "capacity": 14,
+    "class_section": 208,
+    "entry_requirements": 468,
+    "restrictions": 39,
+    "confirmation": 453,
+    "prerequisites": 234,
+    "course_content": 560,
+    "learning_outcomes": 570,
+    "teaching_form": 437,
+    "materials": 4,
+    "weekly_readings": 2,
+    "assignments": 56,
+    "due_date": 4,
+    "grading_policy": 16,
+    "grades": 357,
+    "assessment": 554,
+    "course_evaluation": 365,
+    "meeting_time": 49,
+    "meeting_days": 3,
+    "class_meeting_room": 77,
+    "course_schedule": 22,
+    "exam_schedule": 5,
+    "session_dates": 7,
+    "term": 7,
+    "attendance_policy": 2,
+    "disability_services": 1,
+    "additional_information": 138,
+    "other": 21
+  },
+  "top_confusions": [
+    [
+      "office_hours -> instructor",
+      2
+    ],
+    [
+      "office_hours -> materials",
+      2
+    ],
+    [
+      "course_description -> additional_information",
+      1
+    ],
+    [
+      "course_description -> course_title",
+      1
+    ],
+    [
+      "credits -> materials",
+      1
+    ],
+    [
+      "course_content -> materials",
+      1
+    ],
+    [
+      "additional_information -> materials",
+      1
+    ],
+    [
+      "additional_information -> disability_services",
+      1
+    ],
+    [
+      "assignments -> grading_policy",
+      1
+    ],
+    [
+      "exam_schedule -> grading_policy",
+      1
+    ],
+    [
+      "attendance_policy -> disability_services",
+      1
+    ],
+    [
+      "attendance_policy -> academic_integrity",
+      1
+    ]
+  ],
+  "classification_report": {
+    "macro avg": {
+      "precision": 0.9381641013488221,
+      "recall": 0.9577888387065334,
+      "f1-score": 0.939638092991987,
+      "support": 7571.0
+    },
+    "weighted avg": {
+      "precision": 0.9985923356248853,
+      "recall": 0.9981508387267204,
+      "f1-score": 0.9982271922293536,
+      "support": 7571.0
+    }
+  },
+  "rows_file": "data/processed/field_mix/test.jsonl",
+  "baseline": {
+    "model": "BAAI/bge-small-en-v1.5",
+    "accuracy": 0.9981508387267204,
+    "macro_f1": 0.9713135241318801,
+    "weighted_f1": 0.9981476309720257,
+    "ece_10bin": 0.0012490329071987304
+  }
+}

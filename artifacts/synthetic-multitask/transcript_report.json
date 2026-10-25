@@ -1,0 +1,246 @@
+{
+  "checkpoint": "artifacts/synthetic-multitask",
+  "model_scope": "synthetic_text_only_unvalidated_on_real_documents",
+  "document_type": {
+    "label": "transcript",
+    "confidence": 0.9917234314812554,
+    "probabilities": {
+      "syllabus": 0.0009002304286696017,
+      "schedule": 0.0007974511827342212,
+      "gradebook": 0.0007849811809137464,
+      "transcript": 0.9925510883331299,
+      "report_card": 0.0006448300555348396,
+      "course_catalog": 0.000824464310426265,
+      "requirements": 0.0009872016962617636,
+      "assignment_sheet": 0.0010044180089607835,
+      "course_selection": 0.0008843355462886393,
+      "other": 0.0006210597930476069
+    }
+  },
+  "transcript_triggered_by": "both",
+  "model_entity_scores": {
+    "gold_spans": 220,
+    "predicted_spans": 220,
+    "true_positive_spans": 220,
+    "false_positive_spans": 0,
+    "false_negative_spans": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "per_entity_type": {
+      "COURSE": {
+        "support": 41,
+        "predicted": 41,
+        "true_positive": 41,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "CREDIT": {
+        "support": 39,
+        "predicted": 39,
+        "true_positive": 39,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "DATE": {
+        "support": 42,
+        "predicted": 42,
+        "true_positive": 42,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "GRADE_LEVEL": {
+        "support": 41,
+        "predicted": 41,
+        "true_positive": 41,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "MARK": {
+        "support": 38,
+        "predicted": 38,
+        "true_positive": 38,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERFORMANCE_LEVEL": {
+        "support": 3,
+        "predicted": 3,
+        "true_positive": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "SCHOOL": {
+        "support": 1,
+        "predicted": 1,
+        "true_positive": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "SCORE": {
+        "support": 3,
+        "predicted": 3,
+        "true_positive": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "STUDENT": {
+        "support": 1,
+        "predicted": 1,
+        "true_positive": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "SUBJECT_AREA": {
+        "support": 11,
+        "predicted": 11,
+        "true_positive": 11,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    }
+  },
+  "model_entity_counts_by_type": {
+    "COURSE": 41,
+    "CREDIT": 39,
+    "DATE": 42,
+    "GRADE_LEVEL": 41,
+    "LITERAL_CANDIDATE": 1,
+    "MARK": 38,
+    "PERFORMANCE_LEVEL": 3,
+    "SCHOOL": 1,
+    "SCORE": 3,
+    "STUDENT": 1,
+    "SUBJECT_AREA": 11
+  },
+  "model_entity_examples": {
+    "SCHOOL": [
+      "Pacific High School"
+    ],
+    "STUDENT": [
+      "Lepid, Arthur"
+    ],
+    "LITERAL_CANDIDATE": [
+      "4/1/89"
+    ],
+    "SUBJECT_AREA": [
+      "ELECTIVE",
+      "LANGUAGE ARTS",
+      "MATH",
+      "PHYSICAL EDUCATION"
+    ],
+    "DATE": [
+      "03/20/04",
+      "03/20/05",
+      "05/30/05",
+      "10/30/03"
+    ],
+    "GRADE_LEVEL": [
+      "09",
+      "10",
+      "10",
+      "09"
+    ],
+    "COURSE": [
+      "Elective Intensive",
+      "Elective Intensive",
+      "Intro to Programming",
+      "CE - Math"
+    ],
+    "MARK": [
+      "A",
+      "NC",
+      "B+",
+      "A"
+    ],
+    "CREDIT": [
+      "0.250",
+      "0.000",
+      "0.500",
+      "0.250"
+    ],
+    "SCORE": [
+      "337",
+      "273",
+      "258"
+    ],
+    "PERFORMANCE_LEVEL": [
+      "3 Proficient",
+      "2 Not Proficient",
+      "2 Not Proficient"
+    ]
+  },
+  "parser_summary": {
+    "document_title": "ACADEMIC HISTORY",
+    "student_name": "Lepid, Arthur",
+    "school": "Pacific High School",
+    "course_records": 38,
+    "assessment_records": 3,
+    "sections": [
+      "ELECTIVE",
+      "LANGUAGE ARTS",
+      "MATH",
+      "PHYSICAL EDUCATION",
+      "SCHOOL & COMMUNITY RELATIONS",
+      "SCIENCE",
+      "SOCIAL STUDIES",
+      "VOCATIONAL",
+      "AK HSGQE READING",
+      "AK HSGQE WRITING",
+      "AK HSGQE MATH"
+    ],
+    "computed_total_credits": 13.25,
+    "reported_total_credits": 13.25,
+    "gpa": null,
+    "column_interleaving_detected": false,
+    "credit_sum_matches_reported_total": true
+  },
+  "parser_checks": {
+    "course_record_count": 38,
+    "assessment_record_count": 3,
+    "computed_total_credits": 13.25,
+    "reported_total_credits": 13.25,
+    "credit_sum_matches_reported_total": true,
+    "credit_sum_difference": 0.0,
+    "records_without_title": 0,
+    "records_without_section": 0,
+    "records_per_subject_area": {
+      "ELECTIVE": 3,
+      "LANGUAGE ARTS": 11,
+      "MATH": 4,
+      "PHYSICAL EDUCATION": 2,
+      "SCHOOL & COMMUNITY RELATIONS": 8,
+      "SCIENCE": 4,
+      "SOCIAL STUDIES": 5,
+      "VOCATIONAL": 1
+    },
+    "column_interleaving_detected": false,
+    "unattached_performance_levels": 0,
+    "gpa_present": false
+  },
+  "model_entity_count": 221,
+  "headline": {
+    "document_type_label": "transcript",
+    "entity_span_f1": 1.0,
+    "entity_span_precision": 1.0,
+    "entity_span_recall": 1.0,
+    "course_records": 38,
+    "assessment_records": 3,
+    "subject_areas": 11,
+    "computed_total_credits": 13.25,
+    "reported_total_credits": 13.25,
+    "credit_sum_matches_reported_total": true,
+    "gpa": null
+  },
+  "note": "Entity reference spans come from the deterministic parser (independent of the neural tagger). Record-level results are the parser's, with the document's own reported totals used as the consistency check."
+}

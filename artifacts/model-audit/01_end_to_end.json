@@ -1,0 +1,309 @@
+{
+  "documents": [
+    {
+      "document": {
+        "school": "Yale University",
+        "id": "774089f9e016",
+        "characters": 2530
+      },
+      "sections_detected": 6,
+      "sections_typed": [
+        {
+          "heading": "• Instructor: Meghan Anderson (call me Meghan or Professor Anderson)",
+          "label": "instructor",
+          "confidence": 0.9902,
+          "source": "heading",
+          "jev_label": "instructor",
+          "jev_percent": 99.88
+        },
+        {
+          "heading": "• Class Times: Mondays, Wednesdays, and Fridays 1:00 - 3:15 pm on Zoom",
+          "label": "office_hours",
+          "confidence": 0.9895,
+          "source": "heading",
+          "jev_label": "office_hours",
+          "jev_percent": 99.49
+        },
+        {
+          "heading": "• Office Hours: TBD",
+          "label": "office_hours",
+          "confidence": 0.9999,
+          "source": "heading",
+          "jev_label": "office_hours",
+          "jev_percent": 99.87
+        },
+        {
+          "heading": "Course Description",
+          "label": "course_description",
+          "confidence": 0.9266,
+          "source": "heading",
+          "jev_label": "course_description",
+          "jev_percent": 99.05
+        },
+        {
+          "heading": "Textbook",
+          "label": "weekly_readings",
+          "confidence": 0.9977,
+          "source": "heading",
+          "jev_label": "materials",
+          "jev_percent": 99.93
+        },
+        {
+          "heading": "Assessment",
+          "label": "assessment",
+          "confidence": 0.9957,
+          "source": "heading",
+          "jev_label": "assessment",
+          "jev_percent": 99.88
+        }
+      ],
+      "record": {
+        "course": {},
+        "grading": [
+          {
+            "category": "Class Participation",
+            "weight": 10,
+            "confidence": 0.95
+          },
+          {
+            "category": "Homework",
+            "weight": 30,
+            "confidence": 0.95
+          },
+          {
+            "category": "Midterm Exam",
+            "weight": 30,
+            "confidence": 0.95
+          },
+          {
+            "category": "Final Exam",
+            "weight": 30,
+            "confidence": 0.95
+          }
+        ],
+        "grading_total": 100,
+        "meetings": [],
+        "policies": {
+          "office_hours": "Mondays, Wednesdays, and Fridays 1:00 - 3:15 pm on Zoom"
+        },
+        "suppressed": 22
+      },
+      "section_seconds": 0.06
+    },
+    {
+      "document": {
+        "school": "Yale University",
+        "id": "eb3044257d2a",
+        "characters": 7454
+      },
+      "sections_detected": 7,
+      "sections_typed": [
+        {
+          "heading": "Course Description",
+          "label": "course_description",
+          "confidence": 0.9266,
+          "source": "heading",
+          "jev_label": "course_description",
+          "jev_percent": 99.05
+        },
+        {
+          "heading": "Instructor: Frank Robinson",
+          "label": "instructor",
+          "confidence": 0.9956,
+          "source": "heading",
+          "jev_label": "instructor",
+          "jev_percent": 99.89
+        },
+        {
+          "heading": "• Office Hours: Schedule via email",
+          "label": "office_hours",
+          "confidence": 0.9997,
+          "source": "heading",
+          "jev_label": "office_hours",
+          "jev_percent": 99.87
+        },
+        {
+          "heading": "• Email: frank.robinson@yale.edu",
+          "label": "contact_information",
+          "confidence": 0.9925,
+          "source": "heading",
+          "jev_label": "contact_information",
+          "jev_percent": 99.88
+        },
+        {
+          "heading": "• Office Hours: Schedule via email",
+          "label": "office_hours",
+          "confidence": 0.9997,
+          "source": "heading",
+          "jev_label": "office_hours",
+          "jev_percent": 99.87
+        },
+        {
+          "heading": "• Email: iver.warburton@yale.edu",
+          "label": "contact_information",
+          "confidence": 0.9926,
+          "source": "heading",
+          "jev_label": "contact_information",
+          "jev_percent": 99.87
+        },
+        {
+          "heading": "Learning goals",
+          "label": "course_title",
+          "confidence": 0.9528,
+          "source": "heading",
+          "jev_label": "learning_outcomes",
+          "jev_percent": 99.87
+        }
+      ],
+      "record": {
+        "course": {
+          "course_title": "Hollywood Astrophysics",
+          "instructor": "Frank Robinson"
+        },
+        "grading": [
+          {
+            "category": "Exam 1",
+            "weight": 20,
+            "confidence": 0.9
+          },
+          {
+            "category": "Exam 2",
+            "weight": 20,
+            "confidence": 0.9
+          },
+          {
+            "category": "Exam 3",
+            "weight": 20,
+            "confidence": 0.9
+          },
+          {
+            "category": "participation",
+            "weight": 10,
+            "confidence": 0.9
+          }
+        ],
+        "grading_total": 70,
+        "meetings": [
+          {
+            "days": [
+              "MO",
+              "WE"
+            ],
+            "start": "10:00",
+            "end": "11:30",
+            "room": null
+          }
+        ],
+        "policies": {
+          "office_hours": "Schedule via email"
+        },
+        "suppressed": 9
+      },
+      "section_seconds": 0.05
+    },
+    {
+      "document": {
+        "school": "Yale University",
+        "id": "1d9d02bcf058",
+        "characters": 10928
+      },
+      "sections_detected": 10,
+      "sections_typed": [
+        {
+          "heading": "Semester: Summer 2025",
+          "label": "term",
+          "confidence": 0.9763,
+          "source": "heading",
+          "jev_label": "term",
+          "jev_percent": 97.19
+        },
+        {
+          "heading": "Meeting Time: TTH 7:00p.m.-8:30p.m.",
+          "label": "office_hours",
+          "confidence": 0.9952,
+          "source": "heading",
+          "jev_label": "meeting_time",
+          "jev_percent": 99.87
+        },
+        {
+          "heading": "Office Hours: F 3:00-4:00",
+          "label": "office_hours",
+          "confidence": 0.9997,
+          "source": "heading",
+          "jev_label": "office_hours",
+          "jev_percent": 99.86
+        },
+        {
+          "heading": "Email: amir.fairdosi@yale.edu",
+          "label": "contact_information",
+          "confidence": 0.9925,
+          "source": "heading",
+          "jev_label": "contact_information",
+          "jev_percent": 99.88
+        },
+        {
+          "heading": "Course Description",
+          "label": "course_description",
+          "confidence": 0.9266,
+          "source": "heading",
+          "jev_label": "course_description",
+          "jev_percent": 99.05
+        },
+        {
+          "heading": "Course Format",
+          "label": "course_content",
+          "confidence": 0.8718,
+          "source": "heading",
+          "jev_label": "course_schedule",
+          "jev_percent": 99.84
+        },
+        {
+          "heading": "Reading",
+          "label": "weekly_readings",
+          "confidence": 0.9999,
+          "source": "heading",
+          "jev_label": "course_policies",
+          "jev_percent": 32.76
+        },
+        {
+          "heading": "Reading",
+          "label": "weekly_readings",
+          "confidence": 0.9999,
+          "source": "heading",
+          "jev_label": "course_policies",
+          "jev_percent": 32.76
+        },
+        {
+          "heading": "Reading",
+          "label": "weekly_readings",
+          "confidence": 0.9999,
+          "source": "heading",
+          "jev_label": "course_policies",
+          "jev_percent": 32.76
+        },
+        {
+          "heading": "Reading",
+          "label": "weekly_readings",
+          "confidence": 0.9999,
+          "source": "heading",
+          "jev_label": "course_policies",
+          "jev_percent": 32.76
+        }
+      ],
+      "record": {
+        "course": {
+          "course_title": "PLSC 227: The U.S. Congress (Yale Summer Session Online)",
+          "course_code": "PLSC 227"
+        },
+        "grading": [],
+        "grading_total": null,
+        "meetings": [],
+        "policies": {
+          "office_hours": "F 3:00-4:00"
+        },
+        "suppressed": 11
+      },
+      "section_seconds": 0.08
+    }
+  ]
+}

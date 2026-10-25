@@ -1,0 +1,129 @@
+{
+  "schema_version": "pace.academic-ir/0.3",
+  "schema": {
+    "version": "pace.academic-ir/0.3",
+    "migrated_from": null,
+    "id_policy": "sha256(document_id, kind, origin); stable across reads"
+  },
+  "document": {
+    "id": "doc_de21a75d6bf582b1",
+    "characters": 225,
+    "cleaned_characters": 225,
+    "truncated_for_evidence": false,
+    "evidence_coordinates": "cleaned_text",
+    "sections_detected": 0,
+    "sections_suppressed": 0,
+    "entities_suppressed": 0,
+    "gate": "blocked",
+    "document_type": {
+      "label": "other",
+      "proposed_label": "other",
+      "confidence": 0.9402,
+      "academic": false,
+      "abstained": true,
+      "top": [
+        {
+          "label": "other",
+          "probability": 0.9402
+        },
+        {
+          "label": "course_catalog",
+          "probability": 0.0412
+        },
+        {
+          "label": "syllabus",
+          "probability": 0.0127
+        }
+      ]
+    },
+    "document_type_unavailable_because": null
+  },
+  "course": {},
+  "grading": [],
+  "grading_total_percent": null,
+  "grading_total_consistent": null,
+  "meetings": [],
+  "policies": {},
+  "sections": [],
+  "entities": [],
+  "relations": [],
+  "evidence": [],
+  "suppressed": [
+    {
+      "field": "course_title",
+      "value": "BLUE BOTTLE COFFEE",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 1.10"
+    },
+    {
+      "field": "course_title",
+      "value": "Total 14.41",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 0.01"
+    },
+    {
+      "field": "course_title",
+      "value": "Thank you",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 0.00"
+    },
+    {
+      "field": "course_title",
+      "value": "Subtotal 13.25",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 0.00"
+    },
+    {
+      "field": "course_title",
+      "value": "Tax 1.16",
+      "reason": "ranked below the chosen line",
+      "evidence": "score 0.00"
+    },
+    {
+      "field": "course_title",
+      "value": "Order #4471 Table 12",
+      "reason": "document_type_not_academic",
+      "evidence": "Order #4471 Table 12"
+    }
+  ],
+  "confidence": {
+    "sections_in_distribution_ece": 0.0016,
+    "sections_unseen_university_ece": 0.1665,
+    "sections_unseen_university_accuracy": 0.783,
+    "rule_values_development_precision": 0.917,
+    "rule_values_holdout_precision": 0.955,
+    "holdout_documents": 12,
+    "alt_reader": {
+      "checkpoint": "artifacts/jev-field-v4",
+      "sections_in_distribution_ece": 0.001,
+      "sections_unseen_documents_ece": 0.1325,
+      "sections_unseen_documents_accuracy": 0.839,
+      "value_level_gold_precision": 0.939,
+      "value_level_gold_lower_95": 0.867,
+      "why_not_default": "picked a grading line as course_title on a sample syllabus"
+    },
+    "bands": {
+      "high": ">=0.97",
+      "medium": "0.85-0.97",
+      "low": "<0.85"
+    },
+    "bands_apply_to": "section labels only (model probabilities)",
+    "value_confidences": "set by the rule that read the value (0.60-0.97), not a probability; their measured precision is the rule number above",
+    "note": "A high band is a preselect-and-confirm signal, not an assertion. On unseen universities 0.98+ model confidence measured 0.828 precision. Every value this module returns requires a human confirmation."
+  },
+  "model": {
+    "engine_version": "0.3.0",
+    "checkpoint": "artifacts/field-classifier-minilm",
+    "context_checkpoint": "artifacts/field-classifier-context",
+    "family": "encoder-classifier",
+    "parameters": 22729386,
+    "max_state_tokens": 256,
+    "temperature": 0.6466508507728577,
+    "document_type_checkpoint": "artifacts\\doc-type"
+  },
+  "warnings": [
+    "this does not look like an academic document (other 0.94); extraction was suppressed and no academic fields are returned"
+  ],
+  "requires_confirmation": true,
+  "commit_policy": "proposals_only_user_confirmation_required"
+}

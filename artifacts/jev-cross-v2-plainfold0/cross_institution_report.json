@@ -1,0 +1,28 @@
+{
+  "folds": 1,
+  "pooled_test_rows": 447,
+  "mean_test_accuracy": 0.7404921700223713,
+  "std_test_accuracy": 0.0,
+  "mean_test_macro_f1": 0.45985760740083276,
+  "std_test_macro_f1": 0.0,
+  "results": [
+    {
+      "fold": 0,
+      "holdout_schools": [
+        "Massachusetts Institute of Technology",
+        "Pennsylvania State University",
+        "The Ohio State University",
+        "University of California, Berkeley",
+        "University of California, Los Angeles"
+      ],
+      "test_rows": 447,
+      "test_accuracy": 0.7404921700223713,
+      "test_macro_f1": 0.45985760740083276,
+      "test_weighted_f1": 0.7683001268764516,
+      "test_ece_10bin": 0.20966868559252766,
+      "test_per_class_f1": null,
+      "test_per_class_support": null,
+      "test_top_confusions": null
+    }
+  ]
+}

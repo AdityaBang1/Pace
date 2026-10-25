@@ -1,0 +1,594 @@
+{
+  "checkpoint": "artifacts/jev-field-v2",
+  "window_tokens": 127,
+  "documents": [
+    {
+      "document_id": "4f58ca74575e076196ec49ae72808dbc0bd19b4544e73f19e303e0a4d30d39f1",
+      "school": "University of California, Los Angeles",
+      "title": "SOCIOL 1 Introductory Sociology",
+      "characters": 396667,
+      "naive_truncated_read": {
+        "field": "other",
+        "percent": 99.81
+      },
+      "sections_found": 679,
+      "sections_classified": 283,
+      "coverage": 0.4167893961708395,
+      "methods": [
+        "window"
+      ],
+      "distinct_fields": 22,
+      "heading_body_agreement": null,
+      "top_fields": [
+        [
+          "other",
+          396
+        ],
+        [
+          "course_description",
+          73
+        ],
+        [
+          "assignments",
+          48
+        ],
+        [
+          "meeting_time",
+          47
+        ],
+        [
+          "office_hours",
+          25
+        ],
+        [
+          "additional_information",
+          20
+        ],
+        [
+          "class_meeting_room",
+          16
+        ],
+        [
+          "course_title",
+          10
+        ]
+      ],
+      "seconds": 18.3,
+      "sections_per_second": 37.1
+    },
+    {
+      "document_id": "699043231aba2b8a327f33373251f8aa79314682441c05f38606eef525221c2a",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "CS 125 Spring 2019 Syllabus",
+      "characters": 64639,
+      "naive_truncated_read": {
+        "field": "class_meeting_room",
+        "percent": 92.99
+      },
+      "sections_found": 21,
+      "sections_classified": 19,
+      "coverage": 0.9047619047619048,
+      "methods": [
+        "heading"
+      ],
+      "distinct_fields": 11,
+      "heading_body_agreement": null,
+      "top_fields": [
+        [
+          "course_description",
+          5
+        ],
+        [
+          "assessment",
+          3
+        ],
+        [
+          "grades",
+          2
+        ],
+        [
+          "other",
+          2
+        ],
+        [
+          "grading_policy",
+          2
+        ],
+        [
+          "course_content",
+          2
+        ],
+        [
+          "course_title",
+          1
+        ],
+        [
+          "meeting_days",
+          1
+        ]
+      ],
+      "seconds": 0.41,
+      "sections_per_second": 51.5
+    }
+  ],
+  "results": [
+    {
+      "document_id": "4f58ca74575e076196ec49ae72808dbc0bd19b4544e73f19e303e0a4d30d39f1",
+      "school": "University of California, Los Angeles",
+      "title": "SOCIOL 1 Introductory Sociology",
+      "characters": 396667,
+      "naive_truncated_read": {
+        "field": "other",
+        "percent": 99.81
+      },
+      "sections_found": 679,
+      "sections_classified": 283,
+      "coverage": 0.4167893961708395,
+      "methods": [
+        "window"
+      ],
+      "distinct_fields": 22,
+      "heading_body_agreement": null,
+      "top_fields": [
+        [
+          "other",
+          396
+        ],
+        [
+          "course_description",
+          73
+        ],
+        [
+          "assignments",
+          48
+        ],
+        [
+          "meeting_time",
+          47
+        ],
+        [
+          "office_hours",
+          25
+        ],
+        [
+          "additional_information",
+          20
+        ],
+        [
+          "class_meeting_room",
+          16
+        ],
+        [
+          "course_title",
+          10
+        ]
+      ],
+      "seconds": 18.3,
+      "sections_per_second": 37.1,
+      "sections": [
+        {
+          "heading": "Introductory Sociology window.__SITE_ENV_CONFIG__ = {\"API_DOMAIN\":\"api-us-west-1",
+          "method": "window",
+          "field": "other",
+          "percent": 99.81
+        },
+        {
+          "heading": "()); gtag('config', 'UA-201168662-1', { page_path: window.location.pathname, });",
+          "method": "window",
+          "field": "other",
+          "percent": 95.75
+        },
+        {
+          "heading": "}h4{color:#003B5C;font-size:16px;font-weight:bolder;}h5{font-size:14px;}h6{font-",
+          "method": "window",
+          "field": "other",
+          "percent": 82.65
+        },
+        {
+          "heading": "rial-icons.md-dark.md-inactive{color:rgba(0, 0, 0, 0.26);}.material-icons.md-lig",
+          "method": "window",
+          "field": "other",
+          "percent": 86.0
+        },
+        {
+          "heading": ":1px;width:1px;margin:-1px;padding:0;border:0;}a:not([data-ignore-global-target]",
+          "method": "window",
+          "field": "meeting_time",
+          "percent": 82.65
+        },
+        {
+          "heading": "rget])[target='_blank']:before{display:none;}}a:not([data-ignore-global-target])",
+          "method": "window",
+          "field": "other",
+          "percent": 99.7
+        },
+        {
+          "heading": "get])[target='_blank']:before{display:none;}.readmore-content-wrapper a:not([dat",
+          "method": "window",
+          "field": "other",
+          "percent": 99.81
+        },
+        {
+          "heading": "{font-size:12px;}.unswfeestable th,.unswfeestable td{text-align:left;color:#6464",
+          "method": "window",
+          "field": "other",
+          "percent": 98.04
+        },
+        {
+          "heading": "table tr,.unswfeestable td{display:block;}.unswfeestable thead,.unswfeestable th",
+          "method": "window",
+          "field": "course_description",
+          "percent": 43.65
+        },
+        {
+          "heading": "ch'],nav,#dropdownmenu,[class*='BreadcrumbsBar'],[class*='NavMenuItemContainer']",
+          "method": "window",
+          "field": "other",
+          "percent": 99.75
+        },
+        {
+          "heading": "ordionContentContainer'],[class*='SAccordionBodyContainer'],[class*='SAccordionB",
+          "method": "window",
+          "field": "other",
+          "percent": 99.8
+        },
+        {
+          "heading": "ainer']{white-space:initial!important;}[class*='SAccordionRegion']{visibility:vi",
+          "method": "window",
+          "field": "other",
+          "percent": 98.99
+        },
+        {
+          "heading": "ner'],.wrapper-sb{padding-left:0!important;}.academicItem [class*='BannerSection",
+          "method": "window",
+          "field": "other",
+          "percent": 92.26
+        },
+        {
+          "heading": "div{padding:0 1rem;}[class*='HtmlContent--Content']{width:100%!important;}[class",
+          "method": "window",
+          "field": "other",
+          "percent": 90.29
+        },
+        {
+          "heading": "ms-flex-direction:column;flex-direction:column;min-height:100vh;}} .css-1gkxfg3-",
+          "method": "window",
+          "field": "class_meeting_room",
+          "percent": 58.45
+        },
+        {
+          "heading": "er .wrapper .logo,.css-1gkxfg3-styled--SHeader .wrapper .title,.css-1gkxfg3-styl",
+          "method": "window",
+          "field": "other",
+          "percent": 32.81
+        },
+        {
+          "heading": "h: 767px) and (min-width: 576px){.css-1gkxfg3-styled--SHeader .main .logo{margin",
+          "method": "window",
+          "field": "other",
+          "percent": 65.68
+        },
+        {
+          "heading": "n .logo img{max-width:100px;}.css-1gkxfg3-styled--SHeader .main [class*='Flex']:",
+          "method": "window",
+          "field": "grading_policy",
+          "percent": 40.33
+        },
+        {
+          "heading": "focus{margin:3px;background-color:rgba(0, 0, 0, 0.2);outline:2px solid #003B5C;}",
+          "method": "window",
+          "field": "class_meeting_room",
+          "percent": 58.37
+        },
+        {
+          "heading": "fy-content:flex-end;justify-content:flex-end;}@media screen and (min-width: 319p",
+          "method": "window",
+          "field": "contact_information",
+          "percent": 94.72
+        },
+        {
+          "heading": "-Wrapper-styled--SHeaderLinksWrapper{display:none;}}@media screen and (min-width",
+          "method": "window",
+          "field": "contact_information",
+          "percent": 38.96
+        },
+        {
+          "heading": "nt-weight:bold;box-shadow:0 2px 5px rgb(0 0 0 / 18%)!important;border-radius:3px",
+          "method": "window",
+          "field": "office_hours",
+          "percent": 90.16
+        },
+        {
+          "heading": "wrap;-webkit-flex-wrap:wrap;-ms-flex-wrap:wrap;flex-wrap:wrap;-webkit-box-pack:e",
+          "method": "window",
+          "field": "meeting_time",
+          "percent": 97.78
+        },
+        {
+          "heading": "lign:center;align-items:center;-webkit-box-flex-wrap:nowrap;-webkit-flex-wrap:no",
+          "method": "window",
+          "field": "instructor",
+          "percent": 97.17
+        },
+        {
+          "heading": "dding:0 1rem;} .css-1x9odwf-Box--Box-Box{box-sizing:border-box;} .css-akh2bq-Box",
+          "method": "window",
+          "field": "credits",
+          "percent": 91.7
+        },
+        {
+          "heading": "5;border-color:#e0e0e0;padding:0.5rem 1.75rem;font-size:14px;cursor:pointer;-web",
+          "method": "window",
+          "field": "meeting_time",
+          "percent": 99.57
+        },
+        {
+          "heading": "utton:disabled{color:#d2d2d2;fill:#d2d2d2;background-color:#a6a6a6;border-color:",
+          "method": "window",
+          "field": "other",
+          "percent": 80.2
+        },
+        {
+          "heading": "n-Button-Button--IconButton-IconButton-PopoverMenu--generateButton:disabled{bord",
+          "method": "window",
+          "field": "office_hours",
+          "percent": 46.88
+        },
+        {
+          "heading": "er;-ms-flex-item-align:center;align-self:center;} .css-2l009x-Button--Button-But",
+          "method": "window",
+          "field": "meeting_time",
+          "percent": 98.14
+        },
+        {
+          "heading": "px;border-radius:50%;color:#003B5C;border-radius:0;padding:0.5rem;}.css-2l009x-B",
+          "method": "window",
+          "field": "meeting_time",
+          "percent": 65.7
+        },
+        {
+          "heading": ",.css-2l009x-Button--Button-Button-Button--IconButton-IconButton-styled--SMenuBu",
+          "method": "window",
+          "field": "course_content",
+          "percent": 61.76
+        },
+        {
+          "heading": "tton--Button-Button-Button--IconButton-IconButton-styled--SMenuButton:focus{outl",
+          "method": "window",
+          "field": "other",
+          "percent": 98.19
+        },
+        {
+          "heading": "entMobile [data-reach-skip-link]{border:0;clip:rect(0 0 0 0);height:1px;width:1p",
+          "method": "window",
+          "field": "class_meeting_room",
+          "percent": 38.95
+        },
+        {
+          "heading": "ebkit-text-decoration:underline;text-decoration:underline;outline:2px solid #003",
+          "method": "window",
+          "field": "meeting_time",
+          "percent": 87.49
+        },
+        {
+          "heading": ";display:inline-block;}.css-79055d-Logo--LinkLogo:focus{outline:2px solid #FFF;}",
+          "method": "window",
+          "field": "additional_information",
+          "percent": 59.3
+        },
+        {
+          "heading": "-justify-content:center;justify-content:center;margin-top:0;} .css-hd1bjm-Positi",
+          "method": "window",
+          "field": "other",
+          "percent": 94.23
+        },
+        {
+          "heading": "form:translate(-85%, 0);-moz-transform:translate(-85%, 0);-ms-transform:translat",
+          "method": "window",
+          "field": "teaching_form",
+          "percent": 97.71
+        },
+        {
+          "heading": "e:2px solid #FFF;background-color:({theme:e})=>(0,x.H)(e?.colors?.black,.2);}.cs",
+          "method": "window",
+          "field": "other",
+          "percent": 99.71
+        },
+        {
+          "heading": "search;padding:0.25rem 0;}@media screen and (max-width: 767px){.css-1514u4l-Inpu",
+          "method": "window",
+          "field": "office_hours",
+          "percent": 41.83
+        },
+        {
+          "heading": "1C1C1;} .css-zbgawh-Wrapper--Wrapper{height:42px;max-width:1200px;margin:0 auto;",
+          "method": "window",
+          "field": "class_meeting_room",
+          "percent": 33.76
+        }
+      ]
+    },
+    {
+      "document_id": "699043231aba2b8a327f33373251f8aa79314682441c05f38606eef525221c2a",
+      "school": "University of Illinois Urbana-Champaign",
+      "title": "CS 125 Spring 2019 Syllabus",
+      "characters": 64639,
+      "naive_truncated_read": {
+        "field": "class_meeting_room",
+        "percent": 92.99
+      },
+      "sections_found": 21,
+      "sections_classified": 19,
+      "coverage": 0.9047619047619048,
+      "methods": [
+        "heading"
+      ],
+      "distinct_fields": 11,
+      "heading_body_agreement": null,
+      "top_fields": [
+        [
+          "course_description",
+          5
+        ],
+        [
+          "assessment",
+          3
+        ],
+        [
+          "grades",
+          2
+        ],
+        [
+          "other",
+          2
+        ],
+        [
+          "grading_policy",
+          2
+        ],
+        [
+          "course_content",
+          2
+        ],
+        [
+          "course_title",
+          1
+        ],
+        [
+          "meeting_days",
+          1
+        ]
+      ],
+      "seconds": 0.41,
+      "sections_per_second": 51.5,
+      "sections": [
+        {
+          "heading": "Grades",
+          "method": "heading",
+          "field": "grades",
+          "percent": 99.86
+        },
+        {
+          "heading": "Grades",
+          "method": "heading",
+          "field": "grades",
+          "percent": 99.78
+        },
+        {
+          "heading": "Resources",
+          "method": "heading",
+          "field": "other",
+          "percent": 77.39
+        },
+        {
+          "heading": "1. Overview",
+          "method": "heading",
+          "field": "course_description",
+          "percent": 99.9
+        },
+        {
+          "heading": "3. Communication",
+          "method": "heading",
+          "field": "other",
+          "percent": 69.04
+        },
+        {
+          "heading": "4. Grading",
+          "method": "heading",
+          "field": "grading_policy",
+          "percent": 99.87
+        },
+        {
+          "heading": "9. Extra Credit",
+          "method": "heading",
+          "field": "assessment",
+          "percent": 79.83
+        },
+        {
+          "heading": "1. Overview",
+          "method": "heading",
+          "field": "course_description",
+          "percent": 99.87
+        },
+        {
+          "heading": "catalog description :",
+          "method": "heading",
+          "field": "course_title",
+          "percent": 96.39
+        },
+        {
+          "heading": "Description:  Basic concepts in computing and fundamental",
+          "method": "heading",
+          "field": "course_description",
+          "percent": 99.88
+        },
+        {
+          "heading": "Prerequisites:  Three years of high school mathematics or Math 112.",
+          "method": "heading",
+          "field": "course_description",
+          "percent": 99.8
+        },
+        {
+          "heading": "Assessment",
+          "method": "heading",
+          "field": "assessment",
+          "percent": 99.89
+        },
+        {
+          "heading": "Assessment",
+          "method": "heading",
+          "field": "assessment",
+          "percent": 99.88
+        },
+        {
+          "heading": "Days",
+          "method": "heading",
+          "field": "meeting_days",
+          "percent": 97.04
+        },
+        {
+          "heading": "Location",
+          "method": "heading",
+          "field": "class_meeting_room",
+          "percent": 99.83
+        },
+        {
+          "heading": "3. Communication",
+          "method": "heading",
+          "field": "course_content",
+          "percent": 75.25
+        },
+        {
+          "heading": "announcements",
+          "method": "heading",
+          "field": "course_description",
+          "percent": 98.93
+        },
+        {
+          "heading": "instructors:",
+          "method": "heading",
+          "field": "instructor",
+          "percent": 99.89
+        },
+        {
+          "heading": "4. Grading",
+          "method": "heading",
+          "field": "grading_policy",
+          "percent": 99.88
+        },
+        {
+          "heading": "Homework",
+          "method": "heading",
+          "field": "assignments",
+          "percent": 99.85
+        },
+        {
+          "heading": "9. Extra Credit",
+          "method": "heading",
+          "field": "course_content",
+          "percent": 96.71
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "status": "ok",
+  "quantized_bytes": 58654218,
+  "fp32_bytes": 90958791,
+  "size_ratio": 0.6448,
+  "quantized_device": "cpu",
+  "document_type_accuracy": 1.0,
+  "entity_span_f1": 0.995151082074316
+}

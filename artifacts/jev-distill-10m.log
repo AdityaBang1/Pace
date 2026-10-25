@@ -1,0 +1,19 @@
+{"student_initialised_from": "artifacts\\jev-field-pretrain", "transferred": 161}
+{"students_parameters": 10278955, "teacher_parameters": 15331563, "labels": 42, "rows": 171123}
+{"teacher_forward_seconds": 91.2, "soft_targets": [171123, 42]}
+{"epoch": 1, "loss": 2.8979220383256004, "validation_accuracy": 0.9941742654508612, "validation_macro_f1": 0.8068660492308589, "seconds": 230.5}
+{"epoch": 2, "loss": 2.7927514776662985, "validation_accuracy": 0.993161094224924, "validation_macro_f1": 0.8072871388493027, "seconds": 204.1}
+{"epoch": 3, "loss": 2.7689843369312728, "validation_accuracy": 0.9969604863221885, "validation_macro_f1": 0.8720291223406316, "seconds": 203.8}
+{
+  "parameter_count": 10278955,
+  "teacher_parameter_count": 15331563,
+  "best_epoch": 3,
+  "test": {
+    "rows": 7571,
+    "accuracy": 0.9957733456610751,
+    "macro_f1": 0.8434716434958685,
+    "weighted_f1": 0.9955950877968719,
+    "ece_10bin": 0.002202284161314906,
+    "mean_confidence": 0.9958148002624512
+  }
+}

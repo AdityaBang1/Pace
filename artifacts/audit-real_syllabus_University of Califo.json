@@ -1,0 +1,316 @@
+{
+ "schema_version": "pace.academic-ir/0.2",
+ "document": {
+  "characters": 6000,
+  "cleaned_characters": 6000,
+  "truncated_for_evidence": false,
+  "evidence_coordinates": "cleaned_text",
+  "sections_detected": 8,
+  "document_type": {
+   "label": "syllabus",
+   "proposed_label": "syllabus",
+   "confidence": 0.9909,
+   "academic": true,
+   "abstained": false,
+   "top": [
+    {
+     "label": "syllabus",
+     "probability": 0.9909
+    },
+    {
+     "label": "course_catalog",
+     "probability": 0.0068
+    },
+    {
+     "label": "other",
+     "probability": 0.0014
+    }
+   ]
+  },
+  "document_type_unavailable_because": null
+ },
+ "course": {
+  "course_title": "Chem 1A: General Chemistry",
+  "course_code": "CHEM 1A"
+ },
+ "grading": [],
+ "grading_total_percent": null,
+ "grading_total_consistent": null,
+ "meetings": [],
+ "policies": {
+  "office_hours": {
+   "value": "Wednesdays 2-3pm in 433 Latimer Fridays 3-4pm in Chemistry Library Room 425 Latimer",
+   "field": "office_hours",
+   "confidence": 0.9,
+   "evidence": {
+    "text": "Office Hours",
+    "start": 3044,
+    "end": 3058
+   },
+   "candidates": [
+    {
+     "value": "Tuesdays 10-11:30am in Chemistry Library Room 100 F (except 11/5) Thursdays 2-3:30pm in Chemistry Library Room 100 E (except 8/29, 9/5, 10/24, and 12/5) 1pm lecture (in 1 Pimentel Hall): Professor Eran Rabani (mailto:chem1a@berkeley.edu) 220 Gilman Hall",
+     "confidence": 0.9,
+     "section": "Office Hours",
+     "status": "overwritten",
+     "reason": null
+    },
+    {
+     "value": "Wednesdays 2-3pm in 433 Latimer Fridays 3-4pm in Chemistry Library Room 425 Latimer",
+     "confidence": 0.9,
+     "section": "Office Hours",
+     "status": "chosen",
+     "reason": null
+    }
+   ]
+  }
+ },
+ "sections": [
+  {
+   "heading": "Instructors",
+   "label": "instructor",
+   "task": "instructor_contact",
+   "confidence": 0.9483,
+   "band": "medium",
+   "confidence_source": "model",
+   "start": 2478,
+   "end": 2490,
+   "source_text": "Instructors\n"
+  },
+  {
+   "heading": "Office Hours",
+   "label": "office_hours",
+   "task": "instructor_contact",
+   "confidence": 0.9999,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 2770,
+   "end": 2784,
+   "source_text": " Office Hours\n"
+  },
+  {
+   "heading": "Office Hours",
+   "label": "office_hours",
+   "task": "instructor_contact",
+   "confidence": 0.9999,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 3044,
+   "end": 3058,
+   "source_text": " Office Hours\n"
+  },
+  {
+   "heading": "Grading",
+   "label": "grading_policy",
+   "task": "materials_assessment",
+   "confidence": 0.9997,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 4989,
+   "end": 4997,
+   "source_text": "Grading\n"
+  },
+  {
+   "heading": "Homework: 50",
+   "label": "assignments",
+   "task": "materials_assessment",
+   "confidence": 0.9979,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 5215,
+   "end": 5229,
+   "source_text": " Homework: 50\n"
+  },
+  {
+   "heading": "Attendance: 50",
+   "label": "attendance_policy",
+   "task": "policy",
+   "confidence": 0.9999,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 5229,
+   "end": 5245,
+   "source_text": " Attendance: 50\n"
+  },
+  {
+   "heading": "Homework",
+   "label": "assignments",
+   "task": "materials_assessment",
+   "confidence": 0.9983,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 5595,
+   "end": 5609,
+   "source_text": "Homework     \n"
+  },
+  {
+   "heading": "Exams",
+   "label": "exam_schedule",
+   "task": "schedule",
+   "confidence": 0.9999,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 5943,
+   "end": 5962,
+   "source_text": "Exams             \n"
+  }
+ ],
+ "evidence": [
+  {
+   "field": "course_title",
+   "value": "Chem 1A: General Chemistry",
+   "confidence": 0.86,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Chem 1A: General Chemistry",
+   "start": 163,
+   "end": 189,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "course_code",
+   "value": "CHEM 1A",
+   "confidence": 0.93,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "CHEM 1A",
+   "start": 10,
+   "end": 60,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "office_hours",
+   "value": "Wednesdays 2-3pm in 433 Latimer Fridays 3-4pm in Chemistry Library Room 425 Latimer",
+   "confidence": 0.9,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Office Hours",
+   "start": 3044,
+   "end": 3058,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  }
+ ],
+ "suppressed": [
+  {
+   "field": "course_title",
+   "value": "12/2/2019",
+   "reason": "a session or term line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Syllabus for CHEM 1A General Chemistry (Fall 2019)",
+   "reason": "a document label, not a course name",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "https://bcourses.berkeley.edu/courses/1484857/assignments/syllabus",
+   "reason": "a document label, not a course name",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "1/15",
+   "reason": "a document label, not a course name",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Course Syllabus",
+   "reason": "a document label, not a course name",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Fall 2019",
+   "reason": "a session or term line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Jump to Today",
+   "reason": "ranked below the chosen line",
+   "evidence": "score 0.01"
+  },
+  {
+   "field": "course_code",
+   "value": "CHEM 1A",
+   "reason": "lower confidence than the chosen line",
+   "evidence": "CHEM 1A"
+  },
+  {
+   "field": "instructor",
+   "value": "9am and 11am lectures (in 1 Pimentel Hall): Professor Phillip Geissler (mailto:c",
+   "reason": "section body is not a person's name",
+   "evidence": "Instructors"
+  },
+  {
+   "field": "meetings",
+   "value": "Office Hours",
+   "reason": "an office-hours line, not a class meeting",
+   "evidence": " Office Hours"
+  },
+  {
+   "field": "meetings",
+   "value": "Office Hours",
+   "reason": "an office-hours line, not a class meeting",
+   "evidence": " Office Hours"
+  },
+  {
+   "field": "meetings",
+   "value": "Final Exam: 360",
+   "reason": "an exam line, not a class meeting",
+   "evidence": " Final Exam: 360"
+  },
+  {
+   "field": "meetings",
+   "value": "Midterm exams will be held on Tuesday",
+   "reason": "an exam line, not a class meeting",
+   "evidence": "Midterm exams will be held on Tuesday "
+  },
+  {
+   "field": "office_hours",
+   "value": "Tuesdays 10-11:30am in Chemistry Library Room 100 F (except 11/5) Thursdays 2-3:30pm in Chemistry Library Room 100 E (except 8/29, 9/5, 10/24, and 12/5) 1pm lecture (in 1 Pimentel Hall): Professor Eran Rabani (mailto:chem1a@berkeley.edu) 220 Gilman Hall",
+   "reason": "a later section supplied the value",
+   "evidence": "Office Hours"
+  },
+  {
+   "field": "attendance_policy",
+   "value": null,
+   "reason": "body is not about the field",
+   "evidence": "Attendance: 50"
+  }
+ ],
+ "confidence": {
+  "sections_in_distribution_ece": 0.0016,
+  "sections_unseen_university_ece": 0.1665,
+  "sections_unseen_university_accuracy": 0.783,
+  "rule_values_development_precision": 0.917,
+  "rule_values_holdout_precision": 0.955,
+  "holdout_documents": 12,
+  "bands": {
+   "high": ">=0.97",
+   "medium": "0.85-0.97",
+   "low": "<0.85"
+  },
+  "bands_apply_to": "section labels only (model probabilities)",
+  "value_confidences": "set by the rule that read the value (0.60-0.97), not a probability; their measured precision is the rule number above",
+  "note": "A high band is a preselect-and-confirm signal, not an assertion. On unseen universities 0.98+ model confidence measured 0.828 precision. Every value this module returns requires a human confirmation."
+ },
+ "model": {
+  "checkpoint": "artifacts/field-classifier-minilm",
+  "context_checkpoint": "artifacts/field-classifier-context",
+  "family": "encoder-classifier",
+  "parameters": 22729386,
+  "max_state_tokens": 256,
+  "temperature": 0.6466508507728577,
+  "document_type_checkpoint": "artifacts/doc-type"
+ },
+ "warnings": [],
+ "requires_confirmation": true,
+ "commit_policy": "proposals_only_user_confirmation_required"
+}

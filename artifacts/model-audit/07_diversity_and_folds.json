@@ -1,0 +1,146 @@
+{
+  "diversity": {
+    "rows": 163797,
+    "institutions": 21,
+    "institution_sizes": {
+      "University of Washington": 84034,
+      "University of Gothenburg": 46338,
+      "University of Southern California": 15948,
+      "MIT (catalog)": 14107,
+      "SyllabusEntityCorpus": 907,
+      "CU-DocBench": 533,
+      "University of Michigan (catalog)": 292,
+      "University of California, Berkeley": 238,
+      "University of Illinois Urbana-Champaign": 169,
+      "The University of Texas at Austin": 161,
+      "University of Wisconsin\u2013Madison": 157,
+      "Massachusetts Institute of Technology": 141,
+      "Stanford University": 140,
+      "The Ohio State University": 112,
+      "Purdue University": 102,
+      "Carnegie Mellon University": 93,
+      "Georgia Institute of Technology": 89,
+      "University of Michigan": 88,
+      "Pennsylvania State University": 73,
+      "University of North Carolina at Chapel Hill": 47,
+      "University of California, Los Angeles": 28
+    },
+    "labels": 42,
+    "rarest_labels": [
+      [
+        "office_hours",
+        124
+      ],
+      [
+        "materials",
+        98
+      ],
+      [
+        "due_date",
+        84
+      ],
+      [
+        "exam_schedule",
+        79
+      ],
+      [
+        "weekly_readings",
+        78
+      ],
+      [
+        "academic_integrity",
+        68
+      ],
+      [
+        "disability_services",
+        43
+      ],
+      [
+        "course_policies",
+        27
+      ],
+      [
+        "attendance_policy",
+        8
+      ],
+      [
+        "drop_add_deadline",
+        2
+      ]
+    ],
+    "exact_duplicates": 88914,
+    "duplicate_rate": 0.5428,
+    "words_p50": 3,
+    "words_p90": 67,
+    "words_max": 1196
+  },
+  "folds": {
+    "institutions": 21,
+    "folds": [
+      {
+        "name": "university-of-washington",
+        "institution": "University of Washington",
+        "test_rows": 84034,
+        "labels": 19
+      },
+      {
+        "name": "university-of-gothenburg",
+        "institution": "University of Gothenburg",
+        "test_rows": 46338,
+        "labels": 11
+      },
+      {
+        "name": "university-of-southern-california",
+        "institution": "University of Southern California",
+        "test_rows": 15948,
+        "labels": 12
+      },
+      {
+        "name": "mit-catalog",
+        "institution": "MIT (catalog)",
+        "test_rows": 14107,
+        "labels": 9
+      },
+      {
+        "name": "syllabusentitycorpus",
+        "institution": "SyllabusEntityCorpus",
+        "test_rows": 907,
+        "labels": 11
+      },
+      {
+        "name": "cu-docbench",
+        "institution": "CU-DocBench",
+        "test_rows": 533,
+        "labels": 1
+      },
+      {
+        "name": "university-of-michigan-catalog",
+        "institution": "University of Michigan (catalog)",
+        "test_rows": 292,
+        "labels": 6
+      },
+      {
+        "name": "university-of-california-berkeley",
+        "institution": "University of California, Berkeley",
+        "test_rows": 238,
+        "labels": 21
+      }
+    ],
+    "small_institutions": {
+      "Georgia Institute of Technology": 89,
+      "Stanford University": 140,
+      "Purdue University": 102,
+      "University of Michigan": 88,
+      "Pennsylvania State University": 73,
+      "University of Wisconsin\u2013Madison": 157,
+      "The University of Texas at Austin": 161,
+      "Massachusetts Institute of Technology": 141,
+      "The Ohio State University": 112,
+      "University of Illinois Urbana-Champaign": 169,
+      "University of North Carolina at Chapel Hill": 47,
+      "Carnegie Mellon University": 93,
+      "University of California, Los Angeles": 28
+    },
+    "pooled_rows": 1400
+  }
+}

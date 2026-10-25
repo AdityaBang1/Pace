@@ -1,0 +1,21 @@
+{"seed": 20261019, "output": "artifacts\\field-mix\\fold-1-modernbert"}
+{"param_groups": [{"name": "layer0", "lr": 8.759670730163171e-06, "tensors": 2}, {"name": "layer1", "lr": 9.220706031750708e-06, "tensors": 5}, {"name": "layer2", "lr": 9.70600634921127e-06, "tensors": 6}, {"name": "layer3", "lr": 1.0216848788643444e-05, "tensors": 6}, {"name": "layer4", "lr": 1.0754577672256256e-05, "tensors": 6}, {"name": "layer5", "lr": 1.1320608076059218e-05, "tensors": 6}, {"name": "layer6", "lr": 1.1916429553746547e-05, "tensors": 6}, {"name": "layer7", "lr": 1.2543610056575313e-05, "tensors": 6}, {"name": "layer8", "lr": 1.3203800059552961e-05, "tensors": 6}, {"name": "layer9", "lr": 1.3898736904792591e-05, "tensors": 6}, {"name": "layer10", "lr": 1.4630249373465886e-05, "tensors": 6}, {"name": "layer11", "lr": 1.5400262498385145e-05, "tensors": 6}, {"name": "layer12", "lr": 1.62108026298791e-05, "tensors": 6}, {"name": "layer13", "lr": 1.706400276829379e-05, "tensors": 6}, {"name": "layer14", "lr": 1.796210817715136e-05, "tensors": 6}, {"name": "layer15", "lr": 1.890748229173827e-05, "tensors": 6}, {"name": "layer16", "lr": 1.9902612938671867e-05, "tensors": 6}, {"name": "layer17", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer18", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer19", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer20", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer21", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer22", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer23", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer24", "lr": 0.001, "tensors": 1}, {"name": "layer24_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 1.4081988392680944, "validation_accuracy": 0.9997437211686314, "validation_macro_f1": 0.9957550956161749, "validation_weighted_f1": 0.9997350385084652, "learning_rate": 8.202155437449054e-06, "seconds": 545.3086156999925}
+{"epoch": 2, "train_loss": 1.1145635548800852, "validation_accuracy": 0.9996155817529472, "validation_macro_f1": 0.9943960335973789, "validation_weighted_f1": 0.9996039321250958, "learning_rate": 5.321260817739942e-06, "seconds": 542.3399353999412}
+{"epoch": 3, "train_loss": 1.1006844607051132, "validation_accuracy": 0.9994874423372629, "validation_macro_f1": 0.9943324320230035, "validation_weighted_f1": 0.999475603304093, "learning_rate": 1.924253721801182e-06, "seconds": 551.2802286000224}
+{"early_stop_at_epoch": 3, "best_epoch": 1, "best_validation_macro_f1": 0.9957550956161749}
+{
+  "seeds": [
+    20261019
+  ],
+  "test_macro_f1": [
+    0.7292964229962943
+  ],
+  "test_accuracy": [
+    0.89375
+  ],
+  "mean_macro_f1": 0.7292964229962943,
+  "std_macro_f1": 0.0,
+  "mean_accuracy": 0.89375,
+  "std_accuracy": 0.0
+}

@@ -1,0 +1,415 @@
+{"epoch": 1, "mean_loss": 3.927550458908081, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9593968370724532, "seconds": 17.569820999982767}
+{"epoch": 2, "mean_loss": 0.3637110196446118, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9958221426439868, "seconds": 17.32127789995866}
+{"epoch": 3, "mean_loss": 0.12794642577830115, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9977596893435889, "seconds": 17.350819499988575}
+{"epoch": 4, "mean_loss": 0.0737990869895408, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.99731142643764, "seconds": 17.41694780002581}
+{"epoch": 5, "mean_loss": 0.04882941867567991, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9987297317492341, "seconds": 17.41365299996687}
+{"epoch": 6, "mean_loss": 0.0360942555689498, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.99854287315524, "seconds": 17.427112800010946}
+{"epoch": 7, "mean_loss": 0.02767091297397488, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.998953583974886, "seconds": 17.448092699982226}
+{"epoch": 8, "mean_loss": 0.02145006130204389, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9993644622228869, "seconds": 17.506041099957656}
+C:\Users\Adity\Downloads\Pace\pace\synthetic_doc_model.py:344: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  return torch.ao.quantization.quantize_dynamic(model,{nn.Linear},dtype=torch.qint8)
+{
+  "rows_by_split": {
+    "train": 10279,
+    "validation": 1069,
+    "test": 1208
+  },
+  "windows_by_split": {
+    "train": 12098,
+    "validation": 1207,
+    "test": 1551
+  },
+  "templates": {
+    "train": [
+      "assignment_compact",
+      "assignment_narrative",
+      "catalog_compact",
+      "catalog_narrative",
+      "gradebook_compact",
+      "gradebook_heading",
+      "other_heading",
+      "other_notice",
+      "report_card_compact",
+      "report_card_heading",
+      "requirement_list",
+      "requirement_narrative",
+      "schedule_compact",
+      "schedule_heading",
+      "selection_form",
+      "selection_heading",
+      "syllabus_compact",
+      "syllabus_heading_first",
+      "transcript_markdown",
+      "transcript_rowwise"
+    ],
+    "validation": [
+      "assignment_heading",
+      "catalog_heading",
+      "gradebook_table",
+      "other_narrative",
+      "report_card_narrative",
+      "requirement_heading",
+      "schedule_narrative",
+      "selection_compact",
+      "syllabus_table_like",
+      "transcript_compact"
+    ],
+    "test": [
+      "assignment_notice",
+      "catalog_entry",
+      "gradebook_narrative",
+      "other_compact",
+      "report_card_rows",
+      "requirement_compact",
+      "schedule_rows",
+      "selection_narrative",
+      "syllabus_narrative",
+      "transcript_piped",
+      "transcript_table"
+    ]
+  },
+  "doc_corrupt": {
+    "pytorch_multitask": 1.0,
+    "tfidf_logistic": 1.0
+  },
+  "doc_clean": 1.0,
+  "entity_corrupted": {
+    "true_spans": 20382,
+    "predicted_spans": 20413,
+    "true_positive_spans": 20379,
+    "precision": 0.9983343947484447,
+    "recall": 0.9998528113040919,
+    "f1": 0.9990930261061405,
+    "false_positives": 34,
+    "false_negatives": 3,
+    "per_entity_type": {
+      "COURSE": {
+        "support": 2903,
+        "predicted": 2921,
+        "true_positive": 2902,
+        "precision": 0.9934953782951044,
+        "recall": 0.9996555287633483,
+        "f1": 0.9965659340659341
+      },
+      "COURSE_CODE": {
+        "support": 1331,
+        "predicted": 1332,
+        "true_positive": 1331,
+        "precision": 0.9992492492492493,
+        "recall": 1.0,
+        "f1": 0.9996244836650394
+      },
+      "TEACHER": {
+        "support": 210,
+        "predicted": 210,
+        "true_positive": 210,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ROOM": {
+        "support": 280,
+        "predicted": 280,
+        "true_positive": 280,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "CREDIT": {
+        "support": 3115,
+        "predicted": 3116,
+        "true_positive": 3115,
+        "precision": 0.9996790757381258,
+        "recall": 1.0,
+        "f1": 0.9998395121168352
+      },
+      "GRADE_CATEGORY": {
+        "support": 604,
+        "predicted": 605,
+        "true_positive": 604,
+        "precision": 0.9983471074380166,
+        "recall": 1.0,
+        "f1": 0.9991728701406121
+      },
+      "WEIGHT": {
+        "support": 604,
+        "predicted": 604,
+        "true_positive": 604,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ASSESSMENT": {
+        "support": 281,
+        "predicted": 282,
+        "true_positive": 280,
+        "precision": 0.9929078014184397,
+        "recall": 0.99644128113879,
+        "f1": 0.9946714031971581
+      },
+      "DATE": {
+        "support": 3098,
+        "predicted": 3098,
+        "true_positive": 3098,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "TIME": {
+        "support": 620,
+        "predicted": 620,
+        "true_positive": 620,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PREREQUISITE": {
+        "support": 260,
+        "predicted": 260,
+        "true_positive": 260,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "STUDENT": {
+        "support": 179,
+        "predicted": 180,
+        "true_positive": 178,
+        "precision": 0.9888888888888889,
+        "recall": 0.994413407821229,
+        "f1": 0.9916434540389972
+      },
+      "SCHOOL": {
+        "support": 179,
+        "predicted": 179,
+        "true_positive": 179,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "GRADE_LEVEL": {
+        "support": 2544,
+        "predicted": 2544,
+        "true_positive": 2544,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "MARK": {
+        "support": 2196,
+        "predicted": 2200,
+        "true_positive": 2196,
+        "precision": 0.9981818181818182,
+        "recall": 1.0,
+        "f1": 0.9990900818926297
+      },
+      "SCORE": {
+        "support": 348,
+        "predicted": 348,
+        "true_positive": 348,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERFORMANCE_LEVEL": {
+        "support": 348,
+        "predicted": 350,
+        "true_positive": 348,
+        "precision": 0.9942857142857143,
+        "recall": 1.0,
+        "f1": 0.997134670487106
+      },
+      "SUBJECT_AREA": {
+        "support": 1148,
+        "predicted": 1150,
+        "true_positive": 1148,
+        "precision": 0.9982608695652174,
+        "recall": 1.0,
+        "f1": 0.999129677980853
+      },
+      "GPA": {
+        "support": 134,
+        "predicted": 134,
+        "true_positive": 134,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    }
+  },
+  "entity_clean": {
+    "true_spans": 20382,
+    "predicted_spans": 20393,
+    "true_positive_spans": 20381,
+    "precision": 0.9994115627911538,
+    "recall": 0.999950937101364,
+    "f1": 0.9996811771919069,
+    "false_positives": 12,
+    "false_negatives": 1,
+    "per_entity_type": {
+      "COURSE": {
+        "support": 2903,
+        "predicted": 2908,
+        "true_positive": 2903,
+        "precision": 0.9982806052269602,
+        "recall": 1.0,
+        "f1": 0.9991395628979521
+      },
+      "COURSE_CODE": {
+        "support": 1331,
+        "predicted": 1331,
+        "true_positive": 1331,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "TEACHER": {
+        "support": 210,
+        "predicted": 210,
+        "true_positive": 210,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ROOM": {
+        "support": 280,
+        "predicted": 280,
+        "true_positive": 280,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "CREDIT": {
+        "support": 3115,
+        "predicted": 3115,
+        "true_positive": 3114,
+        "precision": 0.9996789727126806,
+        "recall": 0.9996789727126806,
+        "f1": 0.9996789727126806
+      },
+      "GRADE_CATEGORY": {
+        "support": 604,
+        "predicted": 604,
+        "true_positive": 604,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "WEIGHT": {
+        "support": 604,
+        "predicted": 604,
+        "true_positive": 604,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ASSESSMENT": {
+        "support": 281,
+        "predicted": 281,
+        "true_positive": 281,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "DATE": {
+        "support": 3098,
+        "predicted": 3098,
+        "true_positive": 3098,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "TIME": {
+        "support": 620,
+        "predicted": 620,
+        "true_positive": 620,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PREREQUISITE": {
+        "support": 260,
+        "predicted": 260,
+        "true_positive": 260,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "STUDENT": {
+        "support": 179,
+        "predicted": 180,
+        "true_positive": 179,
+        "precision": 0.9944444444444445,
+        "recall": 1.0,
+        "f1": 0.9972144846796658
+      },
+      "SCHOOL": {
+        "support": 179,
+        "predicted": 179,
+        "true_positive": 179,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "GRADE_LEVEL": {
+        "support": 2544,
+        "predicted": 2545,
+        "true_positive": 2544,
+        "precision": 0.999607072691552,
+        "recall": 1.0,
+        "f1": 0.999803497740224
+      },
+      "MARK": {
+        "support": 2196,
+        "predicted": 2198,
+        "true_positive": 2196,
+        "precision": 0.9990900818926297,
+        "recall": 1.0,
+        "f1": 0.9995448338643604
+      },
+      "SCORE": {
+        "support": 348,
+        "predicted": 348,
+        "true_positive": 348,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERFORMANCE_LEVEL": {
+        "support": 348,
+        "predicted": 348,
+        "true_positive": 348,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "SUBJECT_AREA": {
+        "support": 1148,
+        "predicted": 1150,
+        "true_positive": 1148,
+        "precision": 0.9982608695652174,
+        "recall": 1.0,
+        "f1": 0.999129677980853
+      },
+      "GPA": {
+        "support": 134,
+        "predicted": 134,
+        "true_positive": 134,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    }
+  },
+  "transcript": {
+    "documents": 179,
+    "entity_span_f1": 0.9990496232435001
+  },
+  "parameters": 22732081,
+  "bytes": 90958791
+}

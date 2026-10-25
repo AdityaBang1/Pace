@@ -1,0 +1,339 @@
+{
+  "field_menu": {
+    "receipt": {
+      "label": "other",
+      "percent": 71.89,
+      "top": [
+        [
+          "other",
+          71.89
+        ],
+        [
+          "office_hours",
+          26.83
+        ],
+        [
+          "course_policies",
+          0.1
+        ]
+      ]
+    },
+    "menu": {
+      "label": "class_meeting_room",
+      "percent": 84.03,
+      "top": [
+        [
+          "class_meeting_room",
+          84.03
+        ],
+        [
+          "office_hours",
+          11.05
+        ],
+        [
+          "assignments",
+          2.67
+        ]
+      ]
+    },
+    "article": {
+      "label": "course_description",
+      "percent": 99.63,
+      "top": [
+        [
+          "course_description",
+          99.63
+        ],
+        [
+          "additional_information",
+          0.07
+        ],
+        [
+          "course_content",
+          0.05
+        ]
+      ]
+    },
+    "bank_statement": {
+      "label": "office_hours",
+      "percent": 96.18,
+      "top": [
+        [
+          "office_hours",
+          96.18
+        ],
+        [
+          "additional_information",
+          1.53
+        ],
+        [
+          "grades",
+          0.46
+        ]
+      ]
+    }
+  },
+  "document_type": {
+    "receipt": {
+      "label": "transcript",
+      "confidence": 0.9211,
+      "entities": 9,
+      "entity_types": {
+        "DATE": 1,
+        "CREDIT": 6,
+        "GPA": 1,
+        "GRADE_CATEGORY": 1
+      }
+    },
+    "menu": {
+      "label": "other",
+      "confidence": 0.5521,
+      "entities": 5,
+      "entity_types": {
+        "COURSE": 2,
+        "TIME": 3
+      }
+    },
+    "article": {
+      "label": "gradebook",
+      "confidence": 0.3145,
+      "entities": 6,
+      "entity_types": {
+        "ROOM": 2,
+        "COURSE": 1,
+        "WEIGHT": 1,
+        "SCORE": 1,
+        "GRADE_CATEGORY": 1
+      }
+    },
+    "bank_statement": {
+      "label": "transcript",
+      "confidence": 0.9975,
+      "entities": 25,
+      "entity_types": {
+        "DATE": 5,
+        "COURSE": 5,
+        "SUBJECT_AREA": 1,
+        "CREDIT": 10,
+        "GRADE_LEVEL": 1,
+        "SCORE": 2,
+        "GPA": 1
+      }
+    },
+    "syllabus": {
+      "label": "syllabus",
+      "confidence": 0.9423,
+      "entities": 58,
+      "entity_types": {
+        "COURSE_CODE": 3,
+        "TEACHER": 4,
+        "STUDENT": 1,
+        "TIME": 2,
+        "COURSE": 7,
+        "GRADE_CATEGORY": 19,
+        "ASSESSMENT": 6,
+        "DATE": 8,
+        "LITERAL_CANDIDATE": 3,
+        "WEIGHT": 5
+      }
+    }
+  },
+  "lines": {
+    "receipt_total": {
+      "label": "course_schedule",
+      "percent": 81.84,
+      "top": [
+        {
+          "label": "course_schedule",
+          "task": "schedule",
+          "probability": 0.8184080719947815,
+          "percent": 81.84
+        },
+        {
+          "label": "course_code",
+          "task": "course_identity",
+          "probability": 0.14928635954856873,
+          "percent": 14.93
+        },
+        {
+          "label": "assignments",
+          "task": "materials_assessment",
+          "probability": 0.01726164110004902,
+          "percent": 1.73
+        }
+      ]
+    },
+    "receipt_card": {
+      "label": "other",
+      "percent": 75.56,
+      "top": [
+        {
+          "label": "other",
+          "task": "navigation",
+          "probability": 0.7555655241012573,
+          "percent": 75.56
+        },
+        {
+          "label": "course_schedule",
+          "task": "schedule",
+          "probability": 0.150827094912529,
+          "percent": 15.08
+        },
+        {
+          "label": "prerequisites",
+          "task": "course_structure",
+          "probability": 0.06875589489936829,
+          "percent": 6.88
+        }
+      ]
+    },
+    "menu_item": {
+      "label": "instructor",
+      "percent": 97.03,
+      "top": [
+        {
+          "label": "instructor",
+          "task": "instructor_contact",
+          "probability": 0.9703176021575928,
+          "percent": 97.03
+        },
+        {
+          "label": "materials",
+          "task": "materials_assessment",
+          "probability": 0.012888454832136631,
+          "percent": 1.29
+        },
+        {
+          "label": "class_meeting_room",
+          "task": "schedule",
+          "probability": 0.007629871368408203,
+          "percent": 0.76
+        }
+      ]
+    },
+    "menu_hours": {
+      "label": "class_section",
+      "percent": 52.79,
+      "top": [
+        {
+          "label": "class_section",
+          "task": "enrollment",
+          "probability": 0.5279417037963867,
+          "percent": 52.79
+        },
+        {
+          "label": "restrictions",
+          "task": "enrollment",
+          "probability": 0.2482525110244751,
+          "percent": 24.83
+        },
+        {
+          "label": "instructor",
+          "task": "instructor_contact",
+          "probability": 0.11230305582284927,
+          "percent": 11.23
+        }
+      ]
+    },
+    "article_sentence": {
+      "label": "instructor",
+      "percent": 51.14,
+      "top": [
+        {
+          "label": "instructor",
+          "task": "instructor_contact",
+          "probability": 0.511384904384613,
+          "percent": 51.14
+        },
+        {
+          "label": "grading_policy",
+          "task": "materials_assessment",
+          "probability": 0.2880708873271942,
+          "percent": 28.81
+        },
+        {
+          "label": "additional_information",
+          "task": "navigation",
+          "probability": 0.037190746515989304,
+          "percent": 3.72
+        }
+      ]
+    },
+    "bank_balance": {
+      "label": "additional_information",
+      "percent": 64.58,
+      "top": [
+        {
+          "label": "additional_information",
+          "task": "navigation",
+          "probability": 0.6458380222320557,
+          "percent": 64.58
+        },
+        {
+          "label": "prerequisites",
+          "task": "course_structure",
+          "probability": 0.27532336115837097,
+          "percent": 27.53
+        },
+        {
+          "label": "course_code",
+          "task": "course_identity",
+          "probability": 0.03920096158981323,
+          "percent": 3.92
+        }
+      ]
+    },
+    "late_work": {
+      "label": "course_description",
+      "percent": 99.25,
+      "top": [
+        {
+          "label": "course_description",
+          "task": "course_identity",
+          "probability": 0.9924650192260742,
+          "percent": 99.25
+        },
+        {
+          "label": "grades",
+          "task": "materials_assessment",
+          "probability": 0.00209415378049016,
+          "percent": 0.21
+        },
+        {
+          "label": "grading_policy",
+          "task": "materials_assessment",
+          "probability": 0.0015357201918959618,
+          "percent": 0.15
+        }
+      ]
+    },
+    "syllabus_weight": {
+      "label": "grading_policy",
+      "percent": 73.76,
+      "top": [
+        {
+          "label": "grading_policy",
+          "task": "materials_assessment",
+          "probability": 0.7375934720039368,
+          "percent": 73.76
+        },
+        {
+          "label": "assignments",
+          "task": "materials_assessment",
+          "probability": 0.250553697347641,
+          "percent": 25.06
+        },
+        {
+          "label": "attendance_policy",
+          "task": "policy",
+          "probability": 0.002320042345672846,
+          "percent": 0.23
+        }
+      ]
+    }
+  },
+  "document_type_load_failures": {
+    "artifacts/synthetic-doc-type": "RuntimeError: Error(s) in loading state_dict for PaceMultiTask:"
+  },
+  "document_type_checkpoint": "artifacts/synthetic-multitask"
+}

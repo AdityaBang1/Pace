@@ -1,0 +1,163 @@
+{
+ "schema_version": "pace.academic-ir/0.2",
+ "document": {
+  "characters": 989,
+  "cleaned_characters": 989,
+  "truncated_for_evidence": false,
+  "evidence_coordinates": "cleaned_text",
+  "sections_detected": 0,
+  "document_type": {
+   "label": "syllabus",
+   "proposed_label": "syllabus",
+   "confidence": 0.544,
+   "academic": true,
+   "abstained": false,
+   "top": [
+    {
+     "label": "syllabus",
+     "probability": 0.544
+    },
+    {
+     "label": "other",
+     "probability": 0.4425
+    },
+    {
+     "label": "course_catalog",
+     "probability": 0.007
+    }
+   ]
+  },
+  "document_type_unavailable_because": null
+ },
+ "course": {},
+ "grading": [],
+ "grading_total_percent": null,
+ "grading_total_consistent": null,
+ "meetings": [],
+ "policies": {},
+ "sections": [],
+ "evidence": [],
+ "suppressed": [
+  {
+   "field": "course_title",
+   "value": "Management Dept., Dr. Phalin",
+   "reason": "below the plausibility floor",
+   "evidence": "Management Dept., Dr. Phalin"
+  },
+  {
+   "field": "course_title",
+   "value": "Syllabus",
+   "reason": "generic section heading",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "2023",
+   "reason": "a session or term line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Dr. Amanda",
+   "reason": "a person's name, not a course name",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "• Phone",
+   "reason": "a contact line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "• E-mail",
+   "reason": "a contact line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "150 and on Zoom ; see calendar",
+   "reason": "a section heading",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "• Drop -in Office Hours",
+   "reason": "a section heading",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Online : Monday and Wednesday, 10:30AM – 11:30",
+   "reason": "a clock time",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "password: f=N3A2); also at other times b y appointment",
+   "reason": "a contact line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "as the statewide faculty representative on the State University Syst",
+   "reason": "a place name",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": null,
+   "reason": "no course name: the best line is not a printed title",
+   "evidence": "Management Dept., Dr. Phalin"
+  },
+  {
+   "field": "course_code",
+   "value": "GEB3373",
+   "reason": "line is about a place, not the course",
+   "evidence": "Syllabus  — GEB3373  International  Business  — FALL  2023  1 Instructional  Team   a. Professor   Dr. Amanda  Phalin   "
+  },
+  {
+   "field": "course_code",
+   "value": "ID 475-391",
+   "reason": "line is about a place, not the course",
+   "evidence": "Syllabus  — GEB3373  International  Business  — FALL  2023  1 Instructional  Team   a. Professor   Dr. Amanda  Phalin   "
+  },
+  {
+   "field": "meetings",
+   "value": "Syllabus  — GEB3373  International  Business  — FALL  2023  1 Instructional  Team   a. Professor   Dr. Amanda  Phalin   ",
+   "reason": "an office-hours line, not a class meeting",
+   "evidence": "Syllabus  — GEB3373  International  Business  — FALL  2023  1 Instructional  Team   a. Professor   Dr. Amanda  Phalin   "
+  }
+ ],
+ "confidence": {
+  "sections_in_distribution_ece": 0.0016,
+  "sections_unseen_university_ece": 0.1665,
+  "sections_unseen_university_accuracy": 0.783,
+  "rule_values_development_precision": 0.917,
+  "rule_values_holdout_precision": 0.955,
+  "holdout_documents": 12,
+  "bands": {
+   "high": ">=0.97",
+   "medium": "0.85-0.97",
+   "low": "<0.85"
+  },
+  "bands_apply_to": "section labels only (model probabilities)",
+  "value_confidences": "set by the rule that read the value (0.60-0.97), not a probability; their measured precision is the rule number above",
+  "note": "A high band is a preselect-and-confirm signal, not an assertion. On unseen universities 0.98+ model confidence measured 0.828 precision. Every value this module returns requires a human confirmation."
+ },
+ "model": {
+  "checkpoint": "artifacts/field-classifier-minilm",
+  "context_checkpoint": "artifacts/field-classifier-context",
+  "family": "encoder-classifier",
+  "parameters": 22729386,
+  "max_state_tokens": 256,
+  "temperature": 0.6466508507728577,
+  "document_type_checkpoint": "artifacts/doc-type"
+ },
+ "warnings": [
+  "no section heading was recognised; fields were read from whole lines",
+  "nothing was recognised as this document's course, grading or meetings"
+ ],
+ "requires_confirmation": true,
+ "commit_policy": "proposals_only_user_confirmation_required"
+}

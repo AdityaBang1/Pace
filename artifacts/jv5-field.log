@@ -1,0 +1,21 @@
+{"loaded_encoder_from": "artifacts\\jev-field-v2-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 240167, "validation": 7760, "test": 534, "parameters": 15331563}
+{"sampler_power": 0.5, "rarest": [["course_modality", 5], ["drop_add_deadline", 40], ["weekly_readings", 42], ["class_type", 81], ["attendance_policy", 160]]}
+{"epoch": 1, "loss": 0.5541837127040997, "validation_accuracy": 0.998840206185567, "validation_macro_f1": 0.9682744185925077, "seconds": 195.3}
+{"epoch": 2, "loss": 0.3918593937068058, "validation_accuracy": 0.9985824742268041, "validation_macro_f1": 0.9674632377767782, "seconds": 193.3}
+{"epoch": 3, "loss": 0.38036896356289907, "validation_accuracy": 0.9989690721649485, "validation_macro_f1": 0.9683819814290449, "seconds": 193.2}
+{"epoch": 4, "loss": 0.37337991864465886, "validation_accuracy": 0.9989690721649485, "validation_macro_f1": 0.9685171489121345, "seconds": 193.0}
+{"epoch": 5, "loss": 0.37150616659153757, "validation_accuracy": 0.9989690721649485, "validation_macro_f1": 0.9681589109933849, "seconds": 193.4}
+{
+  "parameter_count": 15331563,
+  "best_epoch": 4,
+  "temperature": 0.6024755239486694,
+  "test": {
+    "rows": 534,
+    "accuracy": 0.5749063670411985,
+    "macro_f1": 0.34916797433254054,
+    "weighted_f1": 0.6581257363935282,
+    "ece_10bin": 0.3477776382634702,
+    "mean_confidence": 0.9226840138435364
+  }
+}

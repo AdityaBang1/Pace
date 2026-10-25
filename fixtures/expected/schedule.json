@@ -1,0 +1,129 @@
+{
+  "schema_version": "pace.academic-ir/0.3",
+  "schema": {
+    "version": "pace.academic-ir/0.3",
+    "migrated_from": null,
+    "id_policy": "sha256(document_id, kind, origin); stable across reads"
+  },
+  "document": {
+    "id": "doc_a1ffca7db5e6c688",
+    "characters": 334,
+    "cleaned_characters": 334,
+    "truncated_for_evidence": false,
+    "evidence_coordinates": "cleaned_text",
+    "sections_detected": 0,
+    "sections_suppressed": 0,
+    "entities_suppressed": 0,
+    "gate": "blocked",
+    "document_type": {
+      "label": "other",
+      "proposed_label": "other",
+      "confidence": 0.7047,
+      "academic": false,
+      "abstained": true,
+      "top": [
+        {
+          "label": "other",
+          "probability": 0.7047
+        },
+        {
+          "label": "schedule",
+          "probability": 0.1569
+        },
+        {
+          "label": "course_catalog",
+          "probability": 0.078
+        }
+      ]
+    },
+    "document_type_unavailable_because": null
+  },
+  "course": {},
+  "grading": [],
+  "grading_total_percent": null,
+  "grading_total_consistent": null,
+  "meetings": [],
+  "policies": {},
+  "sections": [],
+  "entities": [],
+  "relations": [],
+  "evidence": [],
+  "suppressed": [
+    {
+      "field": "course_title",
+      "value": "Student Schedule - Fall 2026",
+      "reason": "a session or term line",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Period 1 AP Chemistry Dr. Johnson Room 118 M W F 8:00-8:50",
+      "reason": "a place name",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Period 2 AP Calculus BC Ms. Chen Room 204 M T W TH F 9:05-9:55",
+      "reason": "a place name",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Period 3 US History Mr. Williams Room 310 M W F 10:10-11:00",
+      "reason": "a place name",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": "Period 4 Spanish III Sra. Ruiz Room 122 M T TH F 11:15-12:05",
+      "reason": "a place name",
+      "evidence": "text in the first 800 characters"
+    },
+    {
+      "field": "course_title",
+      "value": null,
+      "reason": "no course name: every title-shaped line names something other than the course",
+      "evidence": "Student Schedule - Fall 2026"
+    }
+  ],
+  "confidence": {
+    "sections_in_distribution_ece": 0.0016,
+    "sections_unseen_university_ece": 0.1665,
+    "sections_unseen_university_accuracy": 0.783,
+    "rule_values_development_precision": 0.917,
+    "rule_values_holdout_precision": 0.955,
+    "holdout_documents": 12,
+    "alt_reader": {
+      "checkpoint": "artifacts/jev-field-v4",
+      "sections_in_distribution_ece": 0.001,
+      "sections_unseen_documents_ece": 0.1325,
+      "sections_unseen_documents_accuracy": 0.839,
+      "value_level_gold_precision": 0.939,
+      "value_level_gold_lower_95": 0.867,
+      "why_not_default": "picked a grading line as course_title on a sample syllabus"
+    },
+    "bands": {
+      "high": ">=0.97",
+      "medium": "0.85-0.97",
+      "low": "<0.85"
+    },
+    "bands_apply_to": "section labels only (model probabilities)",
+    "value_confidences": "set by the rule that read the value (0.60-0.97), not a probability; their measured precision is the rule number above",
+    "note": "A high band is a preselect-and-confirm signal, not an assertion. On unseen universities 0.98+ model confidence measured 0.828 precision. Every value this module returns requires a human confirmation."
+  },
+  "model": {
+    "engine_version": "0.3.0",
+    "checkpoint": "artifacts/field-classifier-minilm",
+    "context_checkpoint": "artifacts/field-classifier-context",
+    "family": "encoder-classifier",
+    "parameters": 22729386,
+    "max_state_tokens": 256,
+    "temperature": 0.6466508507728577,
+    "document_type_checkpoint": "artifacts\\doc-type"
+  },
+  "warnings": [
+    "this does not look like an academic document (other 0.70); extraction was suppressed and no academic fields are returned"
+  ],
+  "requires_confirmation": true,
+  "commit_policy": "proposals_only_user_confirmation_required"
+}

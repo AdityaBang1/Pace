@@ -1,0 +1,130 @@
+{
+  "checkpoint": "artifacts/jev-distill-10m",
+  "rows": 7571,
+  "bare_rows": 7571,
+  "with_header": {
+    "accuracy": 0.9957733456610751,
+    "macro_f1": 0.8434716434958685,
+    "ece_10bin": 0.002202299824165343
+  },
+  "bare_value": {
+    "accuracy": 0.8845595033681152,
+    "macro_f1": 0.6585270158843244,
+    "ece_10bin": 0.07722127709595324
+  },
+  "accuracy_drop_without_header": 0.11121384229295994,
+  "macro_f1_drop_without_header": 0.18494462761154407,
+  "per_source_bare": {
+    "Dev-the-dev91/syllabus-cleaned": {
+      "rows": 102,
+      "accuracy": 0.43137254901960786,
+      "macro_f1": 0.22826728826728826
+    },
+    "USC/USC-Course-Catalog": {
+      "rows": 743,
+      "accuracy": 0.7483176312247645,
+      "macro_f1": 0.3582173404968651
+    },
+    "alecwatts/umich-course-descriptions": {
+      "rows": 9,
+      "skipped": "fewer than 50 rows"
+    },
+    "anordkvist/gu-course-syllabus": {
+      "rows": 3653,
+      "accuracy": 0.9362168081029291,
+      "macro_f1": 0.5077159146641821
+    },
+    "chaseharmon/MIT_Course_Catalog": {
+      "rows": 545,
+      "accuracy": 0.8678899082568807,
+      "macro_f1": 0.32357628707925656
+    },
+    "iristun/CU-DocBench": {
+      "rows": 21,
+      "skipped": "fewer than 50 rows"
+    },
+    "syllabus-finetune": {
+      "rows": 60,
+      "accuracy": 0.5166666666666667,
+      "macro_f1": 0.330989010989011
+    },
+    "twangodev/uwcourses": {
+      "rows": 2438,
+      "accuracy": 0.8798195242001641,
+      "macro_f1": 0.5222383294448604
+    }
+  },
+  "top_confusions_bare": [
+    [
+      "course_description -> learning_outcomes",
+      102
+    ],
+    [
+      "course_title -> course_code",
+      84
+    ],
+    [
+      "prerequisites -> course_code",
+      38
+    ],
+    [
+      "learning_outcomes -> course_title",
+      36
+    ],
+    [
+      "instructor -> course_code",
+      29
+    ],
+    [
+      "additional_information -> course_evaluation",
+      21
+    ],
+    [
+      "course_title -> instructor",
+      20
+    ],
+    [
+      "teaching_form -> course_content",
+      18
+    ],
+    [
+      "class_section -> course_code",
+      16
+    ],
+    [
+      "course_content -> course_description",
+      16
+    ],
+    [
+      "course_schedule -> course_code",
+      15
+    ],
+    [
+      "course_title -> program",
+      13
+    ],
+    [
+      "program -> course_code",
+      13
+    ],
+    [
+      "course_description -> course_content",
+      13
+    ],
+    [
+      "assignments -> instructor",
+      13
+    ]
+  ],
+  "label_name_in_text_share": 0.5314,
+  "sources": {
+    "chaseharmon/MIT_Course_Catalog": 545,
+    "USC/USC-Course-Catalog": 743,
+    "twangodev/uwcourses": 2438,
+    "alecwatts/umich-course-descriptions": 9,
+    "Dev-the-dev91/syllabus-cleaned": 102,
+    "anordkvist/gu-course-syllabus": 3653,
+    "syllabus-finetune": 60,
+    "iristun/CU-DocBench": 21
+  }
+}

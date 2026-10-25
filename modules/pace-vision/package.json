@@ -1,0 +1,10 @@
+{
+  "name": "pace-vision",
+  "version": "0.1.0",
+  "description": "Apple Vision OCR for Pace, with line geometry preserved.",
+  "main": "index.ts",
+  "private": true,
+  "peerDependencies": {
+    "expo": "*"
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "rows": "data/processed/field_mix/fold-0/test.jsonl",
+  "results": [
+    {
+      "checkpoint": "artifacts/field-crossinstitution-context/fold-0",
+      "rows": 447,
+      "skipped_outside_vocabulary": 0,
+      "accuracy": 0.8299776286353467,
+      "macro_f1": 0.6482511373388621,
+      "weighted_f1": 0.8271150423226631,
+      "mean_confidence": 0.9763172268867493,
+      "ece_10bin": 0.15522222220897675,
+      "temperature": 0.2600594162940979,
+      "top_confusions": [
+        [
+          "office_hours -> materials",
+          6
+        ],
+        [
+          "credits -> office_hours",
+          4
+        ],
+        [
+          "contact_information -> disability_services",
+          4
+        ],
+        [
+          "materials -> office_hours",
+          4
+        ],
+        [
+          "course_description -> course_policies",
+          2
+        ],
+        [
+          "learning_outcomes -> course_policies",
+          2
+        ],
+        [
+          "assessment -> course_evaluation",
+          2
+        ],
+        [
+          "contact_information -> office_hours",
+          2
+        ],
+        [
+          "materials -> exam_schedule",
+          2
+        ],
+        [
+          "office_hours -> course_schedule",
+          2
+        ],
+        [
+          "assignments -> course_schedule",
+          2
+        ],
+        [
+          "assignments -> exam_schedule",
+          2
+        ]
+      ],
+      "per_label_f1": {
+        "course_title": 1.0,
+        "course_code": 1.0,
+        "course_description": 0.25,
+        "program": 0.3333333333333333,
+        "course_level": 1.0,
+        "instructor": 1.0,
+        "office_hours": 0.7948717948717948,
+        "contact_information": 0.631578947368421,
+        "credits": 0.0,
+        "prerequisites": 0.6,
+        "course_content": 0.9285714285714286,
+        "learning_outcomes": 0.0,
+        "materials": 0.7027027027027027,
+        "assignments": 0.9538461538461539,
+        "due_date": 1.0,
+        "grading_policy": 0.90625,
+        "grades": 1.0,
+        "assessment": 0.0,
+        "course_schedule": 0.8888888888888888,
+        "exam_schedule": 0.782608695652174,
+        "session_dates": 1.0,
+        "term": 1.0,
+        "attendance_policy": 0.5,
+        "academic_integrity": 0.75,
+        "course_policies": 0.6666666666666666,
+        "disability_services": 0.8333333333333334,
+        "additional_information": 0.8571428571428571
+      },
+      "name": "baseline-context"
+    },
+    {
+      "checkpoint": "artifacts/field-mix/fold-0-pilot",
+      "rows": 447,
+      "skipped_outside_vocabulary": 0,
+      "accuracy": 0.8344519015659956,
+      "macro_f1": 0.5715172177070802,
+      "weighted_f1": 0.8332829077112399,
+      "mean_confidence": 0.9518839716911316,
+      "ece_10bin": 0.15372605621814728,
+      "temperature": 0.46933290362358093,
+      "top_confusions": [
+        [
+          "office_hours -> materials",
+          5
+        ],
+        [
+          "credits -> office_hours",
+          4
+        ],
+        [
+          "contact_information -> office_hours",
+          4
+        ],
+        [
+          "materials -> course_schedule",
+          4
+        ],
+        [
+          "contact_information -> disability_services",
+          3
+        ],
+        [
+          "materials -> exam_schedule",
+          3
+        ],
+        [
+          "assessment -> course_evaluation",
+          2
+        ],
+        [
+          "additional_information -> course_modality",
+          2
+        ],
+        [
+          "materials -> office_hours",
+          2
+        ],
+        [
+          "assignments -> grading_policy",
+          2
+        ],
+        [
+          "attendance_policy -> capacity",
+          2
+        ],
+        [
+          "attendance_policy -> grading_policy",
+          2
+        ]
+      ],
+      "per_label_f1": {
+        "course_title": 1.0,
+        "course_code": 1.0,
+        "course_description": 0.25,
+        "program": 0.6666666666666666,
+        "course_level": 1.0,
+        "instructor": 1.0,
+        "office_hours": 0.7948717948717948,
+        "contact_information": 0.5789473684210527,
+        "credits": 0.0,
+        "prerequisites": 0.6,
+        "course_content": 0.8571428571428571,
+        "learning_outcomes": 0.75,
+        "materials": 0.7297297297297297,
+        "assignments": 0.9384615384615385,
+        "due_date": 1.0,
+        "grading_policy": 0.9375,
+        "grades": 1.0,
+        "assessment": 0.0,
+        "course_schedule": 0.7777777777777778,
+        "exam_schedule": 0.8695652173913043,
+        "session_dates": 1.0,
+        "term": 1.0,
+        "attendance_policy": 0.0,
+        "academic_integrity": 0.84375,
+        "course_policies": 0.8333333333333334,
+        "disability_services": 0.8333333333333334,
+        "additional_information": 0.5714285714285714
+      },
+      "name": "pilot-1ep"
+    },
+    {
+      "checkpoint": "artifacts/field-mix/fold-0-v2",
+      "rows": 447,
+      "skipped_outside_vocabulary": 0,
+      "accuracy": 0.8299776286353467,
+      "macro_f1": 0.6422735308847981,
+      "weighted_f1": 0.8272632292442279,
+      "mean_confidence": 0.9731554388999939,
+      "ece_10bin": 0.15239009261131287,
+      "temperature": 0.4328451454639435,
+      "top_confusions": [
+        [
+          "office_hours -> materials",
+          5
+        ],
+        [
+          "credits -> office_hours",
+          4
+        ],
+        [
+          "materials -> course_schedule",
+          4
+        ],
+        [
+          "assessment -> course_evaluation",
+          2
+        ],
+        [
+          "contact_information -> office_hours",
+          2
+        ],
+        [
+          "materials -> assignments",
+          2
+        ],
+        [
+          "assignments -> course_content",
+          2
+        ],
+        [
+          "exam_schedule -> assignments",
+          2
+        ],
+        [
+          "grading_policy -> grades",
+          2
+        ],
+        [
+          "attendance_policy -> capacity",
+          2
+        ],
+        [
+          "attendance_policy -> grading_policy",
+          2
+        ],
+        [
+          "academic_integrity -> disability_services",
+          2
+        ]
+      ],
+      "per_label_f1": {
+        "course_title": 1.0,
+        "course_code": 1.0,
+        "course_description": 0.25,
+        "program": 0.6666666666666666,
+        "course_level": 1.0,
+        "instructor": 1.0,
+        "office_hours": 0.7948717948717948,
+        "contact_information": 0.7368421052631579,
+        "credits": 0.0,
+        "prerequisites": 0.6,
+        "course_content": 0.8571428571428571,
+        "learning_outcomes": 1.0,
+        "materials": 0.7027027027027027,
+        "assignments": 0.9384615384615385,
+        "due_date": 1.0,
+        "grading_policy": 0.90625,
+        "grades": 1.0,
+        "assessment": 0.0,
+        "course_schedule": 0.7777777777777778,
+        "exam_schedule": 0.7391304347826086,
+        "session_dates": 1.0,
+        "term": 1.0,
+        "attendance_policy": 0.0,
+        "academic_integrity": 0.78125,
+        "course_policies": 0.6666666666666666,
+        "disability_services": 0.8333333333333334,
+        "additional_information": 0.8571428571428571
+      },
+      "name": "mix-5ep"
+    }
+  ]
+}

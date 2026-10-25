@@ -1,0 +1,766 @@
+{
+  "task": "synthetic academic document type classification",
+  "data": "Procedurally generated synthetic academic worlds and text documents; mild character-level OCR-like corruption only, not rendered/image OCR.",
+  "seed": 20261019,
+  "generated_examples": 12000,
+  "corruption_rate": 0.02,
+  "split_protocol": "template-family-disjoint within each document class; synthetic worlds are generated independently per document",
+  "template_families_by_split": {
+    "train": [
+      "assignment_compact",
+      "assignment_heading",
+      "catalog_compact",
+      "catalog_heading",
+      "gradebook_heading",
+      "gradebook_table",
+      "other_compact",
+      "other_notice",
+      "report_card_heading",
+      "report_card_rows",
+      "requirement_compact",
+      "requirement_heading",
+      "schedule_compact",
+      "schedule_narrative",
+      "selection_compact",
+      "selection_form",
+      "syllabus_compact",
+      "syllabus_narrative",
+      "transcript_heading",
+      "transcript_rows"
+    ],
+    "validation": [
+      "assignment_notice",
+      "catalog_narrative",
+      "gradebook_compact",
+      "other_heading",
+      "report_card_compact",
+      "requirement_list",
+      "schedule_rows",
+      "selection_narrative",
+      "syllabus_table_like",
+      "transcript_narrative"
+    ],
+    "test": [
+      "assignment_narrative",
+      "catalog_entry",
+      "gradebook_narrative",
+      "other_narrative",
+      "report_card_narrative",
+      "requirement_narrative",
+      "schedule_heading",
+      "selection_heading",
+      "syllabus_heading_first",
+      "transcript_compact"
+    ]
+  },
+  "rows_by_split": {
+    "train": 5949,
+    "validation": 3065,
+    "test": 2986
+  },
+  "labels": [
+    "syllabus",
+    "schedule",
+    "gradebook",
+    "transcript",
+    "report_card",
+    "course_catalog",
+    "requirements",
+    "assignment_sheet",
+    "course_selection",
+    "other"
+  ],
+  "training_device": "cuda",
+  "parameter_count": 22717066,
+  "checkpoint_bytes": 90897487,
+  "history": [
+    {
+      "epoch": 1,
+      "mean_loss": 0.8818557005656021,
+      "validation_accuracy": 1.0,
+      "validation_macro_f1": 1.0,
+      "seconds": 8.997227199957706
+    },
+    {
+      "epoch": 2,
+      "mean_loss": 0.02367825629890606,
+      "validation_accuracy": 1.0,
+      "validation_macro_f1": 1.0,
+      "seconds": 8.789046099991538
+    },
+    {
+      "epoch": 3,
+      "mean_loss": 0.011885341997909289,
+      "validation_accuracy": 1.0,
+      "validation_macro_f1": 1.0,
+      "seconds": 8.5202042000019
+    },
+    {
+      "epoch": 4,
+      "mean_loss": 0.00851384363067086,
+      "validation_accuracy": 1.0,
+      "validation_macro_f1": 1.0,
+      "seconds": 8.999991499993484
+    },
+    {
+      "epoch": 5,
+      "mean_loss": 0.00667716552233023,
+      "validation_accuracy": 1.0,
+      "validation_macro_f1": 1.0,
+      "seconds": 9.861227599962149
+    }
+  ],
+  "test_ocr_text_corrupted": {
+    "rows": 2986,
+    "template_families": [
+      "assignment_narrative",
+      "catalog_entry",
+      "gradebook_narrative",
+      "other_narrative",
+      "report_card_narrative",
+      "requirement_narrative",
+      "schedule_heading",
+      "selection_heading",
+      "syllabus_heading_first",
+      "transcript_compact"
+    ],
+    "accuracy": 0.9996651038178165,
+    "macro_f1": 0.9996799475626087,
+    "classification_report": {
+      "syllabus": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 282.0
+      },
+      "schedule": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 279.0
+      },
+      "gradebook": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 294.0
+      },
+      "transcript": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 286.0
+      },
+      "report_card": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 314.0
+      },
+      "course_catalog": {
+        "precision": 0.9967637540453075,
+        "recall": 1.0,
+        "f1-score": 0.9983792544570502,
+        "support": 308.0
+      },
+      "requirements": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 301.0
+      },
+      "assignment_sheet": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 305.0
+      },
+      "course_selection": {
+        "precision": 1.0,
+        "recall": 0.9968454258675079,
+        "f1-score": 0.9984202211690363,
+        "support": 317.0
+      },
+      "other": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 300.0
+      },
+      "accuracy": 0.9996651038178165,
+      "macro avg": {
+        "precision": 0.9996763754045308,
+        "recall": 0.9996845425867509,
+        "f1-score": 0.9996799475626087,
+        "support": 2986.0
+      },
+      "weighted avg": {
+        "precision": 0.9996661876242313,
+        "recall": 0.9996651038178165,
+        "f1-score": 0.9996651106776142,
+        "support": 2986.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        282,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        279,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        294,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        286,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        314,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        308,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        301,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        305,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        316,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        300
+      ]
+    ],
+    "errors": [
+      {
+        "true": "course_selection",
+        "predicted": "course_catalog",
+        "template_family": "selection_heading",
+        "text": "East Harbor\n-----------\nCourse Selection\n\nSelect: Introduction to Psychology (PSYC 101)\n\nCREDITS AWARDED: 0.5\n\nRequired before enrollment: ENGL 204"
+      }
+    ]
+  },
+  "test_clean_text": {
+    "rows": 2986,
+    "template_families": [
+      "assignment_narrative",
+      "catalog_entry",
+      "gradebook_narrative",
+      "other_narrative",
+      "report_card_narrative",
+      "requirement_narrative",
+      "schedule_heading",
+      "selection_heading",
+      "syllabus_heading_first",
+      "transcript_compact"
+    ],
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "classification_report": {
+      "syllabus": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 282.0
+      },
+      "schedule": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 279.0
+      },
+      "gradebook": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 294.0
+      },
+      "transcript": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 286.0
+      },
+      "report_card": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 314.0
+      },
+      "course_catalog": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 308.0
+      },
+      "requirements": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 301.0
+      },
+      "assignment_sheet": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 305.0
+      },
+      "course_selection": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 317.0
+      },
+      "other": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 300.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2986.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2986.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        282,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        279,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        294,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        286,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        314,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        308,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        301,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        305,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        317,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        300
+      ]
+    ],
+    "errors": []
+  },
+  "baseline_tfidf_logistic": {
+    "rows": 2986,
+    "template_families": [
+      "assignment_narrative",
+      "catalog_entry",
+      "gradebook_narrative",
+      "other_narrative",
+      "report_card_narrative",
+      "requirement_narrative",
+      "schedule_heading",
+      "selection_heading",
+      "syllabus_heading_first",
+      "transcript_compact"
+    ],
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "classification_report": {
+      "syllabus": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 282.0
+      },
+      "schedule": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 279.0
+      },
+      "gradebook": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 294.0
+      },
+      "transcript": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 286.0
+      },
+      "report_card": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 314.0
+      },
+      "course_catalog": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 308.0
+      },
+      "requirements": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 301.0
+      },
+      "assignment_sheet": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 305.0
+      },
+      "course_selection": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 317.0
+      },
+      "other": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 300.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2986.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 2986.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        282,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        279,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        294,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        286,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        314,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        308,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        301,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        305,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        317,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        300
+      ]
+    ],
+    "errors": []
+  },
+  "safety_note": "Synthetic-only results are not evidence of real-document performance, OCR accuracy, or deployment readiness."
+}

@@ -1,0 +1,37 @@
+{
+  "features": [
+    "char_cosine",
+    "token_jaccard",
+    "containment",
+    "sequence_ratio",
+    "code_equal",
+    "number_conflict",
+    "level_conflict",
+    "level_agreement",
+    "length_ratio",
+    "word_overlap",
+    "content_number_conflict",
+    "prefix_overlap",
+    "empty_left",
+    "empty_right"
+  ],
+  "coefficients": [
+    7.016204027467907,
+    4.744720608385392,
+    -3.021546848374989,
+    5.455598539664609,
+    1.3156926009758825,
+    0.0,
+    -6.172819193927834,
+    0.4732466372249048,
+    -1.7332541613498746,
+    2.5569526469331754,
+    -2.2198279863797246,
+    3.941875813873036,
+    0.0,
+    0.0
+  ],
+  "intercept": -11.256109517820828,
+  "threshold": 0.95,
+  "decision_policy": "veto on level/name-number conflict; identical names with different catalogue numbers are 'uncertain'"
+}

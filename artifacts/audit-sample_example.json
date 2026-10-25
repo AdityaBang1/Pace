@@ -1,0 +1,477 @@
+{
+ "schema_version": "pace.academic-ir/0.2",
+ "document": {
+  "characters": 436,
+  "cleaned_characters": 436,
+  "truncated_for_evidence": false,
+  "evidence_coordinates": "cleaned_text",
+  "sections_detected": 6,
+  "document_type": {
+   "label": "syllabus",
+   "proposed_label": "syllabus",
+   "confidence": 0.8662,
+   "academic": true,
+   "abstained": false,
+   "top": [
+    {
+     "label": "syllabus",
+     "probability": 0.8662
+    },
+    {
+     "label": "other",
+     "probability": 0.0747
+    },
+    {
+     "label": "course_catalog",
+     "probability": 0.0532
+    }
+   ]
+  },
+  "document_type_unavailable_because": null
+ },
+ "course": {
+  "course_title": "MATH 1A: Calculus",
+  "course_code": "MATH 1A",
+  "credits": 4.0,
+  "instructor": "Dr. Lena Ortiz"
+ },
+ "grading": [
+  {
+   "category": "Problem Sets",
+   "weight": 30,
+   "confidence": 0.95,
+   "evidence": {
+    "text": "Problem Sets 30%",
+    "start": 196,
+    "end": 212
+   },
+   "weights_sum": 100,
+   "weights_sum_consistent": true
+  },
+  {
+   "category": "Midterm Exam",
+   "weight": 30,
+   "confidence": 0.95,
+   "evidence": {
+    "text": "Midterm Exam 30%",
+    "start": 213,
+    "end": 229
+   },
+   "weights_sum": 100,
+   "weights_sum_consistent": true
+  },
+  {
+   "category": "Final Exam",
+   "weight": 40,
+   "confidence": 0.95,
+   "evidence": {
+    "text": "Final Exam 40%",
+    "start": 230,
+    "end": 244
+   },
+   "weights_sum": 100,
+   "weights_sum_consistent": true
+  }
+ ],
+ "grading_total_percent": 100,
+ "grading_total_consistent": true,
+ "meetings": [
+  {
+   "days": [
+    "TU",
+    "TH"
+   ],
+   "start_time": "11:00",
+   "end_time": "12:30",
+   "room": "Evans 10",
+   "alternatives": false,
+   "confidence": 0.95,
+   "evidence": {
+    "text": "Lecture: TuTh 11:00-12:30 in Evans 10.",
+    "start": 148,
+    "end": 186
+   }
+  }
+ ],
+ "policies": {
+  "office_hours": {
+   "value": "Fridays 2-3 PM in Evans 330",
+   "field": "office_hours",
+   "confidence": 0.9,
+   "evidence": {
+    "text": "Office Hours",
+    "start": 306,
+    "end": 319
+   },
+   "candidates": [
+    {
+     "value": "Mondays 1-2 PM in Evans 330",
+     "confidence": 0.9,
+     "section": "Office Hours",
+     "status": "overwritten",
+     "reason": null
+    },
+    {
+     "value": "Fridays 2-3 PM in Evans 330",
+     "confidence": 0.9,
+     "section": "Office Hours",
+     "status": "chosen",
+     "reason": null
+    }
+   ]
+  },
+  "attendance_policy": {
+   "value": "Attendance is not graded, but problem sets are due at the start of section",
+   "field": "attendance_policy",
+   "confidence": 0.8,
+   "evidence": {
+    "text": "Attendance",
+    "start": 349,
+    "end": 360
+   },
+   "candidates": [
+    {
+     "value": "Attendance is not graded, but problem sets are due at the start of section",
+     "confidence": 0.8,
+     "section": "Attendance",
+     "status": "chosen",
+     "reason": null
+    }
+   ]
+  }
+ },
+ "sections": [
+  {
+   "heading": "Instructor: Dr. Lena Ortiz",
+   "label": "instructor",
+   "task": "instructor_contact",
+   "confidence": 0.9961,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 45,
+   "end": 72,
+   "source_text": "Instructor: Dr. Lena Ortiz\n"
+  },
+  {
+   "heading": "Email: lortiz@example.edu",
+   "label": "contact_information",
+   "task": "instructor_contact",
+   "confidence": 0.9929,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 72,
+   "end": 98,
+   "source_text": "Email: lortiz@example.edu\n"
+  },
+  {
+   "heading": "Grading",
+   "label": "grading_policy",
+   "task": "materials_assessment",
+   "confidence": 0.9997,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 188,
+   "end": 196,
+   "source_text": "Grading\n"
+  },
+  {
+   "heading": "Office Hours",
+   "label": "office_hours",
+   "task": "instructor_contact",
+   "confidence": 0.9999,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 263,
+   "end": 276,
+   "source_text": "Office Hours\n"
+  },
+  {
+   "heading": "Office Hours",
+   "label": "office_hours",
+   "task": "instructor_contact",
+   "confidence": 0.9999,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 306,
+   "end": 319,
+   "source_text": "Office Hours\n"
+  },
+  {
+   "heading": "Attendance",
+   "label": "attendance_policy",
+   "task": "policy",
+   "confidence": 0.9953,
+   "band": "high",
+   "confidence_source": "model",
+   "start": 349,
+   "end": 360,
+   "source_text": "Attendance\n"
+  }
+ ],
+ "evidence": [
+  {
+   "field": "course_title",
+   "value": "MATH 1A: Calculus",
+   "confidence": 0.86,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "MATH 1A: Calculus",
+   "start": 0,
+   "end": 17,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "course_code",
+   "value": "MATH 1A",
+   "confidence": 0.93,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "MATH 1A",
+   "start": 0,
+   "end": 17,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "credits",
+   "value": 4.0,
+   "confidence": 0.95,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "4 credit",
+   "start": 99,
+   "end": 131,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "instructor",
+   "value": "Dr. Lena Ortiz",
+   "confidence": 0.95,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Dr. Lena Ortiz",
+   "start": 45,
+   "end": 71,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "grading",
+   "value": "Problem Sets 30%",
+   "confidence": 0.95,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Problem Sets 30%",
+   "start": 196,
+   "end": 212,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "grading",
+   "value": "Midterm Exam 30%",
+   "confidence": 0.95,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Midterm Exam 30%",
+   "start": 213,
+   "end": 229,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "grading",
+   "value": "Final Exam 40%",
+   "confidence": 0.95,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Final Exam 40%",
+   "start": 230,
+   "end": 244,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "meetings",
+   "value": "TU TH 11:00-12:30",
+   "confidence": 0.95,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Lecture: TuTh 11:00-12:30 in Evans 10.",
+   "start": 148,
+   "end": 186,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "office_hours",
+   "value": "Fridays 2-3 PM in Evans 330",
+   "confidence": 0.9,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Office Hours",
+   "start": 306,
+   "end": 319,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  },
+  {
+   "field": "attendance_policy",
+   "value": "Attendance is not graded, but problem sets are due at the start of section",
+   "confidence": 0.8,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "Attendance",
+   "start": 349,
+   "end": 360,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  }
+ ],
+ "suppressed": [
+  {
+   "field": "course_title",
+   "value": "Spring 2027 — Section 003",
+   "reason": "a session or term line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Instructor: Dr. Lena Ortiz",
+   "reason": "a labelled attribute, not a course name",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Email: lortiz@example.edu",
+   "reason": "a labelled attribute, not a course name",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Class Meetings",
+   "reason": "a session or term line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Lecture: TuTh 11:00-12:30 in Evans 10",
+   "reason": "a session or term line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Grading",
+   "reason": "a section heading",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Office Hours",
+   "reason": "a section heading",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Mondays 1-2 PM in Evans 330",
+   "reason": "a contact line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Office Hours",
+   "reason": "a section heading",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Fridays 2-3 PM in Evans 330",
+   "reason": "a contact line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": "Problem Sets 30%",
+   "reason": "ranked below the chosen line",
+   "evidence": "score 2.97"
+  },
+  {
+   "field": "course_title",
+   "value": "Midterm Exam 30%",
+   "reason": "ranked below the chosen line",
+   "evidence": "score 2.47"
+  },
+  {
+   "field": "course_title",
+   "value": "Final Exam 40%",
+   "reason": "ranked below the chosen line",
+   "evidence": "score 2.47"
+  },
+  {
+   "field": "grading",
+   "value": "Problem Sets 30%",
+   "reason": "duplicate of 'Problem Sets'",
+   "evidence": "Problem Sets 30%"
+  },
+  {
+   "field": "meetings",
+   "value": "Midterm Exam 30%",
+   "reason": "an exam line, not a class meeting",
+   "evidence": "Midterm Exam 30%"
+  },
+  {
+   "field": "meetings",
+   "value": "Final Exam 40%",
+   "reason": "an exam line, not a class meeting",
+   "evidence": "Final Exam 40%"
+  },
+  {
+   "field": "meetings",
+   "value": "Office Hours",
+   "reason": "an office-hours line, not a class meeting",
+   "evidence": "Office Hours"
+  },
+  {
+   "field": "meetings",
+   "value": "Office Hours",
+   "reason": "an office-hours line, not a class meeting",
+   "evidence": "Office Hours"
+  },
+  {
+   "field": "office_hours",
+   "value": "Mondays 1-2 PM in Evans 330",
+   "reason": "a later section supplied the value",
+   "evidence": "Office Hours"
+  }
+ ],
+ "confidence": {
+  "sections_in_distribution_ece": 0.0016,
+  "sections_unseen_university_ece": 0.1665,
+  "sections_unseen_university_accuracy": 0.783,
+  "rule_values_development_precision": 0.917,
+  "rule_values_holdout_precision": 0.955,
+  "holdout_documents": 12,
+  "bands": {
+   "high": ">=0.97",
+   "medium": "0.85-0.97",
+   "low": "<0.85"
+  },
+  "bands_apply_to": "section labels only (model probabilities)",
+  "value_confidences": "set by the rule that read the value (0.60-0.97), not a probability; their measured precision is the rule number above",
+  "note": "A high band is a preselect-and-confirm signal, not an assertion. On unseen universities 0.98+ model confidence measured 0.828 precision. Every value this module returns requires a human confirmation."
+ },
+ "model": {
+  "checkpoint": "artifacts/field-classifier-minilm",
+  "context_checkpoint": "artifacts/field-classifier-context",
+  "family": "encoder-classifier",
+  "parameters": 22729386,
+  "max_state_tokens": 256,
+  "temperature": 0.6466508507728577,
+  "document_type_checkpoint": "artifacts/doc-type"
+ },
+ "warnings": [],
+ "requires_confirmation": true,
+ "commit_policy": "proposals_only_user_confirmation_required"
+}

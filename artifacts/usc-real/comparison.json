@@ -1,0 +1,49 @@
+{
+  "dataset": "USC/USC-Course-Catalog",
+  "task": "natural catalog-cell field classification",
+  "same_holdout_subjects": 31,
+  "shared_test_rows": 5522,
+  "same_split_assignment": true,
+  "ambiguous_value_excluded": {
+    "tba": [
+      "meeting_days",
+      "meeting_time"
+    ]
+  },
+  "errors_on_test": {
+    "char TF-IDF logistic": 15,
+    "MiniLM-L6 fine-tuned": 1,
+    "DeBERTa-v3-xsmall fine-tuned": 0
+  },
+  "models": [
+    {
+      "model": "char TF-IDF logistic",
+      "test_accuracy": 0.9972835929011228,
+      "test_macro_f1": 0.9974153239397046,
+      "test_weighted_f1": 0.9972838128390825,
+      "parameters": null,
+      "serialized_bytes": 1963196,
+      "gpu": null
+    },
+    {
+      "model": "MiniLM-L6 fine-tuned",
+      "test_accuracy": 0.9998189061934082,
+      "test_macro_f1": 0.999860800702879,
+      "test_weighted_f1": 0.9998189059126941,
+      "parameters": 22716296,
+      "serialized_bytes": 90893327,
+      "gpu": "NVIDIA GeForce RTX 4070"
+    },
+    {
+      "model": "DeBERTa-v3-xsmall fine-tuned",
+      "test_accuracy": 1.0,
+      "test_macro_f1": 1.0,
+      "test_weighted_f1": 1.0,
+      "parameters": 70685192,
+      "serialized_bytes": 282794003,
+      "gpu": "NVIDIA GeForce RTX 4070"
+    }
+  ],
+  "observed_failure": "All 2,652 exact normalized TBA cells (1,317 Days and 1,335 Time) are excluded because text-only input does not identify the originating column. Inference abstains on this known ambiguous literal. Remaining observed errors are listed per model; scores measure structured CSV-cell field recognition only.",
+  "excluded_candidates": "TinyBERT has no explicit HF license metadata; not trained. MobileBERT has Apache-2.0 and remains a candidate, not trained. ModernBERT-base is Apache-2.0, 149M/8192 and was not needed for this short-cell experiment."
+}

@@ -1,0 +1,68 @@
+{
+  "classes": [
+    "document::syllabus",
+    "document::schedule",
+    "document::gradebook",
+    "document::transcript",
+    "document::report_card",
+    "document::assignment_sheet",
+    "document::course_catalog",
+    "document::prerequisite_guide",
+    "document::graduation_requirements",
+    "document::course_selection",
+    "document::unknown",
+    "section::course_overview",
+    "section::grading",
+    "section::schedule",
+    "section::assignments",
+    "section::prerequisites",
+    "section::learning_outcomes",
+    "section::policies",
+    "section::contact",
+    "section::credits",
+    "section::unknown",
+    "relation::prerequisite_of",
+    "relation::corequisite_of",
+    "relation::same_course_as",
+    "relation::weight_for",
+    "relation::due_date_for",
+    "relation::no_relation"
+  ],
+  "tasks": {
+    "document": [
+      "syllabus",
+      "schedule",
+      "gradebook",
+      "transcript",
+      "report_card",
+      "assignment_sheet",
+      "course_catalog",
+      "prerequisite_guide",
+      "graduation_requirements",
+      "course_selection",
+      "unknown"
+    ],
+    "section": [
+      "course_overview",
+      "grading",
+      "schedule",
+      "assignments",
+      "prerequisites",
+      "learning_outcomes",
+      "policies",
+      "contact",
+      "credits",
+      "unknown"
+    ],
+    "relation": [
+      "prerequisite_of",
+      "corequisite_of",
+      "same_course_as",
+      "weight_for",
+      "due_date_for",
+      "no_relation"
+    ]
+  },
+  "max_length": 160,
+  "pooling": "attention_masked_mean"
+}\n

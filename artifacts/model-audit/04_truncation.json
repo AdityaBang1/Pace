@@ -1,0 +1,46 @@
+{
+  "20": {
+    "label": "course_content",
+    "percent": 93.53,
+    "tokens_sent": 20
+  },
+  "60": {
+    "label": "course_level",
+    "percent": 86.64,
+    "tokens_sent": 60
+  },
+  "127": {
+    "label": "course_content",
+    "percent": 99.76,
+    "tokens_sent": 127
+  },
+  "200": {
+    "label": "course_content",
+    "percent": 99.76,
+    "tokens_sent": 127
+  },
+  "400": {
+    "label": "course_content",
+    "percent": 99.76,
+    "tokens_sent": 127
+  },
+  "whole_syllabus": {
+    "characters": 2530,
+    "label": "office_hours",
+    "percent": 99.69,
+    "top": [
+      [
+        "office_hours",
+        99.69
+      ],
+      [
+        "materials",
+        0.04
+      ],
+      [
+        "course_title",
+        0.03
+      ]
+    ]
+  }
+}

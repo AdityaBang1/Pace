@@ -1,0 +1,1458 @@
+{
+  "checkpoints": [
+    {
+      "checkpoint": "artifacts\\ctx-256",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 256,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.594481885433197
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\ctx-256\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "47c253bd71f023e102b6587acda27e2576928c97ad412bc6cd030d9f31f26563"
+      },
+      "tokenizer": {
+        "path": "artifacts\\ctx-256\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 200182,
+      "validation_rows": 7888,
+      "test_rows": 544,
+      "best_epoch": 1,
+      "epochs_run": 2,
+      "temperature": 0.594481885433197,
+      "train_seconds": 455.0,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024,
+        "max_state_tokens": 256
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.4863633279452848,
+          "validation_accuracy": 0.998605476673428,
+          "validation_macro_f1": 0.9640470892250931,
+          "seconds": 217.7
+        },
+        {
+          "epoch": 2,
+          "loss": 0.37823833530897377,
+          "validation_accuracy": 0.9987322515212982,
+          "validation_macro_f1": 0.9634603841957575,
+          "seconds": 237.3
+        }
+      ],
+      "metrics_file": "artifacts\\ctx-256\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\ctx-384",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 384,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5983266234397888
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\ctx-384\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "07aabea36c53b642f7db8f91906877656e4578114b10ef4ccd43163ab3ad4e13"
+      },
+      "tokenizer": {
+        "path": "artifacts\\ctx-384\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 200182,
+      "validation_rows": 7888,
+      "test_rows": 544,
+      "best_epoch": 2,
+      "epochs_run": 2,
+      "temperature": 0.5983266234397888,
+      "train_seconds": 365.0,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024,
+        "max_state_tokens": 384
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.4854869042782832,
+          "validation_accuracy": 0.998605476673428,
+          "validation_macro_f1": 0.958585823372266,
+          "seconds": 185.8
+        },
+        {
+          "epoch": 2,
+          "loss": 0.37901627440053176,
+          "validation_accuracy": 0.9987322515212982,
+          "validation_macro_f1": 0.9630433223222653,
+          "seconds": 179.2
+        }
+      ],
+      "metrics_file": "artifacts\\ctx-384\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\ctx-512",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 512,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5972729325294495
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\ctx-512\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "6eaf1bfe594fa12f18be75bea85ac0711a41e4144116931f93efb04f8ee91a3b"
+      },
+      "tokenizer": {
+        "path": "artifacts\\ctx-512\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 200182,
+      "validation_rows": 7888,
+      "test_rows": 544,
+      "best_epoch": 2,
+      "epochs_run": 2,
+      "temperature": 0.5972729325294495,
+      "train_seconds": 359.8,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024,
+        "max_state_tokens": 512
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.48728121628465554,
+          "validation_accuracy": 0.9982251521298174,
+          "validation_macro_f1": 0.941447883728564,
+          "seconds": 179.7
+        },
+        {
+          "epoch": 2,
+          "loss": 0.3784147820547414,
+          "validation_accuracy": 0.9987322515212982,
+          "validation_macro_f1": 0.9632600115441128,
+          "seconds": 180.1
+        }
+      ],
+      "metrics_file": "artifacts\\ctx-512\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\jev-field",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 256,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 768,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5794634819030762
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jev-field\\model.pt",
+        "bytes": 41161195,
+        "sha256_head": "919f8967bd12c24971a30fd18eb8fec8dece86c8da4a16f9e444596895ec2ec1"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field\\tokenizer.json",
+        "sha256": "bdd52a6e3b487a5ddfef060e2f1d84a4596c621b428de72804b6faa272aa9d4f"
+      },
+      "parameter_count": 10278955,
+      "train_rows": 171123,
+      "validation_rows": 7896,
+      "test_rows": 7571,
+      "best_epoch": 7,
+      "epochs_run": 10,
+      "temperature": 0.5794634819030762,
+      "train_seconds": 1044.4,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.6215886387790265,
+          "validation_accuracy": 0.995694022289767,
+          "validation_macro_f1": 0.8201568222956722,
+          "seconds": 104.7
+        },
+        {
+          "epoch": 2,
+          "loss": 0.4070471067131902,
+          "validation_accuracy": 0.9978470111448835,
+          "validation_macro_f1": 0.8965399780959783,
+          "seconds": 107.7
+        },
+        {
+          "epoch": 3,
+          "loss": 0.3969254834836374,
+          "validation_accuracy": 0.9973404255319149,
+          "validation_macro_f1": 0.8990389949942347,
+          "seconds": 103.6
+        },
+        {
+          "epoch": 4,
+          "loss": 0.39420927028618585,
+          "validation_accuracy": 0.99822695035461,
+          "validation_macro_f1": 0.9632751637864656,
+          "seconds": 105.6
+        },
+        {
+          "epoch": 5,
+          "loss": 0.3883698447001889,
+          "validation_accuracy": 0.9981003039513677,
+          "validation_macro_f1": 0.9531968377775293,
+          "seconds": 103.7
+        },
+        {
+          "epoch": 6,
+          "loss": 0.3849884708633337,
+          "validation_accuracy": 0.9983535967578521,
+          "validation_macro_f1": 0.9602038818249315,
+          "seconds": 103.7
+        },
+        {
+          "epoch": 7,
+          "loss": 0.38065460731897655,
+          "validation_accuracy": 0.9986068895643364,
+          "validation_macro_f1": 0.9722619493640219,
+          "seconds": 103.7
+        },
+        {
+          "epoch": 8,
+          "loss": 0.3781409408279064,
+          "validation_accuracy": 0.9984802431610942,
+          "validation_macro_f1": 0.9337407398831709,
+          "seconds": 103.9
+        },
+        {
+          "epoch": 9,
+          "loss": 0.37485181099229864,
+          "validation_accuracy": 0.9986068895643364,
+          "validation_macro_f1": 0.9589921338529033,
+          "seconds": 103.7
+        },
+        {
+          "epoch": 10,
+          "loss": 0.3724329194947743,
+          "validation_accuracy": 0.9986068895643364,
+          "validation_macro_f1": 0.9637181363733969,
+          "seconds": 104.1
+        }
+      ],
+      "metrics_file": "artifacts\\jev-field\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\jev-field-pretrain",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 256,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 768,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 1.0
+      },
+      "labels": 43,
+      "weights": {
+        "path": "artifacts\\jev-field-pretrain\\model.pt",
+        "bytes": 41160683,
+        "sha256_head": "774e09e5db6de5e8de8f6597c60783d70eebb43f2d58501a43e647bd7642e09b"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field-pretrain\\tokenizer.json",
+        "sha256": "bdd52a6e3b487a5ddfef060e2f1d84a4596c621b428de72804b6faa272aa9d4f"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jev-field-v2",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6254751682281494
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jev-field-v2\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "301da665214172319d85e288216be2eede6c5aefece2da26275e1263be54722f"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field-v2\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 200985,
+      "validation_rows": 7896,
+      "test_rows": 7571,
+      "best_epoch": 6,
+      "epochs_run": 9,
+      "temperature": 0.6254751682281494,
+      "train_seconds": 1655.0,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.5924673916446446,
+          "validation_accuracy": 0.9984802431610942,
+          "validation_macro_f1": 0.9558515969800992,
+          "seconds": 163.2
+        },
+        {
+          "epoch": 2,
+          "loss": 0.3947301230605944,
+          "validation_accuracy": 0.9979736575481256,
+          "validation_macro_f1": 0.9507607008663962,
+          "seconds": 199.3
+        },
+        {
+          "epoch": 3,
+          "loss": 0.3888939087632279,
+          "validation_accuracy": 0.9983535967578521,
+          "validation_macro_f1": 0.9566415944021216,
+          "seconds": 199.7
+        },
+        {
+          "epoch": 4,
+          "loss": 0.38281982510911927,
+          "validation_accuracy": 0.9981003039513677,
+          "validation_macro_f1": 0.9611722575015363,
+          "seconds": 200.9
+        },
+        {
+          "epoch": 5,
+          "loss": 0.3785592607349698,
+          "validation_accuracy": 0.9981003039513677,
+          "validation_macro_f1": 0.9614490312008537,
+          "seconds": 176.2
+        },
+        {
+          "epoch": 6,
+          "loss": 0.3740829727198811,
+          "validation_accuracy": 0.9983535967578521,
+          "validation_macro_f1": 0.9616944496352066,
+          "seconds": 162.5
+        },
+        {
+          "epoch": 7,
+          "loss": 0.37182753723125406,
+          "validation_accuracy": 0.99822695035461,
+          "validation_macro_f1": 0.9612303857935176,
+          "seconds": 162.6
+        },
+        {
+          "epoch": 8,
+          "loss": 0.3702219294272043,
+          "validation_accuracy": 0.99822695035461,
+          "validation_macro_f1": 0.9613678708233798,
+          "seconds": 191.3
+        },
+        {
+          "epoch": 9,
+          "loss": 0.3691429921070962,
+          "validation_accuracy": 0.9983535967578521,
+          "validation_macro_f1": 0.9616728478701808,
+          "seconds": 199.3
+        }
+      ],
+      "metrics_file": "artifacts\\jev-field-v2\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\jev-field-v2-bodynoise",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5818225741386414
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jev-field-v2-bodynoise\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "2983f49ed90d77ec9a70d5c8523cb3de8f17460fc86fc2740f04ab29fe2bd551"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field-v2-bodynoise\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 234795,
+      "validation_rows": 7896,
+      "test_rows": 7571,
+      "best_epoch": 3,
+      "epochs_run": 6,
+      "temperature": 0.5818225741386414,
+      "train_seconds": 1333.1,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.5990975796688996,
+          "validation_accuracy": 0.9983535967578521,
+          "validation_macro_f1": 0.9219031827447893,
+          "seconds": 223.9
+        },
+        {
+          "epoch": 2,
+          "loss": 0.4048738605354228,
+          "validation_accuracy": 0.9986068895643364,
+          "validation_macro_f1": 0.9553881607723569,
+          "seconds": 215.7
+        },
+        {
+          "epoch": 3,
+          "loss": 0.3948846881446152,
+          "validation_accuracy": 0.9988601823708206,
+          "validation_macro_f1": 0.9726550333261749,
+          "seconds": 214.9
+        },
+        {
+          "epoch": 4,
+          "loss": 0.38782891099899397,
+          "validation_accuracy": 0.9987335359675785,
+          "validation_macro_f1": 0.9621432662665788,
+          "seconds": 218.7
+        },
+        {
+          "epoch": 5,
+          "loss": 0.3820128115541313,
+          "validation_accuracy": 0.9986068895643364,
+          "validation_macro_f1": 0.9599351722033381,
+          "seconds": 227.8
+        },
+        {
+          "epoch": 6,
+          "loss": 0.37696972725728645,
+          "validation_accuracy": 0.9983535967578521,
+          "validation_macro_f1": 0.9453087291975661,
+          "seconds": 232.1
+        }
+      ],
+      "metrics_file": "artifacts\\jev-field-v2-bodynoise\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\jev-field-v2-plain",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 1.0
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jev-field-v2-plain\\model.pt",
+        "bytes": 61371179,
+        "sha256_head": "0ea99dd51a8d652d54cf848a46c5e5c604636e2f09854094487bbaf7b9bc047b"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field-v2-plain\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jev-field-v2-pretrain",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 1.0
+      },
+      "labels": 43,
+      "weights": {
+        "path": "artifacts\\jev-field-v2-pretrain\\model.pt",
+        "bytes": 61371371,
+        "sha256_head": "138063d2cf9065b7ed20c2821ead09a2abff9b2fdf30e7399f4f2607a0ab44b5"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field-v2-pretrain\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jev-field-v3",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6282697916030884
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jev-field-v3\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "ef75e8259454d8c92bf23988b100f9439bc15140e6690a6da12031e77bd09803"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field-v3\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 171123,
+      "validation_rows": 7896,
+      "test_rows": 7571,
+      "best_epoch": 2,
+      "epochs_run": 4,
+      "temperature": 0.5896981954574585,
+      "train_seconds": 1304.7,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "layers": 12,
+        "ffn": 1024,
+        "heads": 4
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.45445551045005095,
+          "validation_accuracy": 0.999113475177305,
+          "validation_macro_f1": 0.9776540063012035,
+          "seconds": 340.6
+        },
+        {
+          "epoch": 2,
+          "loss": 0.40926724859417285,
+          "validation_accuracy": 0.9988601823708206,
+          "validation_macro_f1": 0.9818986915343542,
+          "seconds": 311.5
+        },
+        {
+          "epoch": 3,
+          "loss": 0.3948419357361815,
+          "validation_accuracy": 0.9987335359675785,
+          "validation_macro_f1": 0.9685822478600554,
+          "seconds": 342.4
+        },
+        {
+          "epoch": 4,
+          "loss": 0.3827909867993385,
+          "validation_accuracy": 0.9986068895643364,
+          "validation_macro_f1": 0.9676413586055628,
+          "seconds": 310.2
+        }
+      ],
+      "metrics_file": "artifacts\\jev-field-v3\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\jev-field-v4",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5466079115867615
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jev-field-v4\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "cc312cfc95afbb7a533a1e7fdb5001aa44de97e68734e092ad67916f0aeca114"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field-v4\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 171123,
+      "validation_rows": 7896,
+      "test_rows": 7571,
+      "best_epoch": 1,
+      "epochs_run": 1,
+      "temperature": 0.5466079115867615,
+      "train_seconds": 316.4,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "layers": 12,
+        "ffn": 1024,
+        "heads": 4
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.4363159190178452,
+          "validation_accuracy": 0.999113475177305,
+          "validation_macro_f1": 0.9798012412795724,
+          "seconds": 316.4
+        }
+      ],
+      "metrics_file": "artifacts\\jev-field-v4\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\jev-field-v5",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5909042358398438
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jev-field-v5\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "7be5e7aadc8fe1e1438b2eb55b423253c2cf70f4caf9751571cd64369e03d8b2"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jev-field-v5\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jv3-c2-ctrl",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 1.0
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv3-c2-ctrl\\model.pt",
+        "bytes": 61371179,
+        "sha256_head": "d0f22e651a4c7f38a320cafc6b301ded9b9b57aa8d0dc4a93910dc938077def0"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv3-c2-ctrl\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jv3-c2-domw",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 1.0
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv3-c2-domw\\model.pt",
+        "bytes": 61371179,
+        "sha256_head": "1246c6aac5172ef8360d9d3fbc5d4ec5ef682bf38c88fea4a1b1fcdfdaf0b6d2"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv3-c2-domw\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jv4-soup",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6254751682281494
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv4-soup\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "29eb830f7a784afdbe12dd63ac9624a85ca1ca2460c9cac46fd411fdab3bfe0e"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv4-soup\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jv5-field",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6024755239486694
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv5-field\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "231540b8c09c3a74f0d2d23aba97d805dca391e12af8c035ebf886f10a9a4f1e"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv5-field\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 240167,
+      "validation_rows": 7760,
+      "test_rows": 534,
+      "best_epoch": 4,
+      "epochs_run": 5,
+      "temperature": 0.6024755239486694,
+      "train_seconds": 968.2,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.5541837127040997,
+          "validation_accuracy": 0.998840206185567,
+          "validation_macro_f1": 0.9682744185925077,
+          "seconds": 195.3
+        },
+        {
+          "epoch": 2,
+          "loss": 0.3918593937068058,
+          "validation_accuracy": 0.9985824742268041,
+          "validation_macro_f1": 0.9674632377767782,
+          "seconds": 193.3
+        },
+        {
+          "epoch": 3,
+          "loss": 0.38036896356289907,
+          "validation_accuracy": 0.9989690721649485,
+          "validation_macro_f1": 0.9683819814290449,
+          "seconds": 193.2
+        },
+        {
+          "epoch": 4,
+          "loss": 0.37337991864465886,
+          "validation_accuracy": 0.9989690721649485,
+          "validation_macro_f1": 0.9685171489121345,
+          "seconds": 193.0
+        },
+        {
+          "epoch": 5,
+          "loss": 0.37150616659153757,
+          "validation_accuracy": 0.9989690721649485,
+          "validation_macro_f1": 0.9681589109933849,
+          "seconds": 193.4
+        }
+      ],
+      "metrics_file": "artifacts\\jv5-field\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\jv6-soup",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6254751682281494
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv6-soup\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "f8efca57ff5f13b5bdecd343737be78d4bf6b41e6a51082981e7a59c069eca18"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv6-soup\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jv6-soup73",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6282697916030884
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv6-soup73\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "ef75e8259454d8c92bf23988b100f9439bc15140e6690a6da12031e77bd09803"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv6-soup73\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jv7-field",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5902186632156372
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv7-field\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "c8bc824776909da453cd7a6e645b625b679b29b4825698cf3cba1b8ee842cd92"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv7-field\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 107714,
+      "validation_rows": 7760,
+      "test_rows": 534,
+      "best_epoch": 4,
+      "epochs_run": 4,
+      "temperature": 0.5902186632156372,
+      "train_seconds": 412.0,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.3907631723163815,
+          "validation_accuracy": 0.9989690721649485,
+          "validation_macro_f1": 0.9684080815192833,
+          "seconds": 102.6
+        },
+        {
+          "epoch": 2,
+          "loss": 0.3725402819728512,
+          "validation_accuracy": 0.9989690721649485,
+          "validation_macro_f1": 0.9683083345088287,
+          "seconds": 101.6
+        },
+        {
+          "epoch": 3,
+          "loss": 0.37006380581346693,
+          "validation_accuracy": 0.9990979381443299,
+          "validation_macro_f1": 0.9714598276468795,
+          "seconds": 104.2
+        },
+        {
+          "epoch": 4,
+          "loss": 0.36944484254643584,
+          "validation_accuracy": 0.9990979381443299,
+          "validation_macro_f1": 0.9714783309345373,
+          "seconds": 103.6
+        }
+      ],
+      "metrics_file": "artifacts\\jv7-field\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\jv8-soup55",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6282697916030884
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv8-soup55\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "2ef2bcd7339d26a4858d3cd1f79820d28a020bd345d2f60eccc7269d4aadd404"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv8-soup55\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jv8-soup73",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6282697916030884
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv8-soup73\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "13e5bc72b67932184ebbc5a060018f628c564294c402479e1da5c14b9fe5728d"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv8-soup73\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\jv9-header-2ep",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5804663300514221
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\jv9-header-2ep\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "f2dae8b7f2acc640014291fe2b0744f372c0fd6801756ed5d40900f3a8c5eded"
+      },
+      "tokenizer": {
+        "path": "artifacts\\jv9-header-2ep\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 171123,
+      "validation_rows": 7896,
+      "test_rows": 7571,
+      "best_epoch": 1,
+      "epochs_run": 1,
+      "temperature": 0.5804663300514221,
+      "train_seconds": 155.6,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "layers": 12,
+        "ffn": 1024,
+        "heads": 4
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.4010139041551025,
+          "validation_accuracy": 0.9987335359675785,
+          "validation_macro_f1": 0.974287038207591,
+          "seconds": 155.6
+        }
+      ],
+      "metrics_file": "artifacts\\jv9-header-2ep\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\school-fold-0",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6010535359382629
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\school-fold-0\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "34f1fb7a673f17ae51cab49e23dec1eca0dc25419bb6c58bb05d1b75e501e8f7"
+      },
+      "tokenizer": {
+        "path": "artifacts\\school-fold-0\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 200182,
+      "validation_rows": 7888,
+      "test_rows": 544,
+      "best_epoch": 1,
+      "epochs_run": 2,
+      "temperature": 0.6010535359382629,
+      "train_seconds": 379.5,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.4972890712899421,
+          "validation_accuracy": 0.9984787018255578,
+          "validation_macro_f1": 0.9588222678386421,
+          "seconds": 197.9
+        },
+        {
+          "epoch": 2,
+          "loss": 0.3777437483247152,
+          "validation_accuracy": 0.9984787018255578,
+          "validation_macro_f1": 0.9583128873275084,
+          "seconds": 181.6
+        }
+      ],
+      "metrics_file": "artifacts\\school-fold-0\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\school-fold-1",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.5957891941070557
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\school-fold-1\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "62f41bbeaee29e58f24766f1abeec9bf52cadee082343d6d2eaba10a61828f69"
+      },
+      "tokenizer": {
+        "path": "artifacts\\school-fold-1\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 200414,
+      "validation_rows": 7831,
+      "test_rows": 538,
+      "best_epoch": 2,
+      "epochs_run": 2,
+      "temperature": 0.5957891941070557,
+      "train_seconds": 360.8,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.49801115223502745,
+          "validation_accuracy": 0.9987230238794534,
+          "validation_macro_f1": 0.9676600781863938,
+          "seconds": 181.0
+        },
+        {
+          "epoch": 2,
+          "loss": 0.3779238143300645,
+          "validation_accuracy": 0.9988507214915081,
+          "validation_macro_f1": 0.9686811544635561,
+          "seconds": 179.8
+        }
+      ],
+      "metrics_file": "artifacts\\school-fold-1\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\school-fold-2",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.553695797920227
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\school-fold-2\\model.pt",
+        "bytes": 61371947,
+        "sha256_head": "a4a3884ccba9fc530848440a9150f6deb93bdd9bc19c464049f9530cc6aceb8e"
+      },
+      "tokenizer": {
+        "path": "artifacts\\school-fold-2\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "parameter_count": 15331563,
+      "train_rows": 200417,
+      "validation_rows": 7804,
+      "test_rows": 556,
+      "best_epoch": 2,
+      "epochs_run": 2,
+      "temperature": 0.553695797920227,
+      "train_seconds": 353.2,
+      "device": "cuda",
+      "option_dropout": 0.15,
+      "class_weight_power": 0.0,
+      "sampler_power": 0.5,
+      "arch": {
+        "hidden": 320,
+        "ffn": 1024
+      },
+      "epochs": [
+        {
+          "epoch": 1,
+          "loss": 0.49870136951121335,
+          "validation_accuracy": 0.9991030240902101,
+          "validation_macro_f1": 0.9771102735332118,
+          "seconds": 177.1
+        },
+        {
+          "epoch": 2,
+          "loss": 0.3772086353822686,
+          "validation_accuracy": 0.9993593029215787,
+          "validation_macro_f1": 0.9796848117865893,
+          "seconds": 176.1
+        }
+      ],
+      "metrics_file": "artifacts\\school-fold-2\\metrics.json"
+    },
+    {
+      "checkpoint": "artifacts\\soup-05",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6254751682281494
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\soup-05\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "f8efca57ff5f13b5bdecd343737be78d4bf6b41e6a51082981e7a59c069eca18"
+      },
+      "tokenizer": {
+        "path": "artifacts\\soup-05\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\soup-06",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6254751682281494
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\soup-06\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "33257595363b5535f900d1cad1e1df6788b7997eeea3868b7f8be4bca0b9fe4d"
+      },
+      "tokenizer": {
+        "path": "artifacts\\soup-06\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    },
+    {
+      "checkpoint": "artifacts\\soup-08",
+      "config": {
+        "config": {
+          "vocab_size": 16000,
+          "embed_dim": 128,
+          "hidden": 320,
+          "layers": 12,
+          "heads": 4,
+          "ffn": 1024,
+          "max_positions": 512,
+          "max_state_tokens": 127,
+          "max_option_tokens": 24,
+          "dropout": 0.1
+        },
+        "temperature": 0.6254751682281494
+      },
+      "labels": 42,
+      "weights": {
+        "path": "artifacts\\soup-08\\model.pt",
+        "bytes": 61372075,
+        "sha256_head": "7b423670fb87e454943e2f0b89c6ae4701470a665dccd6a817c4b41bc5382903"
+      },
+      "tokenizer": {
+        "path": "artifacts\\soup-08\\tokenizer.json",
+        "sha256": "12f9dcf8b763c99fdd51c2593c8d53a954f924c22779f26ead10094b3ab97132"
+      },
+      "metrics_file": null
+    }
+  ],
+  "training_corpora": [
+    {
+      "path": "data\\processed\\field_mix\\train.jsonl",
+      "rows": 171123,
+      "sha256": "093497387df65a2216ed815bce22f8f46b60de5a47fea6b0a21caf3de82ee1ab"
+    },
+    {
+      "path": "data\\processed\\field_mix\\validation.jsonl",
+      "rows": 7896,
+      "sha256": "f645b61c5cd9d17bdfc73921d03eb891e656b09a11319a10f1974e318c32dc57"
+    },
+    {
+      "path": "data\\processed\\field_mix\\test.jsonl",
+      "rows": 7571,
+      "sha256": "0419395bbcb25ed3672a5372e97c1d9a8c4ce4b4eaeda3f386c5b67e9565f6a4"
+    },
+    {
+      "path": "data\\processed\\field_mix_dropout\\train.jsonl",
+      "rows": 171123,
+      "sha256": "cbc8df22b7c718fe2775b1b81e175f738539dba7333e7362bb4c89fe650f9d5a"
+    }
+  ],
+  "notes": "Weights are identified by a hash of the first MiB, which is enough to tell two fine-tunes apart without storing the full digest for a 61 MB file per checkpoint."
+}

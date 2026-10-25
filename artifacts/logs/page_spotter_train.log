@@ -1,0 +1,47 @@
+rendering 800 training documents ...
+rendering 60 held-out documents ...
+1379 train pages, 104 held-out pages in 83.5s
+epoch  1/12  loss 2.0707  157.1s
+epoch  2/12  loss 0.4181  227.0s
+epoch  3/12  loss 0.0866  296.3s
+epoch  4/12  loss 0.0401  366.2s
+epoch  5/12  loss 0.0294  438.4s
+epoch  6/12  loss 0.0210  507.4s
+epoch  7/12  loss 0.0180  577.1s
+epoch  8/12  loss 0.0149  647.2s
+epoch  9/12  loss 0.0135  719.8s
+epoch 10/12  loss 0.0127  789.3s
+epoch 11/12  loss 0.0121  858.6s
+epoch 12/12  loss 0.0118  928.6s
+{
+  "rows_expected": 564,
+  "rows_decoded": 937,
+  "rows_read_correctly": 444,
+  "fields": {
+    "course_code": {
+      "emitted": 542,
+      "refused": 42,
+      "wrong": 20
+    },
+    "mark": {
+      "emitted": 515,
+      "refused": 49,
+      "wrong": 5
+    },
+    "weight": {
+      "emitted": 492,
+      "refused": 72,
+      "wrong": 12
+    },
+    "credit": {
+      "emitted": 460,
+      "refused": 104,
+      "wrong": 8
+    }
+  },
+  "wrong_total": 45
+}
+pdf page, 2x raster: 15 rows, 7/8 read, {'course_code': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'mark': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'weight': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'credit': {'emitted': 8, 'refused': 0, 'wrong': 1}}
+rendered PNG: 15 rows, 7/8 read, {'course_code': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'mark': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'weight': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'credit': {'emitted': 8, 'refused': 0, 'wrong': 1}}
+256x202 capture: 57 rows, 0/8 read, {'course_code': {'emitted': 0, 'refused': 8, 'wrong': 0}, 'mark': {'emitted': 0, 'refused': 8, 'wrong': 0}, 'weight': {'emitted': 0, 'refused': 8, 'wrong': 0}, 'credit': {'emitted': 0, 'refused': 8, 'wrong': 0}}
+degraded PNG (0.5 deg, blur 0.6, JPEG 60): 15 rows, 8/8 read, {'course_code': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'mark': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'weight': {'emitted': 8, 'refused': 0, 'wrong': 0}, 'credit': {'emitted': 8, 'refused': 0, 'wrong': 0}}

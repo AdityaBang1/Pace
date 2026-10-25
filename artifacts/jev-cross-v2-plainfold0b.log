@@ -1,0 +1,23 @@
+{"fold": 0, "holdout_schools": ["Massachusetts Institute of Technology", "Pennsylvania State University", "The Ohio State University", "University of California, Berkeley", "University of California, Los Angeles"]}
+{"loaded_encoder_from": "artifacts\\jev-field-v2-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 199203, "validation": 7888, "test": 447, "parameters": 15331563}
+{"epoch": 1, "loss": 0.5610295724202672, "validation_accuracy": 0.9949290060851927, "validation_macro_f1": 0.8388070999037419, "seconds": 184.5}
+{"epoch": 2, "loss": 0.3957917590648912, "validation_accuracy": 0.9953093306288032, "validation_macro_f1": 0.8930917005423301, "seconds": 182.1}
+{"epoch": 3, "loss": 0.3873718999943522, "validation_accuracy": 0.9982251521298174, "validation_macro_f1": 0.917889979864856, "seconds": 182.3}
+{"epoch": 4, "loss": 0.38247011240162604, "validation_accuracy": 0.998605476673428, "validation_macro_f1": 0.9637874521556885, "seconds": 180.4}
+{"epoch": 5, "loss": 0.3775709955621087, "validation_accuracy": 0.9984787018255578, "validation_macro_f1": 0.955623105370891, "seconds": 175.0}
+{"epoch": 6, "loss": 0.3744017214788867, "validation_accuracy": 0.9984787018255578, "validation_macro_f1": 0.9552012436705907, "seconds": 191.0}
+{"epoch": 7, "loss": 0.37192625071501684, "validation_accuracy": 0.9987322515212982, "validation_macro_f1": 0.9638685470623958, "seconds": 194.0}
+{"epoch": 8, "loss": 0.3696295961823767, "validation_accuracy": 0.9987322515212982, "validation_macro_f1": 0.9623515645715637, "seconds": 195.8}
+{"epoch": 9, "loss": 0.3684250441647219, "validation_accuracy": 0.998605476673428, "validation_macro_f1": 0.961889464174101, "seconds": 172.6}
+{"epoch": 10, "loss": 0.3681147263918309, "validation_accuracy": 0.9987322515212982, "validation_macro_f1": 0.963340438342345, "seconds": 161.0}
+{"early_stop_at": 10, "best_epoch": 7}
+{
+  "folds": 1,
+  "pooled_test_rows": 447,
+  "mean_test_accuracy": 0.7628635346756152,
+  "std_test_accuracy": 0.0,
+  "mean_test_macro_f1": 0.4804769130032904,
+  "std_test_macro_f1": 0.0
+}
+  fold 0: holdout=['Massachusetts Institute of Technology', 'Pennsylvania State University', 'The Ohio State University', 'University of California, Berkeley', 'University of California, Los Angeles'] rows=447 acc=0.7629 macroF1=0.4805

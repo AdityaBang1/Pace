@@ -1,0 +1,12 @@
+{
+  "runs": 200,
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4070",
+  "latency_ms_p50": 2.4098000139929354,
+  "latency_ms_p95": 3.703300026245415,
+  "throughput_examples_per_second": 387.0604153284844,
+  "model_checkpoint_bytes": 90931685,
+  "parameter_count": 22723611,
+  "torch_cuda_peak_allocated_bytes": 103789056,
+  "scope": "Python/PyTorch; batch size 1; fixed 160 tokens; excludes OCR, PDF render, app and Core ML"
+}

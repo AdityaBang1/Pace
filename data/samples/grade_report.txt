@@ -1,0 +1,49 @@
+Course                                           Absent      Tardy
+700695y AP Business                                   0          0
+728305y AP Computer Science Principles                0          0
+220745y AP Precalculus                                0          0
+32145y Chemistry I Honors                             0          0
+10145y Literature & Composition II                    0          0
+50725y Spanish III                                    0          0
+
+Grade Report:
+Course                                              Task                                    S1
+10145y-101 Literature & Composition II [Fireall, Ashley N]  9 WEEK                             89
+                Assignment Completion                                                          2
+                Interpersonal Skills                                                           2
+                Participation                                                                  2
+                Responsibility                                                                 2
+
+220745y-302 AP Precalculus [Shaw, Christian Evans]          9 WEEK                             82
+                Assignment Completion                                                          2
+                Interpersonal Skills                                                           2
+                Participation                                                                  2
+                Responsibility                                                                 2
+
+32145y-501 Chemistry I Honors [Ash, Christopher John]       9 WEEK                             96
+                Assignment Completion                                                          2
+                Interpersonal Skills                                                           2
+                2
+                Responsibility                                                                 2
+
+42135y-402 AP World History [Berry, Gavin Scott]            9 WEEK                             92
+                Assignment Completion                                                          2
+                Interpersonal Skills                                                           2
+                Participation                                                                  2
+                Responsibility                                                                 2
+
+50725y-701 Spanish III [Elison, Robert Ross]                9 WEEK                             93
+                Assignment Completion                                                          2
+                Interpersonal Skills                                                           2
+                Participation                                                                  2
+                Responsibility                                                                 2
+
+700695y-601 AP Business [Moody, Christopher M]              9 WEEK                             96
+                Assignment Completion                                                          2
+                Interpersonal Skills                                                           2
+                Participation                                                                  2
+                Responsibility                                                                 2
+
+728305y-202 AP Computer Science Principles [de la Rosa,
+                Jacquelyn Gabriellj                                9 WEEK                     97
+                Assignment Completion                                                          2

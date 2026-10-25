@@ -1,0 +1,106 @@
+{
+ "schema_version": "pace.academic-ir/0.2",
+ "document": {
+  "characters": 130,
+  "cleaned_characters": 130,
+  "truncated_for_evidence": false,
+  "evidence_coordinates": "cleaned_text",
+  "sections_detected": 0,
+  "document_type": {
+   "label": "other",
+   "proposed_label": "other",
+   "confidence": 0.8601,
+   "academic": false,
+   "abstained": true,
+   "top": [
+    {
+     "label": "other",
+     "probability": 0.8601
+    },
+    {
+     "label": "course_catalog",
+     "probability": 0.1275
+    },
+    {
+     "label": "schedule",
+     "probability": 0.0071
+    }
+   ]
+  },
+  "document_type_unavailable_because": null
+ },
+ "course": {
+  "course_code": "PERIOD 01"
+ },
+ "grading": [],
+ "grading_total_percent": null,
+ "grading_total_consistent": null,
+ "meetings": [],
+ "policies": {},
+ "sections": [],
+ "evidence": [
+  {
+   "field": "course_code",
+   "value": "PERIOD 01",
+   "confidence": 0.93,
+   "confidence_source": "rule",
+   "band": null,
+   "source_text": "PERIOD 01",
+   "start": 0,
+   "end": 40,
+   "grounded_in_source": true,
+   "requires_confirmation": true
+  }
+ ],
+ "suppressed": [
+  {
+   "field": "course_title",
+   "value": "Beginning balance 4, 210.55",
+   "reason": "below the plausibility floor",
+   "evidence": "Beginning balance 4,210.55"
+  },
+  {
+   "field": "course_title",
+   "value": "STATEMENT PERIOD 01/02/2026 - 01/31/2026",
+   "reason": "a session or term line",
+   "evidence": "text in the first 800 characters"
+  },
+  {
+   "field": "course_title",
+   "value": null,
+   "reason": "no course name: the best line is not a printed title",
+   "evidence": "Beginning balance 4,210.55"
+  }
+ ],
+ "confidence": {
+  "sections_in_distribution_ece": 0.0016,
+  "sections_unseen_university_ece": 0.1665,
+  "sections_unseen_university_accuracy": 0.783,
+  "rule_values_development_precision": 0.917,
+  "rule_values_holdout_precision": 0.955,
+  "holdout_documents": 12,
+  "bands": {
+   "high": ">=0.97",
+   "medium": "0.85-0.97",
+   "low": "<0.85"
+  },
+  "bands_apply_to": "section labels only (model probabilities)",
+  "value_confidences": "set by the rule that read the value (0.60-0.97), not a probability; their measured precision is the rule number above",
+  "note": "A high band is a preselect-and-confirm signal, not an assertion. On unseen universities 0.98+ model confidence measured 0.828 precision. Every value this module returns requires a human confirmation."
+ },
+ "model": {
+  "checkpoint": "artifacts/field-classifier-minilm",
+  "context_checkpoint": "artifacts/field-classifier-context",
+  "family": "encoder-classifier",
+  "parameters": 22729386,
+  "max_state_tokens": 256,
+  "temperature": 0.6466508507728577,
+  "document_type_checkpoint": "artifacts/doc-type"
+ },
+ "warnings": [
+  "this does not look like an academic document (other 0.86); the fields below are proposals from unrelated text",
+  "no section heading was recognised; fields were read from whole lines"
+ ],
+ "requires_confirmation": true,
+ "commit_policy": "proposals_only_user_confirmation_required"
+}

@@ -1,0 +1,311 @@
+{
+  "task": "academic document type + academic/non-academic gate",
+  "labels": [
+    "syllabus",
+    "course_catalog",
+    "schedule",
+    "other"
+  ],
+  "not_trained": {
+    "transcript": "two real transcripts exist; the deterministic parser covers them",
+    "gradebook": "no real public gradebook text; synthetic-only would repeat the old mistake",
+    "report_card": "same as gradebook",
+    "graduation_requirements": "no real documents in the corpus"
+  },
+  "rows": {
+    "train": 1805,
+    "validation": 223,
+    "test": 302
+  },
+  "by_label": {
+    "train": {
+      "syllabus": 67,
+      "course_catalog": 294,
+      "schedule": 391,
+      "other": 1053
+    },
+    "validation": {
+      "syllabus": 8,
+      "other": 215
+    },
+    "test": {
+      "syllabus": 15,
+      "course_catalog": 40,
+      "schedule": 8,
+      "other": 239
+    }
+  },
+  "threshold": 0.0,
+  "threshold_sweep": [
+    {
+      "threshold": 0.0,
+      "false_academic_rate": 0.0,
+      "false_academic": 0,
+      "negatives": 215
+    }
+  ],
+  "validation": {
+    "rows": 223,
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "per_class": {
+      "other": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 215.0
+      },
+      "syllabus": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 8.0
+      },
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 223.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 223.0
+      }
+    },
+    "false_academic": 0,
+    "false_academic_rate": 0.0,
+    "negatives": 215,
+    "abstentions": 215,
+    "ece_10bin": 0.0097,
+    "reliability": [
+      {
+        "bin": "0.0-0.1",
+        "rows": 0
+      },
+      {
+        "bin": "0.1-0.2",
+        "rows": 0
+      },
+      {
+        "bin": "0.2-0.3",
+        "rows": 0
+      },
+      {
+        "bin": "0.3-0.4",
+        "rows": 0
+      },
+      {
+        "bin": "0.4-0.5",
+        "rows": 0
+      },
+      {
+        "bin": "0.5-0.6",
+        "rows": 0
+      },
+      {
+        "bin": "0.6-0.7",
+        "rows": 0
+      },
+      {
+        "bin": "0.7-0.8",
+        "rows": 1,
+        "confidence": 0.7362,
+        "accuracy": 1.0
+      },
+      {
+        "bin": "0.8-0.9",
+        "rows": 0
+      },
+      {
+        "bin": "0.9-1.0",
+        "rows": 222,
+        "confidence": 0.9914,
+        "accuracy": 1.0
+      }
+    ]
+  },
+  "test": {
+    "rows": 302,
+    "accuracy": 0.9967,
+    "macro_f1": 0.9883,
+    "per_class": {
+      "course_catalog": {
+        "precision": 0.9756,
+        "recall": 1.0,
+        "f1-score": 0.9877,
+        "support": 40.0
+      },
+      "other": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 239.0
+      },
+      "schedule": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 8.0
+      },
+      "syllabus": {
+        "precision": 1.0,
+        "recall": 0.9333,
+        "f1-score": 0.9655,
+        "support": 15.0
+      },
+      "macro avg": {
+        "precision": 0.9939,
+        "recall": 0.9833,
+        "f1-score": 0.9883,
+        "support": 302.0
+      },
+      "weighted avg": {
+        "precision": 0.9968,
+        "recall": 0.9967,
+        "f1-score": 0.9967,
+        "support": 302.0
+      }
+    },
+    "false_academic": 0,
+    "false_academic_rate": 0.0,
+    "negatives": 239,
+    "abstentions": 239,
+    "ece_10bin": 0.011,
+    "reliability": [
+      {
+        "bin": "0.0-0.1",
+        "rows": 0
+      },
+      {
+        "bin": "0.1-0.2",
+        "rows": 0
+      },
+      {
+        "bin": "0.2-0.3",
+        "rows": 0
+      },
+      {
+        "bin": "0.3-0.4",
+        "rows": 0
+      },
+      {
+        "bin": "0.4-0.5",
+        "rows": 0
+      },
+      {
+        "bin": "0.5-0.6",
+        "rows": 0
+      },
+      {
+        "bin": "0.6-0.7",
+        "rows": 0
+      },
+      {
+        "bin": "0.7-0.8",
+        "rows": 2,
+        "confidence": 0.7627,
+        "accuracy": 0.5
+      },
+      {
+        "bin": "0.8-0.9",
+        "rows": 0
+      },
+      {
+        "bin": "0.9-1.0",
+        "rows": 300,
+        "confidence": 0.9907,
+        "accuracy": 1.0
+      }
+    ]
+  },
+  "test_by_institution": {
+    "Stanford University": 1.0,
+    "University of Illinois Urbana-Champaign": 1.0,
+    "Carnegie Mellon University": 0.8,
+    "USC/USC-Course-Catalog": 1.0
+  },
+  "hard_negative_test": {
+    "rows": 4,
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "per_class": {
+      "other": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 4.0
+      },
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 4.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 4.0
+      }
+    },
+    "false_academic": 0,
+    "false_academic_rate": 0.0,
+    "negatives": 4,
+    "abstentions": 4,
+    "ece_10bin": 0.0995,
+    "reliability": [
+      {
+        "bin": "0.0-0.1",
+        "rows": 0
+      },
+      {
+        "bin": "0.1-0.2",
+        "rows": 0
+      },
+      {
+        "bin": "0.2-0.3",
+        "rows": 0
+      },
+      {
+        "bin": "0.3-0.4",
+        "rows": 0
+      },
+      {
+        "bin": "0.4-0.5",
+        "rows": 0
+      },
+      {
+        "bin": "0.5-0.6",
+        "rows": 0
+      },
+      {
+        "bin": "0.6-0.7",
+        "rows": 0
+      },
+      {
+        "bin": "0.7-0.8",
+        "rows": 1,
+        "confidence": 0.778,
+        "accuracy": 1.0
+      },
+      {
+        "bin": "0.8-0.9",
+        "rows": 0
+      },
+      {
+        "bin": "0.9-1.0",
+        "rows": 3,
+        "confidence": 0.9413,
+        "accuracy": 1.0
+      }
+    ]
+  },
+  "known_limitations": [
+    "catalog and schedule pages are composed from real rows; only the layout is new",
+    "hard negatives are written, not scraped; they are a hard-case probe, not a sample",
+    "syllabus institutions in test are held out, but the three other syllabus schools in train come from the same corpus"
+  ],
+  "seed": 20261024
+}

@@ -1,0 +1,163 @@
+{
+  "checkpoint": "",
+  "model": "choice",
+  "rows": 534,
+  "skipped_outside_vocabulary": 0,
+  "accuracy": 0.5074906367041199,
+  "macro_f1": 0.35540346075264045,
+  "weighted_f1": 0.600114298361561,
+  "mean_confidence": 0.7981278665838171,
+  "ece_10bin": 0.2919693881094679,
+  "temperature": 1.0,
+  "per_class_f1": {
+    "course_title": 0.34782608695652173,
+    "course_code": 0.25,
+    "course_description": 0.20512820512820512,
+    "course_level": 1.0,
+    "instructor": 0.2857142857142857,
+    "office_hours": 0.5625,
+    "contact_information": 0.72,
+    "credits": 0.0,
+    "prerequisites": 0.5,
+    "course_content": 0.3157894736842105,
+    "learning_outcomes": 0.5,
+    "materials": 0.5833333333333334,
+    "assignments": 0.6647230320699709,
+    "due_date": 0.0,
+    "grading_policy": 0.8648648648648649,
+    "grades": 0.6666666666666666,
+    "assessment": 0.4,
+    "course_schedule": 0.6,
+    "exam_schedule": 0.7,
+    "session_dates": 0.0,
+    "term": 0.7272727272727273,
+    "academic_integrity": 0.5454545454545454,
+    "course_policies": 0.5333333333333333,
+    "disability_services": 0.6666666666666666,
+    "additional_information": 0.4444444444444444
+  },
+  "per_class_support": {
+    "course_title": 5,
+    "course_code": 3,
+    "course_description": 5,
+    "course_level": 2,
+    "instructor": 2,
+    "office_hours": 23,
+    "contact_information": 16,
+    "credits": 2,
+    "prerequisites": 2,
+    "course_content": 10,
+    "learning_outcomes": 6,
+    "materials": 29,
+    "assignments": 216,
+    "due_date": 34,
+    "grading_policy": 60,
+    "grades": 9,
+    "assessment": 4,
+    "course_schedule": 17,
+    "exam_schedule": 25,
+    "session_dates": 4,
+    "term": 7,
+    "academic_integrity": 24,
+    "course_policies": 10,
+    "disability_services": 14,
+    "additional_information": 5
+  },
+  "top_confusions": [
+    [
+      "assignments -> other",
+      41
+    ],
+    [
+      "due_date -> class_section",
+      34
+    ],
+    [
+      "assignments -> weekly_readings",
+      27
+    ],
+    [
+      "assignments -> program",
+      9
+    ],
+    [
+      "assignments -> course_title",
+      9
+    ],
+    [
+      "academic_integrity -> course_description",
+      6
+    ],
+    [
+      "assignments -> course_content",
+      5
+    ],
+    [
+      "materials -> course_description",
+      4
+    ],
+    [
+      "session_dates -> course_schedule",
+      4
+    ],
+    [
+      "materials -> assignments",
+      3
+    ],
+    [
+      "materials -> course_content",
+      3
+    ],
+    [
+      "course_policies -> course_content",
+      3
+    ],
+    [
+      "office_hours -> other",
+      3
+    ],
+    [
+      "assignments -> course_description",
+      3
+    ],
+    [
+      "exam_schedule -> other",
+      3
+    ],
+    [
+      "grading_policy -> assignments",
+      3
+    ],
+    [
+      "course_schedule -> course_description",
+      3
+    ],
+    [
+      "academic_integrity -> other",
+      3
+    ],
+    [
+      "learning_outcomes -> course_description",
+      2
+    ],
+    [
+      "learning_outcomes -> course_content",
+      2
+    ]
+  ],
+  "classification_report": {
+    "macro avg": {
+      "precision": 0.6048847623506457,
+      "recall": 0.4808961321860078,
+      "f1-score": 0.48334870662359103,
+      "support": 534.0
+    },
+    "weighted avg": {
+      "precision": 0.7940203633922034,
+      "recall": 0.5074906367041199,
+      "f1-score": 0.6001142983615612,
+      "support": 534.0
+    }
+  },
+  "rows_file": "data/processed/transfer/syllabus-docs/test.jsonl"
+}

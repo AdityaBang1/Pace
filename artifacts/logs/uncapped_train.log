@@ -1,0 +1,20 @@
+{"seed": 20261019, "output": "artifacts\\field-classifier-uncapped"}
+{"param_groups": [{"name": "layer0", "lr": 1.9902612938671867e-05, "tensors": 3}, {"name": "layer0_nodecay", "lr": 1.9902612938671867e-05, "tensors": 2}, {"name": "layer1", "lr": 2.0950118882812494e-05, "tensors": 6}, {"name": "layer1_nodecay", "lr": 2.0950118882812494e-05, "tensors": 10}, {"name": "layer2", "lr": 2.2052756718749993e-05, "tensors": 6}, {"name": "layer2_nodecay", "lr": 2.2052756718749993e-05, "tensors": 10}, {"name": "layer3", "lr": 2.3213428124999993e-05, "tensors": 6}, {"name": "layer3_nodecay", "lr": 2.3213428124999993e-05, "tensors": 10}, {"name": "layer4", "lr": 2.44351875e-05, "tensors": 6}, {"name": "layer4_nodecay", "lr": 2.44351875e-05, "tensors": 10}, {"name": "layer5", "lr": 2.5721249999999997e-05, "tensors": 6}, {"name": "layer5_nodecay", "lr": 2.5721249999999997e-05, "tensors": 10}, {"name": "layer6", "lr": 2.7075e-05, "tensors": 6}, {"name": "layer6_nodecay", "lr": 2.7075e-05, "tensors": 10}, {"name": "layer7", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer7_nodecay", "lr": 2.8499999999999998e-05, "tensors": 1}, {"name": "layer8", "lr": 0.001, "tensors": 1}, {"name": "layer8_nodecay", "lr": 0.001, "tensors": 1}]}
+{"epoch": 1, "train_loss": 1.9764545687216062, "validation_accuracy": 0.9964848614224214, "validation_macro_f1": 0.8594962060767036, "validation_weighted_f1": 0.9965401333700169, "learning_rate": 1.693602403156843e-05, "seconds": 109.16327429999365}
+{"epoch": 2, "train_loss": 1.743600674032016, "validation_accuracy": 0.9971110399544597, "validation_macro_f1": 0.8553611412821192, "validation_weighted_f1": 0.9971536116601754, "learning_rate": 6.704184648730298e-06, "seconds": 112.0219625000027}
+{"epoch": 3, "train_loss": 1.734476572340632, "validation_accuracy": 0.9974454762158893, "validation_macro_f1": 0.8625460151209264, "validation_weighted_f1": 0.9974719591853193, "learning_rate": 9.951306469335934e-07, "seconds": 111.27402459998848}
+{
+  "seeds": [
+    20261019
+  ],
+  "test_macro_f1": [
+    0.9182785750964627
+  ],
+  "test_accuracy": [
+    0.9969356406156933
+  ],
+  "mean_macro_f1": 0.9182785750964627,
+  "std_macro_f1": 0.0,
+  "mean_accuracy": 0.9969356406156933,
+  "std_accuracy": 0.0
+}

@@ -1,0 +1,3 @@
+{"loaded_encoder_from": "artifacts\\jev-field-v2-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 234795, "validation": 7896, "test": 7571, "parameters": 15331563}
+{"epoch": 1, "loss": 0.5484965326156367, "validation_accuracy": 0.997467071935157, "validation_macro_f1": 0.908356331990658, "seconds": 193.4}

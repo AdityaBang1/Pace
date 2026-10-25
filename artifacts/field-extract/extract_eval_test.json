@@ -1,0 +1,1914 @@
+{
+  "overall": {
+    "judged_values": 7,
+    "matched": 4,
+    "precision": 0.5714285714285714,
+    "error_upper_bound_95": 0.7746784159675522,
+    "unjudged_values": 14,
+    "documents": 26,
+    "schools": [
+      "Massachusetts Institute of Technology",
+      "The Ohio State University",
+      "University of Florida",
+      "University of North Carolina at Chapel Hill",
+      "Yale University"
+    ],
+    "excluded_schools": [
+      "Georgia Institute of Technology",
+      "University of California, Berkeley"
+    ],
+    "min_confidence": 0.0,
+    "split": "test"
+  },
+  "per_field": {
+    "academic_integrity": {
+      "emitted": 1,
+      "judged": 1,
+      "matched": 1,
+      "gold_rows": 13,
+      "gold_covered": 6,
+      "precision": 1.0,
+      "recall": 0.46153846153846156
+    },
+    "attendance_policy": {
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 2,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": 0.0
+    },
+    "course_code": {
+      "emitted": 6,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 0,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": null
+    },
+    "course_title": {
+      "emitted": 3,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 2,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": 0.0
+    },
+    "credits": {
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 5,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": 0.0
+    },
+    "disability_services": {
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 15,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": 0.0
+    },
+    "grading": {
+      "emitted": 6,
+      "judged": 4,
+      "matched": 1,
+      "gold_rows": 21,
+      "gold_covered": 2,
+      "precision": 0.25,
+      "recall": 0.09523809523809523
+    },
+    "instructor": {
+      "emitted": 2,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 13,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": 0.0
+    },
+    "materials": {
+      "emitted": 0,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 6,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": 0.0
+    },
+    "meetings": {
+      "emitted": 1,
+      "judged": 0,
+      "matched": 0,
+      "gold_rows": 0,
+      "gold_covered": 0,
+      "precision": null,
+      "recall": null
+    },
+    "office_hours": {
+      "emitted": 2,
+      "judged": 2,
+      "matched": 2,
+      "gold_rows": 3,
+      "gold_covered": 3,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "confidence_check": [
+    {
+      "low": 0.0,
+      "high": 0.7,
+      "values": 0,
+      "correct": 0,
+      "precision": null
+    },
+    {
+      "low": 0.7,
+      "high": 0.9,
+      "values": 5,
+      "correct": 2,
+      "precision": 0.4
+    },
+    {
+      "low": 0.9,
+      "high": 0.99,
+      "values": 2,
+      "correct": 2,
+      "precision": 1.0
+    },
+    {
+      "low": 0.99,
+      "high": 1.0,
+      "values": 0,
+      "correct": 0,
+      "precision": null
+    }
+  ],
+  "grounding": {
+    "titles_emitted": 11,
+    "titles_grounded": 11,
+    "rate": 1.0
+  },
+  "hand_checked": {
+    "documents": 0,
+    "meetings": {
+      "gold_slots": 0,
+      "exact": 0,
+      "accuracy": null,
+      "days_correct": 0,
+      "days_scored": 0,
+      "times_correct": 0,
+      "times_scored": 0,
+      "rooms_correct": 0,
+      "rooms_scored": 0,
+      "emitted": 0,
+      "emitted_matched": 0,
+      "precision": null
+    },
+    "credits": {
+      "gold_documents": 0,
+      "correct": 0,
+      "accuracy": null
+    },
+    "failures": []
+  },
+  "per_document": [
+    {
+      "id": "0725535ee144",
+      "school": "Massachusetts Institute of Technology",
+      "title": "Spanish I OCW Download Page",
+      "gold_rows": 16,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "2eaab0ec5d3e",
+      "school": "Massachusetts Institute of Technology",
+      "title": "7.012 Introduction to Biology Syllabus",
+      "gold_rows": 33,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "71a38b96e597",
+      "school": "Massachusetts Institute of Technology",
+      "title": "Spanish I 21G.701 / 751",
+      "gold_rows": 3,
+      "field_gold": false,
+      "emitted": 4,
+      "matched": 1
+    },
+    {
+      "id": "bd6e938bdc25",
+      "school": "Massachusetts Institute of Technology",
+      "title": "18.01 Single Variable Calculus Syllabus",
+      "gold_rows": 35,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 0
+    },
+    {
+      "id": "c18a048239b3",
+      "school": "Massachusetts Institute of Technology",
+      "title": "8.01SC Classical Mechanics Syllabus",
+      "gold_rows": 27,
+      "field_gold": false,
+      "emitted": 5,
+      "matched": 1
+    },
+    {
+      "id": "ec92c528f32e",
+      "school": "Massachusetts Institute of Technology",
+      "title": "5.111SC Principles of Chemical Science Syllabus",
+      "gold_rows": 27,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 0
+    },
+    {
+      "id": "4f9d9a573a94",
+      "school": "The Ohio State University",
+      "title": "POLITSC 1100: Introduction to American Politics",
+      "gold_rows": 2,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "5588d28d5272",
+      "school": "The Ohio State University",
+      "title": "Biology 1113 Course Goals and Objectives",
+      "gold_rows": 0,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "58ee76ce423b",
+      "school": "The Ohio State University",
+      "title": "Comm 1101 Syllabus",
+      "gold_rows": 20,
+      "field_gold": false,
+      "emitted": 2,
+      "matched": 1
+    },
+    {
+      "id": "7244e9d54194",
+      "school": "The Ohio State University",
+      "title": "PHYSICS 1250: Mechanics, Work and Energy, Thermal Physics",
+      "gold_rows": 14,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "88d10978cb1b",
+      "school": "The Ohio State University",
+      "title": "SOCIOL 1101: Introductory Sociology",
+      "gold_rows": 3,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "d91927a16a2d",
+      "school": "The Ohio State University",
+      "title": "Spanish 1101 Syllabus",
+      "gold_rows": 1,
+      "field_gold": false,
+      "emitted": 1,
+      "matched": 0
+    },
+    {
+      "id": "ee9edde1c612",
+      "school": "The Ohio State University",
+      "title": "MATH 1151: Calculus I",
+      "gold_rows": 4,
+      "field_gold": false,
+      "emitted": 0,
+      "matched": 0
+    },
+    {
+      "id": "07d7460be7ff",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 11,
+      "matched": 9
+    },
+    {
+      "id": "4346b068eff9",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 4,
+      "matched": 4
+    },
+    {
+      "id": "63260c26aef4",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 3,
+      "matched": 3
+    },
+    {
+      "id": "64ad5c967320",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 6,
+      "matched": 5
+    },
+    {
+      "id": "799d201bb8b8",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 8,
+      "matched": 7
+    },
+    {
+      "id": "8c890a2d29e3",
+      "school": "University of Florida",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 8,
+      "matched": 7
+    },
+    {
+      "id": "78f0b4a73369",
+      "school": "University of North Carolina at Chapel Hill",
+      "title": "Syllabus: Linguistics 101, UNC-Chapel Hill",
+      "gold_rows": 18,
+      "field_gold": false,
+      "emitted": 3,
+      "matched": 1
+    },
+    {
+      "id": "1d9d02bcf058",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 3,
+      "matched": 2
+    },
+    {
+      "id": "26b4ef3d7ff4",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 9,
+      "matched": 8
+    },
+    {
+      "id": "774089f9e016",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 5,
+      "matched": 4
+    },
+    {
+      "id": "7b40ccd4e185",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 1,
+      "matched": 1
+    },
+    {
+      "id": "8c7d8e3a2e08",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 6,
+      "matched": 6
+    },
+    {
+      "id": "eb3044257d2a",
+      "school": "Yale University",
+      "title": null,
+      "gold_rows": 0,
+      "field_gold": true,
+      "emitted": 8,
+      "matched": 7
+    }
+  ],
+  "values": [
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.85,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.85,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Spanish I",
+      "confidence": 0.7,
+      "evidence": "Spanish I",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Composition 1. Version 1",
+      "weight": 50,
+      "confidence": 0.95,
+      "evidence": "Composition 1. Version 1: 50%; version 2:  50%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "version 2",
+      "weight": 50,
+      "confidence": 0.95,
+      "evidence": "Composition 1. Version 1: 50%; version 2:  50%",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "Tue 2-3PM, Thu 2-4PM (14N-329b)",
+      "confidence": 0.95,
+      "evidence": "Office Hours: Tue 2-3PM, Thu 2-4PM (14N-329b)",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.85,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Prof. David Jerison Departments",
+      "confidence": 0.8,
+      "evidence": "Prof. David Jerison Departments",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.85,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "3 Midterm Exams",
+      "weight": 45,
+      "confidence": 0.87,
+      "evidence": "3 Midterm Exams 45%",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Final Exam",
+      "weight": 25,
+      "confidence": 0.87,
+      "evidence": "Final Exam 25%",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Problem Sets",
+      "weight": 10,
+      "confidence": 0.87,
+      "evidence": "Problem Sets 10%",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "grading",
+      "text": "Class Participation",
+      "weight": 20,
+      "confidence": 0.87,
+      "evidence": "Class Participation 20%",
+      "judged": true,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "NMQZ25T",
+      "confidence": 0.85,
+      "evidence": "NMQZ25T",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "instructor",
+      "text": "Prof. Catherine Drennan Departments",
+      "confidence": 0.8,
+      "evidence": "Prof. Catherine Drennan Departments",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "The History of Communication",
+      "confidence": 0.7,
+      "evidence": "The History of Communication",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "academic_integrity",
+      "text": "It is the responsibility of the Committee on Academic Misconduct to investigate or establish procedures for the investigation of all reported cases of student academic misconduct. The term \u201cacademic misconduct\u201d includes all forms of student academic misconduct wherever committed; illustrated by, but",
+      "confidence": 0.8,
+      "evidence": "Academic Misconduct",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_title",
+      "text": "Spanish 1101 | Monika Major",
+      "confidence": 0.86,
+      "evidence": "Spanish 1101 | Monika Major",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "course_code",
+      "text": "LING 101",
+      "confidence": 0.85,
+      "evidence": "LING 101",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "meetings",
+      "text": "['MO', 'WE'] 11:00 11:50",
+      "days": [
+        "MO",
+        "WE"
+      ],
+      "start_time": "11:00",
+      "end_time": "11:50",
+      "room": null,
+      "confidence": 0.9,
+      "evidence": "MW 11\u201311:50",
+      "judged": false,
+      "matched": false,
+      "gold_source": "span"
+    },
+    {
+      "field": "office_hours",
+      "text": "\u0398F 12 \u22121 T 12:30\u20132:30 T 12:30\u20132:30",
+      "confidence": 0.9,
+      "evidence": "O\ufb03ce Hours",
+      "judged": true,
+      "matched": true,
+      "gold_source": "span"
+    }
+  ],
+  "gold_sources": {
+    "field": 72,
+    "span": 7
+  },
+  "reliability": [
+    {
+      "low": 0.0,
+      "high": 0.7,
+      "values": 0,
+      "correct": 0,
+      "precision": null,
+      "precision_lower_95": null
+    },
+    {
+      "low": 0.7,
+      "high": 0.9,
+      "values": 5,
+      "correct": 2,
+      "precision": 0.4,
+      "precision_lower_95": 0.07644039141232895
+    },
+    {
+      "low": 0.9,
+      "high": 0.99,
+      "values": 2,
+      "correct": 2,
+      "precision": 1.0,
+      "precision_lower_95": 0.22360679774997905
+    },
+    {
+      "low": 0.99,
+      "high": 1.0,
+      "values": 0,
+      "correct": 0,
+      "precision": null,
+      "precision_lower_95": null
+    }
+  ],
+  "sweep": [
+    {
+      "threshold": 0.0,
+      "accepted": 7,
+      "judged_values": 7,
+      "coverage": 1.0,
+      "precision": 0.5714285714285714,
+      "precision_lower_95": 0.22532158403244784,
+      "errors": 3
+    },
+    {
+      "threshold": 0.5,
+      "accepted": 7,
+      "judged_values": 7,
+      "coverage": 1.0,
+      "precision": 0.5714285714285714,
+      "precision_lower_95": 0.22532158403244784,
+      "errors": 3
+    },
+    {
+      "threshold": 0.6,
+      "accepted": 7,
+      "judged_values": 7,
+      "coverage": 1.0,
+      "precision": 0.5714285714285714,
+      "precision_lower_95": 0.22532158403244784,
+      "errors": 3
+    },
+    {
+      "threshold": 0.7,
+      "accepted": 7,
+      "judged_values": 7,
+      "coverage": 1.0,
+      "precision": 0.5714285714285714,
+      "precision_lower_95": 0.22532158403244784,
+      "errors": 3
+    },
+    {
+      "threshold": 0.8,
+      "accepted": 7,
+      "judged_values": 7,
+      "coverage": 1.0,
+      "precision": 0.5714285714285714,
+      "precision_lower_95": 0.22532158403244784,
+      "errors": 3
+    },
+    {
+      "threshold": 0.9,
+      "accepted": 2,
+      "judged_values": 7,
+      "coverage": 0.2857142857142857,
+      "precision": 1.0,
+      "precision_lower_95": 0.22360679774997905,
+      "errors": 0
+    },
+    {
+      "threshold": 0.95,
+      "accepted": 1,
+      "judged_values": 7,
+      "coverage": 0.14285714285714285,
+      "precision": 1.0,
+      "precision_lower_95": 0.050000000000000044,
+      "errors": 0
+    },
+    {
+      "threshold": 0.97,
+      "accepted": 0,
+      "judged_values": 7,
+      "coverage": 0.0,
+      "precision": null,
+      "precision_lower_95": null,
+      "errors": 0
+    },
+    {
+      "threshold": 0.98,
+      "accepted": 0,
+      "judged_values": 7,
+      "coverage": 0.0,
+      "precision": null,
+      "precision_lower_95": null,
+      "errors": 0
+    },
+    {
+      "threshold": 0.99,
+      "accepted": 0,
+      "judged_values": 7,
+      "coverage": 0.0,
+      "precision": null,
+      "precision_lower_95": null,
+      "errors": 0
+    },
+    {
+      "threshold": 0.995,
+      "accepted": 0,
+      "judged_values": 7,
+      "coverage": 0.0,
+      "precision": null,
+      "precision_lower_95": null,
+      "errors": 0
+    }
+  ],
+  "operating_point": {
+    "threshold": null,
+    "target": 0.95,
+    "certified": false,
+    "note": "no threshold certifies precision 0.95 at 95% confidence on this sample",
+    "best": {
+      "threshold": 0.0,
+      "precision": 0.5714285714285714,
+      "precision_lower_95": 0.22532158403244784,
+      "coverage": 1.0
+    }
+  },
+  "field_gold": {
+    "documents": 12,
+    "schools": [
+      "University of Florida",
+      "Yale University"
+    ],
+    "values": [
+      {
+        "field": "course_title",
+        "text": "International Trade",
+        "confidence": 0.7,
+        "evidence": "International Trade",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "ECO 3704",
+        "confidence": 0.97,
+        "evidence": "ECO 3704",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Kristian Estevez (Kj719@ufl.edu)",
+        "confidence": 0.7,
+        "evidence": "Kristian Estevez (Kj719@ufl.edu)",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Assignments",
+        "weight": 10,
+        "confidence": 0.95,
+        "evidence": "Assignments 10% Assignments 10%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Assignments 10% Assignments",
+        "weight": 10,
+        "confidence": 0.95,
+        "evidence": "Assignments 10% Assignments 10%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Midterm 1",
+        "weight": 30,
+        "confidence": 0.95,
+        "evidence": "Midterm 1 30% Midterm 1 20%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Midterm Midterm",
+        "weight": 20,
+        "confidence": 0.95,
+        "evidence": "Midterm 1 30% Midterm 1 20%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Midterm 2",
+        "weight": 30,
+        "confidence": 0.95,
+        "evidence": "Midterm 2 30% Midterm 2 20%",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "office_hours",
+        "text": "After class on Mondays, Wednesdays, and Thursdays",
+        "confidence": 0.85,
+        "evidence": "Office Hours: After class on Mondays, Wednesdays, and Thursdays",
+        "judged": true,
+        "matched": true,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "academic_integrity",
+        "text": "You are expected to abide by the University\u2019s rules for academic honesty and UF\u2019s Honor Pledge. These are available for your review at http://www.dso.ufl.edu/judicial/academic.php. Cheating, plagiarism, making false statements, and any other action that violates these rules will be prosecuted to the",
+        "confidence": 0.8,
+        "evidence": "Academic Honesty",
+        "judged": false,
+        "matched": false,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "disability_services",
+        "text": "Students requesting classroom accommodation for disabilities must first register with the Disability Resource Center. The DRC will provide documentation to the student, who must then provide this documentation to me. The DRC phone number is 392-8565. If you are taking exams with the DRC, I highly re",
+        "confidence": 0.8,
+        "evidence": "Disability Accommodations",
+        "judged": false,
+        "matched": false,
+        "document": "07d7460be7ff",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "ENG 4146: Long-Form Filmmaking",
+        "confidence": 0.86,
+        "evidence": "ENG 4146: Long-Form Filmmaking",
+        "judged": true,
+        "matched": true,
+        "document": "4346b068eff9",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "ENG 4146",
+        "confidence": 0.93,
+        "evidence": "ENG 4146",
+        "judged": true,
+        "matched": true,
+        "document": "4346b068eff9",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Trevor Mowchun",
+        "confidence": 0.95,
+        "evidence": "Trevor Mowchun",
+        "judged": true,
+        "matched": true,
+        "document": "4346b068eff9",
+        "school": "University of Florida"
+      },
+      {
+        "field": "office_hours",
+        "text": "Wednesday periods 9-11",
+        "confidence": 0.85,
+        "evidence": "Office Hours: Wednesday periods 9-11",
+        "judged": true,
+        "matched": true,
+        "document": "4346b068eff9",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "PCB3402",
+        "confidence": 0.93,
+        "evidence": "PCB3402",
+        "judged": true,
+        "matched": true,
+        "document": "63260c26aef4",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Ana V. Longo",
+        "confidence": 0.8,
+        "evidence": "Ana V. Longo",
+        "judged": true,
+        "matched": true,
+        "document": "63260c26aef4",
+        "school": "University of Florida"
+      },
+      {
+        "field": "office_hours",
+        "text": "Thursdays 9:30 AM \u2013 10:30 AM (see below)",
+        "confidence": 0.95,
+        "evidence": "Office Hours: Thursdays 9:30 AM \u2013 10:30 AM (see below).",
+        "judged": true,
+        "matched": true,
+        "document": "63260c26aef4",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "Introduction to Statistics Theory",
+        "confidence": 0.7,
+        "evidence": "Introduction to Statistics Theory",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "STA 4322",
+        "confidence": 0.93,
+        "evidence": "STA 4322",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Demetris Athienitis",
+        "confidence": 0.95,
+        "evidence": "Demetris Athienitis",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Homework",
+        "weight": 20,
+        "confidence": 0.9,
+        "evidence": "Homework 20%",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Quizzes",
+        "weight": 20,
+        "confidence": 0.8,
+        "evidence": "Quizzes 20% (includes Intro quiz, lowest quiz dropped)",
+        "judged": true,
+        "matched": true,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "academic_integrity",
+        "text": "Students are held accountable to the UF Student Honor and Conduct Code. Evaluations Students are expected to provide professional and respectful feedback on the quality of instruction in this course by completing course evaluations online via GatorEvals. Guidance on how to give feedback in a profess",
+        "confidence": 0.8,
+        "evidence": "Academic Misconduct",
+        "judged": false,
+        "matched": false,
+        "document": "64ad5c967320",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "AMH4373: History of American Capitalism",
+        "confidence": 0.86,
+        "evidence": "AMH4373: History of American Capitalism",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "AMH4373",
+        "confidence": 0.93,
+        "evidence": "AMH4373",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "credits",
+        "text": 3.0,
+        "confidence": 0.95,
+        "evidence": "3 credits",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Long Essays",
+        "weight": 40,
+        "confidence": 0.95,
+        "evidence": "Long Essays (40%): Two (2) mandatory essays of 1,500-2,000 word length that draw upon",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Brief Responses",
+        "weight": 30,
+        "confidence": 0.85,
+        "evidence": "Brief Responses (30%): Five (5) brief responses to the course material that are 500-750",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Final Essay Examination",
+        "weight": 25,
+        "confidence": 0.85,
+        "evidence": "Final Essay Examination (25%): A final essay of 1,500-2,000 words that will draw upon the",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Attendance",
+        "weight": 5,
+        "confidence": 0.85,
+        "evidence": "Attendance (5%): Students will attend and participate over the course of the semester.",
+        "judged": true,
+        "matched": true,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "attendance_policy",
+        "text": "Requirements for class attendance and make-up exams, assignments, and other work in this course are consistent with university policies that can be found at: https://catalog.ufl.edu/ugrad/current/regulations/info/attendance.aspx. Students requiring accommodation Students who experience learning barr",
+        "confidence": 0.8,
+        "evidence": "Attendance policy",
+        "judged": false,
+        "matched": false,
+        "document": "799d201bb8b8",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "ECO 4934 : Econometrics II",
+        "confidence": 0.86,
+        "evidence": "ECO 4934 : Econometrics II",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_code",
+        "text": "ECO 4934",
+        "confidence": 0.93,
+        "evidence": "ECO 4934",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "instructor",
+        "text": "Dr. Perihan Saygin Fall 2018",
+        "confidence": 0.7,
+        "evidence": "Dr. Perihan Saygin Fall 2018",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Exam 1",
+        "weight": 25,
+        "confidence": 0.95,
+        "evidence": "Exam 1 25%",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Exam 2",
+        "weight": 25,
+        "confidence": 0.95,
+        "evidence": "Exam 2 25%",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Assignments",
+        "weight": 40,
+        "confidence": 0.95,
+        "evidence": "Assignments 40%",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "grading",
+        "text": "Participation",
+        "weight": 10,
+        "confidence": 0.95,
+        "evidence": "Participation 10%",
+        "judged": true,
+        "matched": true,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "academic_integrity",
+        "text": "You are expected to abide by the University\u2019s rules for academic honesty. These are available for your review at http://www.dso.u\ufb02.edu/judicial/academic.php. Cheating, plagiarism, and any other action that violates these rules will be prosecuted to the fullest extent. It should be noted that creatin",
+        "confidence": 0.8,
+        "evidence": "Academic Honesty",
+        "judged": false,
+        "matched": false,
+        "document": "8c890a2d29e3",
+        "school": "University of Florida"
+      },
+      {
+        "field": "course_title",
+        "text": "PLSC 227: The U.S. Congress (Yale Summer Session Online)",
+        "confidence": 0.86,
+        "evidence": "PLSC 227: The U.S. Congress (Yale Summer Session Online)",
+        "judged": true,
+        "matched": true,
+        "document": "1d9d02bcf058",
+        "school": "Yale University"
+      },
+      {
+        "field": "course_code",
+        "text": "PLSC 227",
+        "confidence": 0.93,
+        "evidence": "PLSC 227",
+        "judged": true,
+        "matched": true,
+        "document": "1d9d02bcf058",
+        "school": "Yale University"
+      },
+      {
+        "field": "office_hours",
+        "text": "F 3:00-4:00",
+        "confidence": 0.95,
+        "evidence": "Office Hours: F 3:00-4:00",
+        "judged": true,
+        "matched": false,
+        "document": "1d9d02bcf058",
+        "school": "Yale University"
+      },
+      {
+        "field": "course_title",
+        "text": "Black Women Writers",
+        "confidence": 0.7,
+        "evidence": "Black Women Writers",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Reading quizzes & Homework",
+        "weight": 20,
+        "confidence": 0.95,
+        "evidence": "Reading quizzes & Homework: 20%",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Class participation",
+        "weight": 25,
+        "confidence": 0.95,
+        "evidence": "Class participation (Presentations Included): 25%",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Weekly Postings",
+        "weight": 15,
+        "confidence": 0.95,
+        "evidence": "Weekly Postings: 15%",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Final Essay",
+        "weight": 10,
+        "confidence": 0.95,
+        "evidence": "Final Essay: 10%",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Close Reading",
+        "weight": 10,
+        "confidence": 0.95,
+        "evidence": "Close Reading 10% Weeks 2",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Presentations",
+        "weight": 10,
+        "confidence": 0.95,
+        "evidence": "Presentations 10% Weekly",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Book Review",
+        "weight": 10,
+        "confidence": 0.95,
+        "evidence": "Book Review 10% Week 4",
+        "judged": true,
+        "matched": true,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "materials",
+        "text": "Katherine Collins, Whatever Happened to Interracial Love Lorraine Hansberry, A Raisin in the Sun Harriet Jacobs, Incidents in the Life of a Slave Girl Janet Mock, Redefining Realness: My Path to Womanhood, Identity, Love & So Much More Toni Morrison, The Bluest Eye Ann Petry, The Street Alice Walker",
+        "confidence": 0.8,
+        "evidence": "Required Readings",
+        "judged": false,
+        "matched": false,
+        "document": "26b4ef3d7ff4",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Class Participation",
+        "weight": 10,
+        "confidence": 0.95,
+        "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+        "judged": true,
+        "matched": true,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Homework",
+        "weight": 30,
+        "confidence": 0.95,
+        "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+        "judged": true,
+        "matched": true,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Midterm Exam",
+        "weight": 30,
+        "confidence": 0.95,
+        "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+        "judged": true,
+        "matched": true,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Final Exam",
+        "weight": 30,
+        "confidence": 0.95,
+        "evidence": "Class Participation: 10%, Homework: 30 %, Midterm Exam: 30 %, Final Exam: 30 %.",
+        "judged": true,
+        "matched": true,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "office_hours",
+        "text": "Mondays, Wednesdays, and Fridays 1:00 - 3:15 pm on Zoom",
+        "confidence": 0.95,
+        "evidence": "\u2022 Class Times: Mondays, Wednesdays, and Fridays 1:00 - 3:15 pm on Zoom",
+        "judged": true,
+        "matched": false,
+        "document": "774089f9e016",
+        "school": "Yale University"
+      },
+      {
+        "field": "instructor",
+        "text": "Paul Kockelman, Department of Anthropology",
+        "confidence": 0.95,
+        "evidence": "Paul Kockelman, Department of Anthropology",
+        "judged": true,
+        "matched": true,
+        "document": "7b40ccd4e185",
+        "school": "Yale University"
+      },
+      {
+        "field": "instructor",
+        "text": "Eliyahu Stern, eliyahu.stern@yale.edu",
+        "confidence": 0.7,
+        "evidence": "Eliyahu Stern, eliyahu.stern@yale.edu",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Mid Term",
+        "weight": 30,
+        "confidence": 0.95,
+        "evidence": "Mid Term 30%",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Class Participation",
+        "weight": 30,
+        "confidence": 0.85,
+        "evidence": "Class Participation 30% (Includes One In-Class Pop Quiz)",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Final Paper",
+        "weight": 40,
+        "confidence": 0.95,
+        "evidence": "Final Paper 40%",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "meetings",
+        "text": "['TU', 'TH'] 13:00 16:15",
+        "days": [
+          "TU",
+          "TH"
+        ],
+        "start_time": "13:00",
+        "end_time": "16:15",
+        "room": null,
+        "confidence": 0.9,
+        "evidence": "Time : Session A, Tuesdays, Thursdays 1:00-4:15",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "office_hours",
+        "text": "By appointment",
+        "confidence": 0.72,
+        "evidence": "Office Hours : By appointment",
+        "judged": true,
+        "matched": true,
+        "document": "8c7d8e3a2e08",
+        "school": "Yale University"
+      },
+      {
+        "field": "course_title",
+        "text": "Hollywood Astrophysics",
+        "confidence": 0.7,
+        "evidence": "Hollywood Astrophysics",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "instructor",
+        "text": "Frank Robinson",
+        "confidence": 0.95,
+        "evidence": "Frank Robinson",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Exam 1",
+        "weight": 20,
+        "confidence": 0.9,
+        "evidence": "\u2022 20% Exam 1 composed of a written test (15%) and an oral test (5%)",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Exam 2",
+        "weight": 20,
+        "confidence": 0.9,
+        "evidence": "\u2022 20% Exam 2 composed of a written test (15%) and an oral test (5%)",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "Exam 3",
+        "weight": 20,
+        "confidence": 0.9,
+        "evidence": "\u2022 20% Exam 3 composed of a written test (15%) and an oral test (5%)",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "grading",
+        "text": "participation",
+        "weight": 10,
+        "confidence": 0.9,
+        "evidence": "participation (10%)",
+        "judged": true,
+        "matched": false,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "meetings",
+        "text": "['MO', 'WE'] 10:00 11:30",
+        "days": [
+          "MO",
+          "WE"
+        ],
+        "start_time": "10:00",
+        "end_time": "11:30",
+        "room": null,
+        "confidence": 0.9,
+        "evidence": "Online Virtual Classroom Meeting: Monday & Wednesday 10:00am-11:30am (EST)",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      },
+      {
+        "field": "office_hours",
+        "text": "Schedule via email",
+        "confidence": 0.72,
+        "evidence": "\u2022 Office Hours: Schedule via email",
+        "judged": true,
+        "matched": true,
+        "document": "eb3044257d2a",
+        "school": "Yale University"
+      }
+    ],
+    "overall": {
+      "judged": 66,
+      "matched": 63,
+      "unjudged": 6,
+      "precision": 0.9545454545454546,
+      "precision_lower_95": 0.8866918004607769,
+      "confidence": 0.95,
+      "min_confidence": 0.0
+    },
+    "per_field": {
+      "academic_integrity": {
+        "emitted": 3,
+        "judged": 0,
+        "matched": 0,
+        "precision": null
+      },
+      "attendance_policy": {
+        "emitted": 1,
+        "judged": 0,
+        "matched": 0,
+        "precision": null
+      },
+      "course_code": {
+        "emitted": 7,
+        "judged": 7,
+        "matched": 7,
+        "precision": 1.0
+      },
+      "course_title": {
+        "emitted": 8,
+        "judged": 8,
+        "matched": 8,
+        "precision": 1.0
+      },
+      "credits": {
+        "emitted": 1,
+        "judged": 1,
+        "matched": 1,
+        "precision": 1.0
+      },
+      "disability_services": {
+        "emitted": 1,
+        "judged": 0,
+        "matched": 0,
+        "precision": null
+      },
+      "grading": {
+        "emitted": 33,
+        "judged": 33,
+        "matched": 32,
+        "precision": 0.9696969696969697
+      },
+      "instructor": {
+        "emitted": 8,
+        "judged": 8,
+        "matched": 8,
+        "precision": 1.0
+      },
+      "materials": {
+        "emitted": 1,
+        "judged": 0,
+        "matched": 0,
+        "precision": null
+      },
+      "meetings": {
+        "emitted": 2,
+        "judged": 2,
+        "matched": 2,
+        "precision": 1.0
+      },
+      "office_hours": {
+        "emitted": 7,
+        "judged": 7,
+        "matched": 5,
+        "precision": 0.7142857142857143
+      }
+    },
+    "recall": {
+      "course_code": [
+        8,
+        17
+      ],
+      "course_title": [
+        8,
+        12
+      ],
+      "credits": [
+        1,
+        2
+      ],
+      "grading": [
+        33,
+        45
+      ],
+      "instructor": [
+        8,
+        12
+      ],
+      "meetings": [
+        2,
+        12
+      ],
+      "office_hours": [
+        5,
+        10
+      ]
+    },
+    "reliability": [
+      {
+        "low": 0.0,
+        "high": 0.7,
+        "values": 0,
+        "correct": 0,
+        "precision": null,
+        "precision_lower_95": null
+      },
+      {
+        "low": 0.7,
+        "high": 0.9,
+        "values": 21,
+        "correct": 21,
+        "precision": 1.0,
+        "precision_lower_95": 0.8670540889734766
+      },
+      {
+        "low": 0.9,
+        "high": 0.99,
+        "values": 45,
+        "correct": 42,
+        "precision": 0.9333333333333333,
+        "precision_lower_95": 0.8366116189004775
+      },
+      {
+        "low": 0.99,
+        "high": 1.0,
+        "values": 0,
+        "correct": 0,
+        "precision": null,
+        "precision_lower_95": null
+      }
+    ],
+    "sweep": [
+      {
+        "threshold": 0.0,
+        "accepted": 66,
+        "judged_values": 66,
+        "coverage": 1.0,
+        "precision": 0.9545454545454546,
+        "precision_lower_95": 0.8866918004607769,
+        "errors": 3
+      },
+      {
+        "threshold": 0.5,
+        "accepted": 66,
+        "judged_values": 66,
+        "coverage": 1.0,
+        "precision": 0.9545454545454546,
+        "precision_lower_95": 0.8866918004607769,
+        "errors": 3
+      },
+      {
+        "threshold": 0.6,
+        "accepted": 66,
+        "judged_values": 66,
+        "coverage": 1.0,
+        "precision": 0.9545454545454546,
+        "precision_lower_95": 0.8866918004607769,
+        "errors": 3
+      },
+      {
+        "threshold": 0.7,
+        "accepted": 66,
+        "judged_values": 66,
+        "coverage": 1.0,
+        "precision": 0.9545454545454546,
+        "precision_lower_95": 0.8866918004607769,
+        "errors": 3
+      },
+      {
+        "threshold": 0.8,
+        "accepted": 57,
+        "judged_values": 66,
+        "coverage": 0.8636363636363636,
+        "precision": 0.9473684210526315,
+        "precision_lower_95": 0.869551355993177,
+        "errors": 3
+      },
+      {
+        "threshold": 0.9,
+        "accepted": 45,
+        "judged_values": 66,
+        "coverage": 0.6818181818181818,
+        "precision": 0.9333333333333333,
+        "precision_lower_95": 0.8366116189004775,
+        "errors": 3
+      },
+      {
+        "threshold": 0.95,
+        "accepted": 32,
+        "judged_values": 66,
+        "coverage": 0.48484848484848486,
+        "precision": 0.9375,
+        "precision_lower_95": 0.8160565318230713,
+        "errors": 2
+      },
+      {
+        "threshold": 0.97,
+        "accepted": 1,
+        "judged_values": 66,
+        "coverage": 0.015151515151515152,
+        "precision": 1.0,
+        "precision_lower_95": 0.050000000000000044,
+        "errors": 0
+      },
+      {
+        "threshold": 0.98,
+        "accepted": 0,
+        "judged_values": 66,
+        "coverage": 0.0,
+        "precision": null,
+        "precision_lower_95": null,
+        "errors": 0
+      },
+      {
+        "threshold": 0.99,
+        "accepted": 0,
+        "judged_values": 66,
+        "coverage": 0.0,
+        "precision": null,
+        "precision_lower_95": null,
+        "errors": 0
+      },
+      {
+        "threshold": 0.995,
+        "accepted": 0,
+        "judged_values": 66,
+        "coverage": 0.0,
+        "precision": null,
+        "precision_lower_95": null,
+        "errors": 0
+      }
+    ],
+    "operating_point": {
+      "threshold": null,
+      "target": 0.95,
+      "certified": false,
+      "note": "no threshold certifies precision 0.95 at 95% confidence on this sample",
+      "best": {
+        "threshold": 0.0,
+        "precision": 0.9545454545454546,
+        "precision_lower_95": 0.8866918004607769,
+        "coverage": 1.0
+      }
+    },
+    "floor_operating_point": {
+      "threshold": null,
+      "target": 0.9,
+      "certified": false,
+      "note": "no threshold certifies precision 0.90 at 95% confidence on this sample",
+      "best": {
+        "threshold": 0.0,
+        "precision": 0.9545454545454546,
+        "precision_lower_95": 0.8866918004607769,
+        "coverage": 1.0
+      }
+    }
+  },
+  "known_failures": {
+    "note": "Bugs seen while reading the test documents in the previous pass. Each was found after that test run and left unfixed there. This pass fixed the causes on the development split only, and re-scored the untouched test split once afterwards.",
+    "rule_decisions": [
+      "Only top-level breakdown items count as grading gold. The four sub-weights on PHYS S102E ('written test' 15, 'oral test' 5, 'online section discussion' 10, 'participation' 10) are printed inside a parent category, so the rule scores them as misses when emitted. The extractor no longer emits them: a nested breakdown of a category it already returned is kept out of the top-level list, which is why this pass has 33 grading values rather than 36."
+    ],
+    "failures": [
+      {
+        "document": "4346b068 (ENG 4146)",
+        "field": "office_hours",
+        "status": "fixed",
+        "dev_check": "A body that opens another labelled field ('Class:', 'Course Dates:', 'Lecture Times:') is rejected, and a flattened line is cut at that label. On dev, two office-hours sections whose body ran into the next field are now cut at that field (one returns 'Noon-1pm or by appointment' instead of the following 'Course Dates'/'Lecture Times' block), one 'TBA' body is rejected, and no emitted office-hours value contains another field's label; 14/14 judged office-hours values are correct.",
+        "note": "The extracted office-hours value is the *next* section's body ('Class: Thursday E1-E3 ... Screening: Wednesday ...'), not the section the evidence span points at ('Office Hours: Wednesday periods 9-11')."
+      },
+      {
+        "document": "8c7d8e3a (RLST S324E)",
+        "field": "office_hours",
+        "status": "open",
+        "dev_check": "Still open. The heading is right and the prose that follows is about the course, not about office hours; rejecting it needs a judgement about the body's topic that the current cues cannot make without also dropping real narrative office hours (dev 1c22a5fd is the same shape and is correct).",
+        "note": "Office-hours body is the course overview text that follows the heading, so 'By appointment' never appears in the value. Emitted at confidence 1.000."
+      },
+      {
+        "document": "eb304425 (PHYS S102E)",
+        "field": "office_hours",
+        "status": "open",
+        "dev_check": "Same shape as 8c7d8e3a and still open: the following block mentions contact details, which is a legitimate office-hours cue, so the value is not rejected.",
+        "note": "Office-hours body is the instructor/email block that follows, not 'Schedule via email'. Emitted at confidence 1.000."
+      },
+      {
+        "document": "774089f9 (MATH 244)",
+        "field": "office_hours",
+        "status": "fixed",
+        "dev_check": "A placeholder body ('TBD', 'TBA', 'None.') is rejected before any cue check, and the glued bullet is cut off the value. On dev, a 'TBA' office-hours body (5ec8c4a7) is rejected; the same rule is covered by a unit test.",
+        "note": "The document states only 'Office Hours: TBD', which is not an office hour; the body is emitted anyway (with the next bullet glued on), at confidence 1.000."
+      },
+      {
+        "document": "7b40ccd4 (ANTHRO S3809)",
+        "field": "office_hours",
+        "status": "fixed",
+        "dev_check": "Same placeholder gate as 774089f9, plus the cut that drops the glued email line.",
+        "note": "Same shape: 'Office Hours of Professor: TBD' is emitted as a value, glued to the email line."
+      },
+      {
+        "document": "07d7460b (ECO 3704)",
+        "field": "course_code",
+        "status": "fixed",
+        "dev_check": "A code preceded by 'Office:', 'Room:', 'Hall' or 'in' is rejected, and an explicitly labelled 'Course Code:' line is preferred. On dev, documents with 'Office: PAR 404' and 'Office: WEL 5.239' now return RHE 306 and CH301.",
+        "note": "The instructor's office number 'MAT 328' is emitted as the course code, at confidence 0.991; the document's actual code is printed on an adjacent line as 'Course Code: ECO 3704'."
+      },
+      {
+        "document": "63260c26 (PCB 3402)",
+        "field": "course_code",
+        "status": "fixed",
+        "dev_check": "Rooms are rejected by the preceding-location cue, the dotted room form ('WEL 5.132') and schedule lines ('MWF 1351'). On dev, 'Office/hours: WEH 6213/TBA' no longer wins the field.",
+        "note": "The meeting room 'CRR 0521' is emitted as a course code, at confidence 0.982."
+      },
+      {
+        "document": "64ad5c96 (STA 4322)",
+        "field": "course_code",
+        "status": "fixed",
+        "dev_check": "Same location rules as 63260c26. A code without a catalogue label now carries confidence 0.5 rather than the section softmax, so it no longer looks certain.",
+        "note": "The room 'FLO 100' is emitted as a course code; here the confidence (0.002) at least admits it is a guess."
+      },
+      {
+        "document": "64ad5c96 (STA 4322)",
+        "field": "grading",
+        "status": "fixed",
+        "dev_check": "A parenthetical that carries two weights is read as a breakdown, not as categories; a weight inside parentheses is a component when the line already stated a top-level one; and either end of an 'X-Y%' range is skipped. On dev, 51e338bc ('WebAssign 15% (Lecture-quizzes 5% + Homework 10%)') now returns WebAssign 15 only, total 100, and 639f5558's 90-100% scale rows are gone.",
+        "note": "The parenthetical '(25% lowest, 35% best)' is split into category fragments 'lowest' and 'best)' at confidence 0.996, and 'Extra Credit 0-1%' becomes the category 'Extra Credit 0'."
+      },
+      {
+        "document": "eb304425 (PHYS S102E)",
+        "field": "grading",
+        "status": "fixed",
+        "dev_check": "The nested categories are recorded as components of the parent weight and suppressed, including when the document repeats them on their own lines later. On dev, 51e338bc's repeated 'Lecture-quizzes 5' and 'Homework 10' lines no longer inflate the breakdown.",
+        "note": "Nested sub-weights are flattened into top-level categories: 'written test' 15%, 'oral test' 5%, 'online section discussion' 10%, 'participation' 10%. The values are printed in the document, but a reader summing the categories now gets more than 100%."
+      },
+      {
+        "document": "07d7460b (ECO 3704)",
+        "field": "course_title",
+        "status": "fixed",
+        "dev_check": "Section headings are not titles: generic headings ('General Information', 'Summary Assignment and Grading', 'Teaching Assistants', 'Supplementary Materials'), place names, clock times, contact lines and code-only or session lines are rejected before ranking. On dev, 3/3 judged titles are correct and no chosen title is one of the rejected heading forms.",
+        "note": "'General Information' \u2014 a section heading that occurs verbatim in the document \u2014 is returned as the title at confidence 0.995."
+      },
+      {
+        "document": "8c7d8e3a (RLST S324E)",
+        "field": "course_code",
+        "status": "fixed",
+        "dev_check": "Session codes ('SA25', 'FA24') are rejected outright.",
+        "note": "The session code 'SA25' in the title line is emitted as a course code."
+      },
+      {
+        "document": "value-level gold, this pass",
+        "field": "office_hours",
+        "status": "open",
+        "dev_check": "Not attempted: found after the test split had been scored, so fixing it would need a second look at the test set. The dev split has the same shape (a 'Class Time:' section typed office hours on fc082801), but the record keeps one value per policy field and the real office-hours section later in that document overwrites it, so the eval never scored it. The fix is to reject a section whose own heading is a schedule label when it is typed as office hours.",
+        "note": "A section headed 'Class Times' is typed `office_hours` and emitted with the class schedule ('Mondays, Wednesdays, and Fridays 1:00 - 3:15 pm on Zoom') at confidence 0.95, so the value is confidently wrong and no cue check can tell it is a schedule."
+      }
+    ]
+  }
+}

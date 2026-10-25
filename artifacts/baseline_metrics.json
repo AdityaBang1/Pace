@@ -1,0 +1,12 @@
+{
+  "model": "char-ngram TF-IDF + logistic regression",
+  "test_accuracy": 1.0,
+  "test_macro_f1": 1.0,
+  "train_examples": 3614,
+  "test_examples": 1192,
+  "fit_seconds": 0.5554048999911174,
+  "batch_inference_seconds": 0.0802045000018552,
+  "saved_bytes": 550839,
+  "split_seed": 20261019,
+  "source": "synthetic only; paraphrase-family split"
+}

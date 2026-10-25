@@ -1,0 +1,51 @@
+{
+  "name": "pace",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start --dev-client",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "prebuild": "expo prebuild --platform ios",
+    "typecheck": "tsc --noEmit",
+    "test:engine": "tsx tests/mobile/run.ts",
+    "test:app": "tsx tests/mobile/app_logic.ts",
+    "export:models": "python scripts/export_mobile_assets.py",
+    "test:db": "tsx tests/mobile/db_commit.ts"
+  },
+  "dependencies": {
+    "@expo/ui": "~58.0.23",
+    "expo": "^58.0.0",
+    "expo-asset": "~58.0.18",
+    "expo-constants": "~58.0.13",
+    "expo-dev-client": "~58.0.15",
+    "expo-document-picker": "~58.0.4",
+    "expo-file-system": "~58.0.11",
+    "expo-font": "~58.0.10",
+    "expo-haptics": "~58.0.7",
+    "expo-image-picker": "~58.0.10",
+    "expo-linking": "~58.0.14",
+    "expo-router": "~58.0.26",
+    "expo-splash-screen": "~58.0.11",
+    "expo-sqlite": "~58.0.14",
+    "expo-status-bar": "~58.0.4",
+    "expo-symbols": "~58.0.4",
+    "onnxruntime-react-native": "^1.24.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-native": "0.88.0",
+    "react-native-gesture-handler": "~3.3.0",
+    "react-native-reanimated": "4.7.1",
+    "react-native-safe-area-context": "~5.10.1",
+    "react-native-screens": "~4.30.0",
+    "react-native-web": "^0.21.2",
+    "react-native-worklets": "0.13.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.3.0",
+    "onnxruntime-node": "^1.24.3",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3"
+  }
+}

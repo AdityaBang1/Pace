@@ -1,0 +1,495 @@
+{
+  "rows": 16896,
+  "labels": 42,
+  "accuracy": 0.9891690340909091,
+  "ece_10bin": 0.0024181685382217576,
+  "mean_confidence": 0.9897752404212952,
+  "overconfidence": 0.0006062063303861054,
+  "reliability": [
+    {
+      "bin": "0.0-0.1",
+      "rows": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+    },
+    {
+      "bin": "0.1-0.2",
+      "rows": 0,
+      "mean_confidence": null,
+      "accuracy": null,
+      "gap": null
+    },
+    {
+      "bin": "0.2-0.3",
+      "rows": 2,
+      "mean_confidence": 0.237539142370224,
+      "accuracy": 0.5,
+      "gap": -0.262460857629776
+    },
+    {
+      "bin": "0.3-0.4",
+      "rows": 8,
+      "mean_confidence": 0.3527858257293701,
+      "accuracy": 0.125,
+      "gap": 0.22778582572937012
+    },
+    {
+      "bin": "0.4-0.5",
+      "rows": 16,
+      "mean_confidence": 0.4614461660385132,
+      "accuracy": 0.3125,
+      "gap": 0.14894616603851318
+    },
+    {
+      "bin": "0.5-0.6",
+      "rows": 29,
+      "mean_confidence": 0.5433692336082458,
+      "accuracy": 0.4827586206896552,
+      "gap": 0.060610612918590656
+    },
+    {
+      "bin": "0.6-0.7",
+      "rows": 23,
+      "mean_confidence": 0.6570812463760376,
+      "accuracy": 0.5217391304347826,
+      "gap": 0.135342115941255
+    },
+    {
+      "bin": "0.7-0.8",
+      "rows": 26,
+      "mean_confidence": 0.7521571516990662,
+      "accuracy": 0.3076923076923077,
+      "gap": 0.44446484400675845
+    },
+    {
+      "bin": "0.8-0.9",
+      "rows": 73,
+      "mean_confidence": 0.8618829250335693,
+      "accuracy": 0.7945205479452054,
+      "gap": 0.0673623770883639
+    },
+    {
+      "bin": "0.9-1.0",
+      "rows": 16719,
+      "mean_confidence": 0.992835521697998,
+      "accuracy": 0.993719720078952,
+      "gap": -0.0008841983809539933
+    }
+  ],
+  "sweep": [
+    {
+      "threshold": 0.5,
+      "coverage": 0.9984611742424242,
+      "accepted_rows": 16870,
+      "precision": 0.9902786010669828,
+      "abstained_rows": 26,
+      "abstention_rate": 0.0015388257575758013,
+      "false_positive_rate": 0.009706439393939394,
+      "certified_precision_lower": 0.9889415619843107
+    },
+    {
+      "threshold": 0.6,
+      "coverage": 0.9967447916666666,
+      "accepted_rows": 16841,
+      "precision": 0.9911525443857253,
+      "abstained_rows": 55,
+      "abstention_rate": 0.0032552083333333703,
+      "false_positive_rate": 0.008818655303030304,
+      "certified_precision_lower": 0.9898707080772784
+    },
+    {
+      "threshold": 0.7,
+      "coverage": 0.9953835227272727,
+      "accepted_rows": 16818,
+      "precision": 0.9917945058865502,
+      "abstained_rows": 78,
+      "abstention_rate": 0.004616477272727293,
+      "false_positive_rate": 0.008167613636363636,
+      "certified_precision_lower": 0.9905550558698136
+    },
+    {
+      "threshold": 0.8,
+      "coverage": 0.993844696969697,
+      "accepted_rows": 16792,
+      "precision": 0.9928537398761315,
+      "abstained_rows": 104,
+      "abstention_rate": 0.006155303030302983,
+      "false_positive_rate": 0.007102272727272727,
+      "certified_precision_lower": 0.9916887784252614
+    },
+    {
+      "threshold": 0.9,
+      "coverage": 0.9895241477272727,
+      "accepted_rows": 16719,
+      "precision": 0.993719720078952,
+      "abstained_rows": 177,
+      "abstention_rate": 0.010475852272727293,
+      "false_positive_rate": 0.006214488636363636,
+      "certified_precision_lower": 0.9926182400744317
+    },
+    {
+      "threshold": 0.95,
+      "coverage": 0.9871567234848485,
+      "accepted_rows": 16679,
+      "precision": 0.9949037712093051,
+      "abstained_rows": 217,
+      "abstention_rate": 0.012843276515151492,
+      "false_positive_rate": 0.005030776515151515,
+      "certified_precision_lower": 0.9938995478299548
+    },
+    {
+      "threshold": 0.97,
+      "coverage": 0.9841974431818182,
+      "accepted_rows": 16629,
+      "precision": 0.9959107583137892,
+      "abstained_rows": 267,
+      "abstention_rate": 0.015802556818181768,
+      "false_positive_rate": 0.004024621212121212,
+      "certified_precision_lower": 0.9949985220967023
+    },
+    {
+      "threshold": 0.98,
+      "coverage": 0.9820075757575758,
+      "accepted_rows": 16592,
+      "precision": 0.9962632594021215,
+      "abstained_rows": 304,
+      "abstention_rate": 0.0179924242424242,
+      "false_positive_rate": 0.003669507575757576,
+      "certified_precision_lower": 0.9953854127128171
+    },
+    {
+      "threshold": 0.99,
+      "coverage": 0.9367305871212122,
+      "accepted_rows": 15827,
+      "precision": 0.9975358564478423,
+      "abstained_rows": 1069,
+      "abstention_rate": 0.06326941287878785,
+      "false_positive_rate": 0.0023082386363636365,
+      "certified_precision_lower": 0.9967826804571343
+    },
+    {
+      "threshold": 0.995,
+      "coverage": 0.07990056818181818,
+      "accepted_rows": 1350,
+      "precision": 0.9925925925925926,
+      "abstained_rows": 15546,
+      "abstention_rate": 0.9200994318181819,
+      "false_positive_rate": 0.0005918560606060606,
+      "certified_precision_lower": 0.9874677909038557
+    }
+  ],
+  "target_precision": 0.99,
+  "operating_point": {
+    "threshold": 0.5,
+    "coverage": 0.9984611742424242,
+    "accepted_rows": 16870,
+    "precision": 0.9902786010669828,
+    "abstained_rows": 26,
+    "abstention_rate": 0.0015388257575758013,
+    "false_positive_rate": 0.009706439393939394,
+    "certified_precision_lower": 0.9889415619843107,
+    "certified": false
+  },
+  "per_label": [
+    {
+      "label": "drop_add_deadline",
+      "rows": 0,
+      "accepted": 0,
+      "coverage": null,
+      "precision": null
+    },
+    {
+      "label": "program",
+      "rows": 610,
+      "accepted": 609,
+      "coverage": 0.9983606557377049,
+      "precision": 1.0
+    },
+    {
+      "label": "course_level",
+      "rows": 608,
+      "accepted": 608,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "class_type",
+      "rows": 786,
+      "accepted": 786,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "contact_information",
+      "rows": 606,
+      "accepted": 605,
+      "coverage": 0.9983498349834984,
+      "precision": 1.0
+    },
+    {
+      "label": "credits",
+      "rows": 576,
+      "accepted": 576,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "capacity",
+      "rows": 475,
+      "accepted": 475,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "class_section",
+      "rows": 818,
+      "accepted": 818,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "restrictions",
+      "rows": 113,
+      "accepted": 113,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "confirmation",
+      "rows": 601,
+      "accepted": 601,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "materials",
+      "rows": 4,
+      "accepted": 4,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "weekly_readings",
+      "rows": 3,
+      "accepted": 3,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "due_date",
+      "rows": 4,
+      "accepted": 4,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "meeting_time",
+      "rows": 808,
+      "accepted": 808,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "meeting_days",
+      "rows": 384,
+      "accepted": 383,
+      "coverage": 0.9973958333333334,
+      "precision": 1.0
+    },
+    {
+      "label": "class_meeting_room",
+      "rows": 826,
+      "accepted": 826,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "course_modality",
+      "rows": 516,
+      "accepted": 516,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "session_dates",
+      "rows": 535,
+      "accepted": 535,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "term",
+      "rows": 576,
+      "accepted": 576,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "disability_services",
+      "rows": 2,
+      "accepted": 2,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "other",
+      "rows": 22,
+      "accepted": 22,
+      "coverage": 1.0,
+      "precision": 1.0
+    },
+    {
+      "label": "course_code",
+      "rows": 554,
+      "accepted": 554,
+      "coverage": 1.0,
+      "precision": 0.9981949458483754
+    },
+    {
+      "label": "entry_requirements",
+      "rows": 598,
+      "accepted": 597,
+      "coverage": 0.9983277591973244,
+      "precision": 0.9966499162479062
+    },
+    {
+      "label": "course_evaluation",
+      "rows": 591,
+      "accepted": 586,
+      "coverage": 0.9915397631133672,
+      "precision": 0.9965870307167235
+    },
+    {
+      "label": "instructor",
+      "rows": 804,
+      "accepted": 804,
+      "coverage": 1.0,
+      "precision": 0.9937810945273632
+    },
+    {
+      "label": "grades",
+      "rows": 615,
+      "accepted": 612,
+      "coverage": 0.9951219512195122,
+      "precision": 0.988562091503268
+    },
+    {
+      "label": "course_title",
+      "rows": 594,
+      "accepted": 593,
+      "coverage": 0.9983164983164983,
+      "precision": 0.9814502529510961
+    },
+    {
+      "label": "prerequisites",
+      "rows": 577,
+      "accepted": 576,
+      "coverage": 0.9982668977469671,
+      "precision": 0.9774305555555556
+    },
+    {
+      "label": "course_description",
+      "rows": 577,
+      "accepted": 575,
+      "coverage": 0.9965337954939342,
+      "precision": 0.9773913043478261
+    },
+    {
+      "label": "course_content",
+      "rows": 581,
+      "accepted": 578,
+      "coverage": 0.9948364888123924,
+      "precision": 0.9757785467128027
+    },
+    {
+      "label": "assessment",
+      "rows": 616,
+      "accepted": 615,
+      "coverage": 0.9983766233766234,
+      "precision": 0.975609756097561
+    },
+    {
+      "label": "teaching_form",
+      "rows": 585,
+      "accepted": 585,
+      "coverage": 1.0,
+      "precision": 0.9709401709401709
+    },
+    {
+      "label": "learning_outcomes",
+      "rows": 609,
+      "accepted": 609,
+      "coverage": 1.0,
+      "precision": 0.9638752052545156
+    },
+    {
+      "label": "additional_information",
+      "rows": 606,
+      "accepted": 604,
+      "coverage": 0.9966996699669967,
+      "precision": 0.9602649006622517
+    },
+    {
+      "label": "assignments",
+      "rows": 44,
+      "accepted": 44,
+      "coverage": 1.0,
+      "precision": 0.9318181818181818
+    },
+    {
+      "label": "academic_integrity",
+      "rows": 12,
+      "accepted": 11,
+      "coverage": 0.9166666666666666,
+      "precision": 0.9090909090909091
+    },
+    {
+      "label": "office_hours",
+      "rows": 10,
+      "accepted": 10,
+      "coverage": 1.0,
+      "precision": 0.9
+    },
+    {
+      "label": "grading_policy",
+      "rows": 25,
+      "accepted": 24,
+      "coverage": 0.96,
+      "precision": 0.8333333333333334
+    },
+    {
+      "label": "course_schedule",
+      "rows": 11,
+      "accepted": 11,
+      "coverage": 1.0,
+      "precision": 0.7272727272727273
+    },
+    {
+      "label": "exam_schedule",
+      "rows": 5,
+      "accepted": 5,
+      "coverage": 1.0,
+      "precision": 0.6
+    },
+    {
+      "label": "attendance_policy",
+      "rows": 2,
+      "accepted": 2,
+      "coverage": 1.0,
+      "precision": 0.5
+    },
+    {
+      "label": "course_policies",
+      "rows": 7,
+      "accepted": 5,
+      "coverage": 0.7142857142857143,
+      "precision": 0.4
+    }
+  ],
+  "checkpoint": "artifacts/field-classifier-minilm",
+  "skipped_rows_outside_vocabulary": 0,
+  "temperature": 0.6466508507728577,
+  "data": "data/processed/field/group/test.jsonl",
+  "name": "capped model, held-out groups"
+}

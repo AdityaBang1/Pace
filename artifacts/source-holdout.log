@@ -1,0 +1,55 @@
+{"fold": "anordkvist/gu-course-syllabus", "held_out_rows": 62170, "train_rows": 40000, "labels_never_seen": ["confirmation", "course_evaluation", "entry_requirements", "teaching_form"]}
+{"loaded_encoder_from": "artifacts\\jev-field-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 40000, "validation": 3923, "test": 62170, "parameters": 10278955}
+{"sampler_power": 0.5, "rarest": [["entry_requirements", 0], ["confirmation", 0], ["teaching_form", 0], ["course_evaluation", 0], ["drop_add_deadline", 2]]}
+{"epoch": 1, "loss": 0.9042618287522257, "validation_accuracy": 0.9979607443283202, "validation_macro_f1": 0.9251986064726018, "seconds": 30.9}
+{"epoch": 2, "loss": 0.4238380881017475, "validation_accuracy": 0.9977058373693601, "validation_macro_f1": 0.945464616751043, "seconds": 31.9}
+{"epoch": 3, "loss": 0.3934695790544081, "validation_accuracy": 0.9982156512872802, "validation_macro_f1": 0.9285095233868833, "seconds": 29.9}
+{"epoch": 4, "loss": 0.38318985971537506, "validation_accuracy": 0.9977058373693601, "validation_macro_f1": 0.9302938719713799, "seconds": 29.2}
+{"early_stop_at": 4, "best_epoch": 2}
+{"fold": "chaseharmon/MIT_Course_Catalog", "held_out_rows": 17277, "train_rows": 40000, "labels_never_seen": []}
+{"loaded_encoder_from": "artifacts\\jev-field-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 40000, "validation": 7361, "test": 17277, "parameters": 10278955}
+{"sampler_power": 0.5, "rarest": [["drop_add_deadline", 2], ["course_modality", 5], ["class_type", 14], ["attendance_policy", 17], ["meeting_days", 20]]}
+{"epoch": 1, "loss": 0.8755498947709371, "validation_accuracy": 0.9980980844993886, "validation_macro_f1": 0.9461115894679502, "seconds": 72.6}
+{"epoch": 2, "loss": 0.4271244587795586, "validation_accuracy": 0.9982339356065751, "validation_macro_f1": 0.9429695118168722, "seconds": 72.6}
+{"epoch": 3, "loss": 0.3937163072054466, "validation_accuracy": 0.9985056378209483, "validation_macro_f1": 0.9615616630985434, "seconds": 72.1}
+{"epoch": 4, "loss": 0.38182813884538896, "validation_accuracy": 0.9986414889281348, "validation_macro_f1": 0.9618087855319657, "seconds": 37.1}
+{"epoch": 5, "loss": 0.37895110078405536, "validation_accuracy": 0.9986414889281348, "validation_macro_f1": 0.9618087855319657, "seconds": 35.7}
+{"fold": "USC/USC-Course-Catalog", "held_out_rows": 19811, "train_rows": 40000, "labels_never_seen": ["restrictions"]}
+{"loaded_encoder_from": "artifacts\\jev-field-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 40000, "validation": 7190, "test": 19811, "parameters": 10278955}
+{"sampler_power": 0.5, "rarest": [["restrictions", 0], ["meeting_days", 2], ["drop_add_deadline", 2], ["course_modality", 5], ["class_type", 15]]}
+{"epoch": 1, "loss": 0.870536519722505, "validation_accuracy": 0.9983310152990265, "validation_macro_f1": 0.9442082057035268, "seconds": 49.2}
+{"epoch": 2, "loss": 0.419258744807905, "validation_accuracy": 0.9986091794158554, "validation_macro_f1": 0.9534325560023676, "seconds": 73.1}
+{"epoch": 3, "loss": 0.39142777802841516, "validation_accuracy": 0.9987482614742699, "validation_macro_f1": 0.9661769016508063, "seconds": 64.3}
+{"epoch": 4, "loss": 0.38061223474986244, "validation_accuracy": 0.9988873435326843, "validation_macro_f1": 0.9680994052985812, "seconds": 62.3}
+{"epoch": 5, "loss": 0.3766608618948448, "validation_accuracy": 0.9988873435326843, "validation_macro_f1": 0.9680994052985812, "seconds": 29.8}
+{"fold": "Dev-the-dev91/syllabus-cleaned", "held_out_rows": 2775, "train_rows": 40000, "labels_never_seen": ["academic_integrity", "attendance_policy", "course_policies", "disability_services", "drop_add_deadline", "exam_schedule"]}
+{"loaded_encoder_from": "artifacts\\jev-field-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 40000, "validation": 7731, "test": 2775, "parameters": 10278955}
+{"sampler_power": 0.5, "rarest": [["exam_schedule", 0], ["drop_add_deadline", 0], ["attendance_policy", 0], ["academic_integrity", 0], ["course_policies", 0]]}
+{"epoch": 1, "loss": 0.7583105726675554, "validation_accuracy": 0.9994826025093778, "validation_macro_f1": 0.9801093514328808, "seconds": 25.9}
+{"epoch": 2, "loss": 0.3923316124523656, "validation_accuracy": 0.9998706506273445, "validation_macro_f1": 0.9663865546218489, "seconds": 28.1}
+{"epoch": 3, "loss": 0.38000571599417327, "validation_accuracy": 0.9996119518820333, "validation_macro_f1": 0.9660216524027265, "seconds": 52.5}
+{"early_stop_at": 3, "best_epoch": 1}
+{"fold": "alecwatts/umich-course-descriptions", "held_out_rows": 337, "train_rows": 40000, "labels_never_seen": []}
+{"loaded_encoder_from": "artifacts\\jev-field-pretrain", "transferred": 161, "missing": 1, "unexpected": 0}
+{"labels": 42, "train": 40000, "validation": 7890, "test": 337, "parameters": 10278955}
+{"sampler_power": 0.5, "rarest": [["drop_add_deadline", 2], ["course_modality", 5], ["attendance_policy", 17], ["class_type", 18], ["meeting_days", 20]]}
+{"epoch": 1, "loss": 0.878865410694095, "validation_accuracy": 0.9982256020278834, "validation_macro_f1": 0.9549205380366083, "seconds": 33.6}
+{"epoch": 2, "loss": 0.42442097418616265, "validation_accuracy": 0.9987325728770595, "validation_macro_f1": 0.9743494087101118, "seconds": 25.6}
+{"epoch": 3, "loss": 0.394986448533227, "validation_accuracy": 0.9988593155893536, "validation_macro_f1": 0.959526865633682, "seconds": 45.1}
+{"epoch": 4, "loss": 0.3802574335388019, "validation_accuracy": 0.9987325728770595, "validation_macro_f1": 0.9539101626399974, "seconds": 63.7}
+{"early_stop_at": 4, "best_epoch": 2}
+{
+  "folds": 5,
+  "mean_accuracy": 0.7314470682191505,
+  "mean_macro_f1": 0.26345314628437455,
+  "mean_accuracy_on_seen_labels": 0.7927129777763658
+}
+  anordkvist/gu-course-syllabus: rows=62170 acc=0.4357 macroF1=0.1214 seen-label acc=0.6702127659574468
+  chaseharmon/MIT_Course_Catalog: rows=17277 acc=0.9865 macroF1=0.2748 seen-label acc=0.9864559819413092
+  USC/USC-Course-Catalog: rows=19811 acc=0.9715 macroF1=0.3292 seen-label acc=0.9894098293234629
+  Dev-the-dev91/syllabus-cleaned: rows=2775 acc=0.3348 macroF1=0.1833 seen-label acc=0.3887029288702929
+  alecwatts/umich-course-descriptions: rows=337 acc=0.9288 macroF1=0.4086 seen-label acc=0.9287833827893175

@@ -1,0 +1,235 @@
+{
+  "task": "grounded course-mention relation classification",
+  "dataset": "USC/USC-Course-Catalog",
+  "source_group": "course subject prefixes; exact shared split with usc-real",
+  "total_examples": 3212,
+  "rows_by_split": {
+    "train": 1945,
+    "validation": 615,
+    "test": 652
+  },
+  "subjects_by_split": {
+    "train": 109,
+    "validation": 26,
+    "test": 27
+  },
+  "labels": [
+    "corequisite_of",
+    "duplicate_credit_of",
+    "prerequisite_of",
+    "recommended_for",
+    "related_reference"
+  ],
+  "label_counts": {
+    "duplicate_credit_of": 159,
+    "prerequisite_of": 2858,
+    "recommended_for": 146,
+    "related_reference": 36,
+    "corequisite_of": 13
+  },
+  "field_counts": {
+    "Catalogue": 625,
+    "Prerequisites": 2587
+  },
+  "sparse_baseline": {
+    "model": "char_wb 3-5 gram TF-IDF + balanced logistic regression",
+    "fit_seconds": 0.40965360001428053,
+    "serialized_bytes": 304452,
+    "test_accuracy": 0.9892638036809815,
+    "test_macro_f1": 0.8079213184476342,
+    "test_weighted_f1": 0.990226367648066,
+    "test_errors": 7,
+    "catalogue_only_test_rows": 127,
+    "catalogue_only_accuracy": 0.9448818897637795,
+    "catalogue_only_macro_f1": 0.7995670995670996,
+    "catalogue_only_errors": 7
+  },
+  "minilm_relation_encoder": {
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "parameter_count": 22715141,
+    "checkpoint_bytes": 90891663,
+    "validation_temperature": 1.179532766342163,
+    "test_accuracy": 0.9938650306748467,
+    "test_macro_f1": 0.9193311036789297,
+    "test_weighted_f1": 0.9950817653938486,
+    "test_errors": 4,
+    "catalogue_only_test_rows": 127,
+    "catalogue_only_accuracy": 0.968503937007874,
+    "catalogue_only_macro_f1": 0.9145205479452054,
+    "catalogue_only_errors": 4,
+    "classification_report": {
+      "corequisite_of": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 3.0
+      },
+      "duplicate_credit_of": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 28.0
+      },
+      "prerequisite_of": {
+        "precision": 1.0,
+        "recall": 0.9933333333333333,
+        "f1-score": 0.9966555183946488,
+        "support": 600.0
+      },
+      "recommended_for": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 18.0
+      },
+      "related_reference": {
+        "precision": 0.42857142857142855,
+        "recall": 1.0,
+        "f1-score": 0.6,
+        "support": 3.0
+      },
+      "accuracy": 0.9938650306748467,
+      "macro avg": {
+        "precision": 0.8857142857142858,
+        "recall": 0.9986666666666666,
+        "f1-score": 0.9193311036789297,
+        "support": 652.0
+      },
+      "weighted avg": {
+        "precision": 0.9973707274320772,
+        "recall": 0.9938650306748467,
+        "f1-score": 0.9950817653938486,
+        "support": 652.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        28,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        596,
+        0,
+        4
+      ],
+      [
+        0,
+        0,
+        0,
+        18,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        3
+      ]
+    ],
+    "test_error_examples": [
+      {
+        "true": "prerequisite_of",
+        "predicted": "related_reference",
+        "source_course": "RNR 051",
+        "target_course": "RNR 050",
+        "source_field": "Catalogue",
+        "clause": "This course serves the popuation that has successfully completed RNR-050"
+      },
+      {
+        "true": "prerequisite_of",
+        "predicted": "related_reference",
+        "source_course": "EDUC 677",
+        "target_course": "EDUC 673",
+        "source_field": "Catalogue",
+        "clause": "Building on EDUC 673, prepares candidates to apply curricular principles to lesson development and determine how content should be delivered to maximize learning"
+      },
+      {
+        "true": "prerequisite_of",
+        "predicted": "related_reference",
+        "source_course": "EDUC 678",
+        "target_course": "EDUC 673",
+        "source_field": "Catalogue",
+        "clause": "Building on EDUC 673, prepares candidates to apply curricular principals to lesson development and determine how content should be delivered to maximize learning"
+      },
+      {
+        "true": "prerequisite_of",
+        "predicted": "related_reference",
+        "source_course": "EDUE 780B",
+        "target_course": "EDUE 780A",
+        "source_field": "Catalogue",
+        "clause": "Builds on EDUE 780a as students finalize their literature reviews, overview of methodology and other contextual writing for the dissertation in practice and qualifying exam"
+      }
+    ],
+    "history": [
+      {
+        "epoch": 1,
+        "loss": 0.8332468608669081,
+        "validation_accuracy": 0.9886178861788618,
+        "validation_macro_f1": 0.7253899291758865,
+        "seconds": 3.3075724000227638
+      },
+      {
+        "epoch": 2,
+        "loss": 0.3049234535056548,
+        "validation_accuracy": 0.9902439024390244,
+        "validation_macro_f1": 0.855317360235393,
+        "seconds": 2.8123889000271447
+      },
+      {
+        "epoch": 3,
+        "loss": 0.0727241962125189,
+        "validation_accuracy": 0.9934959349593496,
+        "validation_macro_f1": 0.9326047358834245,
+        "seconds": 2.8253943999879993
+      },
+      {
+        "epoch": 4,
+        "loss": 0.03410141260866992,
+        "validation_accuracy": 0.9934959349593496,
+        "validation_macro_f1": 0.9326047358834245,
+        "seconds": 2.8071002999786288
+      },
+      {
+        "epoch": 5,
+        "loss": 0.0062677906673462664,
+        "validation_accuracy": 0.9934959349593496,
+        "validation_macro_f1": 0.9326047358834245,
+        "seconds": 2.8006594999460503
+      },
+      {
+        "epoch": 6,
+        "loss": 0.006082670637177395,
+        "validation_accuracy": 0.9951219512195122,
+        "validation_macro_f1": 0.9449085945901233,
+        "seconds": 2.8021186999976635
+      },
+      {
+        "epoch": 7,
+        "loss": 0.003638635065070674,
+        "validation_accuracy": 0.9934959349593496,
+        "validation_macro_f1": 0.9326047358834245,
+        "seconds": 2.806822199956514
+      },
+      {
+        "epoch": 8,
+        "loss": 0.002598066821877585,
+        "validation_accuracy": 0.9951219512195122,
+        "validation_macro_f1": 0.9449085945901233,
+        "seconds": 2.8460679999552667
+      }
+    ]
+  }
+}

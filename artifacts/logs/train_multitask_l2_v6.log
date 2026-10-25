@@ -1,0 +1,421 @@
+Some weights of the model checkpoint at sentence-transformers/all-MiniLM-L6-v2 were not used when initializing BertModel: ['encoder.layer.2.attention.output.LayerNorm.bias', 'encoder.layer.2.attention.output.LayerNorm.weight', 'encoder.layer.2.attention.output.dense.bias', 'encoder.layer.2.attention.output.dense.weight', 'encoder.layer.2.attention.self.key.bias', 'encoder.layer.2.attention.self.key.weight', 'encoder.layer.2.attention.self.query.bias', 'encoder.layer.2.attention.self.query.weight', 'encoder.layer.2.attention.self.value.bias', 'encoder.layer.2.attention.self.value.weight', 'encoder.layer.2.intermediate.dense.bias', 'encoder.layer.2.intermediate.dense.weight', 'encoder.layer.2.output.LayerNorm.bias', 'encoder.layer.2.output.LayerNorm.weight', 'encoder.layer.2.output.dense.bias', 'encoder.layer.2.output.dense.weight', 'encoder.layer.3.attention.output.LayerNorm.bias', 'encoder.layer.3.attention.output.LayerNorm.weight', 'encoder.layer.3.attention.output.dense.bias', 'encoder.layer.3.attention.output.dense.weight', 'encoder.layer.3.attention.self.key.bias', 'encoder.layer.3.attention.self.key.weight', 'encoder.layer.3.attention.self.query.bias', 'encoder.layer.3.attention.self.query.weight', 'encoder.layer.3.attention.self.value.bias', 'encoder.layer.3.attention.self.value.weight', 'encoder.layer.3.intermediate.dense.bias', 'encoder.layer.3.intermediate.dense.weight', 'encoder.layer.3.output.LayerNorm.bias', 'encoder.layer.3.output.LayerNorm.weight', 'encoder.layer.3.output.dense.bias', 'encoder.layer.3.output.dense.weight', 'encoder.layer.4.attention.output.LayerNorm.bias', 'encoder.layer.4.attention.output.LayerNorm.weight', 'encoder.layer.4.attention.output.dense.bias', 'encoder.layer.4.attention.output.dense.weight', 'encoder.layer.4.attention.self.key.bias', 'encoder.layer.4.attention.self.key.weight', 'encoder.layer.4.attention.self.query.bias', 'encoder.layer.4.attention.self.query.weight', 'encoder.layer.4.attention.self.value.bias', 'encoder.layer.4.attention.self.value.weight', 'encoder.layer.4.intermediate.dense.bias', 'encoder.layer.4.intermediate.dense.weight', 'encoder.layer.4.output.LayerNorm.bias', 'encoder.layer.4.output.LayerNorm.weight', 'encoder.layer.4.output.dense.bias', 'encoder.layer.4.output.dense.weight', 'encoder.layer.5.attention.output.LayerNorm.bias', 'encoder.layer.5.attention.output.LayerNorm.weight', 'encoder.layer.5.attention.output.dense.bias', 'encoder.layer.5.attention.output.dense.weight', 'encoder.layer.5.attention.self.key.bias', 'encoder.layer.5.attention.self.key.weight', 'encoder.layer.5.attention.self.query.bias', 'encoder.layer.5.attention.self.query.weight', 'encoder.layer.5.attention.self.value.bias', 'encoder.layer.5.attention.self.value.weight', 'encoder.layer.5.intermediate.dense.bias', 'encoder.layer.5.intermediate.dense.weight', 'encoder.layer.5.output.LayerNorm.bias', 'encoder.layer.5.output.LayerNorm.weight', 'encoder.layer.5.output.dense.bias', 'encoder.layer.5.output.dense.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+{"epoch": 1, "mean_loss": 5.761761915056329, "validation_document_accuracy": 0.9981290926099158, "validation_document_macro_f1": 0.9980950653120464, "validation_entity_span_f1": 0.8221966482054233, "seconds": 8.733846299990546}
+{"epoch": 2, "mean_loss": 1.3322036164371591, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9416313480556175, "seconds": 8.429241699981503}
+{"epoch": 3, "mean_loss": 0.4416400189462461, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9729933047468593, "seconds": 8.381401200022083}
+{"epoch": 4, "mean_loss": 0.22947250628157667, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.980592055580728, "seconds": 8.349053400044795}
+{"epoch": 5, "mean_loss": 0.14917732818346274, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9847073964721024, "seconds": 8.383807000005618}
+{"epoch": 6, "mean_loss": 0.10948518189160447, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9904189795452817, "seconds": 8.35205790004693}
+{"epoch": 7, "mean_loss": 0.08422776472411658, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9902720778233775, "seconds": 8.339938800025266}
+{"epoch": 8, "mean_loss": 0.06803343282326271, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9912163960606867, "seconds": 8.342695999948774}
+Some weights of the model checkpoint at sentence-transformers/all-MiniLM-L6-v2 were not used when initializing BertModel: ['encoder.layer.2.attention.output.LayerNorm.bias', 'encoder.layer.2.attention.output.LayerNorm.weight', 'encoder.layer.2.attention.output.dense.bias', 'encoder.layer.2.attention.output.dense.weight', 'encoder.layer.2.attention.self.key.bias', 'encoder.layer.2.attention.self.key.weight', 'encoder.layer.2.attention.self.query.bias', 'encoder.layer.2.attention.self.query.weight', 'encoder.layer.2.attention.self.value.bias', 'encoder.layer.2.attention.self.value.weight', 'encoder.layer.2.intermediate.dense.bias', 'encoder.layer.2.intermediate.dense.weight', 'encoder.layer.2.output.LayerNorm.bias', 'encoder.layer.2.output.LayerNorm.weight', 'encoder.layer.2.output.dense.bias', 'encoder.layer.2.output.dense.weight', 'encoder.layer.3.attention.output.LayerNorm.bias', 'encoder.layer.3.attention.output.LayerNorm.weight', 'encoder.layer.3.attention.output.dense.bias', 'encoder.layer.3.attention.output.dense.weight', 'encoder.layer.3.attention.self.key.bias', 'encoder.layer.3.attention.self.key.weight', 'encoder.layer.3.attention.self.query.bias', 'encoder.layer.3.attention.self.query.weight', 'encoder.layer.3.attention.self.value.bias', 'encoder.layer.3.attention.self.value.weight', 'encoder.layer.3.intermediate.dense.bias', 'encoder.layer.3.intermediate.dense.weight', 'encoder.layer.3.output.LayerNorm.bias', 'encoder.layer.3.output.LayerNorm.weight', 'encoder.layer.3.output.dense.bias', 'encoder.layer.3.output.dense.weight', 'encoder.layer.4.attention.output.LayerNorm.bias', 'encoder.layer.4.attention.output.LayerNorm.weight', 'encoder.layer.4.attention.output.dense.bias', 'encoder.layer.4.attention.output.dense.weight', 'encoder.layer.4.attention.self.key.bias', 'encoder.layer.4.attention.self.key.weight', 'encoder.layer.4.attention.self.query.bias', 'encoder.layer.4.attention.self.query.weight', 'encoder.layer.4.attention.self.value.bias', 'encoder.layer.4.attention.self.value.weight', 'encoder.layer.4.intermediate.dense.bias', 'encoder.layer.4.intermediate.dense.weight', 'encoder.layer.4.output.LayerNorm.bias', 'encoder.layer.4.output.LayerNorm.weight', 'encoder.layer.4.output.dense.bias', 'encoder.layer.4.output.dense.weight', 'encoder.layer.5.attention.output.LayerNorm.bias', 'encoder.layer.5.attention.output.LayerNorm.weight', 'encoder.layer.5.attention.output.dense.bias', 'encoder.layer.5.attention.output.dense.weight', 'encoder.layer.5.attention.self.key.bias', 'encoder.layer.5.attention.self.key.weight', 'encoder.layer.5.attention.self.query.bias', 'encoder.layer.5.attention.self.query.weight', 'encoder.layer.5.attention.self.value.bias', 'encoder.layer.5.attention.self.value.weight', 'encoder.layer.5.intermediate.dense.bias', 'encoder.layer.5.intermediate.dense.weight', 'encoder.layer.5.output.LayerNorm.bias', 'encoder.layer.5.output.LayerNorm.weight', 'encoder.layer.5.output.dense.bias', 'encoder.layer.5.output.dense.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+C:\Users\Adity\Downloads\Pace\pace\synthetic_doc_model.py:344: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  return torch.ao.quantization.quantize_dynamic(model,{nn.Linear},dtype=torch.qint8)
+{
+  "rows_by_split": {
+    "train": 10279,
+    "validation": 1069,
+    "test": 1208
+  },
+  "windows_by_split": {
+    "train": 12097,
+    "validation": 1208,
+    "test": 1551
+  },
+  "templates": {
+    "train": [
+      "assignment_compact",
+      "assignment_narrative",
+      "catalog_compact",
+      "catalog_narrative",
+      "gradebook_compact",
+      "gradebook_heading",
+      "other_heading",
+      "other_notice",
+      "report_card_compact",
+      "report_card_heading",
+      "requirement_list",
+      "requirement_narrative",
+      "schedule_compact",
+      "schedule_heading",
+      "selection_form",
+      "selection_heading",
+      "syllabus_compact",
+      "syllabus_heading_first",
+      "transcript_markdown",
+      "transcript_rowwise"
+    ],
+    "validation": [
+      "assignment_heading",
+      "catalog_heading",
+      "gradebook_table",
+      "other_narrative",
+      "report_card_narrative",
+      "requirement_heading",
+      "schedule_narrative",
+      "selection_compact",
+      "syllabus_table_like",
+      "transcript_compact"
+    ],
+    "test": [
+      "assignment_notice",
+      "catalog_entry",
+      "gradebook_narrative",
+      "other_compact",
+      "report_card_rows",
+      "requirement_compact",
+      "schedule_rows",
+      "selection_narrative",
+      "syllabus_narrative",
+      "transcript_piped",
+      "transcript_table"
+    ]
+  },
+  "doc_corrupt": {
+    "pytorch_multitask": 1.0,
+    "tfidf_logistic": 1.0
+  },
+  "doc_clean": 1.0,
+  "entity_corrupted": {
+    "true_spans": 20148,
+    "predicted_spans": 20242,
+    "true_positive_spans": 20103,
+    "precision": 0.9931330896156506,
+    "recall": 0.9977665276950566,
+    "f1": 0.9954444169348848,
+    "false_positives": 139,
+    "false_negatives": 45,
+    "per_entity_type": {
+      "COURSE": {
+        "support": 2903,
+        "predicted": 2935,
+        "true_positive": 2898,
+        "precision": 0.9873935264054514,
+        "recall": 0.9982776438167413,
+        "f1": 0.9928057553956835
+      },
+      "COURSE_CODE": {
+        "support": 1281,
+        "predicted": 1288,
+        "true_positive": 1264,
+        "precision": 0.9813664596273292,
+        "recall": 0.9867291178766588,
+        "f1": 0.9840404826780849
+      },
+      "TEACHER": {
+        "support": 210,
+        "predicted": 212,
+        "true_positive": 206,
+        "precision": 0.9716981132075472,
+        "recall": 0.9809523809523809,
+        "f1": 0.976303317535545
+      },
+      "ROOM": {
+        "support": 278,
+        "predicted": 281,
+        "true_positive": 275,
+        "precision": 0.9786476868327402,
+        "recall": 0.9892086330935251,
+        "f1": 0.9838998211091234
+      },
+      "CREDIT": {
+        "support": 3115,
+        "predicted": 3113,
+        "true_positive": 3108,
+        "precision": 0.9983938323160938,
+        "recall": 0.9977528089887641,
+        "f1": 0.9980732177263969
+      },
+      "GRADE_CATEGORY": {
+        "support": 573,
+        "predicted": 576,
+        "true_positive": 572,
+        "precision": 0.9930555555555556,
+        "recall": 0.9982547993019197,
+        "f1": 0.9956483899042646
+      },
+      "WEIGHT": {
+        "support": 604,
+        "predicted": 604,
+        "true_positive": 604,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ASSESSMENT": {
+        "support": 131,
+        "predicted": 136,
+        "true_positive": 129,
+        "precision": 0.9485294117647058,
+        "recall": 0.9847328244274809,
+        "f1": 0.9662921348314607
+      },
+      "DATE": {
+        "support": 3098,
+        "predicted": 3101,
+        "true_positive": 3096,
+        "precision": 0.9983876168977749,
+        "recall": 0.9993544222078761,
+        "f1": 0.9988707856105824
+      },
+      "TIME": {
+        "support": 616,
+        "predicted": 622,
+        "true_positive": 616,
+        "precision": 0.9903536977491961,
+        "recall": 1.0,
+        "f1": 0.9951534733441034
+      },
+      "PREREQUISITE": {
+        "support": 263,
+        "predicted": 264,
+        "true_positive": 262,
+        "precision": 0.9924242424242424,
+        "recall": 0.9961977186311787,
+        "f1": 0.9943074003795066
+      },
+      "STUDENT": {
+        "support": 179,
+        "predicted": 182,
+        "true_positive": 177,
+        "precision": 0.9725274725274725,
+        "recall": 0.9888268156424581,
+        "f1": 0.9806094182825484
+      },
+      "SCHOOL": {
+        "support": 179,
+        "predicted": 183,
+        "true_positive": 178,
+        "precision": 0.9726775956284153,
+        "recall": 0.994413407821229,
+        "f1": 0.9834254143646409
+      },
+      "GRADE_LEVEL": {
+        "support": 2544,
+        "predicted": 2546,
+        "true_positive": 2544,
+        "precision": 0.9992144540455616,
+        "recall": 1.0,
+        "f1": 0.999607072691552
+      },
+      "MARK": {
+        "support": 2196,
+        "predicted": 2202,
+        "true_positive": 2196,
+        "precision": 0.997275204359673,
+        "recall": 1.0,
+        "f1": 0.9986357435197817
+      },
+      "SCORE": {
+        "support": 348,
+        "predicted": 348,
+        "true_positive": 348,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERFORMANCE_LEVEL": {
+        "support": 348,
+        "predicted": 350,
+        "true_positive": 348,
+        "precision": 0.9942857142857143,
+        "recall": 1.0,
+        "f1": 0.997134670487106
+      },
+      "SUBJECT_AREA": {
+        "support": 1148,
+        "predicted": 1159,
+        "true_positive": 1148,
+        "precision": 0.9905090595340811,
+        "recall": 1.0,
+        "f1": 0.9952319029042046
+      },
+      "GPA": {
+        "support": 134,
+        "predicted": 140,
+        "true_positive": 134,
+        "precision": 0.9571428571428572,
+        "recall": 1.0,
+        "f1": 0.9781021897810219
+      }
+    }
+  },
+  "entity_clean": {
+    "true_spans": 20148,
+    "predicted_spans": 20206,
+    "true_positive_spans": 20122,
+    "precision": 0.995842818964664,
+    "recall": 0.9987095493349216,
+    "f1": 0.9972741240025772,
+    "false_positives": 84,
+    "false_negatives": 26,
+    "per_entity_type": {
+      "COURSE": {
+        "support": 2903,
+        "predicted": 2916,
+        "true_positive": 2903,
+        "precision": 0.9955418381344308,
+        "recall": 1.0,
+        "f1": 0.9977659391648049
+      },
+      "COURSE_CODE": {
+        "support": 1281,
+        "predicted": 1282,
+        "true_positive": 1264,
+        "precision": 0.9859594383775351,
+        "recall": 0.9867291178766588,
+        "f1": 0.9863441279750292
+      },
+      "TEACHER": {
+        "support": 210,
+        "predicted": 210,
+        "true_positive": 210,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ROOM": {
+        "support": 278,
+        "predicted": 280,
+        "true_positive": 276,
+        "precision": 0.9857142857142858,
+        "recall": 0.9928057553956835,
+        "f1": 0.989247311827957
+      },
+      "CREDIT": {
+        "support": 3115,
+        "predicted": 3111,
+        "true_positive": 3108,
+        "precision": 0.9990356798457087,
+        "recall": 0.9977528089887641,
+        "f1": 0.9983938323160938
+      },
+      "GRADE_CATEGORY": {
+        "support": 573,
+        "predicted": 576,
+        "true_positive": 573,
+        "precision": 0.9947916666666666,
+        "recall": 1.0,
+        "f1": 0.9973890339425587
+      },
+      "WEIGHT": {
+        "support": 604,
+        "predicted": 604,
+        "true_positive": 604,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ASSESSMENT": {
+        "support": 131,
+        "predicted": 134,
+        "true_positive": 131,
+        "precision": 0.9776119402985075,
+        "recall": 1.0,
+        "f1": 0.9886792452830189
+      },
+      "DATE": {
+        "support": 3098,
+        "predicted": 3101,
+        "true_positive": 3098,
+        "precision": 0.999032570138665,
+        "recall": 1.0,
+        "f1": 0.9995160509759639
+      },
+      "TIME": {
+        "support": 616,
+        "predicted": 620,
+        "true_positive": 616,
+        "precision": 0.9935483870967742,
+        "recall": 1.0,
+        "f1": 0.9967637540453075
+      },
+      "PREREQUISITE": {
+        "support": 263,
+        "predicted": 264,
+        "true_positive": 263,
+        "precision": 0.9962121212121212,
+        "recall": 1.0,
+        "f1": 0.9981024667931688
+      },
+      "STUDENT": {
+        "support": 179,
+        "predicted": 182,
+        "true_positive": 179,
+        "precision": 0.9835164835164835,
+        "recall": 1.0,
+        "f1": 0.9916897506925207
+      },
+      "SCHOOL": {
+        "support": 179,
+        "predicted": 181,
+        "true_positive": 179,
+        "precision": 0.988950276243094,
+        "recall": 1.0,
+        "f1": 0.9944444444444445
+      },
+      "GRADE_LEVEL": {
+        "support": 2544,
+        "predicted": 2548,
+        "true_positive": 2544,
+        "precision": 0.9984301412872841,
+        "recall": 1.0,
+        "f1": 0.9992144540455616
+      },
+      "MARK": {
+        "support": 2196,
+        "predicted": 2200,
+        "true_positive": 2196,
+        "precision": 0.9981818181818182,
+        "recall": 1.0,
+        "f1": 0.9990900818926297
+      },
+      "SCORE": {
+        "support": 348,
+        "predicted": 348,
+        "true_positive": 348,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERFORMANCE_LEVEL": {
+        "support": 348,
+        "predicted": 351,
+        "true_positive": 348,
+        "precision": 0.9914529914529915,
+        "recall": 1.0,
+        "f1": 0.9957081545064378
+      },
+      "SUBJECT_AREA": {
+        "support": 1148,
+        "predicted": 1159,
+        "true_positive": 1148,
+        "precision": 0.9905090595340811,
+        "recall": 1.0,
+        "f1": 0.9952319029042046
+      },
+      "GPA": {
+        "support": 134,
+        "predicted": 139,
+        "true_positive": 134,
+        "precision": 0.9640287769784173,
+        "recall": 1.0,
+        "f1": 0.9816849816849816
+      }
+    }
+  },
+  "transcript": {
+    "documents": 179,
+    "entity_span_f1": 0.9971525423728813
+  },
+  "parameters": 15634225,
+  "bytes": 62550848
+}

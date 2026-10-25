@@ -1,0 +1,171 @@
+{
+  "checkpoint": "artifacts/synthetic-multitask",
+  "model_scope": "synthetic_text_only_unvalidated_on_real_documents",
+  "document_type": {
+    "label": "transcript",
+    "confidence": 0.995558328098721,
+    "probabilities": {
+      "syllabus": 0.0004465914680622518,
+      "schedule": 0.0004189131723251194,
+      "gradebook": 0.00045927686733193696,
+      "transcript": 0.9960024952888489,
+      "report_card": 0.00033713033189997077,
+      "course_catalog": 0.00048043610877357423,
+      "requirements": 0.000546533556189388,
+      "assignment_sheet": 0.0005047513404861093,
+      "course_selection": 0.0004648606409318745,
+      "other": 0.00033912056824192405
+    }
+  },
+  "transcript_triggered_by": "both",
+  "model_entity_scores": {
+    "gold_spans": 220,
+    "predicted_spans": 220,
+    "true_positive_spans": 216,
+    "false_positive_spans": 4,
+    "false_negative_spans": 4,
+    "precision": 0.9818181818181818,
+    "recall": 0.9818181818181818,
+    "f1": 0.9818181818181818,
+    "per_entity_type": {
+      "COURSE": {
+        "support": 41,
+        "predicted": 41,
+        "true_positive": 41,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "CREDIT": {
+        "support": 39,
+        "predicted": 39,
+        "true_positive": 38,
+        "precision": 0.9743589743589743,
+        "recall": 0.9743589743589743,
+        "f1": 0.9743589743589743
+      },
+      "DATE": {
+        "support": 42,
+        "predicted": 42,
+        "true_positive": 42,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "GPA": {
+        "support": 0,
+        "predicted": 1,
+        "true_positive": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "GRADE_LEVEL": {
+        "support": 41,
+        "predicted": 42,
+        "true_positive": 41,
+        "precision": 0.9761904761904762,
+        "recall": 1.0,
+        "f1": 0.9879518072289156
+      },
+      "MARK": {
+        "support": 38,
+        "predicted": 39,
+        "true_positive": 38,
+        "precision": 0.9743589743589743,
+        "recall": 1.0,
+        "f1": 0.987012987012987
+      },
+      "PERFORMANCE_LEVEL": {
+        "support": 3,
+        "predicted": 0,
+        "true_positive": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "SCHOOL": {
+        "support": 1,
+        "predicted": 1,
+        "true_positive": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "SCORE": {
+        "support": 3,
+        "predicted": 3,
+        "true_positive": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "STUDENT": {
+        "support": 1,
+        "predicted": 1,
+        "true_positive": 1,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "SUBJECT_AREA": {
+        "support": 11,
+        "predicted": 11,
+        "true_positive": 11,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      }
+    }
+  },
+  "parser_summary": {
+    "document_title": "ACADEMIC HISTORY",
+    "student_name": "Lepid, Arthur",
+    "school": "Pacific High School",
+    "course_records": 38,
+    "assessment_records": 3,
+    "sections": [
+      "ELECTIVE",
+      "LANGUAGE ARTS",
+      "MATH",
+      "PHYSICAL EDUCATION",
+      "SCHOOL & COMMUNITY RELATIONS",
+      "SCIENCE",
+      "SOCIAL STUDIES",
+      "VOCATIONAL",
+      "AK HSGQE READING",
+      "AK HSGQE WRITING",
+      "AK HSGQE MATH"
+    ],
+    "computed_total_credits": 13.25,
+    "reported_total_credits": 13.25,
+    "gpa": null,
+    "column_interleaving_detected": false,
+    "credit_sum_matches_reported_total": true
+  },
+  "parser_checks": {
+    "course_record_count": 38,
+    "assessment_record_count": 3,
+    "computed_total_credits": 13.25,
+    "reported_total_credits": 13.25,
+    "credit_sum_matches_reported_total": true,
+    "credit_sum_difference": 0.0,
+    "records_without_title": 0,
+    "records_without_section": 0,
+    "records_per_subject_area": {
+      "ELECTIVE": 3,
+      "LANGUAGE ARTS": 11,
+      "MATH": 4,
+      "PHYSICAL EDUCATION": 2,
+      "SCHOOL & COMMUNITY RELATIONS": 8,
+      "SCIENCE": 4,
+      "SOCIAL STUDIES": 5,
+      "VOCATIONAL": 1
+    },
+    "column_interleaving_detected": false,
+    "unattached_performance_levels": 0,
+    "gpa_present": false
+  },
+  "model_entity_count": 222,
+  "note": "Entity reference spans come from the deterministic parser (independent of the neural tagger). Record-level results are the parser's, with the document's own reported totals used as the consistency check."
+}

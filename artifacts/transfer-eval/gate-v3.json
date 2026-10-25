@@ -1,0 +1,73 @@
+{
+  "candidate": "artifacts/jev-field-v3",
+  "incumbent": "artifacts/jev-field-v2",
+  "benchmarks": {
+    "field_corpus": {
+      "incumbent": {
+        "rows": 7571,
+        "accuracy": 0.9981508387267204,
+        "macro_f1": 0.9711206739159741,
+        "ece": 0.0016357394383331061,
+        "items_per_second": 70.3
+      },
+      "candidate": {
+        "rows": 7571,
+        "accuracy": 0.998018755778629,
+        "macro_f1": 0.973860825711667,
+        "ece": 0.0014419801963272008,
+        "items_per_second": 70.4
+      },
+      "metric": "macro_f1",
+      "delta": 0.0027,
+      "tolerance": -0.005,
+      "passed": true,
+      "ece_delta": -0.0002
+    },
+    "unseen_syllabus": {
+      "incumbent": {
+        "rows": 1638,
+        "accuracy": 0.6147741147741148,
+        "macro_f1": 0.40024114718211495,
+        "ece": 0.3269047718381416,
+        "items_per_second": 823.6
+      },
+      "candidate": {
+        "rows": 1638,
+        "accuracy": 0.6056166056166056,
+        "macro_f1": 0.39042138129310483,
+        "ece": 0.34382604031626846,
+        "items_per_second": 822.9
+      },
+      "metric": "macro_f1",
+      "delta": -0.0098,
+      "tolerance": -0.002,
+      "passed": false,
+      "ece_delta": 0.0169
+    },
+    "sis_holdout": {
+      "incumbent": {
+        "rows": 354,
+        "accuracy": 0.847457627118644,
+        "macro_f1": 0.4916223729380607,
+        "ece": 0.12156916262403047,
+        "items_per_second": 6885.9
+      },
+      "candidate": {
+        "rows": 354,
+        "accuracy": 0.8954802259887006,
+        "macro_f1": 0.530663655757338,
+        "ece": 0.065745591022874,
+        "items_per_second": 6858.5
+      },
+      "metric": "macro_f1",
+      "delta": 0.039,
+      "tolerance": -0.02,
+      "passed": true,
+      "ece_delta": -0.0558
+    }
+  },
+  "failed": [
+    "unseen_syllabus: macro_f1 -0.0098 (floor -0.0020)"
+  ],
+  "verdict": "reject"
+}

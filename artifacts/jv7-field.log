@@ -1,0 +1,20 @@
+{"loaded_encoder_from": "artifacts\\jev-field-v3", "transferred": 162, "missing": 0, "unexpected": 0}
+{"labels": 42, "train": 107714, "validation": 7760, "test": 534, "parameters": 15331563}
+{"sampler_power": 0.5, "rarest": [["course_modality", 2], ["class_type", 17], ["weekly_readings", 18], ["drop_add_deadline", 20], ["capacity", 51]]}
+{"epoch": 1, "loss": 0.3907631723163815, "validation_accuracy": 0.9989690721649485, "validation_macro_f1": 0.9684080815192833, "seconds": 102.6}
+{"epoch": 2, "loss": 0.3725402819728512, "validation_accuracy": 0.9989690721649485, "validation_macro_f1": 0.9683083345088287, "seconds": 101.6}
+{"epoch": 3, "loss": 0.37006380581346693, "validation_accuracy": 0.9990979381443299, "validation_macro_f1": 0.9714598276468795, "seconds": 104.2}
+{"epoch": 4, "loss": 0.36944484254643584, "validation_accuracy": 0.9990979381443299, "validation_macro_f1": 0.9714783309345373, "seconds": 103.6}
+{
+  "parameter_count": 15331563,
+  "best_epoch": 4,
+  "temperature": 0.5902186632156372,
+  "test": {
+    "rows": 534,
+    "accuracy": 0.6367041198501873,
+    "macro_f1": 0.37128942992876435,
+    "weighted_f1": 0.695468630766363,
+    "ece_10bin": 0.32790991742066233,
+    "mean_confidence": 0.9646140336990356
+  }
+}

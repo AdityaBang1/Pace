@@ -1,0 +1,419 @@
+{"epoch": 1, "mean_loss": 3.9289649715499273, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9383330656817087, "seconds": 21.754713199974503}
+{"epoch": 2, "mean_loss": 0.4390021618554201, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.979300733696766, "seconds": 21.03070929995738}
+{"epoch": 3, "mean_loss": 0.1647692763458484, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9876848305119651, "seconds": 21.034373899979983}
+{"epoch": 4, "mean_loss": 0.09548805389927809, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9914085088806278, "seconds": 21.02696799999103}
+{"epoch": 5, "mean_loss": 0.0657320383088614, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9918188579456243, "seconds": 21.11065960000269}
+{"epoch": 6, "mean_loss": 0.049878912972946644, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9905107682151992, "seconds": 21.130824799998663}
+{"epoch": 7, "mean_loss": 0.039093907262203555, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.991781274521951, "seconds": 21.111539700010326}
+{"epoch": 8, "mean_loss": 0.03216573818729668, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9921084163120274, "seconds": 21.27651070000138}
+{"epoch": 9, "mean_loss": 0.026589009556032363, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.992846805871408, "seconds": 21.19909379997989}
+{"epoch": 10, "mean_loss": 0.021802658244730936, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.992313414331763, "seconds": 20.957274699991103}
+{"epoch": 11, "mean_loss": 0.01975871673809788, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9936289922224061, "seconds": 21.08131219999632}
+{"epoch": 12, "mean_loss": 0.01697615534559917, "validation_document_accuracy": 1.0, "validation_document_macro_f1": 1.0, "validation_entity_span_f1": 0.9930486593843099, "seconds": 20.88924320001388}
+C:\Users\Adity\Downloads\Pace\pace\synthetic_doc_model.py:294: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+  return torch.ao.quantization.quantize_dynamic(model,{nn.Linear},dtype=torch.qint8)
+{
+  "rows_by_split": {
+    "train": 10279,
+    "validation": 1069,
+    "test": 1208
+  },
+  "windows_by_split": {
+    "train": 12061,
+    "validation": 1205,
+    "test": 1551
+  },
+  "templates": {
+    "train": [
+      "assignment_compact",
+      "assignment_narrative",
+      "catalog_compact",
+      "catalog_narrative",
+      "gradebook_compact",
+      "gradebook_heading",
+      "other_heading",
+      "other_notice",
+      "report_card_compact",
+      "report_card_heading",
+      "requirement_list",
+      "requirement_narrative",
+      "schedule_compact",
+      "schedule_heading",
+      "selection_form",
+      "selection_heading",
+      "syllabus_compact",
+      "syllabus_heading_first",
+      "transcript_markdown",
+      "transcript_rowwise"
+    ],
+    "validation": [
+      "assignment_heading",
+      "catalog_heading",
+      "gradebook_table",
+      "other_narrative",
+      "report_card_narrative",
+      "requirement_heading",
+      "schedule_narrative",
+      "selection_compact",
+      "syllabus_table_like",
+      "transcript_compact"
+    ],
+    "test": [
+      "assignment_notice",
+      "catalog_entry",
+      "gradebook_narrative",
+      "other_compact",
+      "report_card_rows",
+      "requirement_compact",
+      "schedule_rows",
+      "selection_narrative",
+      "syllabus_narrative",
+      "transcript_piped",
+      "transcript_table"
+    ]
+  },
+  "doc_corrupt": {
+    "pytorch_multitask": 1.0,
+    "tfidf_logistic": 1.0
+  },
+  "doc_clean": 1.0,
+  "entity_corrupted": {
+    "true_spans": 19164,
+    "predicted_spans": 19269,
+    "true_positive_spans": 19143,
+    "precision": 0.9934609995329285,
+    "recall": 0.9989041953663118,
+    "f1": 0.9961751619701819,
+    "false_positives": 126,
+    "false_negatives": 21,
+    "per_entity_type": {
+      "COURSE": {
+        "support": 2903,
+        "predicted": 2922,
+        "true_positive": 2903,
+        "precision": 0.9934976043805612,
+        "recall": 1.0,
+        "f1": 0.9967381974248927
+      },
+      "COURSE_CODE": {
+        "support": 1199,
+        "predicted": 1184,
+        "true_positive": 1179,
+        "precision": 0.995777027027027,
+        "recall": 0.9833194328607172,
+        "f1": 0.9895090222408729
+      },
+      "TEACHER": {
+        "support": 210,
+        "predicted": 210,
+        "true_positive": 210,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ROOM": {
+        "support": 166,
+        "predicted": 168,
+        "true_positive": 166,
+        "precision": 0.9880952380952381,
+        "recall": 1.0,
+        "f1": 0.9940119760479041
+      },
+      "CREDIT": {
+        "support": 3115,
+        "predicted": 3116,
+        "true_positive": 3114,
+        "precision": 0.9993581514762516,
+        "recall": 0.9996789727126806,
+        "f1": 0.9995185363505056
+      },
+      "GRADE_CATEGORY": {
+        "support": 531,
+        "predicted": 532,
+        "true_positive": 531,
+        "precision": 0.9981203007518797,
+        "recall": 1.0,
+        "f1": 0.9990592662276576
+      },
+      "WEIGHT": {
+        "support": 562,
+        "predicted": 584,
+        "true_positive": 562,
+        "precision": 0.9623287671232876,
+        "recall": 1.0,
+        "f1": 0.9808027923211169
+      },
+      "ASSESSMENT": {
+        "support": 131,
+        "predicted": 133,
+        "true_positive": 131,
+        "precision": 0.9849624060150376,
+        "recall": 1.0,
+        "f1": 0.9924242424242424
+      },
+      "DATE": {
+        "support": 2959,
+        "predicted": 2981,
+        "true_positive": 2959,
+        "precision": 0.992619926199262,
+        "recall": 1.0,
+        "f1": 0.9962962962962963
+      },
+      "TIME": {
+        "support": 228,
+        "predicted": 267,
+        "true_positive": 228,
+        "precision": 0.8539325842696629,
+        "recall": 1.0,
+        "f1": 0.9212121212121213
+      },
+      "PREREQUISITE": {
+        "support": 263,
+        "predicted": 263,
+        "true_positive": 263,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "STUDENT": {
+        "support": 179,
+        "predicted": 179,
+        "true_positive": 179,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "SCHOOL": {
+        "support": 179,
+        "predicted": 179,
+        "true_positive": 179,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "GRADE_LEVEL": {
+        "support": 2544,
+        "predicted": 2544,
+        "true_positive": 2544,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "MARK": {
+        "support": 2196,
+        "predicted": 2203,
+        "true_positive": 2196,
+        "precision": 0.9968225147526101,
+        "recall": 1.0,
+        "f1": 0.9984087292566493
+      },
+      "SCORE": {
+        "support": 348,
+        "predicted": 348,
+        "true_positive": 348,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERFORMANCE_LEVEL": {
+        "support": 169,
+        "predicted": 172,
+        "true_positive": 169,
+        "precision": 0.9825581395348837,
+        "recall": 1.0,
+        "f1": 0.9912023460410557
+      },
+      "SUBJECT_AREA": {
+        "support": 1148,
+        "predicted": 1149,
+        "true_positive": 1148,
+        "precision": 0.999129677980853,
+        "recall": 1.0,
+        "f1": 0.999564649542882
+      },
+      "GPA": {
+        "support": 134,
+        "predicted": 135,
+        "true_positive": 134,
+        "precision": 0.9925925925925926,
+        "recall": 1.0,
+        "f1": 0.9962825278810409
+      }
+    }
+  },
+  "entity_clean": {
+    "true_spans": 19164,
+    "predicted_spans": 19262,
+    "true_positive_spans": 19142,
+    "precision": 0.993770117329457,
+    "recall": 0.9988520141932791,
+    "f1": 0.9963045854369438,
+    "false_positives": 120,
+    "false_negatives": 22,
+    "per_entity_type": {
+      "COURSE": {
+        "support": 2903,
+        "predicted": 2915,
+        "true_positive": 2903,
+        "precision": 0.9958833619210977,
+        "recall": 1.0,
+        "f1": 0.9979374355448608
+      },
+      "COURSE_CODE": {
+        "support": 1199,
+        "predicted": 1185,
+        "true_positive": 1179,
+        "precision": 0.9949367088607595,
+        "recall": 0.9833194328607172,
+        "f1": 0.9890939597315436
+      },
+      "TEACHER": {
+        "support": 210,
+        "predicted": 210,
+        "true_positive": 210,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "ROOM": {
+        "support": 166,
+        "predicted": 168,
+        "true_positive": 166,
+        "precision": 0.9880952380952381,
+        "recall": 1.0,
+        "f1": 0.9940119760479041
+      },
+      "CREDIT": {
+        "support": 3115,
+        "predicted": 3115,
+        "true_positive": 3113,
+        "precision": 0.9993579454253612,
+        "recall": 0.9993579454253612,
+        "f1": 0.9993579454253612
+      },
+      "GRADE_CATEGORY": {
+        "support": 531,
+        "predicted": 531,
+        "true_positive": 531,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "WEIGHT": {
+        "support": 562,
+        "predicted": 586,
+        "true_positive": 562,
+        "precision": 0.9590443686006825,
+        "recall": 1.0,
+        "f1": 0.9790940766550522
+      },
+      "ASSESSMENT": {
+        "support": 131,
+        "predicted": 131,
+        "true_positive": 131,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "DATE": {
+        "support": 2959,
+        "predicted": 2980,
+        "true_positive": 2959,
+        "precision": 0.9929530201342281,
+        "recall": 1.0,
+        "f1": 0.9964640511870685
+      },
+      "TIME": {
+        "support": 228,
+        "predicted": 267,
+        "true_positive": 228,
+        "precision": 0.8539325842696629,
+        "recall": 1.0,
+        "f1": 0.9212121212121213
+      },
+      "PREREQUISITE": {
+        "support": 263,
+        "predicted": 263,
+        "true_positive": 263,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "STUDENT": {
+        "support": 179,
+        "predicted": 179,
+        "true_positive": 179,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "SCHOOL": {
+        "support": 179,
+        "predicted": 179,
+        "true_positive": 179,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "GRADE_LEVEL": {
+        "support": 2544,
+        "predicted": 2545,
+        "true_positive": 2544,
+        "precision": 0.999607072691552,
+        "recall": 1.0,
+        "f1": 0.999803497740224
+      },
+      "MARK": {
+        "support": 2196,
+        "predicted": 2200,
+        "true_positive": 2196,
+        "precision": 0.9981818181818182,
+        "recall": 1.0,
+        "f1": 0.9990900818926297
+      },
+      "SCORE": {
+        "support": 348,
+        "predicted": 348,
+        "true_positive": 348,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "PERFORMANCE_LEVEL": {
+        "support": 169,
+        "predicted": 176,
+        "true_positive": 169,
+        "precision": 0.9602272727272727,
+        "recall": 1.0,
+        "f1": 0.9797101449275363
+      },
+      "SUBJECT_AREA": {
+        "support": 1148,
+        "predicted": 1149,
+        "true_positive": 1148,
+        "precision": 0.999129677980853,
+        "recall": 1.0,
+        "f1": 0.999564649542882
+      },
+      "GPA": {
+        "support": 134,
+        "predicted": 135,
+        "true_positive": 134,
+        "precision": 0.9925925925925926,
+        "recall": 1.0,
+        "f1": 0.9962825278810409
+      }
+    }
+  },
+  "transcript": {
+    "documents": 179,
+    "entity_span_f1": 0.998832016489179
+  },
+  "parameters": 22732081,
+  "bytes": 90958791
+}

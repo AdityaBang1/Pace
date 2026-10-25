@@ -1,0 +1,84 @@
+{
+  "torch": "2.10.0+cu128",
+  "cuda_available": true,
+  "jev-field-v2": {
+    "load_seconds": 0.07,
+    "parameters": 15331563,
+    "checkpoint_bytes": 61371947,
+    "checkpoint_mb": 61.4,
+    "tokenizer": "Tokenizer",
+    "max_tokens": 127,
+    "labels": 42,
+    "temperature": 0.6254751682281494,
+    "output_keys": [
+      "confidence",
+      "label",
+      "model",
+      "percent",
+      "probabilities",
+      "task",
+      "temperature",
+      "top"
+    ]
+  },
+  "jev-field": {
+    "load_seconds": 0.07,
+    "parameters": 10278955,
+    "checkpoint_bytes": 41161195,
+    "checkpoint_mb": 41.2,
+    "tokenizer": "Tokenizer",
+    "max_tokens": 127,
+    "labels": 42,
+    "temperature": 0.5794634819030762,
+    "output_keys": [
+      "confidence",
+      "label",
+      "model",
+      "percent",
+      "probabilities",
+      "task",
+      "temperature",
+      "top"
+    ]
+  },
+  "field-classifier-minilm": {
+    "load_seconds": 0.29,
+    "parameters": 22729386,
+    "checkpoint_bytes": 90946511,
+    "checkpoint_mb": 90.9,
+    "tokenizer": "BertTokenizerFast",
+    "max_tokens": 256,
+    "labels": 42,
+    "temperature": 0.6466508507728577,
+    "output_keys": [
+      "confidence",
+      "label",
+      "model",
+      "percent",
+      "probabilities",
+      "task",
+      "temperature",
+      "top"
+    ]
+  },
+  "field-classifier-context": {
+    "load_seconds": 0.21,
+    "parameters": 22729386,
+    "checkpoint_bytes": 90946511,
+    "checkpoint_mb": 90.9,
+    "tokenizer": "BertTokenizerFast",
+    "max_tokens": 256,
+    "labels": 42,
+    "temperature": 0.5290402770042419,
+    "output_keys": [
+      "confidence",
+      "label",
+      "model",
+      "percent",
+      "probabilities",
+      "task",
+      "temperature",
+      "top"
+    ]
+  }
+}

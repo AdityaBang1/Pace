@@ -1,0 +1,25 @@
+{
+  "test_accuracy": 1.0,
+  "test_macro_f1": 1.0,
+  "test_ece_10bin": 0.00010895729064941406,
+  "temperature": 0.4134245216846466,
+  "high_confidence_threshold": 0.9,
+  "high_confidence_coverage": 1.0,
+  "high_confidence_precision": 1.0,
+  "examples": 6000,
+  "splits": {
+    "train": 3614,
+    "validation": 1194,
+    "test": 1192
+  },
+  "classes": 27,
+  "base_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "epochs_trained": 4,
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4070",
+  "seed": 20261019,
+  "real_document_metrics": null,
+  "checkpoint_bytes": 90931685,
+  "state_dict_bytes": 90929321,
+  "parameter_count": 22723611
+}

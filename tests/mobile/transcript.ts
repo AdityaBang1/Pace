@@ -410,6 +410,38 @@ async function main(): Promise<void> {
     );
   }
 
+  // ---- a row whose title and numbers were printed on separate lines -------
+  // The shape a PDF text layer actually arrives in on a device: the title run and
+  // its wrapped tail, then the numbers on a line of their own, because the tail
+  // changed the baseline between them. Reading the numbers as a line with no
+  // title dropped every row whose title wrapped — seven courses of a real
+  // transcript — while the single-line rows read fine.
+  {
+    const text = [
+      '2025-2026 Grade 09 Term 2',
+      'Course            Mark   Weight   Credit',
+      '220725y Accel Adv',
+      'Alg:Concept&Connect',
+      '94   1.0000   1',
+      '42075y AP Human Geography',
+      '90   1.0000   1',
+      'Credit: 2.000   GPA: 4.0',
+    ].join('\n');
+    const reading = readTranscript(text);
+    check(reading.courses.length === 2, 'a row split over three lines is read', reading.courses.length);
+    check(
+      reading.courses[0].code === '220725y' && reading.courses[0].title === 'Accel Adv Alg:Concept&Connect',
+      'its title and the tail under it are one row',
+      reading.courses[0],
+    );
+    check(
+      reading.courses[0].mark === '94' && reading.courses[0].weight === 1 && reading.courses[0].credit === 1,
+      'and its numbers land in their own columns',
+      reading.courses[0],
+    );
+    check(reading.courses[1].title === 'AP Human Geography', 'the next row keeps its own title', reading.courses[1].title);
+  }
+
   // ---- columns a course does not need, and columns a row left empty -------
   // A transcript prints numbers that are not a mark, a weight or a credit -- grade
   // points, earned credit -- and leaves the weight of an unweighted course blank.

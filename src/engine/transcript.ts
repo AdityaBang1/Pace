@@ -904,16 +904,41 @@ function splitHeader(
 function tableLines(text: string, all: Line[]): Line[] {
   const out: Line[] = [];
   let columns: TableColumn[] | null = null;
-  // The title lines above the values, and the value lines themselves: a text
-  // layer may report the whole row on one line or each number on its own line.
+  // The title lines buffered above the values, and the value lines themselves: a
+  // text layer may report a whole row on one printed line, a row's title on one
+  // line with its numbers under it, or each number on a line of its own.
   let pending: Line[] = [];
   let numbers: Line[] = [];
 
+  // Anything buffered goes out in the order the page printed it. Emitting the
+  // values first would put a row's numbers above its own title, and the row would
+  // then be read as a title-less line of numbers and dropped.
   const flush = () => {
-    if (pending.length) out.push(...pending);
-    if (numbers.length) out.push(...numbers);
+    for (const line of [...pending, ...numbers].sort((left, right) => left.start - right.start)) {
+      out.push(line);
+    }
     pending = [];
     numbers = [];
+  };
+
+  /** Join buffered titles and values into one row, when they really are a row. */
+  const join = (): boolean => {
+    if (!pending.length || !numbers.length || !columns) return false;
+    const width = columns;
+    const starts = [...pending, ...numbers].map((line) => line.start);
+    const ends = [...pending, ...numbers].map((line) => line.end);
+    const joined: Line = {
+      text: text.slice(Math.min(...starts), Math.max(...ends)),
+      start: Math.min(...starts),
+      end: Math.max(...ends),
+    };
+    // Only when the joined line really is a row: a stray run of numbers under
+    // prose must not consume the prose as a title.
+    if (!numericRow(cells(joined.text), width) && !looseNumericRow(joined.text, width)) return false;
+    pending = [];
+    numbers = [];
+    out.push(joined);
+    return true;
   };
 
   for (let index = 0; index < all.length; index += 1) {
@@ -921,6 +946,12 @@ function tableLines(text: string, all: Line[]): Line[] {
     const body = line.text;
     const trimmed = body.trim();
     if (!trimmed) {
+      flush();
+      out.push(line);
+      continue;
+    }
+
+    if (TERM_BANNER.test(body) || FOOTER_TOTALS.test(body) || FOOTER_GPA.test(body)) {
       flush();
       out.push(line);
       continue;
@@ -934,17 +965,21 @@ function tableLines(text: string, all: Line[]): Line[] {
       index = header.last;
       continue;
     }
-
-    if (TERM_BANNER.test(body) || FOOTER_TOTALS.test(body) || FOOTER_GPA.test(body)) {
+    // The same header printed on one line, which is how most pages print it. The
+    // columns still have to be known here: without them a title on its own line
+    // and its numbers on the next are never joined, and that row is lost.
+    const headerColumnsHere = headerColumns(cells(body), body);
+    if (headerColumnsHere) {
       flush();
       out.push(line);
+      columns = headerColumnsHere;
       continue;
     }
 
     if (columns) {
       const width = columns;
       const tokens = trimmed.split(/\s+/);
-      // Numbers only, one per column: a values line, or one column of one.
+      // Numbers only, one per column: a row's values, in column order.
       const valuesOnly =
         tokens.length <= width.length &&
         tokens.every(
@@ -953,36 +988,21 @@ function tableLines(text: string, all: Line[]): Line[] {
         );
       if (valuesOnly) {
         numbers.push(line);
-        if (numbers.length < width.length) continue;
-        // A whole row's worth of numbers under some title lines is that row.
-        if (pending.length) {
-          const first = pending[0];
-          const joined: Line = { text: text.slice(first.start, line.end), start: first.start, end: line.end };
-          // Only when the joined line really is a row: a stray run of numbers
-          // under prose must not consume the prose as a title.
-          if (numericRow(cells(joined.text), width) || looseNumericRow(joined.text, width)) {
-            out.push(joined);
-            pending = [];
-            numbers = [];
-            continue;
-          }
-        }
-        out.push(...numbers);
-        numbers = [];
+        // Values belong to the title lines above them, whether they arrived on
+        // one line or one per line; a short line may also be a row whose last
+        // number was printed right up against the title. The join is only kept
+        // when the result really reads as a row.
+        if (join()) continue;
+        if (numbers.length >= width.length) flush();
         continue;
       }
-      if (numbers.length) {
-        out.push(...numbers);
-        numbers = [];
-      }
+      if (numbers.length) flush();
     }
 
     pending.push(line);
-    // A title is one or two lines at most; anything further above a value line
-    // is a line of its own, printed as it came.
-    while (pending.length > 2) {
-      out.push(pending.shift() as Line);
-    }
+    // A title is one or two lines at most; anything further above a value line is
+    // a line of its own, printed as it came.
+    while (pending.length > 2) out.push(pending.shift() as Line);
   }
   flush();
   return out;
@@ -1178,7 +1198,11 @@ export function readTranscript(text: string): TranscriptReading {
     .sort((left, right) => left - right)[0] ?? text.length;
   const bodyStart = Math.min(firstRecord, columnHeaderOffset ?? text.length);
   const bodyLine = all.filter((line) => line.start < bodyStart).length;
-  const header = readHeader(text, all.slice(0, Math.max(bodyLine, 0)));
+  // The identity block sits above the first table, but a page's tables can begin
+  // before it in the text's own order (a two-panel page whose right half is
+  // written first). Reading a fixed opening window as well keeps the student's
+  // name from depending on that order; a course line cannot pass for a name.
+  const header = readHeader(text, all.slice(0, Math.max(bodyLine, Math.min(all.length, 40))));
   const standing = readStanding(all);
 
   const tableTotals: TranscriptTableTotal[] = [];

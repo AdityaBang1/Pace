@@ -109,6 +109,8 @@ export interface TranscriptCourseEntry {
   credit: number | null;
   /** The subject area printed above the row, when there was one. */
   section: string | null;
+  /** A course the student is taking now: a credit printed, no mark yet. */
+  inProgress: boolean;
   confidence: number;
   evidenceId: string;
   requiresConfirmation: true;
@@ -143,7 +145,10 @@ export interface TranscriptRecord {
   terms: TranscriptTerm[];
   courses: TranscriptCourseEntry[];
   assessments: TranscriptAssessmentEntry[];
+  /** Credits of finished courses, which is the total the page prints. */
   totalCredits: number;
+  /** Credits of the courses in progress, printed without a mark. */
+  inProgressCredits: number;
   /** The total the page printed, when it printed one. */
   reportedCredits: number | null;
   reportedGpa: number | null;

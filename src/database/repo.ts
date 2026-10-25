@@ -33,6 +33,8 @@ export interface TranscriptCourseInput {
   gradePercent: number | null;
   credits: number | null;
   evidenceId: string | null;
+  /** Printed under an "In-Progress Courses" heading: a credit, no mark yet. */
+  inProgress: boolean;
 }
 
 export interface CourseInput {
@@ -110,6 +112,8 @@ export interface CourseRow {
   term: string | null;
   grade: string | null;
   grade_percent: number | null;
+  /** 1 when the row is a course the student is taking now. */
+  in_progress: number;
   /** The printed row a transcript course was read from. */
   evidence_id: string | null;
   document_id: string | null;
@@ -272,8 +276,8 @@ export async function commitImport(db: SQLiteDatabase, input: CommitInput): Prom
           `INSERT INTO courses (
             id, title, code, credits, term, grade, grade_percent, evidence_id,
             document_id, import_id, grading_total_percent, grading_total_consistent,
-            document_type, created_at, updated_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, ?, ?, ?)`,
+            document_type, in_progress, created_at, updated_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, ?, ?, ?, ?)`,
           [
             course.id,
             course.title,
@@ -286,6 +290,7 @@ export async function commitImport(db: SQLiteDatabase, input: CommitInput): Prom
             input.document.id,
             input.importId,
             input.document.documentType,
+            course.inProgress ? 1 : 0,
             now,
             now,
           ],

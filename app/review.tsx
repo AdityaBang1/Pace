@@ -136,7 +136,11 @@ export default function Review() {
     const known = draft.transcript.terms.map((term) => term.value);
     const byTerm = new Map<string, Proposal<TranscriptRowValue>[]>();
     for (const row of transcriptRows) {
-      const key = row.value.term && known.includes(row.value.term) ? row.value.term : 'No term printed';
+      const key = row.value.inProgress
+        ? 'In progress'
+        : row.value.term && known.includes(row.value.term)
+          ? row.value.term
+          : 'No term printed';
       byTerm.set(key, [...(byTerm.get(key) ?? []), row]);
     }
     for (const [label, rows] of byTerm) {

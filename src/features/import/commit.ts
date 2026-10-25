@@ -97,6 +97,7 @@ export function draftToCommitInput(draft: ImportDraft): CommitInput {
         gradePercent: percent !== null && percent <= 100 ? percent : null,
         credits: row.value.credit,
         evidenceId: row.evidenceId,
+        inProgress: row.value.inProgress,
       };
     });
     return {
@@ -115,7 +116,13 @@ export function draftToCommitInput(draft: ImportDraft): CommitInput {
         course: draft.transcript.student ?? draft.transcript.school ?? 'Transcript',
         transcript: true,
         courses: courses.length,
-        credits: courses.reduce((sum, course) => sum + (course.credits ?? 0), 0),
+        // The printed total counts finished courses; a course still in progress
+        // carries its credit but is not part of it, so the summary says both.
+        credits: courses.reduce(
+          (sum, course) => sum + (course.inProgress ? 0 : course.credits ?? 0),
+          0,
+        ),
+        inProgress: courses.filter((course) => course.inProgress).length,
         warnings: draft.warnings.length,
         linked: false,
       },

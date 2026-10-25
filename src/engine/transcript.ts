@@ -44,6 +44,11 @@ export interface TranscriptCourseRow {
   credit: number | null;
   term: string | null;
   section: string | null;
+  /**
+   * A course the student is taking now: the page prints its credit and no mark.
+   * Its credits are not part of the total the page prints.
+   */
+  inProgress: boolean;
   /** The whole printed row, from the title's first character to the last number. */
   span: Span;
   confidence: number;
@@ -77,7 +82,10 @@ export interface TranscriptReading {
   terms: TranscriptTermRow[];
   courses: TranscriptCourseRow[];
   assessments: TranscriptAssessment[];
+  /** The credits the page's own total counts, i.e. everything but in progress. */
   totalCredits: number;
+  /** Credits of the courses the student is taking now, printed without a mark. */
+  inProgressCredits: number;
   reportedCredits: number | null;
   reportedGpa: number | null;
   /** One entry per printed table, so each can be checked against its own footer. */
@@ -725,10 +733,101 @@ function numericTableRow(
     credit: values.credit?.value ?? null,
     term: null,
     section: null,
+    inProgress: false,
     span: spanOf(text, titleStart, end),
     confidence: wrapped ? 0.9 : 0.95,
   };
 }
+
+/** A heading printed above the courses a student is taking now. */
+const IN_PROGRESS_HEADING = /In[ -]?Progress(?:\s+Courses)?/i;
+
+/**
+ * One course printed under an "In-Progress Courses" heading.
+ *
+ * The page prints these differently from a finished course: a number, a title and
+ * a credit, with no mark and no weight, because there is no mark yet. Reading only
+ * the tables that carry a mark dropped them; reading them as finished courses
+ * would put their credits into a total the page does not count them in.
+ */
+function inProgressRow(text: string, line: Line, section: string): TranscriptCourseRow | null {
+  // A line break separates two cells as firmly as a printed gap does: a text layer
+  // reports the credit of an in-progress row on the line below its title. The
+  // newline is replaced by a tab, which is the same length and another separator,
+  // so every offset in the row stays a real position in the page.
+  const list = cells(line.text.replace(/\n/g, '\t'));
+  if (list.length < 2) return null;
+  const credit = numericCell('credit', list[list.length - 1]);
+  if (!credit) return null;
+  const titleCells = list.slice(0, -1);
+  const start = titleCells[0].start;
+  const end = titleCells[titleCells.length - 1].end;
+  const printed = line.text.slice(start, end).replace(/\s+/g, ' ').trim();
+  if (!/[A-Za-z]{2}/.test(printed)) return null;
+  let code: string | null = null;
+  let titleStart = start;
+  let title = printed;
+  const prefix = COURSE_CODE_PREFIX.exec(printed);
+  if (prefix) {
+    code = prefix[1];
+    titleStart = start + prefix[0].length;
+    title = printed.slice(prefix[0].length).replace(/\s+/g, ' ').trim();
+  }
+  if (!title) return null;
+  return {
+    code,
+    title,
+    mark: null,
+    markPercent: null,
+    weight: null,
+    credit: credit.value,
+    term: null,
+    section,
+    inProgress: true,
+    // The cells' offsets are relative to the line; the span is a slice of the page.
+    span: spanOf(text, line.start + titleStart, line.start + credit.end),
+    confidence: 0.9,
+  };
+}
+
+/** The rows printed under an "In-Progress Courses" heading, to the next heading. */
+function inProgressRows(text: string, all: Line[]): TranscriptCourseRow[] {
+  const out: TranscriptCourseRow[] = [];
+  for (let index = 0; index < all.length; index += 1) {
+    const heading = IN_PROGRESS_HEADING.exec(all[index].text.trim());
+    if (!heading || all[index].text.trim().length > 40) continue;
+    const section = all[index].text.trim();
+    let cursor = index + 1;
+    while (cursor < all.length) {
+      const line = all[cursor];
+      if (!line.text.trim()) break;
+      let row = inProgressRow(text, line, section);
+      let taken = 1;
+      // A row whose title and credit arrived on separate lines is rejoined here,
+      // using the document's own slice: the row's span then still names the two
+      // printed lines it was read from.
+      if (!row && cursor + 1 < all.length && LONE_CREDIT.test(all[cursor + 1].text.trim())) {
+        const merged: Line = {
+          text: text.slice(line.start, all[cursor + 1].end),
+          start: line.start,
+          end: all[cursor + 1].end,
+        };
+        const candidate = inProgressRow(text, merged, section);
+        if (candidate) {
+          row = candidate;
+          taken = 2;
+        }
+      }
+      if (!row) break;
+      out.push(row);
+      cursor += taken;
+    }
+  }
+  return out;
+}
+
+/** A line that is one number: the credit of a row printed above it. */
+const LONE_CREDIT = /^(?:\d{1,2}(?:\.\d{1,4})?|\.\d{1,4})$/;
 
 /** The identity line and the school banner printed above the table. */
 function readHeader(
@@ -1179,6 +1278,7 @@ export function readTranscript(text: string): TranscriptReading {
         credit: record.credit ?? null,
         term: null,
         section: section?.name ?? null,
+        inProgress: false,
         span: spanOf(text, record.start, record.end),
         confidence: 0.95,
       });
@@ -1204,10 +1304,16 @@ export function readTranscript(text: string): TranscriptReading {
     numericRows.push({ rows, footer: block.footer !== null ? footerOf(all[block.footer]) : null });
     courses.push(...rows);
   }
+  // Courses the student is taking now print a credit and no mark, under their own
+  // heading: they are rows of the transcript, but they are not part of the total
+  // the page prints.
+  courses.push(...inProgressRows(text, all));
   if (numericBlocks.length) courses.sort((left, right) => left.span.start - right.span.start);
 
-  // A term banner owns the rows printed below it, in its own page.
+  // A term banner owns the rows printed below it, in its own page. A course still
+  // in progress belongs to no term, so it is not counted into one either.
   for (const course of courses) {
+    if (course.inProgress) continue;
     let owner: TranscriptTermRow | null = null;
     for (const term of terms) {
       if (term.start <= course.span.start) owner = term;
@@ -1266,8 +1372,15 @@ export function readTranscript(text: string): TranscriptReading {
     });
   }
 
-  const credits = courses.map((row) => row.credit).filter((value): value is number => value !== null);
+  const earned = courses.filter((row) => !row.inProgress);
+  const credits = earned.map((row) => row.credit).filter((value): value is number => value !== null);
   const totalCredits = Math.round(credits.reduce((sum, value) => sum + value, 0) * 1000) / 1000;
+  const inProgressCredits =
+    Math.round(
+      courses
+        .filter((row) => row.inProgress)
+        .reduce((sum, row) => sum + (row.credit ?? 0), 0) * 1000,
+    ) / 1000;
   const layout: TranscriptLayout = numericBlocks.length ? 'course_mark_weight_credit' : courses.length ? 'dated_rows' : 'none';
 
   // One table prints one total, and that total is the document's. Several tables
@@ -1294,9 +1407,11 @@ export function readTranscript(text: string): TranscriptReading {
     reportedTotalCredits: reportedCredits,
     creditSumMatchesReported:
       reportedCredits === null ? null : !creditMismatch,
+    inProgressCourses: courses.length - earned.length,
+    inProgressCredits,
     tables: tableTotals.length,
     tablesWhoseCreditsDisagree: tableMismatches,
-    recordsWithoutMark: courses.filter((row) => row.mark === null).length,
+    recordsWithoutMark: earned.filter((row) => row.mark === null).length,
     recordsWithoutTerm: courses.filter((row) => row.term === null).length,
     recordsWithoutSection: courses.filter((row) => row.section === null).length,
     columnInterleavingDetected: seam !== null,
@@ -1319,6 +1434,7 @@ export function readTranscript(text: string): TranscriptReading {
     courses,
     assessments,
     totalCredits,
+    inProgressCredits,
     reportedCredits,
     reportedGpa,
     tableTotals,
@@ -1391,6 +1507,7 @@ export function buildTranscriptRecord(
       markPercent: row.markPercent,
       credit: row.credit,
       section: row.section,
+      inProgress: row.inProgress,
       confidence: row.confidence,
       evidenceId: evidence[index]?.id ?? '',
       requiresConfirmation: true as const,
@@ -1402,6 +1519,7 @@ export function buildTranscriptRecord(
       label: row.label,
     })),
     totalCredits: reading.totalCredits,
+    inProgressCredits: reading.inProgressCredits,
     reportedCredits: reading.reportedCredits,
     reportedGpa: reading.reportedGpa,
     tableTotals: reading.tableTotals,

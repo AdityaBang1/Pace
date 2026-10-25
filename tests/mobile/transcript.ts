@@ -236,6 +236,96 @@ async function main(): Promise<void> {
     );
   }
 
+  // ---- the same page reported one text run per cell -------------------------
+  // A PDF text layer reports the runs the author drew, one per line: the column
+  // header arrives one word per line, a row's title and each of its numbers on
+  // lines of their own, and a course still in progress as a title with its credit
+  // printed underneath. This is the shape the phone sees for a registrar PDF.
+  {
+    const text = [
+      'South Forsyth High School Transcript',
+      'Bang, Aditya Prashant',
+      'Course',
+      'Mark',
+      'Weight',
+      'Credit',
+      '2025-2026 Grade 09   Term 2',
+      '220725y Accel Adv',
+      'Alg:Concept&Connect',
+      '94',
+      '1.0000',
+      '1',
+      '42075y AP Human Geography',
+      '90',
+      '1.0000',
+      '1',
+      'Credit: 2.000  GPA: 4.13333',
+      'In-Progress Courses',
+      '700695y  AP Business',
+      '1.000',
+      '50725y Spanish III',
+      '1.000',
+      'Credit Summary',
+      'High School Diploma   Attempted   Earned',
+      'Total   2.000   2.000',
+      '',
+    ].join('\n');
+    const reading = readTranscript(text);
+    check(reading.detected, 'a page reported one run per cell is still a transcript');
+    check(reading.courses.length === 4, 'every printed row is read, finished or in progress', reading.courses.length);
+    check(
+      reading.courses[0].code === '220725y' && reading.courses[0].title === 'Accel Adv Alg:Concept&Connect',
+      'a title split over two cells and a row split over five lines is one course',
+      reading.courses[0],
+    );
+    check(reading.courses[0].mark === '94' && reading.courses[0].credit === 1, 'its numbers are its own', reading.courses[0]);
+    check(reading.totalCredits === 2, 'the finished courses are the printed total', reading.totalCredits);
+    const inProgress = reading.courses.filter((row) => row.inProgress);
+    check(inProgress.length === 2, 'both in-progress rows are read', inProgress.map((row) => row.title));
+    check(
+      inProgress[0].title === 'AP Business' && inProgress[0].code === '700695y' && inProgress[0].credit === 1,
+      'a title with its credit on the line below is one course',
+      inProgress[0],
+    );
+    check(inProgress.every((row) => row.mark === null && row.term === null), 'an in-progress row has no mark and no term');
+    check(reading.inProgressCredits === 2, 'their credits are counted apart from the total', reading.inProgressCredits);
+    check(
+      text.slice(inProgress[0].span.start, inProgress[0].span.end).includes('AP Business'),
+      'an in-progress row span names its own line',
+      inProgress[0].span,
+    );
+
+    const { record } = await engine.understand(text);
+    check(record.transcript?.courses.length === 4, 'the record carries all four rows', record.transcript?.courses.length);
+    check(
+      record.transcript?.inProgressCredits === 2,
+      'the record separates the credits in progress from the total',
+      record.transcript?.inProgressCredits,
+    );
+    const draft = buildDraft(record, {
+      source: { kind: 'file', uri: null, label: 'transcript.pdf' },
+      text,
+      timings: {},
+      evidenceMeta: {},
+      image: null,
+      match: null,
+    });
+    check(draft.transcript?.rows.length === 4, 'the draft proposes every row', draft.transcript?.rows.length);
+    check(
+      draft.transcript?.rows.filter((row) => row.value.inProgress).length === 2,
+      'the draft carries which rows are in progress',
+    );
+    const commit = draftToCommitInput(draft);
+    check(commit.transcriptCourses?.length === 4, 'all four rows are imported', commit.transcriptCourses?.length);
+    check(
+      commit.transcriptCourses?.filter((course) => course.inProgress).length === 2,
+      'the in-progress rows are imported as in progress',
+      commit.transcriptCourses,
+    );
+    check(commit.summary.inProgress === 2, 'the summary counts them separately', commit.summary);
+    check(commit.summary.credits === 2, 'the summary total counts finished courses only', commit.summary);
+  }
+
   // ---- the dated-row layout, with subject headings and a state assessment ---
   {
     const text = sample('mock_transcript_lepid');

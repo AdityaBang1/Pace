@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { isOcrAvailable } from '../modules/pace-vision';
 import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Share, Text, View } from 'react-native';
 
 import { loadEngine, releaseEngine } from '../src/engine/native';
 import { readManifestSummary, type ManifestSummary } from '../src/engine/native/manifest';
@@ -125,6 +125,15 @@ export default function Debug() {
             {last.extraction ? (
               <Card>
                 <Text style={[type.label, { color: palette.inkFaint }]}>EXTRACTION</Text>
+                {/* The text below is what the reader was given. It is worth being
+                    able to send it somewhere: a page read badly on a phone can
+                    only be diagnosed from the exact string that phone produced. */}
+                <Button
+                  title="Share the extracted text"
+                  kind="secondary"
+                  compact
+                  onPress={() => void Share.share({ message: last.extraction?.text ?? '' })}
+                />
                 <View style={{ marginTop: space.sm, gap: 6 }}>
                   {last.extraction.pages.length ? (
                     last.extraction.pages.map((page) => (

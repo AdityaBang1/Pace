@@ -249,6 +249,7 @@ async function main(): Promise<void> {
           gradePercent: 93,
           credits: 1,
           evidenceId: 'ev-t0',
+          inProgress: false,
         },
         {
           id: 'draft-tr-3-c1',
@@ -259,6 +260,7 @@ async function main(): Promise<void> {
           gradePercent: 97,
           credits: 1,
           evidenceId: 'ev-t1',
+          inProgress: false,
         },
         {
           id: 'draft-tr-3-c2',
@@ -269,16 +271,36 @@ async function main(): Promise<void> {
           gradePercent: null,
           credits: 0.5,
           evidenceId: 'ev-t2',
+          inProgress: false,
+        },
+        {
+          // A course the student is taking now: a credit, no mark, and it is not
+          // part of the credits the transcript has earned.
+          id: 'draft-tr-3-c3',
+          title: 'AP Precalculus',
+          code: '220745y',
+          term: null,
+          grade: null,
+          gradePercent: null,
+          credits: 1,
+          evidenceId: 'ev-t3',
+          inProgress: true,
         },
       ],
       grading: [],
       meetings: [],
       policies: [],
-      evidence: [transcriptEvidence(0), transcriptEvidence(1), transcriptEvidence(2)],
-      summary: { course: 'Transcript', transcript: true, courses: 3, credits: 2.5, warnings: 0, linked: false },
+      evidence: [transcriptEvidence(0), transcriptEvidence(1), transcriptEvidence(2), transcriptEvidence(3)],
+      summary: { course: 'Transcript', transcript: true, courses: 4, credits: 2.5, inProgress: 1, warnings: 0, linked: false },
     }),
   );
-  check(transcript.count('courses') === 3, 'a transcript import writes one course per row');
+  check(transcript.count('courses') === 4, 'a transcript import writes one course per row');
+  const inProgressRow = transcript.raw
+    .prepare("SELECT in_progress, credits, grade FROM courses WHERE id = 'draft-tr-3-c3'")
+    .get() as { in_progress: number; credits: number; grade: string | null };
+  check(inProgressRow.in_progress === 1, 'a course in progress is stored as one');
+  check(inProgressRow.grade === null, 'a course in progress has no mark yet');
+  check(inProgressRow.credits === 1, 'a course in progress keeps the credit it is taking');
   check(transcript.count('grading_categories') === 0, 'a transcript import writes no grading rows');
   const termRow = transcript.raw
     .prepare("SELECT term, grade, grade_percent, credits FROM courses WHERE id = 'draft-tr-3-c0'")

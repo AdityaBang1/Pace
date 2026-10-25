@@ -52,3 +52,8 @@ artifacts/**/*.safetensors
 artifacts/**/*.data
 artifacts/**/*.gguf
 artifacts/**/*.jsonl
+
+# A real registrar PDF and its recorded runs are personal data; they stay local.
+.probe/
+data/samples/real_transcript*.pdf
+data/samples/real_transcript_runs.json

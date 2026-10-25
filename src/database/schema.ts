@@ -12,7 +12,7 @@
  */
 import type { SQLiteDatabase } from 'expo-sqlite';
 
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 4;
 
 const STATEMENTS = [
   `PRAGMA journal_mode = WAL;`,
@@ -57,6 +57,7 @@ const STATEMENTS = [
     grading_total_percent REAL,
     grading_total_consistent INTEGER,
     document_type TEXT,
+    in_progress INTEGER NOT NULL DEFAULT 0,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
   );`,
@@ -126,9 +127,10 @@ const STATEMENTS = [
  */
 export async function migrate(db: SQLiteDatabase): Promise<void> {
   for (const statement of STATEMENTS) await db.execAsync(statement);
-  // v3 adds a transcript row's own columns. SQLite has no "ADD COLUMN IF NOT
-  // EXISTS", so an existing store is read first and only the missing columns are
-  // added; a fresh install already has them from the CREATE above.
+  // v3 adds a transcript row's own columns, v4 the in-progress flag. SQLite has no
+  // "ADD COLUMN IF NOT EXISTS", so an existing store is read first and only the
+  // missing columns are added; a fresh install already has them from the CREATE
+  // above. A course imported before v4 is a finished one, which is the default.
   const columns = await db.getAllAsync<{ name: string }>('PRAGMA table_info(courses)');
   const present = new Set(columns.map((column) => column.name));
   const added: [string, string][] = [
@@ -136,6 +138,7 @@ export async function migrate(db: SQLiteDatabase): Promise<void> {
     ['grade', 'TEXT'],
     ['grade_percent', 'REAL'],
     ['evidence_id', 'TEXT'],
+    ['in_progress', 'INTEGER NOT NULL DEFAULT 0'],
   ];
   for (const [name, type] of added) {
     if (!present.has(name)) await db.execAsync(`ALTER TABLE courses ADD COLUMN ${name} ${type}`);

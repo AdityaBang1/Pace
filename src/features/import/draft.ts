@@ -45,6 +45,8 @@ export interface TranscriptRowValue {
   mark: string | null;
   credit: number | null;
   term: string | null;
+  /** A course the student is taking now: its credit is not part of the total. */
+  inProgress: boolean;
 }
 
 /**
@@ -302,7 +304,14 @@ function buildTranscriptDraft(record: AcademicRecord): TranscriptDraft | null {
       const evidence = record.evidence.find((item) => item.id === row.evidenceId) ?? null;
       return proposal<TranscriptRowValue>({
         key: `transcript:${row.id}`,
-        value: { title: row.title, code: row.code, mark: row.mark, credit: row.credit, term: row.term },
+        value: {
+          title: row.title,
+          code: row.code,
+          mark: row.mark,
+          credit: row.credit,
+          term: row.term,
+          inProgress: row.inProgress,
+        },
         confidence: row.confidence,
         evidenceId: row.evidenceId || null,
         evidenceText: evidence?.sourceText ?? null,

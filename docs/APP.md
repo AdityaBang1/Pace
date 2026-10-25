@@ -540,3 +540,38 @@ Anyone maintaining this should be able to explain, without the assistant: why th
 reader is fp32, why the context graph is lazy, what a `Proposal` carries, where the
 transaction boundary is, and what the parity harness compares. If any of those
 answers is missing, the code should be read before it is extended.
+
+## 11. The academic structure (schema v6)
+
+The screen the transcript feeds is no longer a list of courses. A course has a
+place: an **academic year**, a **schedule** inside that year, and optionally a
+**term**. A year is one of `past`, `current` or `future`; a schedule is `actual`,
+`planned` or `scenario`, and exactly one per year is main. A **pathway** picks one
+schedule per year — a year it says nothing about falls back to that year's main
+schedule — which is what makes two plans comparable without duplicating courses.
+
+Navigation is three native tabs (`app/(tabs)/_layout.tsx`, `expo-router/native-tabs`):
+Home, Academics, Plan. Import, review, settings, the record, a schedule, a
+comparison and the editors are pushed above the tabs or presented as sheets.
+
+Where the arithmetic lives — screens compose these, none of them calculate:
+
+| Module | What it owns |
+| --- | --- |
+| `src/database/academicRepo.ts` | years, terms, schedules, pathways, requirements, scores; `ensureStructure` places a course the transcript produced |
+| `src/domain/record.ts` | credits (earned / in progress / planned, never merged), weighted and unweighted GPA, the per-year view |
+| `src/domain/pathways.ts` | resolving a pathway, comparing two of them |
+| `src/domain/requirements.ts` | progress against a requirement the user defined |
+| `src/domain/pace.ts` | the deterministic verdict against the user's targets |
+| `src/domain/gpa.ts` | grade bands, weight types, points per level |
+
+Rules that hold everywhere: a printed GPA is labelled *Reported* and never
+overwritten by a calculation; a projection needs a scale the user set; a course in
+progress is never counted as earned; a scenario copy carries no document or
+evidence, so experimenting cannot rewrite the record; deleting a year or an
+imported schedule keeps its courses and re-places them.
+
+`ensureStructure` is deliberately modest about what it knows: a finished term's
+year is named from the label and grade the page printed (`2025–26 · Grade 9`), and
+work in progress — which the page does not date — goes into a year called
+`Current` rather than being attributed to a grade it may not belong to.

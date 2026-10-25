@@ -15,7 +15,7 @@ import { Button, Card, Divider, PageHeader, Screen } from '../src/ui/components'
 import { hairline, radius, space, type } from '../src/ui/theme';
 import { useTheme } from '../src/ui/useTheme';
 
-type LevelKey = keyof GpaScale;
+type LevelKey = 'regular' | 'honors' | 'ap';
 
 export default function GpaScaleScreen() {
   const db = useSQLiteContext();

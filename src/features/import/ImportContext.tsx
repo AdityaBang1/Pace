@@ -10,6 +10,7 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState, type
 
 import type { PaceEngine, UnderstandResult } from '../../engine/PaceEngine';
 import type { Proposal } from '../../engine/types';
+import { ensureStructure } from '../../database/academicRepo';
 import { commitImport, committedImportForDocument, matchCandidates } from '../../database/repo';
 import { draftToCommitInput } from './commit';
 import {
@@ -282,6 +283,9 @@ export function ImportProvider({ children }: { children: ReactNode }) {
     try {
       const input = draftToCommitInput(draft);
       await commitImport(db, input);
+      // The courses now exist; give them their year, term and schedule so the record
+      // the product reads is a structure, not a flat list of rows.
+      await ensureStructure(db);
       // A transcript writes one course per row and has no single course to open.
       const courseId = input.transcriptCourses?.length
         ? ''

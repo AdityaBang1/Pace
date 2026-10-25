@@ -125,6 +125,20 @@ export interface CourseRow {
   document_type: string | null;
   created_at: string;
   updated_at: string;
+  /** where the course sits in the academic structure (schema v6) */
+  academic_year_id: string | null;
+  schedule_id: string | null;
+  academic_term_id: string | null;
+  level: string;
+  expected_grade: string | null;
+  status: string;
+  include_in_gpa: number;
+  origin: string;
+  sort_order: number;
+  edited: number;
+  original_grade: string | null;
+  original_title: string | null;
+  original_credits: number | null;
   /** Present on `listCourses` only: how many grading rows the course has. */
   grading_count?: number;
 }
@@ -642,8 +656,15 @@ export async function deleteAllData(db: SQLiteDatabase): Promise<void> {
       'policies',
       'meetings',
       'grading_categories',
+      'course_requirements',
+      'test_scores',
+      'requirements',
+      'pathways',
       'courses',
       'planned_courses',
+      'schedules',
+      'academic_terms',
+      'academic_years',
       'transcripts',
       'imports',
       'evidence',

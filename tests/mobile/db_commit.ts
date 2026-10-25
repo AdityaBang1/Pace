@@ -20,11 +20,20 @@ import {
   importForCourse,
   latestTranscript,
   termGpasOf,
+  listCourses,
   listImports,
   undoImport,
 } from '../../src/database/repo';
 import type { CommitInput } from '../../src/database/repo';
 import { migrate } from '../../src/database/schema';
+import {
+  deleteSchedule,
+  deleteYear,
+  duplicateSchedule,
+  ensureStructure,
+  listScheduleCourses,
+  readStructure,
+} from '../../src/database/academicRepo';
 
 /**
  * The subset of `SQLiteDatabase` the app uses, over `node:sqlite`.
@@ -347,6 +356,76 @@ async function main(): Promise<void> {
     transcriptDetail?.evidence.some((row) => row.id === 'ev-t0') === true,
     'the printed row is reachable from the course it created',
   );
+  // 5b. The imported courses become academic structure: a year, its terms, and a
+  // schedule for history and one for what is in progress.
+  await ensureStructure(transcript as unknown as Db);
+  const structure = await readStructure(transcript as unknown as Db);
+  check(structure.years.length === 2, 'a finished year and the current one are separate years');
+  const historyYear = structure.years.find((row) => row.status === 'past');
+  const currentYear = structure.years.find((row) => row.status === 'current');
+  check(
+    historyYear?.name === '2025–26 · Grade 9',
+    'a finished year is named from the label and grade the page printed',
+  );
+  check(currentYear?.name === 'Current', 'the year of work in progress makes no claim it cannot support');
+  check(
+    structure.schedules.filter((row) => row.academic_year_id === historyYear?.id).length === 1 &&
+      structure.schedules.filter((row) => row.academic_year_id === currentYear?.id).length === 1,
+    'each year holds its own schedule',
+  );
+  check(
+    structure.terms.some((term) => term.name === 'Term 2'),
+    'the printed term becomes a term of the year',
+  );
+  const placed = await listCourses(transcript as unknown as Db);
+  check(
+    placed.every((row) => row.academic_year_id && row.schedule_id),
+    'every imported course has a year and a schedule',
+  );
+  check(
+    placed.find((row) => row.id === 'draft-tr-3-c3')?.status === 'current',
+    'a course in progress is placed as current, not as history',
+  );
+  check(
+    placed.find((row) => row.id === 'draft-tr-3-c0')?.level === 'honors' ||
+      placed.find((row) => row.id === 'draft-tr-3-c0')?.level === 'regular',
+    'a course is given a level it can be scaled by',
+  );
+  // A duplicated schedule is a scenario: same courses, no document, own ids, and
+  // editing it cannot reach the transcript's row.
+  const sourceSchedule = structure.schedules.find(
+    (row) => row.name === 'Actual' && row.academic_year_id === historyYear?.id,
+  );
+  const copyId = sourceSchedule
+    ? await duplicateSchedule(transcript as unknown as Db, sourceSchedule.id, 'AP-heavy')
+    : null;
+  check(typeof copyId === 'string', 'a schedule can be duplicated');
+  if (copyId) {
+    const copy = await listScheduleCourses(transcript as unknown as Db, copyId);
+    const original = await listScheduleCourses(transcript as unknown as Db, sourceSchedule!.id);
+    check(copy.length === original.length, 'the copy has the same number of courses');
+    check(
+      copy.every((row) => row.id !== undefined && row.document_id === null && row.evidence_id === null),
+      'a scenario course carries no document and no evidence',
+    );
+    check(
+      copy.every((row) => !original.some((source) => source.id === row.id)),
+      'the copy has its own ids, so editing it cannot rewrite history',
+    );
+  }
+  // Deleting a schedule takes its scenario courses with it, so a copy cannot leave
+  // orphans behind, while the transcript's own rows stay.
+  if (copyId) {
+    await deleteSchedule(transcript as unknown as Db, copyId);
+    check(
+      transcript.count('courses') === 4,
+      'deleting a scenario schedule removes only the courses it copied',
+    );
+  }
+  // Deleting a year never deletes the courses it held.
+  await deleteYear(transcript as unknown as Db, historyYear?.id ?? '');
+  check(transcript.count('courses') > 0, 'deleting a year keeps its courses');
+
   await undoImport(transcript as unknown as Db, 'draft-tr-3');
   check(transcript.count('courses') === 0, 'undo removes every course the transcript import created');
   check(transcript.count('documents') === 1, 'undo keeps the transcript document');

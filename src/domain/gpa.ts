@@ -21,7 +21,35 @@ export interface GpaScale {
   regular: Record<string, number>;
   honors: Record<string, number>;
   ap: Record<string, number>;
+  /**
+   * A printed percentage read as a letter. Without bands, a numeric mark is left
+   * out of a calculated GPA rather than guessed at.
+   */
+  bands?: GradeBand[];
+  /** Extra course types the student's school uses, on top of the regular table. */
+  weights?: WeightType[];
 }
+
+export interface GradeBand {
+  min: number;
+  letter: string;
+}
+
+export interface WeightType {
+  id: string;
+  label: string;
+  /** Points added to the regular table's value for the same letter. */
+  bonus: number;
+}
+
+/** The bands most US high schools print, offered as a default to edit. */
+export const DEFAULT_BANDS: GradeBand[] = [
+  { min: 90, letter: 'A' },
+  { min: 80, letter: 'B' },
+  { min: 70, letter: 'C' },
+  { min: 60, letter: 'D' },
+  { min: 0, letter: 'F' },
+];
 
 export const LETTERS = ['A', 'B', 'C', 'D', 'F'] as const;
 export type Letter = (typeof LETTERS)[number];
@@ -40,6 +68,55 @@ export function scalePoints(scale: GpaScale, level: CourseLevel, grade: string):
   const table = scale[level] ?? scale.regular;
   const points = table[grade.toUpperCase()];
   return typeof points === 'number' && Number.isFinite(points) ? points : null;
+}
+
+/** A printed percentage as a letter, using the scale's own bands. */
+export function letterFromPercent(percent: number, bands: GradeBand[] = DEFAULT_BANDS): string | null {
+  if (!Number.isFinite(percent)) return null;
+  const sorted = [...bands].sort((left, right) => right.min - left.min);
+  return sorted.find((band) => percent >= band.min)?.letter ?? null;
+}
+
+/** A mark — "94", "A", "A-" — as a letter this scale can score. */
+export function letterOf(mark: string | null, bands: GradeBand[] = DEFAULT_BANDS): string | null {
+  if (!mark) return null;
+  const trimmed = mark.trim();
+  const numeric = Number(trimmed.replace('%', ''));
+  if (Number.isFinite(numeric) && trimmed !== '') return letterFromPercent(numeric, bands);
+  return letterFor(trimmed);
+}
+
+/**
+ * The points one course is worth: its level's own table when the scale has one,
+ * otherwise the regular value plus the course type's bonus. A custom type the scale
+ * does not know scores as regular — the honest fallback, not a guess at a lift.
+ */
+export function pointsFor(
+  scale: GpaScale,
+  level: string,
+  grade: string | null,
+  bands: GradeBand[] = scale.bands ?? DEFAULT_BANDS,
+): number | null {
+  const letter = letterOf(grade, bands);
+  if (!letter) return null;
+  const known = level === 'honors' || level === 'ap' || level === 'regular' ? scale[level] : null;
+  if (known) return typeof known[letter] === 'number' ? known[letter] : null;
+  const base = scale.regular[letter];
+  if (typeof base !== 'number') return null;
+  const type = scale.weights?.find((row) => row.id === level);
+  return base + (type?.bonus ?? 0);
+}
+
+/** Points against the regular table only: the GPA without any lift. */
+export function unweightedPoints(
+  scale: GpaScale,
+  grade: string | null,
+  bands: GradeBand[] = scale.bands ?? DEFAULT_BANDS,
+): number | null {
+  const letter = letterOf(grade, bands);
+  if (!letter) return null;
+  const points = scale.regular[letter];
+  return typeof points === 'number' ? points : null;
 }
 
 /** A printed mark as the letter it is worth, when it is one Pace can scale. */
@@ -169,8 +246,33 @@ export function parseScale(json: string | null): GpaScale | null {
     const honors = pick(parsed.honors);
     const ap = pick(parsed.ap);
     if (!regular || !honors || !ap) return null;
-    return { regular, honors, ap };
+    const bands = Array.isArray(parsed.bands)
+      ? parsed.bands.filter(
+          (band): band is GradeBand =>
+            !!band && typeof band.min === 'number' && Number.isFinite(band.min) && typeof band.letter === 'string',
+        )
+      : DEFAULT_BANDS;
+    const weights = Array.isArray(parsed.weights)
+      ? parsed.weights.filter(
+          (row): row is WeightType =>
+            !!row && typeof row.id === 'string' && typeof row.label === 'string' && Number.isFinite(row.bonus),
+        )
+      : undefined;
+    return { regular, honors, ap, bands: bands.length ? bands : DEFAULT_BANDS, weights };
   } catch {
     return null;
   }
 }
+
+/** The scale as JSON, for `settings`. */
+export function serialiseScale(scale: GpaScale): string {
+  return JSON.stringify({
+    regular: scale.regular,
+    honors: scale.honors,
+    ap: scale.ap,
+    bands: scale.bands ?? DEFAULT_BANDS,
+    weights: scale.weights ?? [],
+  });
+}
+
+

@@ -38,12 +38,24 @@ export default function RootLayout() {
                 contentStyle: { backgroundColor: palette.background },
               }}
             >
-              <Stack.Screen name="index" />
-              <Stack.Screen name="academics" />
+              {/* Three destinations live in the native tab bar; everything else
+                  is a destination pushed above it or a sheet presented over it. */}
+              <Stack.Screen name="(tabs)" />
               <Stack.Screen name="transcript" />
-              <Stack.Screen name="plan" />
-              <Stack.Screen name="gpa-scale" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="academic-record" />
+              <Stack.Screen name="schedule/[id]" />
+              <Stack.Screen name="compare-pathways" />
+              <Stack.Screen name="requirements" />
+              <Stack.Screen name="tests" />
               <Stack.Screen name="course/[id]" />
+              <Stack.Screen name="editors/course" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="editors/year" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="editors/schedule" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="editors/pathway" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="editors/requirement" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="editors/test" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="targets" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="gpa-scale" options={{ presentation: 'modal' }} />
               <Stack.Screen name="scan" options={{ presentation: 'modal' }} />
               <Stack.Screen name="review" />
               <Stack.Screen name="settings" options={{ presentation: 'modal' }} />

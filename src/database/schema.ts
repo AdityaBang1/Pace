@@ -12,7 +12,7 @@
  */
 import type { SQLiteDatabase } from 'expo-sqlite';
 
-export const SCHEMA_VERSION = 5;
+export const SCHEMA_VERSION = 6;
 
 const STATEMENTS = [
   `PRAGMA journal_mode = WAL;`,
@@ -149,6 +149,78 @@ const STATEMENTS = [
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
   );`,
+  // v6: the academic structure a course belongs to. A year is what a person says
+  // ("Grade 10", "2026–27"); a term is one of its parts; a schedule is a set of
+  // courses for one year, so an alternative can be tried without touching the
+  // record the transcript produced.
+  `CREATE TABLE IF NOT EXISTS academic_years (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    school_year_label TEXT,
+    grade_level TEXT,
+    status TEXT NOT NULL DEFAULT 'future',
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    source TEXT NOT NULL DEFAULT 'manual',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );`,
+  `CREATE TABLE IF NOT EXISTS academic_terms (
+    id TEXT PRIMARY KEY NOT NULL,
+    academic_year_id TEXT NOT NULL REFERENCES academic_years(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'future',
+    sort_order INTEGER NOT NULL DEFAULT 0
+  );`,
+  `CREATE INDEX IF NOT EXISTS idx_terms_year ON academic_terms (academic_year_id, sort_order);`,
+  `CREATE TABLE IF NOT EXISTS schedules (
+    id TEXT PRIMARY KEY NOT NULL,
+    academic_year_id TEXT NOT NULL REFERENCES academic_years(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    is_main INTEGER NOT NULL DEFAULT 0,
+    type TEXT NOT NULL DEFAULT 'actual',
+    source TEXT NOT NULL DEFAULT 'manual',
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );`,
+  `CREATE INDEX IF NOT EXISTS idx_schedules_year ON schedules (academic_year_id, sort_order);`,
+  // A pathway picks one schedule per year. The selections are a JSON map of year id
+  // to schedule id: a year with no entry falls back to that year's main schedule,
+  // which is the rule the projection engine implements.
+  `CREATE TABLE IF NOT EXISTS pathways (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    is_active INTEGER NOT NULL DEFAULT 0,
+    selections TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );`,
+  `CREATE TABLE IF NOT EXISTS requirements (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    required_credits REAL NOT NULL DEFAULT 0,
+    is_total INTEGER NOT NULL DEFAULT 0,
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );`,
+  `CREATE TABLE IF NOT EXISTS course_requirements (
+    course_id TEXT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+    requirement_id TEXT NOT NULL REFERENCES requirements(id) ON DELETE CASCADE,
+    PRIMARY KEY (course_id, requirement_id)
+  );`,
+  `CREATE TABLE IF NOT EXISTS test_scores (
+    id TEXT PRIMARY KEY NOT NULL,
+    kind TEXT NOT NULL,
+    name TEXT NOT NULL,
+    taken_on TEXT,
+    total_score TEXT,
+    max_score TEXT,
+    sections TEXT NOT NULL DEFAULT '[]',
+    notes TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );`,
 ];
 
 /**
@@ -179,9 +251,110 @@ export async function migrate(db: SQLiteDatabase): Promise<void> {
   if (transcriptColumns.length && !transcriptPresent.has('term_gpas')) {
     await db.execAsync('ALTER TABLE transcripts ADD COLUMN term_gpas TEXT');
   }
+  // v6 gives a course its place in the academic structure, its level, and the
+  // difference between the mark it was read with and the mark a person corrected.
+  const addedCourse: [string, string][] = [
+    ['academic_year_id', 'TEXT'],
+    ['schedule_id', 'TEXT'],
+    ['academic_term_id', 'TEXT'],
+    ['level', "TEXT NOT NULL DEFAULT 'regular'"],
+    ['expected_grade', 'TEXT'],
+    ['status', "TEXT NOT NULL DEFAULT 'completed'"],
+    ['include_in_gpa', 'INTEGER NOT NULL DEFAULT 1'],
+    ['origin', "TEXT NOT NULL DEFAULT 'transcript'"],
+    ['sort_order', 'INTEGER NOT NULL DEFAULT 0'],
+    ['edited', 'INTEGER NOT NULL DEFAULT 0'],
+    ['original_grade', 'TEXT'],
+    ['original_title', 'TEXT'],
+    ['original_credits', 'REAL'],
+  ];
+  for (const [name, type] of addedCourse) {
+    if (!present.has(name)) await db.execAsync(`ALTER TABLE courses ADD COLUMN ${name} ${type}`);
+  }
+  await backfillStructure(db);
   const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
   const current = row?.user_version ?? 0;
   if (current < SCHEMA_VERSION) {
     await db.execAsync(`PRAGMA user_version = ${SCHEMA_VERSION}`);
   }
+}
+
+/**
+ * Give courses imported before v6 a year and a schedule, and move a planned course
+ * into one too.
+ *
+ * The rule is conservative on purpose: a course that Pace cannot place keeps its
+ * row and lands in a bucket named for what it is, because losing a course to a
+ * schema change would be worse than an untidy year name. Runs only when a course
+ * has no place yet, so it is safe on every launch.
+ */
+async function backfillStructure(db: SQLiteDatabase): Promise<void> {
+  const orphans = await db.getAllAsync<{
+    id: string;
+    in_progress: number;
+    term: string | null;
+  }>('SELECT id, in_progress, term FROM courses WHERE academic_year_id IS NULL');
+  if (orphans.length) {
+    const now = new Date().toISOString();
+    const ensure = async (
+      id: string,
+      name: string,
+      status: 'past' | 'current' | 'future',
+      scheduleId: string,
+      scheduleName: string,
+      type: 'actual' | 'planned',
+      sortOrder: number,
+    ) => {
+      await db.runAsync(
+        `INSERT OR IGNORE INTO academic_years
+           (id, name, school_year_label, grade_level, status, sort_order, source, created_at, updated_at)
+         VALUES (?, ?, NULL, NULL, ?, ?, 'transcript', ?, ?)`,
+        [id, name, status, sortOrder, now, now],
+      );
+      await db.runAsync(
+        `INSERT OR IGNORE INTO schedules
+           (id, academic_year_id, name, is_main, type, source, sort_order, created_at, updated_at)
+         VALUES (?, ?, ?, 1, ?, 'transcript', 0, ?, ?)`,
+        [scheduleId, id, scheduleName, type, now, now],
+      );
+    };
+    await ensure('year-imported', 'Imported', 'past', 'schedule-imported', 'Actual', 'actual', 0);
+    await ensure('year-current', 'Current', 'current', 'schedule-current', 'Current', 'actual', 1);
+    for (const course of orphans) {
+      await db.runAsync(
+        `UPDATE courses SET academic_year_id = ?, schedule_id = ?, status = ? WHERE id = ?`,
+        course.in_progress === 1
+          ? ['year-current', 'schedule-current', 'current', course.id]
+          : ['year-imported', 'schedule-imported', 'completed', course.id],
+      );
+    }
+  }
+  const planned = await db.getAllAsync<{ count: number }>('SELECT COUNT(*) AS count FROM planned_courses');
+  if (!(planned[0]?.count ?? 0)) return;
+  const moved = await db.getAllAsync<{ count: number }>(
+    "SELECT COUNT(*) AS count FROM courses WHERE origin = 'manual'",
+  );
+  if (moved[0]?.count ?? 0) return;
+  const now = new Date().toISOString();
+  await db.runAsync(
+    `INSERT OR IGNORE INTO academic_years
+       (id, name, school_year_label, grade_level, status, sort_order, source, created_at, updated_at)
+     VALUES ('year-planned', 'Planned', NULL, NULL, 'future', 2, 'manual', ?, ?)`,
+    [now, now],
+  );
+  await db.runAsync(
+    `INSERT OR IGNORE INTO schedules
+       (id, academic_year_id, name, is_main, type, source, sort_order, created_at, updated_at)
+     VALUES ('schedule-planned', 'year-planned', 'Main', 1, 'planned', 'manual', 0, ?, ?)`,
+    [now, now],
+  );
+  await db.runAsync(
+    `INSERT INTO courses
+       (id, title, credits, level, expected_grade, status, origin, academic_year_id, schedule_id,
+        include_in_gpa, sort_order, created_at, updated_at)
+     SELECT id, name, credits, level, expected_grade, 'planned', 'manual', 'year-planned',
+            'schedule-planned', 1, 0, created_at, updated_at
+     FROM planned_courses
+     WHERE id NOT IN (SELECT id FROM courses)`,
+  );
 }

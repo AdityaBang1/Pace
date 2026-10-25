@@ -3,7 +3,13 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useMemo, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
-import { listCourses, type CourseRow } from '../src/database/repo';
+import {
+  latestTranscript,
+  listCourses,
+  termGpasOf,
+  type CourseRow,
+  type TranscriptRow,
+} from '../src/database/repo';
 import { creditsValue, summarise, type HistoryCourse } from '../src/domain/academics';
 import { Button, Divider, EmptyState, Notice, PageHeader, Screen } from '../src/ui/components';
 import { PressableScale } from '../src/ui/press';
@@ -17,12 +23,15 @@ export default function Academics() {
   const router = useRouter();
   const { palette } = useTheme();
   const [courses, setCourses] = useState<CourseRow[]>([]);
+  const [transcript, setTranscript] = useState<TranscriptRow | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>('history');
 
   const refresh = useCallback(async () => {
     try {
-      setCourses(await listCourses(db));
+      const [rows, record] = await Promise.all([listCourses(db), latestTranscript(db)]);
+      setCourses(rows);
+      setTranscript(record);
       setError(null);
     } catch (cause) {
       // An unreadable database is not "no courses": keep the rows already shown
@@ -38,6 +47,8 @@ export default function Academics() {
   );
 
   const summary = useMemo(() => summarise(courses), [courses]);
+  // A term's GPA is shown only where that term printed one; nothing is derived.
+  const termGpas = useMemo(() => termGpasOf(transcript), [transcript]);
   const hasCourses = courses.length > 0;
 
   const openCourse = (id: string) => router.push(`/course/${id}`);
@@ -190,6 +201,9 @@ export default function Academics() {
                     </Text>
                     <Text style={[type.caption, { color: palette.inkMuted, marginLeft: 'auto' }]}>
                       {creditsValue(group.credits)} credits
+                      {group.term && termGpas[group.term] != null
+                        ? `  ·  GPA ${termGpas[group.term].toFixed(2)}`
+                        : ''}
                     </Text>
                   </View>
                   <Divider />

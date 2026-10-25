@@ -19,6 +19,7 @@ import {
   getCourse,
   importForCourse,
   latestTranscript,
+  termGpasOf,
   listImports,
   undoImport,
 } from '../../src/database/repo';
@@ -309,11 +310,17 @@ async function main(): Promise<void> {
         earnedCredits: 2.5,
         inProgressCredits: 1,
         courseCount: 4,
+        termGpas: { '2025-2026 · Term 2': 4.13333 },
       },
     }),
   );
   const stored = await latestTranscript(transcript as unknown as Db);
   check(stored?.student_name === 'Roe, Jamie', 'the transcript is recorded with its student');
+  check(
+    termGpasOf(stored)['2025-2026 · Term 2'] === 4.13333,
+    'a term GPA the page printed survives the round trip',
+  );
+  check(termGpasOf(stored)['2025-2026 · Term 9'] === undefined, 'a term that printed none has none');
   check(stored?.reported_gpa === 4.23529, 'the GPA the page printed is stored, not recomputed');
   check(stored?.earned_credits === 2.5 && stored?.in_progress_credits === 1, 'both credit totals are kept apart');
   check(stored?.course_count === 4, 'the transcript counts its own rows');

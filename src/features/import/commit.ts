@@ -124,6 +124,7 @@ export function draftToCommitInput(draft: ImportDraft): CommitInput {
             courses.reduce((sum, course) => sum + (course.inProgress ? course.credits ?? 0 : 0), 0) * 100,
           ) / 100,
         courseCount: courses.length,
+        termGpas: draft.transcript.termGpas,
       },
       document,
       grading: [],

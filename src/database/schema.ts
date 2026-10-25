@@ -131,6 +131,9 @@ const STATEMENTS = [
     earned_credits REAL NOT NULL DEFAULT 0,
     in_progress_credits REAL NOT NULL DEFAULT 0,
     course_count INTEGER NOT NULL DEFAULT 0,
+    -- The GPA each term printed for itself, keyed by the term's own label. A term
+    -- that printed none has no entry, and Pace never invents one for it.
+    term_gpas TEXT,
     imported_at TEXT NOT NULL
   );`,
   // v5: a planned course is the user's, not a document's. It carries no evidence
@@ -170,6 +173,11 @@ export async function migrate(db: SQLiteDatabase): Promise<void> {
   ];
   for (const [name, type] of added) {
     if (!present.has(name)) await db.execAsync(`ALTER TABLE courses ADD COLUMN ${name} ${type}`);
+  }
+  const transcriptColumns = await db.getAllAsync<{ name: string }>('PRAGMA table_info(transcripts)');
+  const transcriptPresent = new Set(transcriptColumns.map((column) => column.name));
+  if (transcriptColumns.length && !transcriptPresent.has('term_gpas')) {
+    await db.execAsync('ALTER TABLE transcripts ADD COLUMN term_gpas TEXT');
   }
   const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
   const current = row?.user_version ?? 0;

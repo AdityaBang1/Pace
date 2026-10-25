@@ -693,6 +693,8 @@ export interface TranscriptRow {
   earned_credits: number;
   in_progress_credits: number;
   course_count: number;
+  /** JSON: term label → the GPA that term printed. Null when no term printed one. */
+  term_gpas: string | null;
   imported_at: string;
 }
 
@@ -705,6 +707,23 @@ export interface TranscriptInput {
   earnedCredits: number;
   inProgressCredits: number;
   courseCount: number;
+  termGpas: Record<string, number> | null;
+}
+
+/** The term GPAs a transcript printed, keyed by term label. Never recomputed. */
+export function termGpasOf(row: TranscriptRow | null | undefined): Record<string, number> {
+  if (!row?.term_gpas) return {};
+  try {
+    const parsed: unknown = JSON.parse(row.term_gpas);
+    if (!parsed || typeof parsed !== 'object') return {};
+    const out: Record<string, number> = {};
+    for (const [term, value] of Object.entries(parsed as Record<string, unknown>)) {
+      if (typeof value === 'number' && Number.isFinite(value)) out[term] = value;
+    }
+    return out;
+  } catch {
+    return {};
+  }
 }
 
 /** Written in the import's own transaction, so a transcript is never half-recorded. */
@@ -712,8 +731,8 @@ export async function saveTranscript(db: SQLiteDatabase, input: TranscriptInput)
   await db.runAsync(
     `INSERT INTO transcripts (
       document_id, import_id, student_name, school, reported_gpa,
-      earned_credits, in_progress_credits, course_count, imported_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      earned_credits, in_progress_credits, course_count, term_gpas, imported_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(document_id) DO UPDATE SET
       import_id = excluded.import_id,
       student_name = excluded.student_name,
@@ -722,6 +741,7 @@ export async function saveTranscript(db: SQLiteDatabase, input: TranscriptInput)
       earned_credits = excluded.earned_credits,
       in_progress_credits = excluded.in_progress_credits,
       course_count = excluded.course_count,
+      term_gpas = excluded.term_gpas,
       imported_at = excluded.imported_at`,
     [
       input.documentId,
@@ -732,6 +752,7 @@ export async function saveTranscript(db: SQLiteDatabase, input: TranscriptInput)
       input.earnedCredits,
       input.inProgressCredits,
       input.courseCount,
+      input.termGpas && Object.keys(input.termGpas).length ? JSON.stringify(input.termGpas) : null,
       new Date().toISOString(),
     ],
   );

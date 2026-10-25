@@ -109,10 +109,9 @@ export default function Home() {
               paddingBottom: space.lg,
             }}
           >
-            <Metric
-              value={gpaValue(transcript?.reported_gpa ?? null)}
-              label={transcript?.reported_gpa != null ? 'Weighted · Reported' : 'Weighted GPA'}
-            />
+            {transcript?.reported_gpa != null ? (
+              <Metric value={gpaValue(transcript.reported_gpa)} label="Weighted · Reported" />
+            ) : null}
             <Metric value={creditsValue(summary.earned)} label="Credits Earned" />
             <Metric value={creditsValue(summary.inProgress)} label="In Progress" />
           </View>

@@ -215,6 +215,11 @@ async function main(): Promise<void> {
       reading.tableTotals,
     );
     check(
+      reading.tableTotals.every((table) => table.term !== null && table.reportedGpa !== null),
+      'each term keeps the GPA its own footer printed, so a term can show one',
+      reading.tableTotals,
+    );
+    check(
       reading.courses.every((row) =>
         text.slice(row.span.start, row.span.end).includes(row.title.split(' ')[0]),
       ),

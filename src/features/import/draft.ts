@@ -66,6 +66,8 @@ export interface TranscriptDraft {
   inProgressCredits: number;
   reportedCredits: number | null;
   reportedGpa: number | null;
+  /** Term label → the GPA that term printed. Only terms that printed one. */
+  termGpas: Record<string, number>;
   layout: TranscriptRecord['layout'];
 }
 
@@ -302,6 +304,11 @@ function buildTranscriptDraft(record: AcademicRecord): TranscriptDraft | null {
     inProgressCredits: transcript.inProgressCredits,
     reportedCredits: transcript.reportedCredits,
     reportedGpa: transcript.reportedGpa,
+    termGpas: Object.fromEntries(
+      (transcript.tableTotals ?? [])
+        .filter((total) => total.term !== null && total.reportedGpa !== null)
+        .map((total) => [total.term as string, total.reportedGpa as number]),
+    ),
     layout: transcript.layout,
     rows: transcript.courses.map((row) => {
       const evidence = record.evidence.find((item) => item.id === row.evidenceId) ?? null;

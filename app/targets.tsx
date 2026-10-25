@@ -1,13 +1,11 @@
-import { useSQLiteContext } from 'expo-sqlite';
+import { Button as NativeButton, LabeledContent, Section, TextField, type TextFieldRef } from '@expo/ui/swift-ui';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { useSQLiteContext } from 'expo-sqlite';
+import { useEffect, useRef, useState } from 'react';
 
 import { getSetting, setSetting } from '../src/database/repo';
 import { CREDIT_TARGET_KEY, GPA_TARGET_KEY } from '../src/domain/pace';
-import { Button, PageHeader, SectionHeader, Screen } from '../src/ui/components';
-import { hairline, radius, space, type } from '../src/ui/theme';
-import { useTheme } from '../src/ui/useTheme';
+import { NativeScreen, NativeText } from '../src/ui/native';
 
 /**
  * Targets are the student's own numbers. Pace compares a projection against them
@@ -17,10 +15,13 @@ import { useTheme } from '../src/ui/useTheme';
 export default function Targets() {
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
   const [gpa, setGpa] = useState('');
   const [credits, setCredits] = useState('');
   const [saving, setSaving] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  const gpaField = useRef<TextFieldRef>(null);
+  const creditField = useRef<TextFieldRef>(null);
 
   useEffect(() => {
     let alive = true;
@@ -32,11 +33,19 @@ export default function Targets() {
       if (!alive) return;
       setGpa(storedGpa);
       setCredits(storedCredits);
+      setLoaded(true);
     })();
     return () => {
       alive = false;
     };
   }, [db]);
+
+  // The fields own their text, so a stored value is written into them once they exist.
+  useEffect(() => {
+    if (!loaded) return;
+    void gpaField.current?.setText(gpa);
+    void creditField.current?.setText(credits);
+  }, [loaded]);
 
   const save = async () => {
     setSaving(true);
@@ -49,52 +58,39 @@ export default function Targets() {
     }
   };
 
-  const input = {
-    color: palette.ink,
-    borderColor: palette.line,
-    backgroundColor: palette.surfaceSunken,
-    borderWidth: hairline,
-    borderRadius: radius.md,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    minHeight: 44,
-  } as const;
+  const hasTarget = gpa.trim() !== '' || credits.trim() !== '';
 
   return (
-    <Screen scroll edges="none">
-      <PageHeader title="Targets" onBack={() => router.back()} />
-      <SectionHeader>GPA</SectionHeader>
-      <View style={{ paddingHorizontal: space.xl }}>
-        <TextInput
-          value={gpa}
-          onChangeText={setGpa}
-          placeholder="4.20"
-          placeholderTextColor={palette.inkFaint}
-          keyboardType="decimal-pad"
-          accessibilityLabel="Weighted GPA target"
-          style={[type.number, input]}
-        />
-      </View>
-      <SectionHeader>Credits</SectionHeader>
-      <View style={{ paddingHorizontal: space.xl }}>
-        <TextInput
-          value={credits}
-          onChangeText={setCredits}
-          placeholder="24"
-          placeholderTextColor={palette.inkFaint}
-          keyboardType="decimal-pad"
-          accessibilityLabel="Credit target"
-          style={[type.number, input]}
-        />
-      </View>
-      <View style={{ paddingHorizontal: space.xl, paddingTop: space.xl }}>
-        <Button title="Save" onPress={() => void save()} loading={saving} />
-      </View>
-      <View style={{ paddingHorizontal: space.xl, paddingTop: space.lg }}>
-        <Text style={[type.caption, { color: palette.inkFaint }]}>
-          {gpa.trim() || credits.trim() ? 'Pace compares your path to these.' : 'No targets set.'}
-        </Text>
-      </View>
-    </Screen>
+    <NativeScreen
+      title="Targets"
+      onBack={() => router.back()}
+      topInset={false}
+    >
+      <Section title="GPA">
+        <LabeledContent label="Weighted">
+          <TextField
+            ref={gpaField}
+            placeholder="4.20"
+            onTextChange={setGpa}
+          />
+        </LabeledContent>
+      </Section>
+
+      <Section title="Credits">
+        <LabeledContent label="Total">
+          <TextField ref={creditField} placeholder="24" onTextChange={setCredits} />
+        </LabeledContent>
+      </Section>
+
+      <Section
+        footer={
+          <NativeText>
+            {hasTarget ? 'Pace compares your path to these.' : 'No targets set.'}
+          </NativeText>
+        }
+      >
+        <NativeButton label={saving ? 'Saving…' : 'Save'} onPress={() => void save()} />
+      </Section>
+    </NativeScreen>
   );
 }

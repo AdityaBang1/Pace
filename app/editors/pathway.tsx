@@ -1,8 +1,19 @@
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useCallback, useEffect, useState } from 'react';
-import { Alert, ScrollView, Switch, Text, TextInput, View } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Alert } from 'react-native';
+
+import {
+  Button as NativeButton,
+  Picker,
+  Section,
+  Text as NativeText,
+  TextField,
+  Toggle,
+  type TextFieldRef,
+} from '@expo/ui/swift-ui';
+import { disabled, tag } from '@expo/ui/swift-ui/modifiers';
 
 import {
   deletePathway,
@@ -11,9 +22,7 @@ import {
   savePathway,
   type AcademicStructure,
 } from '../../src/database/academicRepo';
-import { Button, Chip, Notice, PageHeader, Screen } from '../../src/ui/components';
-import { space, type } from '../../src/ui/theme';
-import { useTheme } from '../../src/ui/useTheme';
+import { NativeScreen } from '../../src/ui/native';
 
 /**
  * A pathway is a name and one schedule per year.
@@ -27,7 +36,6 @@ export default function PathwayEditor() {
   const id = typeof params.id === 'string' ? params.id : undefined;
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
 
   const [structure, setStructure] = useState<AcademicStructure | null>(null);
   const [name, setName] = useState('');
@@ -36,6 +44,9 @@ export default function PathwayEditor() {
   const [firstPathway, setFirstPathway] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  const nameRef = useRef<TextFieldRef>(null);
 
   const load = useCallback(async () => {
     try {
@@ -61,6 +72,7 @@ export default function PathwayEditor() {
         setActive(next.pathways.length === 0);
       }
       setError(null);
+      setHydrated(true);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Pace could not read its local database.');
     }
@@ -69,6 +81,14 @@ export default function PathwayEditor() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  // A SwiftUI field owns its text; the value loaded from the database is pushed into
+  // it once, then reported back on every change.
+  useEffect(() => {
+    if (!hydrated) return;
+    void nameRef.current?.setText(name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated]);
 
   const save = async () => {
     const trimmed = name.trim();
@@ -110,107 +130,81 @@ export default function PathwayEditor() {
   const schedules = structure?.schedules ?? [];
 
   return (
-    <Screen scroll edges="none">
-      <PageHeader title={id ? 'Pathway' : 'New Pathway'} onBack={() => router.back()} />
-
+    <NativeScreen
+      topInset={false}
+      title={id ? 'Pathway' : 'New Pathway'}
+      onBack={() => router.back()}
+    >
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.lg }}>
-          <Notice tone="danger" title="Couldn't load this pathway." body={error} />
-        </View>
+        <Section title="Error">
+          <NativeText>{error}</NativeText>
+          <NativeButton label="Try Again" systemImage="arrow.clockwise" onPress={() => void load()} />
+        </Section>
       ) : null}
 
-      <View style={{ paddingHorizontal: space.xl }}>
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          placeholder="Name"
-          placeholderTextColor={palette.inkFaint}
-          autoFocus={!id}
-          returnKeyType="done"
-          style={[
-            type.heading,
-            {
-              color: palette.ink,
-              borderBottomWidth: 0.5,
-              borderColor: palette.line,
-              paddingVertical: space.sm,
-            },
-          ]}
+      <Section title="Name">
+        <TextField ref={nameRef} placeholder="Main" autoFocus={!id} onTextChange={setName} />
+      </Section>
+
+      <Section title="Pathway" footer={<NativeText>Home and Pace report on the active pathway.</NativeText>}>
+        <Toggle
+          label={firstPathway ? 'Active · the only pathway' : 'Active'}
+          isOn={active || firstPathway}
+          onIsOnChange={(next) => {
+            if (firstPathway) return;
+            setActive(next);
+          }}
         />
+      </Section>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: space.lg }}>
-          <View style={{ flex: 1 }}>
-            <Text style={[type.body, { color: palette.ink }]}>Active</Text>
-            <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
-              Home and Pace report on this pathway.
-            </Text>
-          </View>
-          <Switch
-            value={active}
-            onValueChange={setActive}
-            disabled={firstPathway}
-            trackColor={{ true: palette.accent, false: palette.lineStrong }}
-          />
-        </View>
-
-        <Text style={[type.label, { color: palette.inkFaint, marginTop: space.xl }]}>Years</Text>
-        {years.length === 0 ? (
-          <Text style={[type.caption, { color: palette.inkMuted, marginTop: space.sm }]}>
-            Import a transcript or add a year first.
-          </Text>
-        ) : null}
-        {years.map((year) => {
-          const yearSchedules = schedules.filter((schedule) => schedule.academic_year_id === year.id);
-          const chosen = selections[year.id] ?? null;
-          return (
-            <View key={year.id} style={{ marginTop: space.lg }}>
-              <Text style={[type.bodyStrong, { color: palette.ink }]} numberOfLines={1}>
-                {year.name}
-              </Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ gap: space.sm, paddingVertical: space.sm }}
+      {years.length ? (
+        <Section title="Years" footer={<NativeText>Main keeps that year's own schedule.</NativeText>}>
+          {years.map((year) => {
+            const yearSchedules = schedules.filter((schedule) => schedule.academic_year_id === year.id);
+            const chosen = selections[year.id] ?? 'main';
+            return (
+              <Picker
+                key={year.id}
+                label={year.name}
+                selection={chosen}
+                onSelectionChange={(value) => {
+                  setSelections((current) => {
+                    const next = { ...current };
+                    if (value === 'main' || value == null) delete next[year.id];
+                    else next[year.id] = String(value);
+                    return next;
+                  });
+                }}
               >
-                <Chip
-                  label="Main"
-                  selected={chosen === null}
-                  tone={chosen === null ? 'accent' : 'neutral'}
-                  onPress={() =>
-                    setSelections((current) => {
-                      const next = { ...current };
-                      delete next[year.id];
-                      return next;
-                    })
-                  }
-                />
+                <NativeText modifiers={[tag('main')]}>Main</NativeText>
                 {yearSchedules.map((schedule) => (
-                  <Chip
-                    key={schedule.id}
-                    label={schedule.name}
-                    selected={chosen === schedule.id}
-                    tone={chosen === schedule.id ? 'accent' : 'neutral'}
-                    onPress={() =>
-                      setSelections((current) => ({ ...current, [year.id]: schedule.id }))
-                    }
-                  />
+                  <NativeText key={schedule.id} modifiers={[tag(schedule.id)]}>
+                    {schedule.name}
+                  </NativeText>
                 ))}
-              </ScrollView>
-            </View>
-          );
-        })}
+              </Picker>
+            );
+          })}
+        </Section>
+      ) : (
+        <Section title="Years">
+          <NativeText>Import a transcript or add a year first.</NativeText>
+        </Section>
+      )}
 
-        <View style={{ marginTop: space.xxl, gap: space.sm }}>
-          <Button
-            title="Save"
-            onPress={() => void save()}
-            disabled={!name.trim()}
-            loading={saving}
-          />
-          {id ? <Button title="Delete" kind="quiet" onPress={remove} /> : null}
-        </View>
-        <View style={{ height: space.xxl }} />
-      </View>
-    </Screen>
+      <Section>
+        <NativeButton
+          label={saving ? 'Saving…' : 'Save'}
+          onPress={() => void save()}
+          modifiers={[disabled(!name.trim() || saving)]}
+        />
+      </Section>
+
+      {id ? (
+        <Section>
+          <NativeButton label="Delete Pathway" role="destructive" systemImage="trash" onPress={remove} />
+        </Section>
+      ) : null}
+    </NativeScreen>
   );
 }

@@ -1,8 +1,9 @@
+import { Button as NativeButton, Section } from '@expo/ui/swift-ui';
 import * as Haptics from 'expo-haptics';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert } from 'react-native';
 
 import {
   getCourse,
@@ -13,25 +14,12 @@ import {
   type EvidenceRow,
 } from '../../src/database/repo';
 import { creditsValue, termLabel } from '../../src/domain/academics';
-import { levelLabel, levelOf } from '../../src/domain/gpa';
+import { LEVELS, levelLabel, levelOf } from '../../src/domain/gpa';
 import { deleteStoredSources } from '../../src/features/scan/storage';
 import { EvidenceSheet, type SourceLine } from '../../src/features/review/EvidenceSheet';
-import {
-  Button,
-  Card,
-  Chip,
-  Divider,
-  EmptyState,
-  FieldRow,
-  IconButton,
-  Notice,
-  PageHeader,
-  Screen,
-  SectionHeader,
-} from '../../src/ui/components';
+import { IconButton } from '../../src/ui/components';
+import { LabeledContent, NativeScreen, NativeText, Value } from '../../src/ui/native';
 import { daysLabel, documentTypeLabel, evidenceExcerpt, relativeDay, timeRangeLabel, weightLabel } from '../../src/ui/format';
-import { space, type } from '../../src/ui/theme';
-import { useTheme } from '../../src/ui/useTheme';
 
 function methodLabel(row: EvidenceRow): string {
   return row.confidence_source === 'model'
@@ -39,22 +27,10 @@ function methodLabel(row: EvidenceRow): string {
     : 'Read from the page by the deterministic reader';
 }
 
-/** One metric: the number carries the screen, its label only names it. */
-function Metric({ value, label }: { value: string; label: string }) {
-  const { palette } = useTheme();
-  return (
-    <View style={{ flex: 1, gap: 2 }}>
-      <Text style={[type.display, { color: palette.ink, fontVariant: ['tabular-nums'] }]}>{value}</Text>
-      <Text style={[type.caption, { color: palette.inkMuted }]}>{label}</Text>
-    </View>
-  );
-}
-
 export default function CourseScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
   const [detail, setDetail] = useState<CourseDetail | null>(null);
   const [missing, setMissing] = useState(false);
   const [source, setSource] = useState<SourceLine | null>(null);
@@ -85,20 +61,18 @@ export default function CourseScreen() {
 
   if (missing || !detail) {
     return (
-      <Screen>
-        <PageHeader title="Course" onBack={() => router.back()} />
+      <NativeScreen title="Course" onBack={() => router.back()}>
         {loadError ? (
-          <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-            <Notice title="This course could not be read" body={loadError} tone="danger" />
-            <Button title="Try again" kind="secondary" onPress={() => void load()} />
-          </View>
+          <Section title="This course could not be read">
+            <NativeText>{loadError}</NativeText>
+            <NativeButton label="Try again" systemImage="arrow.clockwise" onPress={() => void load()} />
+          </Section>
         ) : (
-          <EmptyState
-            title={missing ? 'This course is gone' : 'Loading'}
-            body={missing ? 'It was removed or its import was undone.' : 'Reading the course.'}
-          />
+          <Section title={missing ? 'This course is gone' : 'Loading'}>
+            <NativeText>{missing ? 'It was removed or its import was undone.' : 'Reading the course.'}</NativeText>
+          </Section>
         )}
-      </Screen>
+      </NativeScreen>
     );
   }
 
@@ -163,16 +137,16 @@ export default function CourseScreen() {
     );
   };
 
-  // Values that were not printed are omitted, never shown as a dash.
   const facts: { label: string; value: string }[] = [];
   if (course.term) facts.push({ label: 'Term', value: termLabel(course.term) });
   if (course.code) facts.push({ label: 'Code', value: course.code });
   if (course.instructor) facts.push({ label: 'Instructor', value: course.instructor });
   if (!inProgress && level !== 'Regular') facts.push({ label: 'Level', value: level });
+  if (course.credits != null) facts.push({ label: 'Credit', value: creditsValue(course.credits) });
 
   return (
-    <Screen scroll>
-      <PageHeader
+    <>
+      <NativeScreen
         title={course.title ?? course.code ?? 'Course'}
         onBack={() => router.back()}
         right={
@@ -185,174 +159,116 @@ export default function CourseScreen() {
             onPress={() => router.push(`/editors/course?id=${course.id}`)}
           />
         }
-      />
-
-      {course.edited === 1 && course.original_grade && course.original_grade !== course.grade ? (
-        <View style={{ paddingHorizontal: space.xl }}>
-          <Notice
-            tone="accent"
-            body={`Edited · the transcript said ${course.original_grade}`}
-          />
-        </View>
-      ) : null}
-
-      <View style={{ paddingHorizontal: space.xl, gap: space.lg }}>
-        {(course.grade || course.credits != null || inProgress) && (
-          <View style={{ flexDirection: 'row', gap: space.lg }}>
-            {inProgress ? (
-              <Metric value={creditsValue(course.credits)} label="Credit" />
-            ) : course.grade ? (
-              <Metric value={course.grade} label="Final Mark" />
-            ) : null}
-            {!inProgress && course.credits != null ? (
-              <Metric value={creditsValue(course.credits)} label="Credit" />
-            ) : null}
-            {inProgress ? (
-              <View style={{ justifyContent: 'center' }}>
-                <Chip label="In progress" tone="accent" />
-              </View>
-            ) : null}
-          </View>
-        )}
+      >
+        <Section
+          title="Mark"
+          footer={
+            course.edited === 1 && course.original_grade && course.original_grade !== course.grade ? (
+              <NativeText>{`Edited · the transcript said ${course.original_grade}`}</NativeText>
+            ) : undefined
+          }
+        >
+          <LabeledContent label={inProgress ? 'Status' : 'Final'}>
+            <Value>{inProgress ? 'In progress' : (course.grade ?? '—')}</Value>
+          </LabeledContent>
+          {course.expected_grade ? (
+            <LabeledContent label="Expected">
+              <Value>{course.expected_grade}</Value>
+            </LabeledContent>
+          ) : null}
+        </Section>
 
         {facts.length ? (
-          <Card padded={false}>
-            <View style={{ paddingHorizontal: space.lg }}>
-              {facts.map((fact, index) => (
-                <View key={fact.label}>
-                  {index > 0 ? <Divider /> : null}
-                  <FieldRow label={fact.label} value={fact.value} />
-                </View>
-              ))}
-            </View>
-          </Card>
+          <Section title="Details">
+            {facts.map((fact) => (
+              <LabeledContent key={fact.label} label={fact.label}>
+                <Value>{fact.value}</Value>
+              </LabeledContent>
+            ))}
+            {!inProgress && level === 'Regular'
+              ? LEVELS.filter((row) => row.value === 'regular').map((row) => (
+                  <LabeledContent key={row.value} label="Level">
+                    <Value>{levelLabel(row.value)}</Value>
+                  </LabeledContent>
+                ))
+              : null}
+          </Section>
         ) : null}
-      </View>
 
-      {grading.length ? (
-        <>
-          <SectionHeader
-            right={<Text style={[type.caption, { color: palette.inkMuted }]}>{weightLabel(total)}</Text>}
-          >
-            GRADING
-          </SectionHeader>
-          <View style={{ paddingHorizontal: space.xl }}>
-            <Card padded={false}>
-              {grading.map((row, index) => (
-                <View key={row.id}>
-                  {index > 0 ? <Divider inset={space.lg} /> : null}
-                  <View style={{ paddingHorizontal: space.lg }}>
-                    <FieldRow
-                      label={row.name}
-                      value={weightLabel(row.weight)}
-                      onPress={() => openSource(`${row.name} ${weightLabel(row.weight)}`, row.evidence_id)}
-                    />
-                  </View>
-                </View>
-              ))}
-            </Card>
-            {/* The bar is the hierarchy, read left to right: category widths are weights. */}
-            <View
-              style={{
-                flexDirection: 'row',
-                height: 6,
-                borderRadius: 3,
-                overflow: 'hidden',
-                backgroundColor: palette.surfaceSunken,
-                marginTop: space.md,
-              }}
-            >
-              {grading.map((row, index) => (
-                <View
-                  key={row.id}
-                  style={{
-                    flex: Math.max(row.weight, 0.01),
-                    backgroundColor: palette.accent,
-                    opacity: 1 - Math.min(index * 0.14, 0.5),
-                  }}
-                />
-              ))}
-            </View>
-          </View>
-        </>
-      ) : null}
-
-      {meetings.length ? (
-        <>
-          <SectionHeader>MEETING</SectionHeader>
-          <View style={{ paddingHorizontal: space.xl }}>
-            <Card padded={false}>
-              {meetings.map((meeting, index) => {
-                let days: string[] = [];
-                try {
-                  days = JSON.parse(meeting.days) as string[];
-                } catch {
-                  days = [];
-                }
-                const time = timeRangeLabel(meeting.start_time, meeting.end_time);
-                return (
-                  <View key={meeting.id}>
-                    {index > 0 ? <Divider inset={space.lg} /> : null}
-                    <View style={{ paddingHorizontal: space.lg }}>
-                      <FieldRow
-                        label={daysLabel(days)}
-                        value={[time, meeting.room].filter(Boolean).join(' · ') || '—'}
-                        onPress={() => openSource(daysLabel(days), meeting.evidence_id)}
-                      />
-                    </View>
-                  </View>
-                );
-              })}
-            </Card>
-          </View>
-        </>
-      ) : null}
-
-      {policies.length ? (
-        <>
-          <SectionHeader>POLICIES</SectionHeader>
-          <View style={{ paddingHorizontal: space.xl }}>
-            <Card padded={false}>
-              {policies.map((policy, index) => (
-                <View key={policy.id}>
-                  {index > 0 ? <Divider inset={space.lg} /> : null}
-                  <View style={{ paddingHorizontal: space.lg }}>
-                    <FieldRow
-                      label={policy.field.replace(/_/g, ' ')}
-                      value={<Text style={[type.caption, { color: palette.inkMuted, textAlign: 'right' }]} numberOfLines={3}>{policy.value}</Text>}
-                      onPress={() => openSource(policy.value, policy.evidence_id)}
-                    />
-                  </View>
-                </View>
-              ))}
-            </Card>
-          </View>
-        </>
-      ) : null}
-
-      <SectionHeader>SOURCE</SectionHeader>
-      <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-        {course.evidence_id ? (
-          <Card padded={false}>
-            <View style={{ paddingHorizontal: space.lg }}>
-              <FieldRow
-                label="The printed row"
-                value="View"
-                onPress={() => openSource(course.title ?? 'Transcript row', course.evidence_id)}
+        {grading.length ? (
+          <Section title="Grading" footer={<NativeText>{`${grading.length} categories · ${weightLabel(total)}`}</NativeText>}>
+            {grading.map((row) => (
+              <NativeButton
+                key={row.id}
+                label={`${row.name} · ${weightLabel(row.weight)}`}
+                systemImage="doc.text.magnifyingglass"
+                onPress={() => openSource(`${row.name} ${weightLabel(row.weight)}`, row.evidence_id)}
               />
-            </View>
-          </Card>
+            ))}
+          </Section>
         ) : null}
-        {document ? (
-          <Text style={[type.caption, { color: palette.inkFaint }]}>
-            {documentTypeLabel(document.document_type)} · read {relativeDay(document.created_at).toLowerCase()}
-            {document.source_uri && !/\.pdf(\?|$)/i.test(document.source_uri) ? ' · page kept' : ''}
-          </Text>
+
+        {meetings.length ? (
+          <Section title="Meeting">
+            {meetings.map((meeting) => {
+              let days: string[] = [];
+              try {
+                days = JSON.parse(meeting.days) as string[];
+              } catch {
+                days = [];
+              }
+              const time = timeRangeLabel(meeting.start_time, meeting.end_time);
+              return (
+                <NativeButton
+                  key={meeting.id}
+                  label={[daysLabel(days), time, meeting.room].filter(Boolean).join(' · ')}
+                  systemImage="calendar"
+                  onPress={() => openSource(daysLabel(days), meeting.evidence_id)}
+                />
+              );
+            })}
+          </Section>
         ) : null}
-        {importId ? <Button title="Undo import" kind="quiet" onPress={undo} /> : null}
-      </View>
+
+        {policies.length ? (
+          <Section title="Policies">
+            {policies.map((policy) => (
+              <NativeButton
+                key={policy.id}
+                label={`${policy.field.replace(/_/g, ' ')} · ${policy.value}`}
+                systemImage="text.alignleft"
+                onPress={() => openSource(policy.value, policy.evidence_id)}
+              />
+            ))}
+          </Section>
+        ) : null}
+
+        <Section
+          title="Source"
+          footer={
+            document ? (
+              <NativeText>
+                {`${documentTypeLabel(document.document_type)} · read ${relativeDay(document.created_at).toLowerCase()}${
+                  document.source_uri && !/\.pdf(\?|$)/i.test(document.source_uri) ? ' · page kept' : ''
+                }`}
+              </NativeText>
+            ) : undefined
+          }
+        >
+          {course.evidence_id ? (
+            <NativeButton
+              label="The printed row"
+              systemImage="text.magnifyingglass"
+              onPress={() => openSource(course.title ?? 'Transcript row', course.evidence_id)}
+            />
+          ) : null}
+          {importId ? (
+            <NativeButton label="Undo import" systemImage="arrow.uturn.backward" role="destructive" onPress={undo} />
+          ) : null}
+        </Section>
+      </NativeScreen>
 
       <EvidenceSheet visible={source !== null} source={source} onClose={() => setSource(null)} />
-    </Screen>
+    </>
   );
 }

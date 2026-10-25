@@ -1,8 +1,14 @@
+import {
+  Button as NativeButton,
+  TextField,
+  type TextFieldRef,
+} from '@expo/ui/swift-ui';
+import { disabled, foregroundStyle } from '@expo/ui/swift-ui/modifiers';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Alert } from 'react-native';
 
 import {
   deleteYear,
@@ -12,8 +18,7 @@ import {
   saveYearWithSchedule,
   type YearStatus,
 } from '../../src/database/academicRepo';
-import { Button, Chip, Notice, PageHeader, Screen, SectionHeader } from '../../src/ui/components';
-import { hairline, radius, space, type } from '../../src/ui/theme';
+import { NativeScreen, NativeText, Section } from '../../src/ui/native';
 import { useTheme } from '../../src/ui/useTheme';
 
 const STATUSES: { value: YearStatus; label: string }[] = [
@@ -37,6 +42,10 @@ export default function YearEditor() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const nameRef = useRef<TextFieldRef>(null);
+  const labelRef = useRef<TextFieldRef>(null);
+  const gradeRef = useRef<TextFieldRef>(null);
+
   useEffect(() => {
     void (async () => {
       if (!id) return;
@@ -47,6 +56,9 @@ export default function YearEditor() {
       setLabel(year.school_year_label ?? '');
       setGrade(year.grade_level ?? '');
       setStatus(year.status);
+      void nameRef.current?.setText(year.name);
+      void labelRef.current?.setText(year.school_year_label ?? '');
+      void gradeRef.current?.setText(year.grade_level ?? '');
       const scheduleIds = structure.schedules
         .filter((schedule) => schedule.academic_year_id === id)
         .map((schedule) => schedule.id);
@@ -109,77 +121,46 @@ export default function YearEditor() {
   };
 
   return (
-    <Screen scroll edges="none">
-      <PageHeader title={id ? 'Edit Year' : 'New Year'} onBack={() => router.back()} />
-
+    <NativeScreen title={id ? 'Edit Year' : 'New Year'} onBack={() => router.back()}>
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md }}>
-          <Notice tone="danger" body={error} />
-        </View>
+        <Section>
+          <NativeText modifiers={[foregroundStyle(palette.danger)]}>{error}</NativeText>
+        </Section>
       ) : null}
 
-      <View style={{ paddingHorizontal: space.xl, gap: space.md, paddingTop: space.sm }}>
-        <Field label="Name" value={name} onChange={setName} placeholder="Grade 11" />
-        <Field label="School year" value={label} onChange={setLabel} placeholder="2026-2027" />
-        <Field label="Grade level" value={grade} onChange={setGrade} placeholder="11" />
-      </View>
+      <Section title="Name">
+        <TextField ref={nameRef} placeholder="Grade 11" onTextChange={setName} />
+      </Section>
 
-      <SectionHeader>STATUS</SectionHeader>
-      <View style={{ flexDirection: 'row', gap: space.sm, paddingHorizontal: space.xl }}>
+      <Section title="School year">
+        <TextField ref={labelRef} placeholder="2026-2027" onTextChange={setLabel} />
+      </Section>
+
+      <Section title="Grade level">
+        <TextField ref={gradeRef} placeholder="11" onTextChange={setGrade} />
+      </Section>
+
+      <Section title="Status">
         {STATUSES.map((option) => (
-          <Chip
+          <NativeButton
             key={option.value}
             label={option.label}
-            selected={status === option.value}
             onPress={() => setStatus(option.value)}
+            systemImage={status === option.value ? 'checkmark' : undefined}
           />
         ))}
-      </View>
+      </Section>
 
-      <View style={{ paddingHorizontal: space.xl, paddingTop: space.xl, gap: space.md }}>
-        <Button title="Save" onPress={() => void save()} disabled={!valid} loading={saving} />
-        {id ? <Button title="Delete" kind="quiet" onPress={remove} /> : null}
-      </View>
-    </Screen>
+      <Section>
+        <NativeButton
+          label="Save"
+          systemImage="checkmark"
+          modifiers={[disabled(!valid || saving)]}
+          onPress={() => void save()}
+        />
+        {id ? <NativeButton label="Delete" role="destructive" onPress={remove} /> : null}
+        {saving ? <NativeText>Saving…</NativeText> : null}
+      </Section>
+    </NativeScreen>
   );
 }
-
-function Field({
-  label,
-  value,
-  onChange,
-  placeholder,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-}) {
-  const { palette } = useTheme();
-  return (
-    <View>
-      <Text style={[type.caption, { color: palette.inkFaint, marginBottom: 4 }]}>{label}</Text>
-      <TextInput
-        value={value}
-        onChangeText={onChange}
-        placeholder={placeholder}
-        placeholderTextColor={palette.inkFaint}
-        style={[
-          styles.input,
-          type.body,
-          { color: palette.ink, borderColor: palette.line, backgroundColor: palette.surface },
-        ]}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  input: {
-    minHeight: 44,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    borderRadius: radius.md,
-    borderWidth: hairline,
-  },
-});

@@ -1,3 +1,4 @@
+import { Button as NativeButton, Section } from '@expo/ui/swift-ui';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useMemo, useState } from 'react';
@@ -17,18 +18,13 @@ import { readGpaScaleValue, type CourseRow } from '../../src/database/repo';
 import { creditsValue, gpaValue } from '../../src/domain/academics';
 import { LETTERS, parseScale, type GpaScale } from '../../src/domain/gpa';
 import { computeGpa, creditsOf, statusOf } from '../../src/domain/record';
-import {
-  Button,
-  Divider,
-  EmptyState,
-  Notice,
-  PageHeader,
-  Screen,
-  SectionHeader,
-} from '../../src/ui/components';
+import { LabeledContent, NativeScreen, NativeText, Value } from '../../src/ui/native';
 import { PressableScale } from '../../src/ui/press';
 import { hairline, radius, space, type } from '../../src/ui/theme';
 import { useTheme } from '../../src/ui/useTheme';
+
+const levelOfCourse = (course: CourseRow): string =>
+  course.level === 'ap' ? 'AP' : course.level === 'honors' ? 'Honors' : 'Regular';
 
 /**
  * One schedule: the courses one year holds under one name.
@@ -130,163 +126,126 @@ export default function ScheduleScreen() {
 
   if (loaded && !schedule) {
     return (
-      <Screen edges="top">
-        <PageHeader title="Schedule" onBack={() => router.back()} />
-        <EmptyState title="This schedule is gone" body="It was deleted or its year was removed." />
-      </Screen>
+      <NativeScreen title="Schedule" onBack={() => router.back()}>
+        <Section title="This schedule is gone">
+          <NativeText>It was deleted or its year was removed.</NativeText>
+        </Section>
+      </NativeScreen>
     );
   }
 
   if (!schedule || !structure) {
     return (
-      <Screen edges="top">
-        <PageHeader title="Schedule" onBack={() => router.back()} />
+      <NativeScreen title="Schedule" onBack={() => router.back()}>
         {error ? (
-          <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-            <Notice tone="danger" title="Couldn't read this schedule" body={error} />
-            <Button title="Try Again" kind="secondary" onPress={() => void load()} />
-          </View>
+          <Section title="Couldn’t read this schedule">
+            <NativeText>{error}</NativeText>
+            <NativeButton label="Try Again" systemImage="arrow.clockwise" onPress={() => void load()} />
+          </Section>
         ) : null}
-      </Screen>
+      </NativeScreen>
     );
   }
 
+  const pending = courses.filter((course) => statusOf(course) !== 'completed');
+
   return (
-    <Screen scroll edges="top">
-      <PageHeader title={schedule.name} subtitle={year?.name ?? undefined} onBack={() => router.back()} />
+    <>
+      <NativeScreen title={schedule.name} subtitle={year?.name ?? undefined} onBack={() => router.back()}>
+        <Section title={projected ? 'Projected' : 'Weighted'}>
+          <LabeledContent label="GPA">
+            <Value>{gpa.weighted != null ? gpaValue(gpa.weighted) : '—'}</Value>
+          </LabeledContent>
+          <LabeledContent label="Credits">
+            <Value>{creditsValue(credits.all)}</Value>
+          </LabeledContent>
+          <LabeledContent label="Courses">
+            <Value>{String(courses.length)}</Value>
+          </LabeledContent>
+        </Section>
 
-      <View style={{ flexDirection: 'row', paddingHorizontal: space.xl, paddingTop: space.lg }}>
-        <Metric value={gpaValue(gpa.weighted)} label={projected ? 'Projected' : 'Weighted'} />
-        <Metric value={creditsValue(credits.all)} label="Credits" />
-        <Metric value={String(courses.length)} label={courses.length === 1 ? 'Course' : 'Courses'} />
-      </View>
+        <Section title="Schedule">
+          <NativeButton
+            label="Edit"
+            systemImage="pencil"
+            onPress={() => router.push(`/editors/schedule?id=${schedule.id}`)}
+          />
+          <NativeButton
+            label="Duplicate"
+            systemImage="plus.square.on.square"
+            onPress={() => router.push(`/editors/schedule?duplicateFrom=${schedule.id}`)}
+          />
+          {!isMain ? <NativeButton label="Make Main" systemImage="checkmark.circle" onPress={makeMain} /> : null}
+          {isScenario || year?.status === 'future' ? (
+            <NativeButton label="Delete" systemImage="trash" role="destructive" onPress={remove} />
+          ) : null}
+        </Section>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          gap: space.sm,
-          paddingHorizontal: space.xl,
-          paddingTop: space.lg,
-          flexWrap: 'wrap',
-        }}
-      >
-        <Button
-          title="Edit"
-          kind="secondary"
-          compact
-          onPress={() => router.push(`/editors/schedule?id=${schedule.id}`)}
-        />
-        <Button
-          title="Duplicate"
-          kind="secondary"
-          compact
-          onPress={() => router.push(`/editors/schedule?duplicateFrom=${schedule.id}`)}
-        />
-        {!isMain ? <Button title="Make Main" kind="secondary" compact onPress={makeMain} /> : null}
-        {isScenario || year?.status === 'future' ? (
-          <Button title="Delete" kind="quiet" compact onPress={remove} />
-        ) : null}
-      </View>
-
-      <SectionHeader
-        right={<Text style={[type.caption, { color: palette.inkFaint }]}>{courses.length}</Text>}
-      >
-        Courses
-      </SectionHeader>
-      <Divider />
-
-      {courses.length === 0 ? (
-        <EmptyState
-          title="No courses"
-          body="Add one to start this schedule."
-          action={
-            <Button
-              title="Add Course"
-              compact
-              onPress={() =>
-                router.push(
-                  `/editors/course?mode=add&scheduleId=${schedule.id}&yearId=${schedule.academic_year_id}`,
-                )
-              }
-            />
-          }
-        />
-      ) : (
-        courses.map((course) => {
-          const status = statusOf(course);
-          const mark = status === 'completed' ? (course.grade ?? '—') : (course.expected_grade ?? '—');
-          return (
-            <View key={course.id}>
-              <PressableScale
-                accessibilityLabel={`Open ${course.title ?? 'course'}`}
+        <Section
+          title="Courses"
+          footer={courses.length === 0 ? <NativeText>Add one to start this schedule.</NativeText> : undefined}
+        >
+          {courses.map((course) => {
+            const status = statusOf(course);
+            const mark = status === 'completed' ? (course.grade ?? '—') : (course.expected_grade ?? '—');
+            return (
+              <NativeButton
+                key={course.id}
+                label={`${course.title ?? course.code ?? 'Course'} · ${levelOfCourse(course)} · ${creditsValue(
+                  course.credits,
+                )} cr · ${mark}`}
+                systemImage={status === 'completed' ? 'checkmark.circle' : 'circle.dashed'}
                 onPress={() => router.push(`/course/${course.id}`)}
-                style={{ paddingVertical: space.md, paddingHorizontal: space.xl }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-                  <View style={{ flex: 1 }}>
-                    <Text style={[type.bodyStrong, { color: palette.ink }]} numberOfLines={2}>
-                      {course.title ?? course.code ?? 'Course'}
-                    </Text>
-                    <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]} numberOfLines={1}>
-                      {[
-                        course.level === 'ap' ? 'AP' : course.level === 'honors' ? 'Honors' : 'Regular',
-                        `${creditsValue(course.credits)} cr`,
-                        status === 'completed' ? 'Completed' : status === 'current' ? 'In progress' : 'Planned',
-                      ].join(' · ')}
-                    </Text>
-                  </View>
-                  {status === 'completed' ? (
-                    <Text style={[type.number, { color: palette.ink }]}>{mark}</Text>
-                  ) : (
-                    <Pressable
-                      accessibilityRole="button"
-                      accessibilityLabel={`Expected grade for ${course.title ?? 'course'}`}
-                      hitSlop={8}
-                      onPress={() => setEditing(course)}
-                    >
-                      <Text style={[type.number, { color: palette.accent }]}>
-                        {course.expected_grade ? `Expected ${course.expected_grade}` : 'Set grade'}
-                      </Text>
-                    </Pressable>
-                  )}
-                </View>
-              </PressableScale>
-              <Divider inset={space.xl} />
-            </View>
-          );
-        })
-      )}
+              />
+            );
+          })}
+          <NativeButton
+            label="Add Course"
+            systemImage="plus"
+            onPress={() =>
+              router.push(`/editors/course?mode=add&scheduleId=${schedule.id}&yearId=${schedule.academic_year_id}`)
+            }
+          />
+        </Section>
 
-      {projected && gpa.weighted != null ? (
-        <>
-          <SectionHeader>What If</SectionHeader>
-          <View style={{ paddingHorizontal: space.xl, gap: space.xs }}>
-            <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
-              <Text
-                style={[
-                  type.display,
-                  { color: palette.ink, fontSize: 34, fontVariant: ['tabular-nums'] },
-                ]}
-              >
-                {gpaValue(gpa.weighted)}
-              </Text>
-              <Text style={[type.caption, { color: palette.inkMuted }]}>
+        {pending.length ? (
+          <Section
+            title="Expected grades"
+            footer={<NativeText>Tap a course to change the grade its projection uses.</NativeText>}
+          >
+            {pending.map((course) => (
+              <NativeButton
+                key={course.id}
+                label={`${course.title ?? course.code ?? 'Course'} · ${course.expected_grade ?? 'Set grade'}`}
+                systemImage="a.circle"
+                onPress={() => setEditing(course)}
+              />
+            ))}
+          </Section>
+        ) : null}
+
+        {projected ? (
+          <Section
+            title="What If"
+            footer={
+              <NativeText>
                 {gpa.missing > 0 ? `${gpa.missing} need a grade` : 'Projected weighted GPA'}
-              </Text>
-            </View>
+              </NativeText>
+            }
+          >
+            <LabeledContent label="Projected GPA">
+              <Value>{gpa.weighted != null ? gpaValue(gpa.weighted) : '—'}</Value>
+            </LabeledContent>
             {isScenario ? (
-              <Button
-                title="Save as Schedule"
-                kind="secondary"
-                compact
+              <NativeButton
+                label="Save as Schedule"
+                systemImage="square.and.arrow.down"
                 onPress={() => router.push(`/editors/schedule?id=${schedule.id}&saveAs=1`)}
               />
             ) : null}
-          </View>
-        </>
-      ) : null}
-
-      <View style={{ height: space.xxl }} />
+          </Section>
+        ) : null}
+      </NativeScreen>
 
       <Modal
         visible={editing !== null}
@@ -314,9 +273,7 @@ export default function ScheduleScreen() {
               gap: space.xs,
             }}
           >
-            <Text style={[type.label, { color: palette.inkFaint, paddingHorizontal: space.sm }]}>
-              Expected
-            </Text>
+            <Text style={[type.label, { color: palette.inkFaint, paddingHorizontal: space.sm }]}>Expected</Text>
             {LETTERS.map((letter) => (
               <PressableScale
                 key={letter}
@@ -333,31 +290,6 @@ export default function ScheduleScreen() {
           </View>
         </Pressable>
       </Modal>
-    </Screen>
-  );
-}
-
-function Metric({ value, label }: { value: string; label: string }) {
-  const { palette } = useTheme();
-  return (
-    <View style={{ flex: 1 }}>
-      <Text
-        style={{
-          fontSize: 28,
-          lineHeight: 32,
-          fontWeight: '600',
-          letterSpacing: -0.6,
-          fontVariant: ['tabular-nums'],
-          color: palette.ink,
-        }}
-        numberOfLines={1}
-        adjustsFontSizeToFit
-      >
-        {value}
-      </Text>
-      <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]} numberOfLines={1}>
-        {label}
-      </Text>
-    </View>
+    </>
   );
 }

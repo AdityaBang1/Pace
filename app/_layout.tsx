@@ -42,6 +42,7 @@ export default function RootLayout() {
                   is a destination pushed above it or a sheet presented over it. */}
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="transcript" />
+              <Stack.Screen name="imported" />
               <Stack.Screen name="academic-record" />
               <Stack.Screen name="schedule/[id]" />
               <Stack.Screen name="compare-pathways" />

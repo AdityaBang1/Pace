@@ -1,7 +1,16 @@
+import {
+  Button as NativeButton,
+  HStack,
+  Section,
+  Spacer,
+  Text as NativeText,
+  VStack,
+} from '@expo/ui/swift-ui';
+import { font, foregroundStyle, monospacedDigit, padding } from '@expo/ui/swift-ui/modifiers';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import {
   ensureDefaults,
@@ -14,7 +23,6 @@ import {
   latestTranscript,
   listCourses,
   readGpaScaleValue,
-  type CourseRow,
   type TranscriptRow,
 } from '../../src/database/repo';
 import { creditsValue, gpaValue } from '../../src/domain/academics';
@@ -29,25 +37,16 @@ import {
 import { buildPathway, type PathwayView } from '../../src/domain/pathways';
 import { buildRecord, type RecordView } from '../../src/domain/record';
 import { requirementProgress } from '../../src/domain/requirements';
-import {
-  Button,
-  Divider,
-  EmptyState,
-  IconButton,
-  Notice,
-  Screen,
-  SectionHeader,
-} from '../../src/ui/components';
-import { PressableScale } from '../../src/ui/press';
-import { space, type } from '../../src/ui/theme';
-import { useTheme } from '../../src/ui/useTheme';
+import { IconButton } from '../../src/ui/components';
+import { LabeledContent, NativeScreen, Value } from '../../src/ui/native';
 
 /**
  * Home answers one question: where am I academically right now.
  *
- * One number, the two credit totals kept apart, the courses being taken, and the
- * plan the rest of the app is measuring. Everything below the number is a row that
- * opens the place it came from.
+ * Drawn as a system form, like the rest of the reading screens: the headline number
+ * in a section of its own, then credits, the courses being taken, and the plan the
+ * rest of the app is measuring. Every row that leaves Home is a native button, so
+ * the whole screen has the platform's press behaviour rather than a bespoke one.
  */
 interface HomeState {
   record: RecordView;
@@ -59,10 +58,11 @@ interface HomeState {
   gpa: { value: number; label: string } | null;
 }
 
+const quiet = foregroundStyle({ type: 'hierarchical', style: 'secondary' });
+
 export default function Home() {
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
   const [data, setData] = useState<HomeState | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -117,7 +117,14 @@ export default function Home() {
 
   useFocusEffect(
     useCallback(() => {
-      void refresh();
+      let live = true;
+      void (async () => {
+        if (!live) return;
+        await refresh();
+      })();
+      return () => {
+        live = false;
+      };
     }, [refresh]),
   );
 
@@ -126,250 +133,180 @@ export default function Home() {
   const showVerdict = data != null && data.pace.state !== 'incomplete_setup';
 
   return (
-    <Screen scroll edges="tab" contentStyle={{ paddingBottom: space.xxxl }}>
-      <View
-        style={{
-          paddingHorizontal: space.xl,
-          paddingTop: space.md,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <Text style={[type.display, { color: palette.ink, flex: 1 }]} accessibilityRole="header">
-          Pace
-        </Text>
-        <IconButton
-          glyph="+"
-          symbol="doc.badge.plus"
-          label="Import a transcript"
-          tone="accent"
-          size={22}
-          onPress={() => router.push('/scan')}
-        />
-        <IconButton
-          glyph="⚙"
-          symbol="gearshape.fill"
-          label="Settings"
-          onPress={() => router.push('/settings')}
-        />
-      </View>
-
-      {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingTop: space.lg, gap: space.sm }}>
-          <Notice tone="danger" title="Your data could not be loaded" body={error} />
-          <Button title="Try Again" kind="secondary" compact onPress={() => void refresh()} />
+    <NativeScreen
+      topInset={false}
+      title="Pace"
+      right={
+        <View style={{ flexDirection: 'row' }}>
+          <IconButton
+            glyph="+"
+            symbol="doc.badge.plus"
+            label="Import a transcript"
+            tone="accent"
+            size={22}
+            onPress={() => router.push('/scan')}
+          />
+          <IconButton
+            glyph="⚙"
+            symbol="gearshape.fill"
+            label="Settings"
+            onPress={() => router.push('/settings')}
+          />
         </View>
+      }
+    >
+      {error ? (
+        <Section title="Your data could not be loaded">
+          <NativeText>{error}</NativeText>
+          <NativeButton
+            label="Try Again"
+            systemImage="arrow.clockwise"
+            onPress={() => void refresh()}
+          />
+        </Section>
       ) : null}
 
       {!error && data && data.record.courseCount === 0 ? (
-        <View style={{ paddingTop: space.xxl }}>
-          <EmptyState
-            title="No academics yet"
-            body="Import a transcript to begin."
-            action={<Button title="Import Transcript" onPress={() => router.push('/scan')} />}
+        <Section title="No academics yet">
+          <NativeText>Import a transcript to begin.</NativeText>
+          <NativeButton
+            label="Import Transcript"
+            systemImage="doc.badge.plus"
+            onPress={() => router.push('/scan')}
           />
-        </View>
+        </Section>
       ) : null}
 
       {!error && data && data.record.courseCount > 0 ? (
-        <View>
-          {/* The one number that matters, with what it rests on said quietly. */}
-          <View style={{ paddingHorizontal: space.xl, paddingTop: space.xl }}>
-            {showVerdict ? (
-              <PressableScale
-                accessibilityRole="button"
-                accessibilityLabel={issue ? issue.label : 'On pace'}
-                onPress={() => router.push('/requirements')}
-                style={{ marginBottom: space.md }}
-              >
-                <Text style={[type.label, { color: issue ? palette.warn : palette.accent }]}>
-                  {issue ? 'NEEDS ATTENTION' : 'ON PACE'}
-                </Text>
-                {issue ? (
-                  <Text style={[type.body, { color: palette.ink, marginTop: 2 }]} numberOfLines={2}>
-                    {issue.label}
-                  </Text>
-                ) : (
-                  <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
-                    {data.pace.pathwayName ?? 'Your plan'} reaches your targets
-                  </Text>
-                )}
-              </PressableScale>
-            ) : null}
+        <>
+          {showVerdict ? (
+            <Section
+              title={issue ? 'Needs attention' : 'On pace'}
+              footer={
+                <NativeText>
+                  {issue ? issue.label : `${data.pace.pathwayName ?? 'Your plan'} reaches your targets`}
+                </NativeText>
+              }
+            >
+              <NativeButton
+                label={issue ? 'Requirements' : 'View plan'}
+                systemImage={issue ? 'exclamationmark.triangle' : 'checkmark.circle'}
+                onPress={() => router.push(issue ? '/requirements' : '/plan')}
+              />
+            </Section>
+          ) : null}
 
-            {data.gpa ? (
-              <View>
-                <Text
-                  style={{
-                    fontSize: 44,
-                    lineHeight: 48,
-                    fontWeight: '600',
-                    letterSpacing: -1.4,
-                    fontVariant: ['tabular-nums'],
-                    color: palette.ink,
-                  }}
-                  numberOfLines={1}
-                  adjustsFontSizeToFit
+          {data.gpa ? (
+            <Section>
+              <VStack
+                alignment="leading"
+                spacing={2}
+                modifiers={[padding({ horizontal: 16, vertical: 8 })]}
+              >
+                <NativeText
+                  modifiers={[
+                    font({ textStyle: 'largeTitle', weight: 'bold', design: 'rounded' }),
+                    monospacedDigit(),
+                  ]}
                 >
                   {gpaValue(data.gpa.value)}
-                </Text>
-                <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
-                  {data.gpa.label}
-                </Text>
-              </View>
-            ) : null}
+                </NativeText>
+                <NativeText modifiers={[quiet]}>{data.gpa.label}</NativeText>
+              </VStack>
+            </Section>
+          ) : null}
 
-            <View style={{ flexDirection: 'row', marginTop: space.lg }}>
-              <Metric value={creditsValue(data.record.credits.earned)} label="Earned" />
-              <Metric value={creditsValue(data.record.credits.inProgress)} label="In Progress" />
-            </View>
-
+          <Section title="Credits">
+            <HStack spacing={24} modifiers={[padding({ vertical: 4 })]}>
+              <VStack alignment="leading" spacing={2}>
+                <NativeText
+                  modifiers={[font({ textStyle: 'title2', weight: 'semibold' }), monospacedDigit()]}
+                >
+                  {creditsValue(data.record.credits.earned)}
+                </NativeText>
+                <NativeText modifiers={[quiet]}>Earned</NativeText>
+              </VStack>
+              <VStack alignment="leading" spacing={2}>
+                <NativeText
+                  modifiers={[font({ textStyle: 'title2', weight: 'semibold' }), monospacedDigit()]}
+                >
+                  {creditsValue(data.record.credits.inProgress)}
+                </NativeText>
+                <NativeText modifiers={[quiet]}>In Progress</NativeText>
+              </VStack>
+            </HStack>
             {!data.hasTargets ? (
-              <PressableScale
-                accessibilityRole="button"
-                accessibilityLabel="Set targets"
+              <NativeButton
+                label="Set Targets"
+                systemImage="target"
                 onPress={() => router.push('/targets')}
-                style={{ paddingVertical: space.sm }}
-              >
-                <Text style={[type.caption, { color: palette.accent, fontWeight: '600' }]}>
-                  Set Targets
-                </Text>
-              </PressableScale>
+              />
             ) : null}
-          </View>
+          </Section>
 
           {current.length ? (
-            <View>
-              <SectionHeader
-                right={
-                  <Text style={[type.caption, { color: palette.inkFaint }]}>
-                    {data.record.current.length}
-                  </Text>
-                }
-              >
-                Current
-              </SectionHeader>
-              <View style={{ paddingHorizontal: space.xl }}>
-                {current.map((course, index) => (
-                  <View key={course.id}>
-                    {index > 0 ? <Divider /> : null}
-                    <CourseRowRow
-                      course={course}
-                      onPress={() => router.push(`/course/${course.id}`)}
-                    />
-                  </View>
-                ))}
-                <Divider />
-                <PressableScale
-                  accessibilityRole="button"
-                  accessibilityLabel="See all current courses"
-                  onPress={() => router.push('/academics')}
-                  style={{ paddingVertical: space.md }}
+            <Section
+              title="Current"
+              footer={<NativeText>{`${data.record.current.length} in progress`}</NativeText>}
+            >
+              {current.map((course) => (
+                <NativeButton
+                  key={course.id}
+                  onPress={() => router.push(`/course/${course.id}`)}
                 >
-                  <Text style={[type.caption, { color: palette.accent, fontWeight: '600' }]}>
-                    See All
-                  </Text>
-                </PressableScale>
-              </View>
-            </View>
+                  <HStack spacing={8}>
+                    <NativeText>{course.title ?? course.code ?? 'Course'}</NativeText>
+                    <Spacer />
+                    <NativeText modifiers={[quiet]}>{creditsValue(course.credits)}</NativeText>
+                  </HStack>
+                </NativeButton>
+              ))}
+              <NativeButton
+                label="See All"
+                systemImage="chevron.right"
+                onPress={() => router.push('/academics')}
+              />
+            </Section>
           ) : null}
 
           {data.pathway ? (
-            <View>
-              <SectionHeader>Plan</SectionHeader>
-              <View style={{ paddingHorizontal: space.xl }}>
-                <PressableScale
-                  accessibilityRole="button"
-                  accessibilityLabel={`Open plan ${data.pathway.pathway.name}`}
-                  onPress={() => router.push('/plan')}
-                  style={{ paddingVertical: space.md }}
-                >
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-                    <Text style={[type.body, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-                      {data.pathway.pathway.name}
-                    </Text>
-                    <Text style={[type.caption, { color: palette.inkMuted }]} numberOfLines={1}>
-                      {[
-                        data.pathway.gpa.weighted != null
-                          ? `${gpaValue(data.pathway.gpa.weighted)} projected`
-                          : null,
-                        `${creditsValue(data.pathway.credits.all)} credits`,
-                      ]
-                        .filter(Boolean)
-                        .join(' · ')}
-                    </Text>
-                  </View>
-                </PressableScale>
-              </View>
-            </View>
+            <Section
+              title="Plan"
+              footer={
+                <NativeText>
+                  {[
+                    data.pathway.gpa.weighted != null
+                      ? `${gpaValue(data.pathway.gpa.weighted)} projected`
+                      : null,
+                    `${creditsValue(data.pathway.credits.all)} credits`,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
+                </NativeText>
+              }
+            >
+              <NativeButton
+                label={data.pathway.pathway.name}
+                systemImage="map"
+                onPress={() => router.push('/plan')}
+              />
+            </Section>
           ) : null}
 
           {data.transcript ? (
-            <View style={{ paddingHorizontal: space.xl, marginTop: space.xl }}>
-              <Divider />
-              <PressableScale
-                accessibilityRole="button"
-                accessibilityLabel="Open the imported transcript"
+            <Section>
+              <LabeledContent label="Transcript">
+                <Value>{data.transcript.student_name ?? 'Imported'}</Value>
+              </LabeledContent>
+              <NativeButton
+                label="Open Transcript"
+                systemImage="doc.text"
                 onPress={() => router.push('/transcript')}
-                style={{ paddingVertical: space.md }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-                  <Text style={[type.body, { color: palette.ink, flex: 1 }]}>Transcript</Text>
-                  <Text style={[type.caption, { color: palette.inkMuted }]}>
-                    {data.transcript.student_name ?? 'Imported'}
-                  </Text>
-                </View>
-              </PressableScale>
-              <Divider />
-            </View>
+              />
+            </Section>
           ) : null}
-        </View>
+        </>
       ) : null}
-    </Screen>
-  );
-}
-
-function CourseRowRow({ course, onPress }: { course: CourseRow; onPress: () => void }) {
-  const { palette } = useTheme();
-  return (
-    <PressableScale
-      accessibilityRole="button"
-      accessibilityLabel={`Open ${course.title ?? 'course'}`}
-      onPress={onPress}
-      style={{ paddingVertical: space.md }}
-    >
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-        <Text style={[type.body, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-          {course.title ?? course.code ?? 'Course'}
-        </Text>
-        <Text style={[type.caption, { color: palette.inkMuted }]}>{creditsValue(course.credits)}</Text>
-      </View>
-    </PressableScale>
-  );
-}
-
-/** One number and its label: the number is 30pt, the label is quiet. */
-function Metric({ value, label }: { value: string; label: string }) {
-  const { palette } = useTheme();
-  return (
-    <View style={{ flex: 1, paddingRight: space.sm }}>
-      <Text
-        style={{
-          fontSize: 30,
-          lineHeight: 34,
-          fontWeight: '600',
-          letterSpacing: -0.8,
-          fontVariant: ['tabular-nums'],
-          color: palette.ink,
-        }}
-        numberOfLines={1}
-        adjustsFontSizeToFit
-      >
-        {value}
-      </Text>
-      <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]} numberOfLines={1}>
-        {label}
-      </Text>
-    </View>
+    </NativeScreen>
   );
 }

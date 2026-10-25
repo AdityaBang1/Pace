@@ -1,13 +1,26 @@
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Alert } from 'react-native';
 
-import { readStructure, saveTestScore, deleteTestScore, type TestSection } from '../../src/database/academicRepo';
-import { Button, Chip, Notice, PageHeader, Screen, SectionHeader } from '../../src/ui/components';
-import { hairline, radius, space, type } from '../../src/ui/theme';
-import { useTheme } from '../../src/ui/useTheme';
+import {
+  Button as NativeButton,
+  Picker,
+  Section,
+  Text as NativeText,
+  TextField,
+  type TextFieldRef,
+} from '@expo/ui/swift-ui';
+import { disabled, tag } from '@expo/ui/swift-ui/modifiers';
+
+import {
+  deleteTestScore,
+  readStructure,
+  saveTestScore,
+  type TestSection,
+} from '../../src/database/academicRepo';
+import { NativeScreen } from '../../src/ui/native';
 
 const KINDS = ['SAT', 'ACT', 'PSAT', 'AP', 'Custom'] as const;
 
@@ -16,7 +29,6 @@ export default function TestEditor() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
 
   const [kind, setKind] = useState<string>('SAT');
   const [name, setName] = useState('');
@@ -31,13 +43,36 @@ export default function TestEditor() {
   const [notes, setNotes] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hydrated, setHydrated] = useState(false);
+
+  const nameRef = useRef<TextFieldRef>(null);
+  const dateRef = useRef<TextFieldRef>(null);
+  const totalRef = useRef<TextFieldRef>(null);
+  const maxRef = useRef<TextFieldRef>(null);
+  const notesRef = useRef<TextFieldRef>(null);
+  const sectionRefs = [
+    useRef<TextFieldRef>(null),
+    useRef<TextFieldRef>(null),
+    useRef<TextFieldRef>(null),
+  ];
+  const scoreRefs = [
+    useRef<TextFieldRef>(null),
+    useRef<TextFieldRef>(null),
+    useRef<TextFieldRef>(null),
+  ];
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      setHydrated(true);
+      return;
+    }
     void (async () => {
       const structure = await readStructure(db);
       const test = structure.tests.find((row) => row.id === id);
-      if (!test) return;
+      if (!test) {
+        setHydrated(true);
+        return;
+      }
       setKind(test.kind);
       setName(test.name);
       setTakenOn(test.taken_on ?? '');
@@ -53,8 +88,25 @@ export default function TestEditor() {
       } catch {
         // A score with unreadable sections is still editable; the fields stay empty.
       }
+      setHydrated(true);
     })();
   }, [db, id]);
+
+  // Push the loaded values into the native fields once; after that the fields report
+  // every keystroke and the state above stays the source of truth for saving.
+  useEffect(() => {
+    if (!hydrated) return;
+    void nameRef.current?.setText(name);
+    void dateRef.current?.setText(takenOn);
+    void totalRef.current?.setText(total);
+    void maxRef.current?.setText(max);
+    void notesRef.current?.setText(notes);
+    sections.forEach((row, index) => {
+      void sectionRefs[index].current?.setText(row.name);
+      void scoreRefs[index].current?.setText(row.score);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated]);
 
   const valid = name.trim().length > 0;
 
@@ -97,122 +149,79 @@ export default function TestEditor() {
     ]);
   };
 
-  return (
-    <Screen scroll edges="none">
-      <PageHeader title={id ? 'Edit Score' : 'New Score'} onBack={() => router.back()} />
+  const updateSection = (index: number, patch: Partial<TestSection>) => {
+    setSections((current) => current.map((row, at) => (at === index ? { ...row, ...patch } : row)));
+  };
 
+  return (
+    <NativeScreen topInset={false} title={id ? 'Edit Score' : 'New Score'} onBack={() => router.back()}>
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md }}>
-          <Notice tone="danger" body={error} />
-        </View>
+        <Section title="Error">
+          <NativeText>{error}</NativeText>
+        </Section>
       ) : null}
 
-      <SectionHeader>TYPE</SectionHeader>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, paddingHorizontal: space.xl }}>
-        {KINDS.map((option) => (
-          <Chip
-            key={option}
-            label={option}
-            selected={kind === option}
-            onPress={() => {
-              setKind(option);
-              if (!name.trim() || KINDS.includes(name.trim() as (typeof KINDS)[number])) setName(option);
-            }}
+      <Section title="Type">
+        <Picker
+          label="Kind"
+          selection={kind}
+          onSelectionChange={(value) => {
+            const next = String(value);
+            setKind(next);
+            const trimmed = name.trim();
+            if (!trimmed || (KINDS as readonly string[]).includes(trimmed)) {
+              setName(next);
+              void nameRef.current?.setText(next);
+            }
+          }}
+        >
+          {KINDS.map((option) => (
+            <NativeText key={option} modifiers={[tag(option)]}>
+              {option}
+            </NativeText>
+          ))}
+        </Picker>
+      </Section>
+
+      <Section title="Score">
+        <TextField ref={nameRef} placeholder="SAT" onTextChange={setName} />
+        <TextField ref={dateRef} placeholder="2026-10-05" onTextChange={setTakenOn} />
+        <TextField ref={totalRef} placeholder="Total" onTextChange={setTotal} />
+        <TextField ref={maxRef} placeholder="Out of" onTextChange={setMax} />
+      </Section>
+
+      {sections.map((section, index) => (
+        <Section key={`section-${index}`} title={`Section ${index + 1}`}>
+          <TextField
+            ref={sectionRefs[index]}
+            placeholder="Math"
+            onTextChange={(value) => updateSection(index, { name: value })}
           />
-        ))}
-      </View>
+          <TextField
+            ref={scoreRefs[index]}
+            placeholder="Score"
+            onTextChange={(value) => updateSection(index, { score: value })}
+          />
+        </Section>
+      ))}
 
-      <SectionHeader>SCORE</SectionHeader>
-      <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-        <Field label="Name" value={name} onChange={setName} placeholder="SAT" />
-        <Field label="Date" value={takenOn} onChange={setTakenOn} placeholder="2026-10-05" />
-        <View style={{ flexDirection: 'row', gap: space.md }}>
-          <View style={{ flex: 1 }}>
-            <Field label="Total" value={total} onChange={setTotal} keyboard="number-pad" />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Field label="Out of" value={max} onChange={setMax} keyboard="number-pad" />
-          </View>
-        </View>
-      </View>
+      <Section title="Notes">
+        <TextField ref={notesRef} placeholder="Optional" onTextChange={setNotes} />
+      </Section>
 
-      <SectionHeader>SECTIONS</SectionHeader>
-      <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-        {sections.map((section, index) => (
-          <View key={`section-${index}`} style={{ flexDirection: 'row', gap: space.md }}>
-            <View style={{ flex: 2 }}>
-              <Field
-                label={index === 0 ? 'Section' : ' '}
-                value={section.name}
-                onChange={(value) =>
-                  setSections(sections.map((row, at) => (at === index ? { ...row, name: value } : row)))
-                }
-                placeholder="Math"
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Field
-                label={index === 0 ? 'Score' : ' '}
-                value={section.score}
-                onChange={(value) =>
-                  setSections(sections.map((row, at) => (at === index ? { ...row, score: value } : row)))
-                }
-                keyboard="number-pad"
-              />
-            </View>
-          </View>
-        ))}
-      </View>
+      <Section>
+        <NativeButton
+          label={saving ? 'Saving…' : 'Save'}
+          onPress={() => void save()}
+          modifiers={[disabled(!valid || saving)]}
+        />
+      </Section>
 
-      <View style={{ paddingHorizontal: space.xl, paddingTop: space.lg, gap: space.md }}>
-        <Button title="Save" onPress={() => void save()} disabled={!valid} loading={saving} />
-        {id ? <Button title="Delete" kind="quiet" onPress={remove} /> : null}
-      </View>
-    </Screen>
+      {id ? (
+        <Section>
+          <NativeButton label="Delete Score" role="destructive" systemImage="trash" onPress={remove} />
+        </Section>
+      ) : null}
+    </NativeScreen>
   );
 }
-
-function Field({
-  label,
-  value,
-  onChange,
-  placeholder,
-  keyboard,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  keyboard?: 'default' | 'number-pad';
-}) {
-  const { palette } = useTheme();
-  return (
-    <View>
-      <Text style={[type.caption, { color: palette.inkFaint, marginBottom: 4 }]} numberOfLines={1}>
-        {label}
-      </Text>
-      <TextInput
-        value={value}
-        onChangeText={onChange}
-        placeholder={placeholder}
-        placeholderTextColor={palette.inkFaint}
-        keyboardType={keyboard === 'number-pad' ? 'number-pad' : 'default'}
-        style={[
-          styles.input,
-          type.body,
-          { color: palette.ink, borderColor: palette.line, backgroundColor: palette.surface },
-        ]}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  input: {
-    minHeight: 44,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    borderRadius: radius.md,
-    borderWidth: hairline,
-  },
-});

@@ -1,8 +1,14 @@
+import {
+  Button as NativeButton,
+  TextField,
+  type TextFieldRef,
+} from '@expo/ui/swift-ui';
+import { disabled, foregroundStyle } from '@expo/ui/swift-ui/modifiers';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
-import { Alert, Text, TextInput, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Alert } from 'react-native';
 
 import {
   deleteSchedule,
@@ -13,15 +19,7 @@ import {
   type AcademicYearRow,
   type ScheduleRow,
 } from '../../src/database/academicRepo';
-import {
-  Button,
-  Chip,
-  Notice,
-  PageHeader,
-  Screen,
-  SectionHeader,
-} from '../../src/ui/components';
-import { hairline, radius, space, type } from '../../src/ui/theme';
+import { NativeScreen, NativeText, Section } from '../../src/ui/native';
 import { useTheme } from '../../src/ui/useTheme';
 
 /**
@@ -47,6 +45,8 @@ export default function ScheduleEditor() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const nameRef = useRef<TextFieldRef>(null);
+
   useEffect(() => {
     void (async () => {
       const structure = await readStructure(db);
@@ -55,8 +55,11 @@ export default function ScheduleEditor() {
       const row = target ? (structure.schedules.find((item) => item.id === target) ?? null) : null;
       setSource(row);
       if (row) {
-        setName(duplicateFrom ? `${row.name} Copy` : row.name);
+        const nextName = duplicateFrom ? `${row.name} Copy` : row.name;
+        setName(nextName);
         setYear(row.academic_year_id);
+        // The field is mounted with the sheet, so it can be filled once the row is read.
+        void nameRef.current?.setText(nextName);
       } else if (!year) {
         setYear(
           structure.years.find((item) => item.status === 'current')?.id ??
@@ -119,79 +122,56 @@ export default function ScheduleEditor() {
   const title = duplicateFrom ? 'Duplicate' : saveAs ? 'Save as Schedule' : id ? 'Edit Schedule' : 'New Schedule';
 
   return (
-    <Screen scroll edges="none">
-      <PageHeader title={title} onBack={() => router.back()} />
-
+    <NativeScreen title={title} onBack={() => router.back()}>
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md }}>
-          <Notice tone="danger" title="Couldn't save" body={error} />
-        </View>
+        <Section>
+          <NativeText modifiers={[foregroundStyle(palette.danger)]}>{error}</NativeText>
+        </Section>
       ) : null}
 
-      <SectionHeader>Name</SectionHeader>
-      <View style={{ paddingHorizontal: space.xl }}>
-        <TextInput
-          value={name}
-          onChangeText={setName}
+      <Section title="Name">
+        <TextField
+          ref={nameRef}
           placeholder="Main"
-          placeholderTextColor={palette.inkFaint}
           autoFocus={!id && !duplicateFrom}
-          returnKeyType="done"
-          style={[
-            type.body,
-            {
-              color: palette.ink,
-              backgroundColor: palette.surface,
-              borderWidth: hairline,
-              borderColor: palette.line,
-              borderRadius: radius.md,
-              paddingHorizontal: space.lg,
-              paddingVertical: space.md,
-            },
-          ]}
+          onTextChange={setName}
         />
-      </View>
+      </Section>
 
       {!id && !duplicateFrom ? (
-        <>
-          <SectionHeader>Year</SectionHeader>
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              gap: space.sm,
-              paddingHorizontal: space.xl,
-            }}
-          >
-            {years.map((row) => (
-              <Chip
-                key={row.id}
-                label={row.name}
-                selected={year === row.id}
-                onPress={() => setYear(row.id)}
-              />
-            ))}
-            {years.length === 0 ? (
-              <Text style={[type.caption, { color: palette.inkMuted }]}>
-                Add an academic year first.
-              </Text>
-            ) : null}
-          </View>
-        </>
+        <Section title="Year">
+          {years.map((row) => (
+            <NativeButton
+              key={row.id}
+              label={row.name}
+              onPress={() => setYear(row.id)}
+              systemImage={year === row.id ? 'checkmark' : undefined}
+            />
+          ))}
+          {years.length === 0 ? <NativeText>Add an academic year first.</NativeText> : null}
+        </Section>
       ) : null}
 
-      <View style={{ paddingHorizontal: space.xl, paddingTop: space.xl, gap: space.md }}>
-        <Button
-          title={duplicateFrom ? 'Duplicate' : 'Save'}
+      <Section>
+        <NativeButton
+          label={duplicateFrom ? 'Duplicate' : 'Save'}
+          systemImage="checkmark"
+          modifiers={[disabled(!canSave || saving)]}
           onPress={() => void save()}
-          disabled={!canSave}
-          loading={saving}
         />
         {id && source && source.is_main !== 1 ? (
-          <Button title="Make Main" kind="secondary" onPress={makeMain} />
+          <NativeButton label="Make Main" systemImage="star" onPress={makeMain} />
         ) : null}
-        {id && source ? <Button title="Delete" kind="quiet" onPress={remove} /> : null}
-      </View>
-    </Screen>
+        {id && source ? (
+          <NativeButton label="Delete" role="destructive" onPress={remove} />
+        ) : null}
+      </Section>
+
+      {saving ? (
+        <Section>
+          <NativeText>Saving…</NativeText>
+        </Section>
+      ) : null}
+    </NativeScreen>
   );
 }

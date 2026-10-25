@@ -1,8 +1,17 @@
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Alert } from 'react-native';
+
+import {
+  Button as NativeButton,
+  Section,
+  Text as NativeText,
+  TextField,
+  type TextFieldRef,
+} from '@expo/ui/swift-ui';
+import { disabled } from '@expo/ui/swift-ui/modifiers';
 
 import {
   deleteRequirement,
@@ -14,9 +23,7 @@ import {
 } from '../../src/database/academicRepo';
 import { listCourses, type CourseRow } from '../../src/database/repo';
 import { statusOf } from '../../src/domain/record';
-import { Button, Chip, Notice, PageHeader, Screen, SectionHeader } from '../../src/ui/components';
-import { hairline, radius, space, type } from '../../src/ui/theme';
-import { useTheme } from '../../src/ui/useTheme';
+import { NativeScreen } from '../../src/ui/native';
 
 /**
  * One requirement: a name, a credit goal, and the courses that count towards it.
@@ -28,7 +35,6 @@ export default function RequirementEditor() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
 
   const [structure, setStructure] = useState<AcademicStructure | null>(null);
   const [courses, setCourses] = useState<CourseRow[]>([]);
@@ -38,6 +44,10 @@ export default function RequirementEditor() {
   const [selected, setSelected] = useState<string[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hydrated, setHydrated] = useState(false);
+
+  const nameRef = useRef<TextFieldRef>(null);
+  const creditsRef = useRef<TextFieldRef>(null);
 
   useEffect(() => {
     void (async () => {
@@ -54,8 +64,17 @@ export default function RequirementEditor() {
         }
         setSelected(next.links[id] ?? []);
       }
+      setHydrated(true);
     })();
   }, [db, id]);
+
+  // A SwiftUI field owns its text, so the stored values are pushed in once.
+  useEffect(() => {
+    if (!hydrated) return;
+    void nameRef.current?.setText(name);
+    void creditsRef.current?.setText(credits);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated]);
 
   const value = Number(credits.replace(',', '.'));
   const valid = name.trim().length > 0 && Number.isFinite(value) && value > 0;
@@ -122,85 +141,61 @@ export default function RequirementEditor() {
     .filter((group) => group.rows.length > 0);
 
   return (
-    <Screen scroll edges="none">
-      <PageHeader title={id ? 'Edit Requirement' : 'New Requirement'} onBack={() => router.back()} />
-
+    <NativeScreen
+      topInset={false}
+      title={id ? 'Edit Requirement' : 'New Requirement'}
+      onBack={() => router.back()}
+    >
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md }}>
-          <Notice tone="danger" body={error} />
-        </View>
+        <Section title="Error">
+          <NativeText>{error}</NativeText>
+        </Section>
       ) : null}
 
-      <View style={{ paddingHorizontal: space.xl, gap: space.md, paddingTop: space.sm }}>
-        <View>
-          <Text style={[type.caption, { color: palette.inkFaint, marginBottom: 4 }]}>Name</Text>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            placeholder="Math"
-            placeholderTextColor={palette.inkFaint}
-            style={[
-              styles.input,
-              type.body,
-              { color: palette.ink, borderColor: palette.line, backgroundColor: palette.surface },
-            ]}
-          />
-        </View>
-        <View>
-          <Text style={[type.caption, { color: palette.inkFaint, marginBottom: 4 }]}>Credits required</Text>
-          <TextInput
-            value={credits}
-            onChangeText={setCredits}
-            placeholder="4.0"
-            keyboardType="decimal-pad"
-            placeholderTextColor={palette.inkFaint}
-            style={[
-              styles.input,
-              type.number,
-              { color: palette.ink, borderColor: palette.line, backgroundColor: palette.surface },
-            ]}
-          />
-        </View>
-      </View>
+      <Section title="Requirement">
+        <TextField ref={nameRef} placeholder="Math" onTextChange={setName} />
+        <TextField ref={creditsRef} placeholder="4.0" onTextChange={setCredits} />
+      </Section>
 
-      <SectionHeader>COURSES</SectionHeader>
-      {grouped.map((group) => (
-        <View key={group.year.id} style={{ paddingHorizontal: space.xl, paddingBottom: space.md }}>
-          <Text style={[type.caption, { color: palette.inkFaint, marginBottom: space.xs }]} numberOfLines={1}>
-            {group.year.name}
-          </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
-            {group.rows.map((course) => (
-              <Chip
-                key={course.id}
-                label={course.title ?? course.code ?? 'Course'}
-                selected={selected.includes(course.id)}
-                onPress={() => toggle(course.id)}
-              />
-            ))}
-          </View>
-        </View>
-      ))}
-      {!grouped.length ? (
-        <View style={{ paddingHorizontal: space.xl }}>
-          <Text style={[type.caption, { color: palette.inkMuted }]}>No courses to map yet.</Text>
-        </View>
+      {grouped.length ? (
+        grouped.map((group) => (
+          <Section key={group.year.id} title={group.year.name}>
+            {group.rows.map((course) => {
+              const isSelected = selected.includes(course.id);
+              return (
+                <NativeButton
+                  key={course.id}
+                  label={`${course.title ?? course.code ?? 'Course'}${isSelected ? '  ✓' : ''}`}
+                  onPress={() => toggle(course.id)}
+                />
+              );
+            })}
+          </Section>
+        ))
+      ) : (
+        <Section title="Courses">
+          <NativeText>No courses to map yet.</NativeText>
+        </Section>
+      )}
+
+      <Section>
+        <NativeButton
+          label={saving ? 'Saving…' : 'Save'}
+          onPress={() => void save()}
+          modifiers={[disabled(!valid || saving)]}
+        />
+      </Section>
+
+      {id ? (
+        <Section>
+          <NativeButton
+            label="Delete Requirement"
+            role="destructive"
+            systemImage="trash"
+            onPress={remove}
+          />
+        </Section>
       ) : null}
-
-      <View style={{ paddingHorizontal: space.xl, paddingTop: space.lg, gap: space.md }}>
-        <Button title="Save" onPress={() => void save()} disabled={!valid} loading={saving} />
-        {id ? <Button title="Delete" kind="quiet" onPress={remove} /> : null}
-      </View>
-    </Screen>
+    </NativeScreen>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    minHeight: 44,
-    paddingHorizontal: space.md,
-    paddingVertical: space.sm,
-    borderRadius: radius.md,
-    borderWidth: hairline,
-  },
-});

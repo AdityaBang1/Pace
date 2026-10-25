@@ -1,3 +1,4 @@
+import { Button as NativeButton, LabeledContent, Section, Text as NativeText } from '@expo/ui/swift-ui';
 import * as Haptics from 'expo-haptics';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -14,21 +15,28 @@ import {
 } from '../../src/database/academicRepo';
 import { listCourses, readGpaScaleValue, type CourseRow } from '../../src/database/repo';
 import { creditsValue, gpaValue } from '../../src/domain/academics';
-import { parseScale, levelLabel, type GpaScale } from '../../src/domain/gpa';
-import { buildRecord, statusLabel, type ScheduleView, type YearView } from '../../src/domain/record';
-import { Button, EmptyState, IconButton, Notice, PageHeader, Screen } from '../../src/ui/components';
+import { parseScale, type GpaScale } from '../../src/domain/gpa';
+import {
+  buildRecord,
+  statusLabel,
+  statusOf,
+  type ScheduleView,
+  type YearView,
+} from '../../src/domain/record';
+import { IconButton } from '../../src/ui/components';
+import { NativeScreen, Value } from '../../src/ui/native';
 import { PressableScale } from '../../src/ui/press';
-import { hairline, radius, space, type } from '../../src/ui/theme';
+import { radius, space, type } from '../../src/ui/theme';
 import { useTheme } from '../../src/ui/useTheme';
 
 const ALL_TERMS = 'all';
 
 /**
- * The academic workspace.
+ * The academic record, scoped to one year, one of its schedules and a term.
  *
- * One scope (a year, one of its schedules, a term) and the courses inside it, as
- * tiles a person can reorganise and edit. Everything else — the record, requirements,
- * scores — is one tap away, because the grid is what a student comes here for.
+ * Native sections replace the old tile grid: a student scanning their record wants
+ * the mark against the course, not a card to rearrange. The scope stays a system
+ * modal because picking a term should return to this list, not stack a screen.
  */
 export default function Academics() {
   const db = useSQLiteContext();
@@ -99,6 +107,29 @@ export default function Academics() {
     return schedule.courses.filter((course) => course.academic_term_id === term.id);
   }, [schedule, term]);
 
+  /** Current courses first, then one group per printed term, each keeping its order. */
+  const groups = useMemo(() => {
+    const current = visible.filter((course) => statusOf(course) === 'current');
+    const finished = visible.filter((course) => statusOf(course) !== 'current');
+    const byTerm = new Map<string, CourseRow[]>();
+    for (const course of finished) {
+      const key = course.academic_term_id ?? '';
+      byTerm.set(key, [...(byTerm.get(key) ?? []), course]);
+    }
+    const ordered = [...byTerm.entries()].sort((left, right) => {
+      const order = (id: string) =>
+        year?.terms.findIndex((row) => row.id === id) ?? Number.MAX_SAFE_INTEGER;
+      return order(left[0]) - order(right[0]);
+    });
+    const out: { key: string; title: string; courses: CourseRow[] }[] = [];
+    if (current.length) out.push({ key: 'current', title: 'Current', courses: current });
+    for (const [key, list] of ordered) {
+      const label = year?.terms.find((row) => row.id === key)?.name ?? 'No term';
+      out.push({ key: key || 'none', title: label, courses: list });
+    }
+    return out;
+  }, [visible, year]);
+
   const addMenu = () => {
     if (!year || !schedule) return;
     Alert.alert('Add', undefined, [
@@ -116,207 +147,146 @@ export default function Academics() {
     ]);
   };
 
-  const termName = (course: CourseRow): string | null => {
-    if (!course.academic_term_id) return null;
-    return structure?.terms.find((row) => row.id === course.academic_term_id)?.name ?? null;
+  const addCourse = () => {
+    if (year && schedule) {
+      router.push(`/editors/course?mode=add&scheduleId=${schedule.schedule.id}&yearId=${year.year.id}`);
+      return;
+    }
+    router.push('/editors/year');
   };
 
   const gpa = schedule?.gpa.weighted ?? year?.gpa.weighted ?? null;
   const unweighted = schedule?.gpa.unweighted ?? year?.gpa.unweighted ?? null;
   const credits = schedule?.credits ?? year?.credits ?? { earned: 0, inProgress: 0, planned: 0, all: 0 };
+  const scopeLabel = [year?.year.name ?? 'Year', schedule?.schedule.name ?? 'Schedule', term?.name]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
-    <Screen edges="tab" scroll>
-      <PageHeader
+    <>
+      <NativeScreen
+        topInset={false}
         title="Academics"
         right={
           <IconButton glyph="+" symbol="plus" label="Add" size={22} onPress={addMenu} tone="accent" />
         }
-      />
+      >
+        {error ? (
+          <Section title="Couldn't load courses">
+            <NativeText>{error}</NativeText>
+            <NativeButton label="Try Again" systemImage="arrow.clockwise" onPress={() => void refresh()} />
+          </Section>
+        ) : null}
 
-      {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md, gap: space.sm }}>
-          <Notice tone="danger" title="Couldn't load courses" body={error} />
-          <Button title="Try Again" kind="secondary" compact onPress={() => void refresh()} />
-        </View>
-      ) : null}
-
-      {!record || record.years.length === 0 ? (
-        error ? null : (
-          <EmptyState
-            title="No courses"
-            body="Import a transcript, or add a course."
-            action={
-              <View style={{ flexDirection: 'row', gap: space.sm }}>
-                <Button title="Import" onPress={() => router.push('/scan')} />
-                <Button title="Add Year" kind="quiet" onPress={() => router.push('/editors/year')} />
-              </View>
-            }
-          />
-        )
-      ) : (
-        <>
-          <PressableScale
-            accessibilityRole="button"
-            accessibilityLabel="Change year, schedule and term"
-            onPress={() => {
-              Haptics.selectionAsync().catch(() => {});
-              setScopeOpen(true);
-            }}
-            style={{ paddingHorizontal: space.xl, paddingBottom: space.md }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.sm }}>
-              <Text style={[type.bodyStrong, { color: palette.ink }]} numberOfLines={1}>
-                {year?.year.name ?? 'Year'}
-              </Text>
-              <Text style={[type.caption, { color: palette.inkMuted, flexShrink: 1 }]} numberOfLines={1}>
-                {schedule?.schedule.name ?? 'Schedule'}
-                {term ? ` · ${term.name}` : ''}
-              </Text>
-              <Text style={{ color: palette.inkFaint, fontSize: 13 }}>⌄</Text>
-            </View>
-          </PressableScale>
-
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingHorizontal: space.xl,
-              paddingBottom: space.lg,
-              borderBottomWidth: hairline,
-              borderBottomColor: palette.line,
-              gap: space.xl,
-            }}
-          >
-            <Metric
-              value={gpaValue(gpa)}
-              label={unweighted != null ? 'Weighted · Calculated' : 'Calculated GPA'}
-            />
-            {unweighted != null ? <Metric value={gpaValue(unweighted)} label="Unweighted" /> : null}
-            <Metric value={creditsValue(credits.earned)} label="Earned" />
-            <Metric value={creditsValue(credits.inProgress)} label="In Progress" />
-          </View>
-
-          {gpa == null ? (
-            <View style={{ paddingHorizontal: space.xl, paddingTop: space.md }}>
-              <PressableScale
-                accessibilityRole="button"
-                onPress={() => router.push('/gpa-scale')}
-              >
-                <Text style={[type.caption, { color: palette.accent }]}>Set GPA Scale</Text>
-              </PressableScale>
-            </View>
-          ) : null}
-
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingHorizontal: space.xl,
-              paddingTop: space.lg,
-              gap: space.lg,
-            }}
-          >
-            <Text
-              accessibilityRole="button"
-              onPress={() => router.push('/academic-record')}
-              style={[type.caption, { color: palette.accent }]}
-            >
-              Record
-            </Text>
-            <Text
-              accessibilityRole="button"
-              onPress={() => router.push('/requirements')}
-              style={[type.caption, { color: palette.accent }]}
-            >
-              Requirements
-            </Text>
-            <Text
-              accessibilityRole="button"
-              onPress={() => router.push('/tests')}
-              style={[type.caption, { color: palette.accent }]}
-            >
-              Tests
-            </Text>
-          </View>
-
-          {visible.length === 0 ? (
-            <View style={{ paddingHorizontal: space.xl, paddingTop: space.xl, gap: space.sm }}>
-              <Text style={[type.body, { color: palette.inkMuted }]}>No courses</Text>
-              <Button
-                title="Add Course"
-                kind="quiet"
-                compact
-                onPress={() =>
-                  year && schedule
-                    ? router.push(
-                        `/editors/course?mode=add&scheduleId=${schedule.schedule.id}&yearId=${year.year.id}`,
-                      )
-                    : router.push('/editors/year')
-                }
+        {!record || record.years.length === 0 ? (
+          error ? null : (
+            <Section title="No courses">
+              <NativeText>Import a transcript, or start with a year.</NativeText>
+              <NativeButton
+                label="Import Transcript"
+                systemImage="doc.badge.plus"
+                onPress={() => router.push('/scan')}
               />
-            </View>
-          ) : (
-            <View
-              style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                gap: space.md,
-                paddingHorizontal: space.xl,
-                paddingTop: space.lg,
-              }}
-            >
-              {visible.map((course) => (
-                <PressableScale
-                  key={course.id}
-                  accessibilityLabel={`${course.title ?? 'Course'}, ${statusLabel(course)}`}
-                  onPress={() => router.push(`/course/${course.id}`)}
-                  onLongPress={() => router.push(`/editors/course?id=${course.id}`)}
-                  style={{ flexBasis: '48%', flexGrow: 1 }}
+              <NativeButton
+                label="Add Year"
+                systemImage="calendar.badge.plus"
+                onPress={() => router.push('/editors/year')}
+              />
+            </Section>
+          )
+        ) : (
+          <>
+            <Section title="Scope">
+              <NativeButton
+                label={scopeLabel}
+                systemImage="chevron.up.chevron.down"
+                onPress={() => {
+                  Haptics.selectionAsync().catch(() => {});
+                  setScopeOpen(true);
+                }}
+              />
+            </Section>
+
+            <Section title="Record">
+              <LabeledContent label="Weighted">
+                <Value>{gpaValue(gpa)}</Value>
+              </LabeledContent>
+              {unweighted != null ? (
+                <LabeledContent label="Unweighted">
+                  <Value>{gpaValue(unweighted)}</Value>
+                </LabeledContent>
+              ) : null}
+              <LabeledContent label="Earned">
+                <Value>{creditsValue(credits.earned)}</Value>
+              </LabeledContent>
+              <LabeledContent label="In progress">
+                <Value>{creditsValue(credits.inProgress)}</Value>
+              </LabeledContent>
+              {gpa == null ? (
+                <NativeButton
+                  label="Set GPA Scale"
+                  systemImage="percent"
+                  onPress={() => router.push('/gpa-scale')}
+                />
+              ) : null}
+            </Section>
+
+            <Section title="More">
+              <NativeButton
+                label="Record"
+                systemImage="list.bullet.rectangle"
+                onPress={() => router.push('/academic-record')}
+              />
+              <NativeButton
+                label="Requirements"
+                systemImage="checklist"
+                onPress={() => router.push('/requirements')}
+              />
+              <NativeButton
+                label="Scores"
+                systemImage="list.number"
+                onPress={() => router.push('/tests')}
+              />
+              <NativeButton
+                label="Transcript"
+                systemImage="doc.text"
+                onPress={() => router.push('/transcript')}
+              />
+            </Section>
+
+            {visible.length === 0 ? (
+              <Section title={term ? term.name : 'No courses'}>
+                <NativeText>No courses in this scope.</NativeText>
+                <NativeButton label="Add Course" systemImage="plus" onPress={addCourse} />
+              </Section>
+            ) : (
+              groups.map((group) => (
+                <Section
+                  key={group.key}
+                  title={group.title}
+                  footer={
+                    <NativeText>
+                      {`${group.courses.length} course${group.courses.length === 1 ? '' : 's'} · ${creditsValue(
+                        Math.round(
+                          group.courses.reduce((sum, course) => sum + (course.credits ?? 0), 0) * 100,
+                        ) / 100,
+                      )} credits`}
+                    </NativeText>
+                  }
                 >
-                  <View
-                    style={{
-                      backgroundColor: palette.surface,
-                      borderRadius: radius.lg,
-                      borderWidth: hairline,
-                      borderColor: palette.line,
-                      padding: space.md,
-                      minHeight: 118,
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Text
-                      style={[type.bodyStrong, { color: palette.ink }]}
-                      numberOfLines={2}
-                    >
-                      {course.title ?? course.code ?? 'Course'}
-                    </Text>
-                    <Text
-                      style={[
-                        type.number,
-                        { color: palette.ink, marginTop: space.sm, fontSize: 19 },
-                      ]}
-                      numberOfLines={1}
-                    >
-                      {statusLabel(course)}
-                    </Text>
-                    <Text
-                      style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}
-                      numberOfLines={1}
-                    >
-                      {[
-                        levelLabel(course.level as 'regular' | 'honors' | 'ap'),
-                        `${creditsValue(course.credits ?? 0)} cr`,
-                        termName(course),
-                      ]
-                        .filter(Boolean)
-                        .join(' · ')}
-                    </Text>
-                  </View>
-                </PressableScale>
-              ))}
-            </View>
-          )}
-        </>
-      )}
+                  {group.courses.map((course) => (
+                    <NativeButton
+                      key={course.id}
+                      label={`${course.title ?? course.code ?? 'Course'} · ${statusLabel(course)}`}
+                      onPress={() => router.push(`/course/${course.id}`)}
+                    />
+                  ))}
+                </Section>
+              ))
+            )}
+          </>
+        )}
+      </NativeScreen>
 
       <ScopeSheet
         open={scopeOpen}
@@ -327,40 +297,16 @@ export default function Academics() {
         onClose={() => setScopeOpen(false)}
         onPickYear={(next) => {
           setYearId(next.id);
-          const main = structure?.schedules.find((row) => row.academic_year_id === next.id && row.is_main === 1);
+          const main = structure?.schedules.find(
+            (row) => row.academic_year_id === next.id && row.is_main === 1,
+          );
           setScheduleId(main?.id ?? null);
           setTermId(ALL_TERMS);
         }}
         onPickSchedule={setScheduleId}
         onPickTerm={setTermId}
       />
-    </Screen>
-  );
-}
-
-/** One number and its label. The number carries the weight; the label is quiet. */
-function Metric({ value, label }: { value: string; label: string }) {
-  const { palette } = useTheme();
-  return (
-    <View style={{ flexShrink: 1 }}>
-      <Text
-        style={{
-          fontSize: 26,
-          lineHeight: 30,
-          fontWeight: '600',
-          letterSpacing: -0.6,
-          fontVariant: ['tabular-nums'],
-          color: palette.ink,
-        }}
-        numberOfLines={1}
-        adjustsFontSizeToFit
-      >
-        {value}
-      </Text>
-      <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]} numberOfLines={1}>
-        {label}
-      </Text>
-    </View>
+    </>
   );
 }
 
@@ -368,7 +314,7 @@ function Metric({ value, label }: { value: string; label: string }) {
  * The scope picker: year, then that year's schedules, then its terms.
  *
  * A native modal, because it is a choice, not a destination: picking a term should
- * return the grid, not stack another screen under the tab bar.
+ * return the list, not stack another screen under the tab bar.
  */
 function ScopeSheet({
   open,

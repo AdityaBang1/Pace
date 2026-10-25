@@ -1,9 +1,15 @@
+import {
+  Button as NativeButton,
+  TextField,
+  Toggle,
+  type TextFieldRef,
+} from '@expo/ui/swift-ui';
+import { foregroundStyle } from '@expo/ui/swift-ui/modifiers';
 import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Alert, ScrollView, Text, TextInput, View } from 'react-native';
-import { NativeToggle } from '../../src/ui/NativeToggle';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert } from 'react-native';
 
 import {
   addCourse,
@@ -14,9 +20,9 @@ import {
   type AcademicStructure,
 } from '../../src/database/academicRepo';
 import { getCourse, type CourseDetail } from '../../src/database/repo';
-import { LETTERS, LEVELS, levelLabel } from '../../src/domain/gpa';
-import { Button, Chip, FieldRow, Notice, PageHeader, SectionHeader } from '../../src/ui/components';
-import { space, type } from '../../src/ui/theme';
+import { LETTERS, LEVELS } from '../../src/domain/gpa';
+import { Button } from '../../src/ui/components';
+import { NativeScreen, NativeText, Section } from '../../src/ui/native';
 import { useTheme } from '../../src/ui/useTheme';
 
 type Status = 'completed' | 'current' | 'planned';
@@ -33,6 +39,10 @@ const STATUSES: { value: Status; label: string }[] = [
  * A sheet, not a screen: the grid is the destination and this is the detent. An
  * imported value that was changed keeps its original in the notice at the top, so a
  * correction never quietly rewrites what the transcript said.
+ *
+ * The fields are native text fields. They hold their own text, so each one is
+ * prefilled through its ref once the course is read, and every keystroke is reported
+ * back into React state — which is what the validation and the save payload read.
  */
 export default function CourseEditor() {
   const db = useSQLiteContext();
@@ -62,11 +72,17 @@ export default function CourseEditor() {
   const [includeInGpa, setIncludeInGpa] = useState(true);
   const [requirementIds, setRequirementIds] = useState<string[]>([]);
 
+  const titleRef = useRef<TextFieldRef>(null);
+  const codeRef = useRef<TextFieldRef>(null);
+  const creditsRef = useRef<TextFieldRef>(null);
+  const markRef = useRef<TextFieldRef>(null);
+
   const load = useCallback(async () => {
     try {
       const nextStructure = await readStructure(db);
       setStructure(nextStructure);
       if (!editingId) {
+        void creditsRef.current?.setText('1');
         setError(null);
         return;
       }
@@ -77,16 +93,20 @@ export default function CourseEditor() {
       }
       setDetail(next);
       const course = next.course;
-      setTitle(course.title ?? '');
-      setCode(course.code ?? '');
-      setCredits(course.credits != null ? String(course.credits) : '1');
+      const nextTitle = course.title ?? '';
+      const nextCode = course.code ?? '';
+      const nextCredits = course.credits != null ? String(course.credits) : '1';
+      const nextMark = course.grade ?? '';
+      setTitle(nextTitle);
+      setCode(nextCode);
+      setCredits(nextCredits);
       setLevel(course.level ?? 'regular');
       setStatus(
         course.status === 'completed' || course.status === 'current' || course.status === 'planned'
           ? course.status
           : 'completed',
       );
-      setMark(course.grade ?? '');
+      setMark(nextMark);
       setExpected(course.expected_grade ?? 'A');
       setIncludeInGpa(course.include_in_gpa !== 0);
       setRequirementIds(
@@ -94,6 +114,11 @@ export default function CourseEditor() {
           .filter(([, ids]) => ids.includes(editingId))
           .map(([requirementId]) => requirementId),
       );
+      // The fields were mounted with the sheet, so their refs are available here.
+      void titleRef.current?.setText(nextTitle);
+      void codeRef.current?.setText(nextCode);
+      void creditsRef.current?.setText(nextCredits);
+      void markRef.current?.setText(nextMark);
       setError(null);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Pace could not open this course.');
@@ -184,169 +209,109 @@ export default function CourseEditor() {
       : null;
 
   return (
-    <View style={{ flex: 1, backgroundColor: palette.background }}>
-      <PageHeader
-        title={editingId ? 'Edit Course' : 'New Course'}
-        onBack={() => router.back()}
-        right={
-          <Button title="Save" compact disabled={!canSave || busy} loading={busy} onPress={() => void save()} />
-        }
-      />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingHorizontal: space.xl, paddingBottom: space.xxxl, gap: space.md }}
-      >
-        {error ? <Notice tone="danger" body={error} /> : null}
-        {editOriginal ? (
-          <Notice tone="warn" body={`Transcript said ${editOriginal}.`} />
-        ) : null}
+    <NativeScreen
+      title={editingId ? 'Edit Course' : 'New Course'}
+      onBack={() => router.back()}
+      right={
+        <Button
+          title="Save"
+          compact
+          disabled={!canSave || busy}
+          loading={busy}
+          onPress={() => void save()}
+        />
+      }
+    >
+      {error ? (
+        <Section>
+          <NativeText modifiers={[foregroundStyle(palette.danger)]}>{error}</NativeText>
+        </Section>
+      ) : null}
 
-        <Field label="Title">
-          <TextInput
-            value={title}
-            onChangeText={setTitle}
-            placeholder="Course name"
-            placeholderTextColor={palette.inkFaint}
-            autoFocus={!editingId}
-            style={[type.body, inputStyle(palette.ink, palette.line, palette.surfaceSunken)]}
-            accessibilityLabel="Course title"
+      {editOriginal ? (
+        <Section title="Transcript" footer={<NativeText>{`The printed mark was ${editOriginal}.`}</NativeText>}>
+          <NativeText>Edited</NativeText>
+        </Section>
+      ) : null}
+
+      <Section title="Title">
+        <TextField
+          ref={titleRef}
+          placeholder="Course name"
+          autoFocus={!editingId}
+          onTextChange={setTitle}
+        />
+      </Section>
+
+      <Section title="Code">
+        <TextField ref={codeRef} placeholder="Optional" onTextChange={setCode} />
+      </Section>
+
+      <Section title="Credits">
+        <TextField ref={creditsRef} placeholder="1" onTextChange={setCredits} />
+      </Section>
+
+      <Section title="Level">
+        {LEVELS.map((row) => (
+          <NativeButton
+            key={row.value}
+            label={row.label}
+            onPress={() => setLevel(row.value)}
+            systemImage={level === row.value ? 'checkmark' : undefined}
           />
-        </Field>
+        ))}
+      </Section>
 
-        <Field label="Code">
-          <TextInput
-            value={code}
-            onChangeText={setCode}
-            placeholder="Optional"
-            placeholderTextColor={palette.inkFaint}
-            autoCapitalize="characters"
-            style={[type.body, inputStyle(palette.ink, palette.line, palette.surfaceSunken)]}
-            accessibilityLabel="Course code"
+      <Section title="Status">
+        {STATUSES.map((row) => (
+          <NativeButton
+            key={row.value}
+            label={row.label}
+            onPress={() => setStatus(row.value)}
+            systemImage={status === row.value ? 'checkmark' : undefined}
           />
-        </Field>
+        ))}
+      </Section>
 
-        <Field label="Credits">
-          <TextInput
-            value={credits}
-            onChangeText={setCredits}
-            keyboardType="decimal-pad"
-            style={[type.body, inputStyle(palette.ink, palette.line, palette.surfaceSunken)]}
-            accessibilityLabel="Credits"
-          />
-        </Field>
-
-        <Field label="Level">
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
-            {LEVELS.map((row) => (
-              <Chip
-                key={row.value}
-                label={row.label}
-                selected={level === row.value}
-                tone={level === row.value ? 'accent' : 'neutral'}
-                onPress={() => setLevel(row.value)}
-              />
-            ))}
-          </View>
-          <Text style={[type.caption, { color: palette.inkFaint, marginTop: space.xs }]}>
-            {levelLabel(level as 'regular' | 'honors' | 'ap')}
-          </Text>
-        </Field>
-
-        <Field label="Status">
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
-            {STATUSES.map((row) => (
-              <Chip
-                key={row.value}
-                label={row.label}
-                selected={status === row.value}
-                tone={status === row.value ? 'accent' : 'neutral'}
-                onPress={() => setStatus(row.value)}
-              />
-            ))}
-          </View>
-        </Field>
-
-        {status === 'completed' ? (
-          <Field label="Final Mark">
-            <TextInput
-              value={mark}
-              onChangeText={setMark}
-              placeholder="94 or A"
-              placeholderTextColor={palette.inkFaint}
-              autoCapitalize="characters"
-              style={[type.body, inputStyle(palette.ink, palette.line, palette.surfaceSunken)]}
-              accessibilityLabel="Final mark"
+      {status === 'completed' ? (
+        <Section title="Final mark">
+          <TextField ref={markRef} placeholder="94 or A" onTextChange={setMark} />
+        </Section>
+      ) : (
+        <Section title="Expected grade">
+          {LETTERS.map((letter) => (
+            <NativeButton
+              key={letter}
+              label={letter}
+              onPress={() => setExpected(letter)}
+              systemImage={expected === letter ? 'checkmark' : undefined}
             />
-          </Field>
-        ) : (
-          <Field label="Expected Grade">
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
-              {LETTERS.map((letter) => (
-                <Chip
-                  key={letter}
-                  label={letter}
-                  selected={expected === letter}
-                  tone={expected === letter ? 'accent' : 'neutral'}
-                  onPress={() => setExpected(letter)}
-                />
-              ))}
-            </View>
-          </Field>
-        )}
+          ))}
+        </Section>
+      )}
 
-        <View style={{ paddingTop: space.xs }}>
-          <NativeToggle
-            label="Include in GPA"
-            value={includeInGpa}
-            onValueChange={setIncludeInGpa}
-          />
-        </View>
+      <Section>
+        <Toggle label="Include in GPA" isOn={includeInGpa} onIsOnChange={setIncludeInGpa} />
+      </Section>
 
-        {structure && structure.requirements.length ? (
-          <>
-            <SectionHeader>Requirements</SectionHeader>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: space.sm }}>
-              {structure.requirements.map((requirement) => (
-                <Chip
-                  key={requirement.id}
-                  label={requirement.name}
-                  selected={requirementIds.includes(requirement.id)}
-                  tone={requirementIds.includes(requirement.id) ? 'accent' : 'neutral'}
-                  onPress={() => toggleRequirement(requirement.id)}
-                />
-              ))}
-            </View>
-          </>
-        ) : null}
+      {structure && structure.requirements.length ? (
+        <Section title="Requirements">
+          {structure.requirements.map((requirement) => (
+            <NativeButton
+              key={requirement.id}
+              label={requirement.name}
+              onPress={() => toggleRequirement(requirement.id)}
+              systemImage={requirementIds.includes(requirement.id) ? 'checkmark' : undefined}
+            />
+          ))}
+        </Section>
+      ) : null}
 
-        {editingId ? (
-          <View style={{ marginTop: space.xl }}>
-            <Button title="Delete Course" kind="quiet" onPress={remove} />
-          </View>
-        ) : null}
-      </ScrollView>
-    </View>
+      {editingId ? (
+        <Section>
+          <NativeButton label="Delete Course" role="destructive" onPress={remove} />
+        </Section>
+      ) : null}
+    </NativeScreen>
   );
-}
-
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  const { palette } = useTheme();
-  return (
-    <View style={{ gap: space.sm, marginTop: space.sm }}>
-      <Text style={[type.label, { color: palette.inkFaint }]}>{label}</Text>
-      {children}
-    </View>
-  );
-}
-
-function inputStyle(color: string, border: string, background: string) {
-  return {
-    color,
-    borderColor: border,
-    borderWidth: 1,
-    backgroundColor: background,
-    borderRadius: 12,
-    paddingHorizontal: space.md,
-    paddingVertical: space.md,
-  } as const;
 }

@@ -226,7 +226,7 @@ export default function Review() {
       // transcript has no single course to open, so it lands on the list.
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       reset();
-      router.replace(isTranscript ? '/academics' : `/course/${courseId}`);
+      router.replace(isTranscript ? '/imported' : `/course/${courseId}`);
     } catch {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => {});
       importing.current = false;

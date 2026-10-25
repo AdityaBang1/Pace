@@ -92,7 +92,12 @@ async function prepareDraft(db: SQLiteDatabase, input: BeginInput): Promise<Impo
           }
         }
         const best = bestIndex === -1 ? null : results[bestIndex];
-        if (best && best.decision !== 'different' && best.probability >= 0.5) {
+        // The matcher was measured at its exported threshold (0.95 in the frozen
+        // bundle). Values in the middle band are deliberately `uncertain`; showing
+        // them as "likely the same" throws away that precision guarantee and can
+        // encourage false links such as CHEM 1A ↔ CHEM 1L. Only the model's
+        // explicit `same` decision is strong enough to reach the review UI.
+        if (best?.decision === 'same') {
           const candidate = usable[bestIndex].candidate;
           match = {
             courseId: candidate.id,

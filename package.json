@@ -4,10 +4,12 @@
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
+    "patch:onnxruntime": "node scripts/patch_onnxruntime_react_native.mjs",
+    "postinstall": "npm run patch:onnxruntime",
     "start": "expo start --dev-client",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "prebuild": "expo prebuild --platform ios",
+    "prebuild": "npm run patch:onnxruntime && expo prebuild --platform ios",
     "typecheck": "tsc --noEmit",
     "test:engine": "tsx tests/mobile/run.ts",
     "test:app": "tsx tests/mobile/app_logic.ts",

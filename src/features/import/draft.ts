@@ -216,7 +216,10 @@ export function buildDraft(
       key: `policy:${field}`,
       value: policy.value ?? '',
       confidence: policy.confidence,
-      evidenceId: evidence?.id ?? policy.id,
+      // A policy id and an evidence id are different namespaces. If the embedded
+      // policy span cannot be resolved to a record.evidence row, keep the link
+      // absent instead of storing a dangling provenance reference.
+      evidenceId: evidence?.id ?? null,
       evidenceText: evidence?.sourceText ?? policy.evidence.text,
       start: policy.evidence.start,
       end: policy.evidence.end,
@@ -275,7 +278,13 @@ export function importBlocker(draft: ImportDraft): string | null {
   const hasName = Boolean(draft.title?.included || draft.code?.included);
   if (!hasName && !draft.linkToCourseId) return 'Add a course title or code before importing.';
   const importedValues =
-    Number(hasName) + includedGrading(draft).length + draft.meetings.filter((m) => m.included).length;
+    Number(Boolean(draft.title?.included)) +
+    Number(Boolean(draft.code?.included)) +
+    Number(Boolean(draft.instructor?.included)) +
+    Number(Boolean(draft.credits?.included)) +
+    includedGrading(draft).length +
+    draft.meetings.filter((meeting) => meeting.included).length +
+    draft.policies.filter((policy) => policy.included).length;
   if (importedValues === 0) return 'Nothing is selected to import.';
   return null;
 }

@@ -16,10 +16,13 @@ export const EASE_IN_OUT = Easing.bezier(0.77, 0, 0.175, 1);
 /**
  * The CSS-transition form of `EASE_OUT`, for the press recipe.
  *
- * Reanimated's CSS transitions take the curve as a string; keeping both forms
+ * Reanimated 4's CSS transitions only accept the predefined keywords
+ * (`linear`, `ease`, `ease-in`, `ease-out`, `ease-in-out`, `step-start`,
+ * `step-end`); a `cubic-bezier()` string throws at runtime. `ease-out` is the
+ * closest predefined curve to the strong ease-out above. Keeping both forms
  * beside each other stops the two from drifting apart.
  */
-export const EASE_OUT_CSS = 'cubic-bezier(0.23, 1, 0.32, 1)';
+export const EASE_OUT_CSS = 'ease-out';
 
 /** Press feedback ceiling: 120ms and a 3% scale, per the frequency gate. */
 export const PRESS_MS = 120;

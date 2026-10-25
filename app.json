@@ -30,6 +30,7 @@
       "bundler": "metro"
     },
     "plugins": [
+      "./plugins/withScriptSandboxingOff",
       "expo-router",
       "expo-asset",
       "expo-sqlite",

@@ -67,14 +67,25 @@ if (!ios.includes('@interface RCTBridge (OrtJsiRuntime)')) {
   );
 }
 
-const oldInstall = `RCTCxxBridge* cxxBridge = (RCTCxxBridge*)_bridge;\n    if (cxxBridge == nil) {\n      return @false;\n    }\n    auto jsiRuntime = (facebook::jsi::Runtime*)cxxBridge.runtime;`;
-const newInstall = `if (_bridge == nil || ![_bridge respondsToSelector:@selector(runtime)]) {\n      return @false;\n    }\n    auto jsiRuntime = (facebook::jsi::Runtime*)_bridge.runtime;`;
+// Match the released block by shape rather than by exact whitespace: upstream
+// indents it and leaves a blank line before the `auto jsiRuntime` line, and
+// either can change in a patch release without changing what the code does.
+const oldInstall =
+  /RCTCxxBridge\*\s*cxxBridge\s*=\s*\(\s*RCTCxxBridge\s*\*\s*\)\s*_bridge;\s*if\s*\(\s*cxxBridge\s*==\s*nil\s*\)\s*\{\s*return\s+@false;\s*\}\s*auto\s+jsiRuntime\s*=\s*\(\s*facebook::jsi::Runtime\s*\*\s*\)\s*cxxBridge\.runtime;/;
+// Do not gate this on respondsToSelector:. Under the New Architecture the
+// bridge handed to a legacy module is an RCTBridgeProxy, which is an NSProxy
+// subclass: it implements `runtime`, but it answers
+// respondsToSelector:@selector(runtime) with NO, so a selector guard silently
+// turns install into a no-op and every ORT call dies with "OrtApi is not
+// initialized". Probe the call itself, keep the null check, and let the
+// surrounding @try/@catch handle an unexpected bridge.
+const newInstall = `if (_bridge == nil) {\n      return @false;\n    }\n    void* rawRuntime = NULL;\n    @try {\n      rawRuntime = [_bridge runtime];\n    } @catch (NSException* exception) {\n      rawRuntime = NULL;\n    }\n    auto jsiRuntime = (facebook::jsi::Runtime*)rawRuntime;`;
 
-if (ios.includes(oldInstall)) {
+if (oldInstall.test(ios)) {
   ios = ios.replace(oldInstall, newInstall);
 }
 
-if (ios.includes('RCTCxxBridge* cxxBridge')) {
+if (oldInstall.test(ios)) {
   throw new Error(
     '[pace] ORT still contains the RN 0.88-incompatible RCTCxxBridge install path after patching.',
   );
@@ -123,7 +134,7 @@ if (fs.existsSync(androidPath)) {
   const androidOriginal = fs.readFileSync(androidPath, 'utf8');
   let android = androidOriginal;
   const oldCheck = 'if (VersionNumber.parse(REACT_NATIVE_VERSION) < VersionNumber.parse("0.71")) {';
-  const newCheck = `def rnVersionParts = REACT_NATIVE_VERSION.split("\\\\.")\nif (rnVersionParts[0].toInteger() == 0 && rnVersionParts[1].toInteger() < 71) {`;
+  const newCheck = `def rnVersionParts = REACT_NATIVE_VERSION.split("\\\\.")\n  if (rnVersionParts[0].toInteger() == 0 && rnVersionParts[1].toInteger() < 71) {`;
   if (android.includes(oldCheck)) android = android.replace(oldCheck, newCheck);
   if (android.includes('VersionNumber.parse(REACT_NATIVE_VERSION)')) {
     throw new Error('[pace] ORT Android source still contains the Gradle-9-incompatible VersionNumber check.');

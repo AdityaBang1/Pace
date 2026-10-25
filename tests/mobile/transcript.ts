@@ -15,10 +15,12 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
+import type { PaceVisionBlock } from '../../modules/pace-vision';
 import { PaceEngine } from '../../src/engine/PaceEngine';
 import { readTranscript } from '../../src/engine/transcript';
 import { buildDraft, importBlocker, includedTranscript, reviewCounts } from '../../src/features/import/draft';
 import { draftToCommitInput } from '../../src/features/import/commit';
+import { layoutPages } from '../../src/features/scan/geometry';
 import { assets, createSession } from './nodeAssets';
 
 const ROOT = path.resolve(__dirname, '../..');
@@ -209,6 +211,152 @@ async function main(): Promise<void> {
     );
     const published = reading.courses.find((row) => row.title === 'AK Studies');
     check(published?.section === 'SOCIAL STUDIES', 'a right-column row keeps its own heading', published?.section);
+  }
+
+  // ---- a PDF text layer, which hands over one text run per printed cell ----
+  // Real geometry: the runs of data/samples/transcript_term_marks.pdf, recorded by
+  // scripts/build_pdf_runs.py. PDFKit reports one "line" per run, so the page
+  // arrives as `Course`, `Mark`, `Weight`, `Credit` and then eight course codes
+  // each on a line of its own. The layout pass is what puts the printed rows back
+  // together, and without it this page read as no transcript at all.
+  {
+    const blocks = JSON.parse(
+      readFileSync(path.join(SAMPLES, 'transcript_term_marks_runs.json'), 'utf8'),
+    ) as PaceVisionBlock[];
+    const { text: laid } = layoutPages([
+      { page: 0, method: 'text_layer', text: '', blocks, imageWidth: 612, imageHeight: 792, durationMs: 1 },
+    ]);
+    check(
+      laid.split('\n').some((line) => line.trim().startsWith('Course') && line.includes('Credit')),
+      'the column header is rebuilt as one printed line',
+      laid.split('\n').slice(0, 3),
+    );
+
+    const reading = readTranscript(laid);
+    check(reading.detected, 'a transcript read from a PDF text layer is detected', reading.checks);
+    check(reading.layout === 'course_mark_weight_credit', 'its layout is the numeric one', reading.layout);
+    check(reading.courses.length === 8, 'every course the PDF prints is read', reading.courses.length);
+    check(
+      reading.courses[0].code === '220725y' && reading.courses[0].title === 'Accel Adv Alg:Concept&Connect',
+      'a code and the title that wrapped under it are one row',
+      reading.courses[0],
+    );
+    check(reading.courses.every((row) => row.mark !== null), 'every row keeps its mark');
+    check(reading.totalCredits === 7.5, 'the rows add up to the printed 7.5', reading.totalCredits);
+    check(reading.reportedCredits === 7.5, 'the printed footer is read', reading.reportedCredits);
+  }
+
+  // ---- two term tables printed side by side on one page --------------------
+  // This is the shape that folded two courses into one: both columns share every
+  // baseline. Read one column at a time, each course keeps its own title, mark and
+  // credit, and the wrapped title stays with the course it belongs to.
+  {
+    const runs = JSON.parse(
+      readFileSync(path.join(SAMPLES, 'transcript_term_marks_runs.json'), 'utf8'),
+    ) as PaceVisionBlock[];
+    const narrow = (block: PaceVisionBlock, left: number, index: number): PaceVisionBlock => ({
+      ...block,
+      id: `${left}-${index}`,
+      x: Number((left + block.x * 0.42).toFixed(6)),
+      width: Number((block.width * 0.42).toFixed(6)),
+    });
+    const blocks = [
+      ...runs.map((block, index) => narrow(block, 0.05, index)),
+      ...runs.map((block, index) => ({
+        ...narrow(block, 0.55, index),
+        text: block.text.replace('Term 2', 'Term 1'),
+      })),
+    ];
+    const { text: laid } = layoutPages([
+      { page: 0, method: 'text_layer', text: '', blocks, imageWidth: 612, imageHeight: 792, durationMs: 1 },
+    ]);
+    const reading = readTranscript(laid);
+    check(reading.courses.length === 16, 'both page columns are read in full', reading.courses.length);
+    check(reading.terms.length === 2, 'both term banners are read', reading.terms.map((term) => term.value));
+    check(
+      reading.courses.filter((row) => row.title.includes('Accel Adv')).length === 2,
+      'a wrapped title is not lost in either column',
+      reading.courses.map((row) => row.title),
+    );
+    check(
+      reading.courses.filter((row) => row.title === 'Intro to Business and Tech').length === 2,
+      'a title wrapped before a word break is joined in both columns',
+    );
+    check(reading.totalCredits === 15, 'the credits of both terms are summed', reading.totalCredits);
+    check(
+      reading.tableTotals.length === 2 &&
+        reading.tableTotals.every((table) => table.reportedCredits === 7.5 && table.credits === 7.5),
+      'each table is checked against its own printed footer, not one against the whole',
+      reading.tableTotals,
+    );
+    check(reading.reportedCredits === null, 'no document total is claimed when the page never printed one', reading.reportedCredits);
+    check(
+      reading.checks.tablesWhoseCreditsDisagree === 0,
+      'the per-table check finds no missing row',
+      reading.checks,
+    );
+  }
+
+  // ---- two rows that landed on one text line, with no page gutter ----------
+  {
+    const text = [
+      '2025-2026 Grade 09 Term 2',
+      'Course            Mark   Weight   Credit',
+      '220725y Accel Adv   94   1.0000   1     200715b Accel Geo   94  0.5000  0.5',
+      'Credit: 1.500   GPA: 4.0',
+    ].join('\n');
+    const reading = readTranscript(text);
+    check(reading.courses.length === 2, 'each row of a shared line is read', reading.courses.length);
+    check(
+      reading.courses[0].title === 'Accel Adv' && reading.courses[1].title === 'Accel Geo',
+      'the two courses do not become one',
+      reading.courses.map((row) => row.title),
+    );
+    check(
+      reading.courses[0].credit === 1 && reading.courses[1].credit === 0.5,
+      'each row keeps its own credit',
+      reading.courses.map((row) => row.credit),
+    );
+  }
+
+  // ---- columns a course does not need, and columns a row left empty -------
+  // A transcript prints numbers that are not a mark, a weight or a credit -- grade
+  // points, earned credit -- and leaves the weight of an unweighted course blank.
+  // Both used to cost the whole row: an unrecognised column rejected the table,
+  // and a short row failed to line up with its columns.
+  {
+    const extra = [
+      '2025-2026 Grade 09 Term 2',
+      'Course                        Mark  Weight  Credit  Grade    Points',
+      '220725y Accel Adv              94   1.0000       1     4.0       12',
+      '200715b Accel Geo              94   0.5000     0.5     2.0        6',
+      'Credit: 1.500   GPA: 4.0',
+    ].join('\n');
+    const reading = readTranscript(extra);
+    check(reading.courses.length === 2, 'an extra numeric column does not reject the table', reading.courses.length);
+    check(
+      reading.courses[0].mark === '94' && reading.courses[0].credit === 1,
+      'and the columns we keep are still read',
+      reading.courses[0],
+    );
+
+    const blank = [
+      '2025-2026 Grade 09 Term 2',
+      'Course                        Mark  Weight  Credit',
+      '220725y Accel Adv              94   1.0000       1',
+      '200715b Accel Geo              94                0.5',
+      '32115y Biology I Honors        93   1.0000       1',
+      'Credit: 2.500   GPA: 4.0',
+    ].join('\n');
+    const short = readTranscript(blank);
+    check(short.courses.length === 3, 'a row with a blank column is kept', short.courses.length);
+    const unweighted = short.courses.find((row) => row.title === 'Accel Geo');
+    check(
+      unweighted?.mark === '94' && unweighted.weight === null && unweighted.credit === 0.5,
+      'the blank stays blank and its neighbours do not shift',
+      unweighted,
+    );
+    check(short.totalCredits === 2.5 && short.reportedCredits === 2.5, 'the credits still add up', short.totalCredits);
   }
 
   // ---- a syllabus is not a transcript --------------------------------------

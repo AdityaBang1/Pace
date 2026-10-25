@@ -16,7 +16,7 @@
  * those layouts still fall through to the syllabus reader and are not claimed
  * here.
  */
-import type { Evidence, TranscriptRecord } from './types';
+import type { Evidence, TranscriptRecord, TranscriptTableTotal } from './types';
 import { stableId } from './sha256';
 import { lines, type Line } from './rules/text';
 
@@ -80,6 +80,8 @@ export interface TranscriptReading {
   totalCredits: number;
   reportedCredits: number | null;
   reportedGpa: number | null;
+  /** One entry per printed table, so each can be checked against its own footer. */
+  tableTotals: TranscriptTableTotal[];
   checks: Record<string, number | boolean | string | null>;
 }
 
@@ -112,7 +114,9 @@ const PERFORMANCE_LEVEL =
   /Performance\s+Level\s*:?[ \t]*(\d+)[ \t]+([A-Za-z][A-Za-z]*(?:[ \t]+[A-Za-z]+)*)/i;
 const LABELLED_LINE = /[A-Za-z]\s*:\s+\S/;
 
-const NUMERIC_COLUMN_NAMES: Record<string, 'mark' | 'weight' | 'credit'> = {
+type TableColumn = 'mark' | 'weight' | 'credit' | 'other';
+
+const NUMERIC_COLUMN_NAMES: Record<string, TableColumn> = {
   MARK: 'mark',
   GRADE: 'mark',
   WEIGHT: 'weight',
@@ -120,6 +124,21 @@ const NUMERIC_COLUMN_NAMES: Record<string, 'mark' | 'weight' | 'credit'> = {
   CREDITS: 'credit',
   UNITS: 'credit',
 };
+
+/**
+ * A header word that is a column of numbers but not one of ours.
+ *
+ * Transcripts print more numbers than a course needs: grade points, attempted
+ * and earned credit, class rank. Refusing the whole table because one of them is
+ * unrecognised dropped every row of it, so an unknown trailing column is read as
+ * a number and then left on the page.
+ */
+function otherColumn(name: string): boolean {
+  return /^[A-Z][A-Z .]{0,18}$/.test(name) && name !== 'DATE';
+}
+
+/** The gap, in characters, within which a printed value sits under its header. */
+const COLUMN_REACH = 8;
 
 const TABLE_HEADER_CELLS = new Set([
   'DATE', 'GL', 'TITLE', 'MARK', 'CREDIT', 'TERM', 'SCORE', 'GRADE',
@@ -189,35 +208,62 @@ export function cells(body: string): Cell[] {
     .filter((cell) => cell.text.length > 0);
 }
 
-function numericColumns(list: Cell[]): ('mark' | 'weight' | 'credit')[] | null {
+function numericColumns(list: Cell[]): TableColumn[] | null {
   const names = list.map((cell) => cell.text.toUpperCase());
   if (names.includes('DATE')) return null;
   if (!names.includes('MARK') || !names.includes('CREDIT')) return null;
   if (!names.some((name) => name === 'COURSE' || name === 'COURSES' || name === 'TITLE')) return null;
   const first = names.findIndex((name) => name in NUMERIC_COLUMN_NAMES);
   if (first <= 0) return null;
-  if (names.slice(first).some((name) => !(name in NUMERIC_COLUMN_NAMES))) return null;
-  const columns = names.slice(first).map((name) => NUMERIC_COLUMN_NAMES[name]);
-  if (new Set(columns).size !== columns.length) return null;
+  const numeric = names.slice(first);
+  if (numeric.some((name) => !(name in NUMERIC_COLUMN_NAMES) && !otherColumn(name))) return null;
+  const columns: TableColumn[] = [];
+  for (const name of numeric) {
+    // A two-word header printed with a wide gap ("Grade  Points") arrives as two
+    // cells. The second word is not a second mark column; it is more of the first
+    // column's name, and the table still has one column of each.
+    const known = NUMERIC_COLUMN_NAMES[name];
+    columns.push(known && !columns.includes(known) ? known : 'other');
+  }
+  if (!columns.includes('mark') || !columns.includes('credit')) return null;
   return columns;
 }
 
-function headerColumns(list: Cell[], body: string): ('mark' | 'weight' | 'credit')[] | null {
+function headerColumns(list: Cell[], body: string): TableColumn[] | null {
   const direct = numericColumns(list);
   if (direct) return direct;
   if (body.split(/\s+/).filter(Boolean).length < 3) return null;
+  return numericColumns(tokensOf(body));
+}
+
+/** The words of a line, each with the offset it starts at. */
+function tokensOf(body: string): Cell[] {
   const tokens: Cell[] = [];
   const tokenRe = /\S+/g;
   for (let match = tokenRe.exec(body); match; match = tokenRe.exec(body)) {
     tokens.push({ text: match[0], start: match.index, end: match.index + match[0].length });
   }
-  return numericColumns(tokens);
+  return tokens;
 }
 
-function numericCell(
-  name: 'mark' | 'weight' | 'credit',
-  cell: Cell,
-): { text: string; value: number; start: number; end: number } | null {
+/** Where each printed column starts, so a value can be matched to its own column. */
+function columnStarts(body: string, columns: TableColumn[]): { start: number; name: TableColumn }[] | null {
+  const tokens = tokensOf(body);
+  if (tokens.length < columns.length) return null;
+  return tokens.slice(tokens.length - columns.length).map((token, index) => ({
+    start: token.start,
+    name: columns[index],
+  }));
+}
+
+type NumericValue = { text: string; value: number | null; start: number; end: number };
+
+function numericCell(name: TableColumn, cell: Cell): NumericValue | null {
+  // A mark column may print a letter (P, NC, CR) beside its percentages: a term
+  // block with a pass/fail row is still a term block.
+  if (name === 'mark' && MARK_SET.has(cell.text)) {
+    return { text: cell.text, value: null, start: cell.start, end: cell.end };
+  }
   if (!NUMERIC_CELL.test(cell.text)) return null;
   const value = Number(cell.text);
   if (name === 'mark') {
@@ -230,10 +276,10 @@ function numericCell(
 
 function numericRow(
   list: Cell[],
-  columns: ('mark' | 'weight' | 'credit')[],
-): { title: Cell[]; values: Record<string, { text: string; value: number; start: number; end: number }> } | null {
+  columns: TableColumn[],
+): { title: Cell[]; values: Record<string, NumericValue> } | null {
   let index = list.length;
-  const values: Record<string, { text: string; value: number; start: number; end: number }> = {};
+  const values: Record<string, NumericValue> = {};
   for (const name of [...columns].reverse()) {
     index -= 1;
     if (index < 0) return null;
@@ -247,16 +293,19 @@ function numericRow(
 
 function looseNumericRow(
   body: string,
-  columns: ('mark' | 'weight' | 'credit')[],
-): { titleStart: number; titleEnd: number; values: Record<string, { text: string; value: number; start: number; end: number }> } | null {
+  columns: TableColumn[],
+): { titleStart: number; titleEnd: number; values: Record<string, NumericValue> } | null {
   // The columns are read from the right edge of the line: a row is a title
   // followed by one number per named column, in header order. Reading right to
   // left also keeps each number's offset, which a group-index match would only
   // give with the `d` flag (not available on every engine).
-  const values: Record<string, { text: string; value: number; start: number; end: number }> = {};
+  const values: Record<string, NumericValue> = {};
   let end = body.trimEnd().length;
   for (const name of [...columns].reverse()) {
-    const piece = /^(.*?)(\d+(?:\.\d{1,6})?)$/.exec(body.slice(0, end));
+    const token = name === 'mark'
+      ? `(\d+(?:\.\d{1,6})?|${MARK_ALTERNATION})`
+      : '(\\d+(?:\\.\\d{1,6})?)';
+    const piece = new RegExp(`^(.*?)(?:${token})$`).exec(body.slice(0, end));
     if (!piece) return null;
     const text = piece[2];
     const start = piece[1].length;
@@ -446,6 +495,51 @@ function columnSeam(all: Cell[][]): number | null {
   return seam;
 }
 
+/**
+ * A row whose printed columns are not all filled.
+ *
+ * A transcript leaves the weight of an unweighted course blank, and a row with two
+ * numbers where the header names three used to be dropped without a word. Matching
+ * each printed number to the header column above it keeps the row, with the empty
+ * column left empty instead of shifting its neighbours into the wrong fields.
+ */
+function alignedRow(
+  list: Cell[],
+  starts: { start: number; name: TableColumn }[],
+): { title: Cell[]; values: Record<string, NumericValue> } | null {
+  // Only the numbers at the right of the row can be columns; a digit inside a
+  // course title is part of the title.
+  let first = list.length;
+  while (first > 0) {
+    const cell = list[first - 1];
+    if (!NUMERIC_TOKEN.test(cell.text) && !MARK_SET.has(cell.text)) break;
+    first -= 1;
+  }
+  if (first >= list.length) return null;
+
+  const values: Record<string, NumericValue> = {};
+  let titleEnd = list[list.length - 1].end;
+  for (let index = first; index < list.length; index += 1) {
+    const cell = list[index];
+    let chosen: { name: TableColumn; distance: number } | null = null;
+    for (const column of starts) {
+      if (values[column.name]) continue;
+      const distance = Math.abs(cell.start - column.start);
+      if (distance > COLUMN_REACH) continue;
+      if (!chosen || distance < chosen.distance) chosen = { name: column.name, distance };
+    }
+    if (!chosen) return null;
+    const value = numericCell(chosen.name, cell);
+    if (!value) return null;
+    values[chosen.name] = value;
+    if (cell.start < titleEnd) titleEnd = cell.start;
+  }
+  if (!values.mark && !values.credit) return null;
+  const title = list.filter((cell) => cell.end <= titleEnd);
+  if (!title.length) return null;
+  return { title, values };
+}
+
 function columnGroups(list: Cell[], seam: number | null): { column: number; cells: Cell[] }[] {
   if (seam === null) return list.length ? [{ column: 0, cells: list }] : [];
   const split: Cell[] = [];
@@ -476,81 +570,137 @@ function numericTable(
   allCells: Cell[][],
   headerIndex: number,
   endIndex: number,
-  columns: ('mark' | 'weight' | 'credit')[],
+  columns: TableColumn[],
 ): TranscriptCourseRow[] {
   const out: TranscriptCourseRow[] = [];
+  const starts = columnStarts(all[headerIndex].text, columns);
   for (let lineIndex = headerIndex + 1; lineIndex < endIndex; lineIndex += 1) {
     const body = all[lineIndex].text;
     const list = allCells[lineIndex];
     if (!body.trim() || !list.length) continue;
     if (TERM_BANNER.test(body)) continue;
-    const lineStart = all[lineIndex].start;
+    // A two-column page whose columns landed on one text line prints two rows on
+    // it. Reading only the rightmost numbers would fold the left course's title
+    // into the right one, so the line is split where both halves are rows.
+    const merged = splitMergedRow(list, columns, starts);
+    if (merged) {
+      for (const part of merged) {
+        const row = numericTableRow(text, all, allCells, lineIndex, endIndex, columns, part, starts);
+        if (row) out.push(row);
+      }
+      continue;
+    }
+    const row = numericTableRow(text, all, allCells, lineIndex, endIndex, columns, list, starts);
+    if (row) out.push(row);
+  }
+  return out;
+}
 
-    let titleStart: number;
-    let titleEnd: number;
-    let values: Record<string, { text: string; value: number; start: number; end: number }>;
-    const grid = numericRow(list, columns);
-    if (grid) {
-      titleStart = lineStart + grid.title[0].start;
-      titleEnd = lineStart + grid.title[grid.title.length - 1].end;
-      values = grid.values;
-    } else {
-      const loose = looseNumericRow(body, columns);
-      if (!loose) continue;
+/** Two printed rows that share one text line, split where both halves are rows. */
+function splitMergedRow(
+  list: Cell[],
+  columns: TableColumn[],
+  starts: { start: number; name: TableColumn }[] | null,
+): Cell[][] | null {
+  if (list.length < columns.length * 2 + 2) return null;
+  const isRow = (cells: Cell[]) =>
+    numericRow(cells, columns) !== null || (starts !== null && alignedRow(cells, starts) !== null);
+  for (let split = columns.length + 1; split <= list.length - columns.length - 1; split += 1) {
+    const left = list.slice(0, split);
+    const right = list.slice(split);
+    if (isRow(left) && isRow(right)) return [left, right];
+  }
+  return null;
+}
+
+function numericTableRow(
+  text: string,
+  all: Line[],
+  allCells: Cell[][],
+  lineIndex: number,
+  endIndex: number,
+  columns: TableColumn[],
+  list: Cell[],
+  starts: { start: number; name: TableColumn }[] | null,
+): TranscriptCourseRow | null {
+  const body = all[lineIndex].text;
+  const lineStart = all[lineIndex].start;
+
+  let titleStart: number;
+  let titleEnd: number;
+  let values: Record<string, NumericValue>;
+  const grid = numericRow(list, columns);
+  if (grid) {
+    titleStart = lineStart + grid.title[0].start;
+    titleEnd = lineStart + grid.title[grid.title.length - 1].end;
+    values = grid.values;
+  } else {
+    const loose = looseNumericRow(body, columns);
+    if (loose) {
       titleStart = lineStart + loose.titleStart;
       titleEnd = lineStart + loose.titleEnd;
       values = loose.values;
+    } else {
+      const aligned = starts ? alignedRow(list, starts) : null;
+      if (!aligned) return null;
+      titleStart = lineStart + aligned.title[0].start;
+      titleEnd = lineStart + aligned.title[aligned.title.length - 1].end;
+      values = aligned.values;
     }
-
-    let code: string | null = null;
-    const prefix = COURSE_CODE_PREFIX.exec(text.slice(titleStart, titleEnd));
-    if (prefix) {
-      code = prefix[1];
-      titleStart += prefix[0].length;
-    }
-    if (titleStart >= titleEnd) continue;
-    const rowEnd = lineStart + (list[list.length - 1].end);
-
-    let title = text.slice(titleStart, titleEnd).replace(/\s+/g, ' ').trim();
-    let end = rowEnd;
-    // A title broken by a printed line break continues on the line directly
-    // below, which has no numbers of its own.
-    let cursor = lineIndex + 1;
-    let wrapped = 0;
-    while (cursor < endIndex && wrapped < 2) {
-      const followingBody = all[cursor].text;
-      const following = allCells[cursor];
-      if (!followingBody.trim() || !following.length) break;
-      const stripped = followingBody.trim();
-      if (stripped === stripped.toUpperCase()) break;
-      if (TERM_BANNER.test(followingBody)) break;
-      if (FOOTER_TOTALS.test(followingBody) || FOOTER_GPA.test(followingBody)) break;
-      if (numericColumns(following) !== null) break;
-      if (following.some((cell) => NUMERIC_TOKEN.test(cell.text))) break;
-      if (LABELLED_LINE.test(stripped)) break;
-      if (looseNumericRow(followingBody, columns) !== null) break;
-      const extra = followingBody.slice(following[0].start, following[following.length - 1].end);
-      title = `${title} ${extra.replace(/\s+/g, ' ').trim()}`.trim();
-      end = all[cursor].start + following[following.length - 1].end;
-      cursor += 1;
-      wrapped += 1;
-    }
-
-    const markValue = values.mark.value;
-    out.push({
-      code,
-      title,
-      mark: values.mark.text,
-      markPercent: markValue === Math.trunc(markValue) ? Math.trunc(markValue) : markValue,
-      weight: values.weight ? values.weight.value : null,
-      credit: values.credit.value,
-      term: null,
-      section: null,
-      span: spanOf(text, titleStart, end),
-      confidence: wrapped ? 0.9 : 0.95,
-    });
   }
-  return out;
+
+  let code: string | null = null;
+  const prefix = COURSE_CODE_PREFIX.exec(text.slice(titleStart, titleEnd));
+  if (prefix) {
+    code = prefix[1];
+    titleStart += prefix[0].length;
+  }
+  if (titleStart >= titleEnd) return null;
+  const rowEnd = lineStart + list[list.length - 1].end;
+
+  let title = text.slice(titleStart, titleEnd).replace(/\s+/g, ' ').trim();
+  let end = rowEnd;
+  // A title broken by a printed line break continues on the line directly
+  // below, which has no numbers of its own.
+  let cursor = lineIndex + 1;
+  let wrapped = 0;
+  while (cursor < endIndex && wrapped < 2) {
+    const followingBody = all[cursor].text;
+    const following = allCells[cursor];
+    if (!followingBody.trim() || !following.length) break;
+    const stripped = followingBody.trim();
+    if (stripped === stripped.toUpperCase()) break;
+    if (TERM_BANNER.test(followingBody)) break;
+    if (FOOTER_TOTALS.test(followingBody) || FOOTER_GPA.test(followingBody)) break;
+    if (numericColumns(following) !== null) break;
+    if (following.some((cell) => NUMERIC_TOKEN.test(cell.text))) break;
+    if (LABELLED_LINE.test(stripped)) break;
+    if (looseNumericRow(followingBody, columns) !== null) break;
+    const extra = followingBody.slice(following[0].start, following[following.length - 1].end);
+    title = `${title} ${extra.replace(/\s+/g, ' ').trim()}`.trim();
+    end = all[cursor].start + following[following.length - 1].end;
+    cursor += 1;
+    wrapped += 1;
+  }
+
+  const markValue = values.mark?.value ?? null;
+  return {
+    code,
+    title,
+    mark: values.mark?.text ?? null,
+    markPercent:
+      markValue == null
+        ? null
+        : markValue === Math.trunc(markValue)
+          ? Math.trunc(markValue)
+          : markValue,
+    weight: values.weight?.value ?? null,
+    credit: values.credit?.value ?? null,
+    term: null,
+    section: null,
+    span: spanOf(text, titleStart, end),
+    confidence: wrapped ? 0.9 : 0.95,
+  };
 }
 
 /** The identity line and the school banner printed above the table. */
@@ -593,21 +743,23 @@ function readHeader(
   return { student, school, documentTitle };
 }
 
+/** The totals a table prints under itself ("Credit: 7.500   GPA: 4.13333"). */
+function footerOf(line: Line | undefined): { credits: number | null; gpa: number | null } | null {
+  if (!line) return null;
+  const credits = FOOTER_TOTALS.exec(line.text);
+  const gpa = FOOTER_GPA.exec(line.text);
+  if (!credits && !gpa) return null;
+  return { credits: credits ? Number(credits[1]) : null, gpa: gpa ? Number(gpa[1]) : null };
+}
+
 function readStanding(
-  text: string,
   all: Line[],
 ): { reportedCredits: number | null; reportedGpa: number | null; asOf: string | null } {
   let reportedCredits: number | null = null;
   let reportedGpa: number | null = null;
   let asOf: string | null = null;
   const heading = all.findIndex((line) => line.text.trim().toUpperCase() === 'ACADEMIC STANDING');
-  if (heading === -1) {
-    const credits = FOOTER_TOTALS.exec(text);
-    const gpa = FOOTER_GPA.exec(text);
-    reportedCredits = credits ? Number(credits[1]) : null;
-    reportedGpa = gpa ? Number(gpa[1]) : null;
-    return { reportedCredits, reportedGpa, asOf };
-  }
+  if (heading === -1) return { reportedCredits, reportedGpa, asOf };
   for (const line of all.slice(heading + 1)) {
     const body = line.text;
     if (!body.trim()) continue;
@@ -634,7 +786,7 @@ export function readTranscript(text: string): TranscriptReading {
 
   // Every numeric block, not just the first: a transcript prints one per term or
   // per page, and reading only the first would silently drop every later page.
-  const numericBlocks: { header: number; end: number; columns: ('mark' | 'weight' | 'credit')[] }[] = [];
+  const numericBlocks: { header: number; end: number; columns: TableColumn[] }[] = [];
   let probe = 0;
   while (probe < all.length) {
     const columns = headerColumns(allCells[probe], all[probe].text);
@@ -751,8 +903,14 @@ export function readTranscript(text: string): TranscriptReading {
     }
   }
 
+  const numericRows: {
+    rows: TranscriptCourseRow[];
+    footer: { credits: number | null; gpa: number | null } | null;
+  }[] = [];
   for (const block of numericBlocks) {
-    courses.push(...numericTable(text, all, allCells, block.header, block.end, block.columns));
+    const rows = numericTable(text, all, allCells, block.header, block.end, block.columns);
+    numericRows.push({ rows, footer: footerOf(all[block.end]) });
+    courses.push(...rows);
   }
   if (numericBlocks.length) courses.sort((left, right) => left.span.start - right.span.start);
 
@@ -775,13 +933,37 @@ export function readTranscript(text: string): TranscriptReading {
   const bodyStart = Math.min(firstRecord, columnHeaderOffset ?? text.length);
   const bodyLine = all.filter((line) => line.start < bodyStart).length;
   const header = readHeader(text, all.slice(0, Math.max(bodyLine, 0)));
-  const standing = readStanding(text, all);
+  const standing = readStanding(all);
+
+  const tableTotals: TranscriptTableTotal[] = numericRows.map((table) => ({
+    term: table.rows.find((row) => row.term !== null)?.term ?? null,
+    rows: table.rows.length,
+    credits:
+      Math.round(
+        table.rows.reduce((sum, row) => sum + (row.credit ?? 0), 0) * 1000,
+      ) / 1000,
+    reportedCredits: table.footer?.credits ?? null,
+    reportedGpa: table.footer?.gpa ?? null,
+  }));
 
   const credits = courses.map((row) => row.credit).filter((value): value is number => value !== null);
   const totalCredits = Math.round(credits.reduce((sum, value) => sum + value, 0) * 1000) / 1000;
   const layout: TranscriptLayout = numericBlocks.length ? 'course_mark_weight_credit' : courses.length ? 'dated_rows' : 'none';
+
+  // One table prints one total, and that total is the document's. Several tables
+  // each print their own term's credits: those are checked one by one, and no
+  // document total is claimed from them, because the page never printed one.
+  const single = numericRows.length === 1 ? numericRows[0].footer : null;
+  const lastFooter = standing.reportedCredits === null && numericBlocks.length === 0
+    ? [...all].reverse().map((line) => footerOf(line)).find((value) => value !== null) ?? null
+    : null;
+  const reportedCredits = standing.reportedCredits ?? single?.credits ?? lastFooter?.credits ?? null;
+  const reportedGpa = standing.reportedGpa ?? single?.gpa ?? lastFooter?.gpa ?? null;
   const creditMismatch =
-    standing.reportedCredits === null ? null : Math.abs(totalCredits - standing.reportedCredits) >= 0.001;
+    reportedCredits === null ? null : Math.abs(totalCredits - reportedCredits) >= 0.001;
+  const tableMismatches = tableTotals.filter(
+    (table) => table.reportedCredits !== null && Math.abs(table.credits - table.reportedCredits) >= 0.001,
+  ).length;
 
   const checks: TranscriptReading['checks'] = {
     courseCount: courses.length,
@@ -789,9 +971,11 @@ export function readTranscript(text: string): TranscriptReading {
     layout,
     marksNumeric: courses.some((row) => row.markPercent !== null),
     computedTotalCredits: totalCredits,
-    reportedTotalCredits: standing.reportedCredits,
+    reportedTotalCredits: reportedCredits,
     creditSumMatchesReported:
-      standing.reportedCredits === null ? null : !creditMismatch,
+      reportedCredits === null ? null : !creditMismatch,
+    tables: tableTotals.length,
+    tablesWhoseCreditsDisagree: tableMismatches,
     recordsWithoutMark: courses.filter((row) => row.mark === null).length,
     recordsWithoutTerm: courses.filter((row) => row.term === null).length,
     recordsWithoutSection: courses.filter((row) => row.section === null).length,
@@ -815,8 +999,9 @@ export function readTranscript(text: string): TranscriptReading {
     courses,
     assessments,
     totalCredits,
-    reportedCredits: standing.reportedCredits,
-    reportedGpa: standing.reportedGpa,
+    reportedCredits,
+    reportedGpa,
+    tableTotals,
     checks,
   };
 }
@@ -899,6 +1084,7 @@ export function buildTranscriptRecord(
     totalCredits: reading.totalCredits,
     reportedCredits: reading.reportedCredits,
     reportedGpa: reading.reportedGpa,
+    tableTotals: reading.tableTotals,
     checks: reading.checks,
     requiresConfirmation: true,
   };

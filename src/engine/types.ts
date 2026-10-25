@@ -147,8 +147,22 @@ export interface TranscriptRecord {
   /** The total the page printed, when it printed one. */
   reportedCredits: number | null;
   reportedGpa: number | null;
+  /**
+   * One entry per table the page printed, with that table's own footer totals.
+   * A term-per-table transcript has no document total to compare against, so each
+   * table is checked against the credits it printed for itself.
+   */
+  tableTotals?: TranscriptTableTotal[];
   checks: Record<string, number | boolean | string | null>;
   requiresConfirmation: true;
+}
+
+export interface TranscriptTableTotal {
+  term: string | null;
+  rows: number;
+  credits: number;
+  reportedCredits: number | null;
+  reportedGpa: number | null;
 }
 
 export interface DocumentType {

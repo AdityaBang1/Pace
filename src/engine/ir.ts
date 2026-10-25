@@ -363,6 +363,17 @@ function transcriptWarnings(args: {
       `the rows add up to ${transcript.totalCredits} credits but the transcript prints ${transcript.reportedCredits}: a row may have been missed`,
     );
   }
+  // One table per term prints its own credits under itself. Comparing the whole
+  // document against one term's footer would report a missing row that is not
+  // missing, so each table is held to its own printed total instead.
+  for (const table of transcript.tableTotals ?? []) {
+    if (table.reportedCredits === null) continue;
+    if (Math.abs(table.credits - table.reportedCredits) < 0.001) continue;
+    const where = table.term ? `${table.term}: ` : '';
+    warnings.push(
+      `${where}${table.rows} row${table.rows === 1 ? '' : 's'} add up to ${table.credits} credits but the table prints ${table.reportedCredits}: a row may have been missed`,
+    );
+  }
   if (!terms) {
     warnings.push('no term heading was printed above the rows, so the courses are not grouped by term');
   }

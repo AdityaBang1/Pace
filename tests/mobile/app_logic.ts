@@ -11,7 +11,7 @@ import { PaceEngine } from '../../src/engine/PaceEngine';
 import { buildDraft, gradingTotal, importBlocker, reviewCounts } from '../../src/features/import/draft';
 import { draftToCommitInput } from '../../src/features/import/commit';
 import { assets, createSession, readFixture } from './nodeAssets';
-import { joinPages, lineGeometry, locate } from '../../src/features/scan/geometry';
+import { layoutPages, locate } from '../../src/features/scan/geometry';
 import type { PaceVisionPage } from '../../modules/pace-vision';
 
 let failures = 0;
@@ -151,24 +151,38 @@ async function main() {
       { page: 1, method: 'ocr', text: 'Gamma', blocks: blocksFor('Gamma', 1), imageWidth: 100, imageHeight: 140, durationMs: 1 },
       { page: 2, method: 'ocr', text: 'Delta\nEpsilon', blocks: blocksFor('Delta\nEpsilon', 2), imageWidth: 100, imageHeight: 140, durationMs: 1 },
     ];
-    const joined = joinPages(pages);
-    check(joined.text === 'Alpha\nBeta\n\nGamma\n\nDelta\nEpsilon', 'pages are joined with a blank line', joined.text);
+    const laid = layoutPages(pages);
     check(
-      joined.starts.join(',') === '0,12,19',
-      'page starts account for the separators',
-      joined.starts,
+      laid.text === 'Alpha\nBeta\n\nGamma\n\nDelta\nEpsilon',
+      'pages are joined with a blank line',
+      laid.text,
+    );
+    check(laid.lines.length === 5, 'every line gets geometry', laid.lines.length);
+    check(locate(laid.text.indexOf('Gamma'), laid.lines)?.page === 1, 'a line on page 2 resolves to page 2');
+    check(locate(laid.text.indexOf('Epsilon'), laid.lines)?.page === 2, 'a line on page 3 resolves to page 3');
+    check(locate(laid.text.indexOf('Alpha'), laid.lines)?.page === 0, 'a line on page 1 resolves to page 1');
+    check(
+      laid.lines.every((line) =>
+        laid.text
+          .slice(line.start, line.end)
+          .trim()
+          .split('\n')
+          .every((part) => laid.text.split('\n').includes(part)),
+      ),
+      'every line span sits inside the line it names',
+      laid.lines.map((line) => laid.text.slice(line.start, line.end)),
     );
 
-    const geometry = lineGeometry(pages, joined.starts);
-    check(geometry.length === 5, 'every line gets geometry', geometry.length);
-    check(locate(joined.text.indexOf('Gamma'), geometry)?.page === 1, 'a line on page 2 resolves to page 2');
-    check(locate(joined.text.indexOf('Epsilon'), geometry)?.page === 2, 'a line on page 3 resolves to page 3');
-    check(locate(joined.text.indexOf('Alpha'), geometry)?.page === 0, 'a line on page 1 resolves to page 1');
-
-    // A page whose boxes disagree with its lines contributes nothing rather than a
-    // highlight in the wrong place.
+    // A page whose boxes are missing still contributes its text; it only loses the
+    // highlight, because a box we do not have cannot be pointed at.
     const broken: PaceVisionPage = { ...pages[1], blocks: [] };
-    check(lineGeometry([pages[0], broken], [0, 12]).every((line) => line.page === 0), 'a page without boxes is skipped');
+    const withoutBoxes = layoutPages([pages[0], broken]);
+    check(withoutBoxes.text.includes('Gamma'), 'a page without boxes keeps its text', withoutBoxes.text);
+    check(
+      locate(withoutBoxes.text.indexOf('Gamma'), withoutBoxes.lines)?.bbox === null,
+      'and its lines carry no box instead of a wrong one',
+      locate(withoutBoxes.text.indexOf('Gamma'), withoutBoxes.lines),
+    );
   }
 
   // ---- cross-document matching is a proposal, not a merge -----------------

@@ -199,18 +199,26 @@ cheapest route is to use it for `Platform.OS === 'android'` images only, where i
 EXIF handling lives in Kotlin and PDF import stays iOS-only — not to replace this
 module on iOS.
 
-**Multi-page text and offsets.** The reader sees one string. `joinPages()` joins
-pages with a blank line and records each page's start offset; `lineGeometry()`
-rebuilds absolute line offsets and pairs them with Vision's boxes. A value on page
-3 therefore resolves to page 3, and the source sheet shows `Page 3`. A PDF's page
-image is not retained: its source sheet quotes the line and names the page rather
-than drawing a highlight over a page the app cannot show.
+**Multi-page text and offsets.** The reader sees one string, and `layoutPages()`
+builds it: boxes that share a baseline become the printed line, spaced by the gap
+between them, with each line's absolute offset recorded so a value on page 3 still
+resolves to page 3 and the source sheet shows `Page 3`. This matters most for a
+PDF text layer, which hands over one text run per cell: read verbatim, a
+transcript arrived as `Course`, then `Mark`, then eight course codes each on its
+own line, and no row could be found at all. A page that prints two tables side by
+side (two term tables, or the academic-history header twice) is read one column at
+a time, because that gutter is where the page's own headers split; without it,
+two courses on one baseline folded into one. A PDF's page image is not retained:
+its source sheet quotes the line and names the page rather than drawing a
+highlight over a page the app cannot show.
 
 * Coordinates are **normalised 0…1 with a top-left origin**. Vision returns
   bottom-left, so the module flips `y` once (`1 - maxY`) rather than leaving that
   trap to every consumer.
 * One block per recognised line, sorted into reading order (descending `midY`,
-  then `minX`), joined with `\n` — the same text the engine receives.
+  then `minX`). The engine's text is rebuilt from the blocks, so a block list that
+  splits one printed line in two is put back together instead of reaching the
+  reader as two half-lines.
 * `VNRecognizeTextRequest` uses `.accurate` with language correction, the device's
   languages intersected with the ones Vision ships for the current revision
   (English always present, capped at four), and a small academic vocabulary as

@@ -16,7 +16,7 @@ import type { PaceEngine, UnderstandResult } from '../../engine/PaceEngine';
 import { loadEngine } from '../../engine/native';
 import { recognizeDocument, type PaceVisionDocument } from '../../../modules/pace-vision';
 import type { DraftSource, EvidenceMeta } from '../import/draft';
-import { evidenceMetaFrom, joinPages, lineGeometry } from './geometry';
+import { evidenceMetaFrom, layoutPages } from './geometry';
 import { recordRun } from './lastRun';
 
 export type ScanStage = 'preparing' | 'reading' | 'understanding';
@@ -167,7 +167,9 @@ export async function scanFile(args: {
 
   onProgress?.({ stage: 'reading', detail: 'Recognising text' });
   const ocr = await recognizeDocument(uri);
-  const { text, starts } = joinPages(ocr.pages);
+  // The reader's text and its line boxes come from one place, so a value can
+  // always be pointed back at the line it was printed on.
+  const { text, lines } = layoutPages(ocr.pages);
   if (text.trim().length < MIN_TEXT) {
     throw new ScanError(
       ocr.kind === 'pdf' ? 'Pace could not read text on those pages.' : 'Pace could not read enough text on that page.',
@@ -198,8 +200,7 @@ export async function scanFile(args: {
     );
   }
 
-  const geometry = lineGeometry(ocr.pages, starts);
-  const evidenceMeta = evidenceMetaFrom(record, geometry);
+  const evidenceMeta = evidenceMetaFrom(record, lines);
   const storedUri = await persistSource(uri, record.document.id.slice(0, 16), ocr.kind, keepSource);
   const firstPage = ocr.pages[0];
 

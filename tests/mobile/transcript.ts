@@ -154,6 +154,88 @@ async function main(): Promise<void> {
     check(commit.summary.transcript === true && commit.summary.courses === 8, 'the import summary counts the courses', commit.summary);
   }
 
+  // ---- one page printed in two panels, one table per school --------------
+  // The shape a real registrar PDF has: two panels on one page, a school banner
+  // and a column header above every table, each table under its own `Credit:`
+  // footer, and a term whose rows run over the panel break under a second header.
+  // Three things went wrong here and each one lost courses: a title that wrapped
+  // onto the line below took the next course's title with it (so two classes came
+  // out as one), a title printed right up to the mark column lost its row, and a
+  // term split over the break was checked against a footer that covers both
+  // halves, so a complete term read as a missing row.
+  {
+    const text = sample('transcript_two_panels');
+    const reading = readTranscript(text);
+    check(reading.detected, 'a two-panel transcript is detected');
+    check(reading.layout === 'course_mark_weight_credit', 'its layout is the numeric one', reading.layout);
+    check(reading.student === 'Doe, Jordan', 'the student name beside the title is read', reading.student);
+    check(reading.school === 'Northgate High School', 'the school is read from the title line', reading.school);
+    check(reading.courses.length === 14, 'every course on the page is read', reading.courses.length);
+    check(
+      reading.courses.every((row) => row.code !== null),
+      'every row keeps its course number',
+      reading.courses.filter((row) => row.code === null).map((row) => row.title),
+    );
+    check(
+      reading.courses[0].code === '240118g' && reading.courses[0].title === 'Accel Geometry:Concepts',
+      'a code and the title wrapped under it are one row',
+      reading.courses[0],
+    );
+    // A title printed with a single space before its mark used to fail the row.
+    const software = reading.courses.find((row) => row.code === '650441h');
+    check(
+      software?.title === 'Intro to Software Tech' && software.mark === '99' && software.credit === 1,
+      'a title that runs up to the mark column keeps its row',
+      software,
+    );
+    // The row above it must not have swallowed it.
+    const business = reading.courses.find((row) => row.code === '650440h');
+    check(
+      business?.title === 'Intro to Business and Tech',
+      'a wrapped title stops at its own last word instead of taking the next course',
+      business,
+    );
+    check(
+      reading.courses.some((row) => row.title === 'Literature & Composition I Hnr'),
+      'a title wrapped after an ampersand is joined',
+      reading.courses.map((row) => row.title),
+    );
+    check(reading.totalCredits === 11.5, 'the credits add up across both panels', reading.totalCredits);
+    check(
+      reading.checks.tablesWhoseCreditsDisagree === 0,
+      'a term split over the panel break is checked against the footer of the whole term',
+      reading.checks,
+    );
+    check(
+      reading.tableTotals.length === 4 &&
+        reading.tableTotals[3].rows === 8 &&
+        reading.tableTotals[3].credits === 7.5 &&
+        reading.tableTotals[3].reportedCredits === 7.5,
+      'the split term is one table of eight rows worth 7.5 credits',
+      reading.tableTotals,
+    );
+    check(
+      reading.courses.every((row) =>
+        text.slice(row.span.start, row.span.end).includes(row.title.split(' ')[0]),
+      ),
+      'every row span points at its own printed line',
+    );
+
+    const { record } = await engine.understand(text);
+    check(record.transcript?.courses.length === 14, 'the record carries every row', record.transcript?.courses.length);
+    check(record.transcript?.terms.length === 4, 'the repeated banner is one term', record.transcript?.terms);
+    check(
+      record.transcript?.terms.find((term) => term.value === '2025-2026 Grade 10 Term 2')?.courses === 8,
+      'the split term counts both halves',
+      record.transcript?.terms,
+    );
+    check(
+      !record.warnings.some((warning) => warning.includes('a row may have been missed')),
+      'a complete transcript raises no missing-row warning',
+      record.warnings,
+    );
+  }
+
   // ---- the dated-row layout, with subject headings and a state assessment ---
   {
     const text = sample('mock_transcript_lepid');
@@ -214,25 +296,17 @@ async function main(): Promise<void> {
   }
 
   // ---- a PDF text layer, which hands over one text run per printed cell ----
-  // Real geometry: the runs of data/samples/transcript_term_marks.pdf, recorded by
-  // scripts/build_pdf_runs.py. PDFKit reports one "line" per run, so the page
-  // arrives as `Course`, `Mark`, `Weight`, `Credit` and then eight course codes
-  // each on a line of its own. The layout pass is what puts the printed rows back
-  // together, and without it this page read as no transcript at all.
+  // Real geometry: the runs of data/samples/transcript_term_marks.pdf. A text
+  // layer reports the runs the author drew, so the page arrives as `Course`,
+  // `Mark`, `Weight`, `Credit` and then each course's code, title, wrapped title
+  // and numbers on lines of their own. The reader puts those runs back into rows;
+  // without that this page read as no transcript at all.
   {
-    const blocks = JSON.parse(
+    const runs = JSON.parse(
       readFileSync(path.join(SAMPLES, 'transcript_term_marks_runs.json'), 'utf8'),
     ) as PaceVisionBlock[];
-    const { text: laid } = layoutPages([
-      { page: 0, method: 'text_layer', text: '', blocks, imageWidth: 612, imageHeight: 792, durationMs: 1 },
-    ]);
-    check(
-      laid.split('\n').some((line) => line.trim().startsWith('Course') && line.includes('Credit')),
-      'the column header is rebuilt as one printed line',
-      laid.split('\n').slice(0, 3),
-    );
-
-    const reading = readTranscript(laid);
+    const text = runs.map((block) => block.text).join('\n');
+    const reading = readTranscript(text);
     check(reading.detected, 'a transcript read from a PDF text layer is detected', reading.checks);
     check(reading.layout === 'course_mark_weight_credit', 'its layout is the numeric one', reading.layout);
     check(reading.courses.length === 8, 'every course the PDF prints is read', reading.courses.length);
@@ -248,37 +322,19 @@ async function main(): Promise<void> {
 
   // ---- two term tables printed side by side on one page --------------------
   // This is the shape that folded two courses into one: both columns share every
-  // baseline. Read one column at a time, each course keeps its own title, mark and
-  // credit, and the wrapped title stays with the course it belongs to.
+  // baseline, so a reader that matches numbers from the right edge of a line took
+  // the left column's title for the right column's. One page, two tables: each
+  // course keeps its own title, mark and credit, and each table is checked against
+  // its own footer.
   {
     const runs = JSON.parse(
       readFileSync(path.join(SAMPLES, 'transcript_term_marks_runs.json'), 'utf8'),
     ) as PaceVisionBlock[];
-    const narrow = (block: PaceVisionBlock, left: number, index: number): PaceVisionBlock => ({
-      ...block,
-      id: `${left}-${index}`,
-      x: Number((left + block.x * 0.42).toFixed(6)),
-      width: Number((block.width * 0.42).toFixed(6)),
-    });
-    const blocks = [
-      ...runs.map((block, index) => narrow(block, 0.05, index)),
-      ...runs.map((block, index) => ({
-        ...narrow(block, 0.55, index),
-        text: block.text.replace('Term 2', 'Term 1'),
-      })),
-    ];
-    const { text: laid } = layoutPages([
-      {
-        page: 0,
-        method: 'text_layer',
-        text: blocks.map((block) => block.text).join('\n'),
-        blocks,
-        imageWidth: 612,
-        imageHeight: 792,
-        durationMs: 1,
-      },
-    ]);
-    const reading = readTranscript(laid);
+    const text = [
+      ...runs.map((block) => block.text),
+      ...runs.map((block) => block.text.replace('Term 2', 'Term 1')),
+    ].join('\n');
+    const reading = readTranscript(text);
     check(reading.courses.length === 16, 'both page columns are read in full', reading.courses.length);
     check(reading.terms.length === 2, 'both term banners are read', reading.terms.map((term) => term.value));
     check(
@@ -330,56 +386,6 @@ async function main(): Promise<void> {
       reading.courses[1],
     );
     check(reading.courses[1].credit === 0.5 && reading.courses[1].mark === '94', 'and its own numbers', reading.courses[1]);
-  }
-
-  // The same shape through the layout pass: page 2 has no header, so its lines
-  // have to be rebuilt from boxes without a grid to guide them.
-  {
-    const columns = [0.065, 0.15, 0.56, 0.65, 0.79];
-    const coursePage = (args: {
-      page: number;
-      rows: { code: string; title: string; mark: string; weight: string | null; credit: string }[];
-      header: boolean;
-    }): PaceVisionPage => {
-      const blocks: PaceVisionBlock[] = [];
-      let y = 0.08;
-      const add = (text: string, x: number, width: number) => {
-        blocks.push({ id: `p${args.page}-${blocks.length}`, text, page: args.page, x, y, width, height: 0.012, confidence: 1 });
-      };
-      add('2025-2026 Grade 09 Term 2', columns[0], 0.22);
-      y += 0.02;
-      if (args.header) {
-        ['Course', 'Mark', 'Weight', 'Credit'].forEach((word, index) =>
-          add(word, columns[index === 0 ? 0 : index + 1], 0.05),
-        );
-        y += 0.02;
-      }
-      for (const row of args.rows) {
-        add(row.code, columns[0], 0.05);
-        add(row.title, columns[1], 0.12);
-        add(row.mark, columns[2], 0.01);
-        if (row.weight) add(row.weight, columns[3], 0.02);
-        add(row.credit, columns[4], 0.01);
-        y += 0.018;
-      }
-      add('Credit: 7.500   GPA: 4.13333', 0.4, 0.15);
-      return {
-        page: args.page,
-        method: 'text_layer',
-        text: blocks.map((block) => block.text).join('\n'),
-        blocks,
-        imageWidth: 612,
-        imageHeight: 792,
-        durationMs: 1,
-      };
-    };
-    const { text: laid } = layoutPages([
-      coursePage({ page: 0, header: true, rows: [{ code: '220725y', title: 'Accel Adv', mark: '94', weight: '1.0000', credit: '1' }] }),
-      coursePage({ page: 1, header: false, rows: [{ code: '200715b', title: 'Accel Geo', mark: '94', weight: '0.5000', credit: '0.5' }] }),
-    ]);
-    const reading = readTranscript(laid);
-    check(reading.courses.length === 2, 'a header-less page is laid out from its boxes and read', reading.courses.length);
-    check(reading.courses[1]?.code === '200715b', 'the second page keeps its course', reading.courses[1]);
   }
 
   // ---- two rows that landed on one text line, with no page gutter ----------

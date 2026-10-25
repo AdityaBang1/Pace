@@ -1,21 +1,23 @@
 /**
  * From "the value starts at character 214" to "the value is on page 2, this line".
  *
- * The reader sees one string, so pages are laid out into lines here and their
- * start offsets remembered. Apple Vision returns one observation per line with a
- * normalised box; PDFKit returns its text layer with a box per *text run*, and a
- * PDF that draws each table cell at an absolute position hands over one run per
- * cell. Reading that as one line per cell is what turned a transcript into a
- * column of orphaned words: `Course`, `Mark`, `Weight`, `Credit`, then eight
- * course codes each on their own line. So the text the readers get is rebuilt
- * from the boxes: runs that share a baseline become the printed line, spaced by
- * the gap between them.
+ * The reader sees one string; pages are joined here with a blank line between
+ * them, so a heading at the top of a page stays its own line, and each line's
+ * absolute offset is recorded. A value on page 3 therefore still resolves to page
+ * 3, and the source sheet shows `Page 3`.
  *
- * A page is laid out as a table only when its boxes form a column grid. A page of
- * prose in two columns is not a table, and its columns stay separate lines
- * instead of being spliced into each other.
+ * The page's own text is used exactly as it came, never rebuilt from the boxes.
+ * That is deliberate: a PDF text layer reports the runs the author drew, and the
+ * order it reports them in is the order the page was written — a row's title, the
+ * values under it, the next row — even when each run arrives on its own line.
+ * Merging those runs by their coordinates was tried and it is strictly worse: a
+ * transcript printed in two columns below a full-width header has no page-wide
+ * gutter to split on, so left-hand labels ended up spliced into right-hand course
+ * titles. The reader handles the run-per-line shape by joining the lines instead
+ * (see `tableLines` in the transcript reader), where the document's own order is
+ * still intact.
  */
-import type { PaceVisionBlock, PaceVisionPage } from '../../../modules/pace-vision';
+import type { PaceVisionPage } from '../../../modules/pace-vision';
 import type { EvidenceMeta } from '../import/draft';
 import type { AcademicRecord } from '../../engine/types';
 
@@ -27,294 +29,37 @@ export interface LineGeometry {
   confidence: number | null;
 }
 
-/** Blocks whose x positions agree within this page fraction share a column. */
-const COLUMN_TOLERANCE = 0.012;
-/** A column printed on at least this many lines is structure, not coincidence. */
-const COLUMN_REPEATS = 3;
-/** Two boxes on one baseline further apart than this are separate columns of text. */
-const COLUMN_GAP = 0.04;
-/** Beyond this, a gap is page furniture, and forty spaces is already unmistakable. */
-const MAX_GAP_SPACES = 40;
-/** An average table cell is short; an average column of prose is not. */
-const SHORT_CELL = 16;
-
-type Block = PaceVisionBlock;
-
-function median(values: number[]): number {
-  const sorted = [...values].sort((left, right) => left - right);
-  return sorted[Math.floor(sorted.length / 2)] ?? 0;
-}
-
-function sameBaseline(left: Block, right: Block): boolean {
-  const top = Math.max(left.y, right.y);
-  const bottom = Math.min(left.y + left.height, right.y + right.height);
-  const overlap = bottom - top;
-  const shorter = Math.min(left.height, right.height);
-  if (shorter > 0) return overlap > shorter * 0.5;
-  return Math.abs(left.y - right.y) <= 0.004;
-}
-
-/** The x positions that recur down the page, with the blocks anchored at each. */
-function columnsOf(blocks: Block[]): Block[][] {
-  const sorted = [...blocks].sort((left, right) => left.x - right.x);
-  const anchors: number[] = [];
-  const columns: Block[][] = [];
-  for (const block of sorted) {
-    const anchor = anchors[anchors.length - 1];
-    if (anchor !== undefined && block.x - anchor <= COLUMN_TOLERANCE) {
-      columns[columns.length - 1].push(block);
-      continue;
-    }
-    anchors.push(block.x);
-    columns.push([block]);
-  }
-  return columns.filter((column) => column.length >= COLUMN_REPEATS);
-}
-
-/**
- * Is this page a table? Three or more columns that each repeat, and at least two
- * thirds of them made of short cells. A transcript, a grade report and a schedule
- * all qualify; a page of prose set in two columns does not.
- */
-function isTablePage(blocks: Block[]): boolean {
-  const columns = columnsOf(blocks);
-  if (columns.length < 3) return false;
-  const short = columns.filter(
-    (column) => median(column.map((block) => block.text.trim().length)) <= SHORT_CELL,
-  ).length;
-  return short * 3 >= columns.length * 2;
-}
-
-/** The gap between two boxes, in characters, as the page would have printed it. */
-function gapSpaces(left: Block, right: Block): number {
-  const gap = right.x - (left.x + left.width);
-  if (!(gap > 0)) return 1;
-  const perCharacter = left.width / Math.max(left.text.length, 1);
-  if (!(perCharacter > 0)) return 1;
-  return Math.min(Math.max(Math.round(gap / perCharacter), 1), MAX_GAP_SPACES);
-}
-
-function joined(segment: Block[]): string {
-  let text = segment[0].text.trim();
-  for (let index = 1; index < segment.length; index += 1) {
-    text += ' '.repeat(gapSpaces(segment[index - 1], segment[index])) + segment[index].text.trim();
-  }
-  return text;
-}
-
-function bboxOf(segment: Block[]): LineGeometry['bbox'] {
-  if (!segment.length) return null;
-  const left = Math.min(...segment.map((block) => block.x));
-  const top = Math.min(...segment.map((block) => block.y));
-  const right = Math.max(...segment.map((block) => block.x + block.width));
-  const bottom = Math.max(...segment.map((block) => block.y + block.height));
-  return { x: left, y: top, width: right - left, height: bottom - top };
-}
-
-interface LaidLine {
-  text: string;
-  bbox: LineGeometry['bbox'];
-  confidence: number | null;
-}
-
-/** The words a printed table header is made of. Page structure, not a field rule. */
-const HEADER_WORDS = new Set([
-  'DATE', 'GL', 'TITLE', 'COURSE', 'COURSES', 'MARK', 'GRADE', 'WEIGHT',
-  'CREDIT', 'CREDITS', 'UNITS', 'TERM', 'SCORE', 'SUBJECT', 'PERIOD', 'HOURS',
-]);
-
-/** A run of boxes that reads as one printed table header. */
-function headerRun(blocks: Block[]): boolean {
-  if (blocks.length < 3) return false;
-  const words = blocks.map((block) => block.text.trim().toUpperCase());
-  if (!words.every((word) => HEADER_WORDS.has(word))) return false;
-  return words.some((word) => word === 'MARK' || word === 'GRADE' || word === 'CREDIT');
-}
-
-/**
- * Where a page prints two tables beside each other.
- *
- * The evidence is a header line carrying two headers: a term-grade page prints
- * `Course Mark Weight Credit` above each of its two columns, and an academic
- * history prints `DATE GL TITLE MARK CREDIT` twice. That line also marks the
- * gutter, which is the one place on the page where two tables end and begin, so
- * the page can be read one column at a time instead of two rows at a time.
- */
-function pageGutter(rows: Block[][]): number | null {
-  const found: number[] = [];
-  for (const blocksOfRow of rows) {
-    const row = [...blocksOfRow].sort((left, right) => left.x - right.x);
-    let widest = -1;
-    let gutter = 0;
-    for (let split = 1; split < row.length; split += 1) {
-      if (!headerRun(row.slice(0, split)) || !headerRun(row.slice(split))) continue;
-      const left = row[split - 1];
-      const gap = row[split].x - (left.x + left.width);
-      // Of the two headers, the gutter is the widest gap between them: a single
-      // `Course Mark Weight Credit` header also splits where `Weight` ends.
-      if (gap > widest) {
-        widest = gap;
-        gutter = (left.x + left.width + row[split].x) / 2;
-      }
-    }
-    if (widest >= 0) found.push(gutter);
-  }
-  if (!found.length) return null;
-  const middle = median(found);
-  // Two headers that disagree about where the gutter is were two different rows,
-  // not one page layout; guessing there would put a whole column on the wrong side.
-  if (found.some((value) => Math.abs(value - middle) > 0.02)) return null;
-  return middle;
-}
-
-/** Boxes grouped into the printed line they share. */
-function rowsOf(blocks: Block[]): Block[][] {
-  const rows: Block[][] = [];
-  for (const block of [...blocks].sort((left, right) => left.y - right.y || left.x - right.x)) {
-    const row = rows.find((candidate) => sameBaseline(candidate[0], block));
-    if (row) row.push(block);
-    else rows.push([block]);
-  }
-  return rows;
-}
-
-function lineOf(segment: Block[]): LaidLine {
-  return {
-    text: joined(segment),
-    bbox: bboxOf(segment),
-    confidence: Math.min(...segment.map((block) => block.confidence)),
-  };
-}
-
-/**
- * How boxes on one baseline are glued back into a line.
- *
- * `grid` is a table: every box on the baseline is part of the row, however wide
- * the gap between cells. `cells` is a page of runs-per-cell whose columns do not
- * repeat enough to be called a grid: a wide gap is crossed only to reach another
- * short cell (a header word, a mark), never to splice in a sentence. `prose`
- * joins only what a word space could explain.
- */
-type LineMode = 'grid' | 'cells' | 'prose';
-
-/** The printed lines of a run of boxes, one table row at a time. */
-function linesOfBlocks(blocks: Block[], mode: LineMode): LaidLine[] {
-  const out: LaidLine[] = [];
-  for (const blocksOfRow of rowsOf(blocks)) {
-    const row = [...blocksOfRow].sort((left, right) => left.x - right.x);
-    let segment: Block[] = [];
-    for (const block of row) {
-      const previous = segment[segment.length - 1];
-      const gap = previous ? block.x - (previous.x + previous.width) : 0;
-      const glue =
-        previous !== undefined &&
-        (mode === 'grid' ||
-          gap <= COLUMN_GAP ||
-          (mode === 'cells' &&
-            gap <= 0.6 &&
-            (block.text.trim().length <= SHORT_CELL || previous.text.trim().length <= SHORT_CELL)));
-      if (glue) {
-        segment.push(block);
-      } else {
-        if (segment.length) out.push(lineOf(segment));
-        segment = [block];
-      }
-    }
-    if (segment.length) out.push(lineOf(segment));
-  }
-  return out;
-}
-
-/** The page's own lines, each paired with the box of the line it is. */
-function rawLines(page: PaceVisionPage): LaidLine[] {
-  const blocks = page.blocks ?? [];
-  const lines = page.text.split('\n');
-  // One block per printed line, or none: a partial pairing would put a highlight
-  // on the wrong line, which the reader cannot detect and the user would believe.
-  const boxes = blocks.length === lines.filter((line) => line.trim()).length ? blocks : [];
-  let taken = 0;
-  return lines.map((line) => {
-    if (!line.trim()) {
-      // The blank lines separate paragraphs, and the section reader uses them.
-      return { text: line, bbox: null, confidence: null };
-    }
-    const block = boxes[taken];
-    taken += 1;
-    return {
-      text: line,
-      bbox: block ? { x: block.x, y: block.y, width: block.width, height: block.height } : null,
-      confidence: block ? block.confidence : null,
-    };
-  });
-}
-
-/**
- * Did this page arrive as one text box per cell?
- *
- * PDFKit reports a text layer per run, so a table drawn cell by cell arrives as
- * `Course`, `Mark`, then a code and a title, one per line. That is the one shape
- * the layout pass exists to repair: its boxes form columns down the page, which
- * a page of prose — however many columns it is set in — never does cell by cell.
- * Every other page keeps its own lines, because re-deriving lines that are
- * already right is only a way to make them worse.
- */
-function isFlatPage(page: PaceVisionPage, blocks: Block[]): boolean {
-  if (!blocks.length) return false;
-  if (blocks.some((block) => block.text.includes('\n'))) return false;
-  const lines = (page.text.trim() ? page.text : blocks.map((block) => block.text).join('\n'))
-    .split('\n')
-    .filter((line) => line.trim());
-  if (lines.length < 5 || blocks.length !== lines.length) return false;
-  if (isTablePage(blocks)) return true;
-  // Few rows mean few repeats: a term table with two courses on the page is
-  // still one column of words and one of numbers, so its lines are still cells.
-  const cells = lines.filter((line) => {
-    const value = line.trim();
-    return value.split(/\s+/).length <= 3 && value.length <= 22;
-  }).length;
-  return cells * 5 >= lines.length * 3;
-}
-
-/** The printed lines of one page, rebuilt from its boxes. */
-function pageLines(page: PaceVisionPage): LaidLine[] {
-  const blocks = page.blocks ?? [];
-  if (!blocks.length) {
-    // No boxes: the page's own text is still the page's text, it just cannot be
-    // highlighted. Keeping it unchanged is better than dropping a page from the
-    // document, and the blank lines it prints separate its paragraphs.
-    return page.text.split('\n').map((line) => ({ text: line, bbox: null, confidence: null }));
-  }
-  // A page that already has its lines keeps them. Only a page that arrived one
-  // text box per line is laid out again from its boxes.
-  const grid = isTablePage(blocks);
-  if (!grid && !isFlatPage(page, blocks)) return rawLines(page);
-
-  const mode: LineMode = grid ? 'grid' : 'cells';
-  const gutter = grid ? pageGutter(rowsOf(blocks)) : null;
-  if (gutter !== null) {
-    // Read the left column to its end and then the right one, the way the page is
-    // read: each column is a table of its own, with its own heading and its own
-    // term banner, and a title that wrapped stays under the course it belongs to.
-    const left = blocks.filter((block) => block.x < gutter);
-    const right = blocks.filter((block) => block.x >= gutter);
-    return [...linesOfBlocks(left, 'grid'), ...linesOfBlocks(right, 'grid')];
-  }
-  return linesOfBlocks(blocks, mode);
-}
-
 /**
  * Every page as lines, and the one string the reader sees.
  *
- * Pages are separated by a blank line so a heading at the top of a page stays its
- * own line, and every line records the offset it occupies in the joined text, so
- * an evidence span still resolves to the page and the printed line it came from.
+ * A block is one recognised line; Vision and PDFKit both report one per printed
+ * line, so they pair with the page's lines one to one. When they do not (a page
+ * that lost its boxes, or one whose text has blank lines), the text is kept and
+ * the page contributes no highlight rather than a wrong one.
  */
 export function layoutPages(pages: PaceVisionPage[]): { text: string; lines: LineGeometry[] } {
-  const chunks: { text: string; page: number; line: LaidLine | null }[] = [];
+  const chunks: { text: string; page: number; bbox: LineGeometry['bbox']; confidence: number | null }[] = [];
   pages.forEach((page, pageIndex) => {
-    for (const line of pageLines(page)) chunks.push({ text: line.text, page: page.page, line });
+    const blocks = page.blocks ?? [];
+    const lines = page.text.split('\n');
+    const paired = blocks.length === lines.filter((line) => line.trim()).length;
+    let taken = 0;
+    for (const line of lines) {
+      if (!line.trim()) {
+        chunks.push({ text: line, page: page.page, bbox: null, confidence: null });
+        continue;
+      }
+      const block = paired ? blocks[taken] : undefined;
+      taken += 1;
+      chunks.push({
+        text: line,
+        page: page.page,
+        bbox: block ? { x: block.x, y: block.y, width: block.width, height: block.height } : null,
+        confidence: block ? block.confidence : null,
+      });
+    }
     // A blank line between pages keeps a heading at the top of one its own line.
-    if (pageIndex < pages.length - 1) chunks.push({ text: '', page: page.page, line: null });
+    if (pageIndex < pages.length - 1) chunks.push({ text: '', page: page.page, bbox: null, confidence: null });
   });
 
   const lines: LineGeometry[] = [];
@@ -322,13 +67,13 @@ export function layoutPages(pages: PaceVisionPage[]): { text: string; lines: Lin
   let offset = 0;
   for (const chunk of chunks) {
     texts.push(chunk.text);
-    if (chunk.line && chunk.text) {
+    if (chunk.text.trim()) {
       lines.push({
         page: chunk.page,
         start: offset,
         end: offset + chunk.text.length,
-        bbox: chunk.line.bbox,
-        confidence: chunk.line.confidence,
+        bbox: chunk.bbox,
+        confidence: chunk.confidence,
       });
     }
     offset += chunk.text.length + 1;

@@ -101,18 +101,24 @@ const MARK_ALTERNATION = MARK_VALUES.map(escaped).join('|');
 
 const DATE_CELL = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/;
 const GRADE_LEVEL_CELL = /^\d{1,2}$/;
-const CREDIT_CELL = /^\d+(?:\.\d{1,3})?$/;
+const CREDIT_CELL = /^(?:\d+(?:\.\d{1,3})?|\.\d{1,3})$/;
 const SCORE_CELL = /^\d{2,4}$/;
-const NUMERIC_CELL = /^\d+(?:\.\d{1,6})?$/;
-const NUMERIC_TOKEN = /^\d+(?:\.\d{1,6})?$/;
+// A printed `Credit: .500` is half a credit, not a typo: the dot may lead.
+const NUMERIC_CELL = /^(?:\d+(?:\.\d{1,6})?|\.\d{1,6})$/;
+const NUMERIC_TOKEN = NUMERIC_CELL;
 const TERM_BANNER =
   /(?<![0-9])(\d{4}\s*-\s*\d{4})\s+Grade\s+(\d{1,2})\s+Term\s+(\d{1,2})/i;
-const FOOTER_TOTALS = /(?<![A-Za-z])Credits?\s*:\s*(\d+(?:\.\d{1,4})?)/i;
+const FOOTER_TOTALS = /(?<![A-Za-z])Credits?\s*:\s*(\d+(?:\.\d{1,4})?|\.\d{1,4})/i;
 const FOOTER_GPA = /(?<![A-Za-z])GPA\s*:\s*(\d+(?:\.\d{1,6})?)/i;
-const COURSE_CODE_PREFIX = /^(\d{3,6}[A-Za-z]{1,2})\s+/;
+// A course number may have no letter suffix (`03391 GAVS AP Psychology`) or a
+// three-letter one (`200715ams Accel Geo`).
+const COURSE_CODE_PREFIX = /^(\d{3,6}[A-Za-z]{0,3})\s+(?=\S)/;
 const PERFORMANCE_LEVEL =
   /Performance\s+Level\s*:?[ \t]*(\d+)[ \t]+([A-Za-z][A-Za-z]*(?:[ \t]+[A-Za-z]+)*)/i;
 const LABELLED_LINE = /[A-Za-z]\s*:\s+\S/;
+// A row starts with its course number; a school banner with its school code.
+const COURSE_CODE_START = /^\d{3,6}[A-Za-z]{0,3}(?:\s|$)/;
+const SCHOOL_CODE_LINE = /^#\d{3,5}(?:\s|$)/;
 
 type TableColumn = 'mark' | 'weight' | 'credit' | 'other';
 
@@ -155,7 +161,11 @@ const INSTITUTION_WORDS = ['HIGH SCHOOL', 'UNIVERSITY', 'COLLEGE', 'DISTRICT', '
 const DOCUMENT_TITLE_HINTS = ['HISTORY', 'TRANSCRIPT', 'ACADEMIC RECORD', 'STUDENT RECORD'];
 
 const SECTION_HEADING = /^[A-Z][A-Z0-9 &/,.()'\-]{1,60}$/;
-const STUDENT_NAME = /^[A-Z][A-Za-z'’\-]+,\s*[A-Z][A-Za-z'’\-]*$/;
+const STUDENT_NAME = /^[A-Z][A-Za-z'’\-]+,\s+[A-Z][A-Za-z'’\-]*(?:\s+[A-Z][A-Za-z'’\-]*)*$/;
+// The labels a school prints beside an identity line, never a value of their own.
+const HEADER_IDENTITY_LABEL = /\b(?:Sex|DOB|SSN|Entry Date|Exit Date|Graduation)\b/i;
+// "Phone: (907) xxx-xxxx": a label with its colon is not an institution name.
+const HEADER_LABEL_LINE = /^[A-Za-z][A-Za-z /]*:\s*\S/;
 
 /** Python's `(?<![A-Za-z])MARK(?![A-Za-z])`, assembled per call. */
 const LOOSE_COURSE = new RegExp(
@@ -302,15 +312,21 @@ function looseNumericRow(
   const values: Record<string, NumericValue> = {};
   let end = body.trimEnd().length;
   for (const name of [...columns].reverse()) {
+    // A template literal eats an unknown escape, so the regex escapes here are
+    // doubled: with single backslashes the mark column's own alternative is
+    // `d+` and no number ever matches it.
     const token = name === 'mark'
-      ? `(\d+(?:\.\d{1,6})?|${MARK_ALTERNATION})`
+      ? `(\\d+(?:\\.\\d{1,6})?|${MARK_ALTERNATION})`
       : '(\\d+(?:\\.\\d{1,6})?)';
-    const piece = new RegExp(`^(.*?)(?:${token})$`).exec(body.slice(0, end));
+    // The number must be its own token, not the tail of a word or the decimals of
+    // another number: `1.0000` ends in `0000`, and a lazy prefix would happily
+    // read that as the weight of a course whose title is `Intro to Software
+    // Tech`, dropping the row. Anchoring the match to a whitespace boundary keeps
+    // the whole number.
+    const piece = new RegExp(`(?:^|\\s)(${token})$`).exec(body.slice(0, end));
     if (!piece) return null;
-    const text = piece[2];
-    const start = piece[1].length;
-    // The number must be its own token, not the tail of a word or another number.
-    if (start > 0 && !/\s/.test(body[start - 1])) return null;
+    const text = piece[1];
+    const start = piece.index + piece[0].length - text.length;
     const value = numericCell(name, { text, start, end: start + text.length });
     if (!value) return null;
     values[name] = value;
@@ -680,6 +696,11 @@ function numericTableRow(
     if (numericColumns(following) !== null) break;
     if (following.some((cell) => NUMERIC_TOKEN.test(cell.text))) break;
     if (LABELLED_LINE.test(stripped)) break;
+    // A title's tail never starts a new course and never carries the school code
+    // a table is printed under. Reading either as the tail consumed the next row:
+    // one course lost its own line and the one above it wore the school's name.
+    if (COURSE_CODE_START.test(stripped)) break;
+    if (SCHOOL_CODE_LINE.test(stripped)) break;
     if (looseNumericRow(followingBody, columns) !== null) break;
     const extra = followingBody.slice(following[0].start, following[following.length - 1].end);
     title = `${title} ${extra.replace(/\s+/g, ' ').trim()}`.trim();
@@ -723,16 +744,24 @@ function readHeader(
     if (TERM_BANNER.test(value)) continue;
     // A labelled identity line ("Lepid, Arthur    Sex  Male") carries the student
     // name before the first label; the label values are not course data.
-    if (/\b(?:Sex|DOB|SSN|Entry Date|Exit Date|Graduation)\b/i.test(value)) {
+    if (HEADER_IDENTITY_LABEL.test(value)) {
       const name = value.split(/\s{2,}|\t/)[0].trim();
       if (!student && STUDENT_NAME.test(name)) student = name;
       continue;
     }
-    if (!student && STUDENT_NAME.test(value)) {
-      student = value;
-      continue;
+    // A page may print its title and the student's name side by side on one line
+    // ("South Forsyth High School Transcript    Bang, Aditya Prashant"), and a
+    // school's name and its address on another. Each printed column is its own
+    // value, so the line is split where the page left a wide gap.
+    for (const part of value.split(/\s{2,}|\t/).map((piece) => piece.trim()).filter(Boolean)) {
+      if (!student && STUDENT_NAME.test(part)) {
+        student = part;
+        continue;
+      }
+      // A label and its value, an address, or a school code names no school.
+      if (HEADER_LABEL_LINE.test(part) || SCHOOL_CODE_LINE.test(part) || /\d{3,}/.test(part)) continue;
+      schoolLines.push(part);
     }
-    schoolLines.push(value);
   }
   const keeps: string[] = [];
   for (const value of schoolLines) {
@@ -743,8 +772,16 @@ function readHeader(
     }
     keeps.push(value);
   }
-  // The first remaining line is the institution; the rest is its address.
-  const school = keeps.length ? keeps[0] : null;
+  // The institution is the line that names one; failing that, the document's own
+  // title (a page headed "South Forsyth High School Transcript" is that school's
+  // transcript); failing that, the first line that was not an address.
+  const named = keeps.find((value) =>
+    INSTITUTION_WORDS.some((word) => value.toUpperCase().includes(word)),
+  );
+  const titled = documentTitle && INSTITUTION_WORDS.some((word) => documentTitle!.toUpperCase().includes(word))
+    ? documentTitle.replace(/\s+(?:Transcript|Academic Record|Student Record|Record|History)\s*$/i, '').trim()
+    : null;
+  const school = named ?? titled ?? (keeps.length ? keeps[0] : null);
   return { student, school, documentTitle };
 }
 
@@ -819,8 +856,140 @@ function readStanding(
   return { reportedCredits, reportedGpa, asOf };
 }
 
+/** The words a printed column header can be made of, one per line or all on one. */
+const SPLIT_HEADER_WORDS = new Set([
+  'COURSE', 'COURSES', 'TITLE', 'MARK', 'GRADE', 'WEIGHT', 'CREDIT', 'CREDITS',
+  'UNITS', 'TERM', 'SCORE', 'GPA', 'POINTS', 'ATTEMPTED', 'EARNED',
+]);
+
+/** A column header printed one word per line, as a PDF text layer reports it. */
+function splitHeader(
+  text: string,
+  all: Line[],
+  index: number,
+): { line: Line; last: number; columns: TableColumn[] } | null {
+  const words: string[] = [];
+  let last = index;
+  for (let cursor = index; cursor < all.length && words.length < 6; cursor += 1) {
+    const value = all[cursor].text.trim();
+    if (!value || /\s/.test(value)) break;
+    const upper = value.toUpperCase();
+    if (!SPLIT_HEADER_WORDS.has(upper)) break;
+    words.push(upper);
+    last = cursor;
+  }
+  if (words.length < 3) return null;
+  if (!words.includes('MARK') || !words.includes('CREDIT')) return null;
+  const columns = numericColumns(tokensOf(words.join(' ')));
+  if (!columns) return null;
+  return {
+    line: { text: text.slice(all[index].start, all[last].end), start: all[index].start, end: all[last].end },
+    last,
+    columns,
+  };
+}
+
+/**
+ * Put a table back together when its cells were printed one per line.
+ *
+ * A PDF text layer reports the runs the author drew, which for a table is the
+ * column header one word per line and then, for each course, the title and the
+ * values under it on lines of their own. The document's own order is right there;
+ * what is missing is the row. This joins a run of header words into one header,
+ * and a line that holds only a row's values back onto the title lines above it.
+ *
+ * The joined line is the document's own slice, so every offset in it is still a
+ * real position in the page and a value can be quoted from it.
+ */
+function tableLines(text: string, all: Line[]): Line[] {
+  const out: Line[] = [];
+  let columns: TableColumn[] | null = null;
+  // The title lines above the values, and the value lines themselves: a text
+  // layer may report the whole row on one line or each number on its own line.
+  let pending: Line[] = [];
+  let numbers: Line[] = [];
+
+  const flush = () => {
+    if (pending.length) out.push(...pending);
+    if (numbers.length) out.push(...numbers);
+    pending = [];
+    numbers = [];
+  };
+
+  for (let index = 0; index < all.length; index += 1) {
+    const line = all[index];
+    const body = line.text;
+    const trimmed = body.trim();
+    if (!trimmed) {
+      flush();
+      out.push(line);
+      continue;
+    }
+
+    const header = splitHeader(text, all, index);
+    if (header) {
+      flush();
+      out.push(header.line);
+      columns = header.columns;
+      index = header.last;
+      continue;
+    }
+
+    if (TERM_BANNER.test(body) || FOOTER_TOTALS.test(body) || FOOTER_GPA.test(body)) {
+      flush();
+      out.push(line);
+      continue;
+    }
+
+    if (columns) {
+      const width = columns;
+      const tokens = trimmed.split(/\s+/);
+      // Numbers only, one per column: a values line, or one column of one.
+      const valuesOnly =
+        tokens.length <= width.length &&
+        tokens.every(
+          (token, position) =>
+            numericCell(width[position], { text: token, start: 0, end: token.length }) !== null,
+        );
+      if (valuesOnly) {
+        numbers.push(line);
+        if (numbers.length < width.length) continue;
+        // A whole row's worth of numbers under some title lines is that row.
+        if (pending.length) {
+          const first = pending[0];
+          const joined: Line = { text: text.slice(first.start, line.end), start: first.start, end: line.end };
+          // Only when the joined line really is a row: a stray run of numbers
+          // under prose must not consume the prose as a title.
+          if (numericRow(cells(joined.text), width) || looseNumericRow(joined.text, width)) {
+            out.push(joined);
+            pending = [];
+            numbers = [];
+            continue;
+          }
+        }
+        out.push(...numbers);
+        numbers = [];
+        continue;
+      }
+      if (numbers.length) {
+        out.push(...numbers);
+        numbers = [];
+      }
+    }
+
+    pending.push(line);
+    // A title is one or two lines at most; anything further above a value line
+    // is a line of its own, printed as it came.
+    while (pending.length > 2) {
+      out.push(pending.shift() as Line);
+    }
+  }
+  flush();
+  return out;
+}
+
 export function readTranscript(text: string): TranscriptReading {
-  const all = lines(text);
+  const all = tableLines(text, lines(text));
   const allCells = all.map((line) => (line.text.trim() ? cells(line.text) : []));
   const seam = columnSeam(allCells);
   const terms = termBanners(text, all);
@@ -1012,16 +1181,37 @@ export function readTranscript(text: string): TranscriptReading {
   const header = readHeader(text, all.slice(0, Math.max(bodyLine, 0)));
   const standing = readStanding(all);
 
-  const tableTotals: TranscriptTableTotal[] = numericRows.map((table) => ({
-    term: table.rows.find((row) => row.term !== null)?.term ?? null,
-    rows: table.rows.length,
-    credits:
-      Math.round(
-        table.rows.reduce((sum, row) => sum + (row.credit ?? 0), 0) * 1000,
-      ) / 1000,
-    reportedCredits: table.footer?.credits ?? null,
-    reportedGpa: table.footer?.gpa ?? null,
-  }));
+  const tableTotals: TranscriptTableTotal[] = [];
+  for (const table of numericRows) {
+    const term = table.rows.find((row) => row.term !== null)?.term ?? null;
+    const credits =
+      Math.round(table.rows.reduce((sum, row) => sum + (row.credit ?? 0), 0) * 1000) / 1000;
+    // A term printed across a column or a page break prints its header and its
+    // banner again and keeps its rows coming; only the last of those blocks
+    // carries the term's footer. Checking each block against that footer reported
+    // a missing row on a term that was complete, so the blocks of one term are
+    // checked together.
+    const last = tableTotals[tableTotals.length - 1];
+    if (
+      last &&
+      term !== null &&
+      last.term === term &&
+      (last.reportedCredits === null || table.footer === null)
+    ) {
+      last.rows += table.rows.length;
+      last.credits = Math.round((last.credits + credits) * 1000) / 1000;
+      last.reportedCredits = table.footer?.credits ?? last.reportedCredits;
+      last.reportedGpa = table.footer?.gpa ?? last.reportedGpa;
+      continue;
+    }
+    tableTotals.push({
+      term,
+      rows: table.rows.length,
+      credits,
+      reportedCredits: table.footer?.credits ?? null,
+      reportedGpa: table.footer?.gpa ?? null,
+    });
+  }
 
   const credits = courses.map((row) => row.credit).filter((value): value is number => value !== null);
   const totalCredits = Math.round(credits.reduce((sum, value) => sum + value, 0) * 1000) / 1000;

@@ -589,13 +589,14 @@ function numericTable(
   text: string,
   all: Line[],
   allCells: Cell[][],
-  headerIndex: number,
+  startsFrom: number,
+  firstRow: number,
   endIndex: number,
   columns: TableColumn[],
 ): TranscriptCourseRow[] {
   const out: TranscriptCourseRow[] = [];
-  const starts = columnStarts(all[headerIndex].text, columns);
-  for (let lineIndex = headerIndex + 1; lineIndex < endIndex; lineIndex += 1) {
+  const starts = columnStarts(all[startsFrom].text, columns);
+  for (let lineIndex = firstRow; lineIndex < endIndex; lineIndex += 1) {
     const body = all[lineIndex].text;
     const list = allCells[lineIndex];
     if (!body.trim() || !list.length) continue;
@@ -988,11 +989,15 @@ function tableLines(text: string, all: Line[]): Line[] {
         );
       if (valuesOnly) {
         numbers.push(line);
-        // Values belong to the title lines above them, whether they arrived on
-        // one line or one per line; a short line may also be a row whose last
-        // number was printed right up against the title. The join is only kept
-        // when the result really reads as a row.
-        if (join()) continue;
+        // Only a whole row's worth of numbers is joined: with fewer, the last
+        // column read would land on a number that belongs to a column already
+        // read — `Spanish I` beside `99` and `0.0000` became a mark of `I` — and
+        // the row would be built before its credit arrived.
+        const counted = numbers.reduce(
+          (total, value) => total + value.text.trim().split(/\s+/).length,
+          0,
+        );
+        if (counted === width.length && join()) continue;
         if (numbers.length >= width.length) flush();
         continue;
       }
@@ -1017,21 +1022,41 @@ export function readTranscript(text: string): TranscriptReading {
   // Every numeric block, not just the first: a transcript prints one per term or
   // per page, and reading only the first would silently drop every later page.
   const numericBlocks: {
+    /** The line that printed the columns this block is read with. */
+    startsFrom: number;
+    /** The first line of the block's rows. */
     header: number;
     end: number;
     columns: TableColumn[];
     footer: number | null;
   }[] = [];
+  // A school prints its column header once and then its next term's banner and
+  // rows under it, with that term's own footer. Those rows belong to a table of
+  // their own — a transcript that stopped at the first footer lost the course.
+  let carry: { columns: TableColumn[]; startsFrom: number } | null = null;
   let probe = 0;
   while (probe < all.length) {
-    const columns = headerColumns(allCells[probe], all[probe].text);
+    let columns = headerColumns(allCells[probe], all[probe].text);
+    let startsFrom = probe;
+    let first = probe + 1;
     if (!columns) {
-      probe += 1;
-      continue;
+      const banner = TERM_BANNER.test(all[probe].text);
+      const follows =
+        carry !== null &&
+        probe + 1 < all.length &&
+        (numericRow(allCells[probe + 1], carry.columns) !== null ||
+          looseNumericRow(all[probe + 1].text, carry.columns) !== null);
+      if (!banner || !follows || !carry) {
+        probe += 1;
+        continue;
+      }
+      columns = carry.columns;
+      startsFrom = carry.startsFrom;
+      first = probe + 1;
     }
     let end = all.length;
     let footer: number | null = null;
-    for (let cursor = probe + 1; cursor < all.length; cursor += 1) {
+    for (let cursor = first; cursor < all.length; cursor += 1) {
       const body = all[cursor].text;
       if (FOOTER_TOTALS.test(body) || FOOTER_GPA.test(body)) {
         end = cursor;
@@ -1043,6 +1068,7 @@ export function readTranscript(text: string): TranscriptReading {
         break;
       }
     }
+    carry = { columns, startsFrom };
     // A header printed once per page or per term carries over its own footer.
     if (footer !== null) {
       let term: string | null = null;
@@ -1072,7 +1098,7 @@ export function readTranscript(text: string): TranscriptReading {
         if (footerOf(all[end])) footer = end;
       }
     }
-    numericBlocks.push({ header: probe, end, columns, footer });
+    numericBlocks.push({ startsFrom, header: first, end, columns, footer });
     probe = end;
   }
 
@@ -1174,7 +1200,7 @@ export function readTranscript(text: string): TranscriptReading {
     footer: { credits: number | null; gpa: number | null } | null;
   }[] = [];
   for (const block of numericBlocks) {
-    const rows = numericTable(text, all, allCells, block.header, block.end, block.columns);
+    const rows = numericTable(text, all, allCells, block.startsFrom, block.header, block.end, block.columns);
     numericRows.push({ rows, footer: block.footer !== null ? footerOf(all[block.footer]) : null });
     courses.push(...rows);
   }
@@ -1220,7 +1246,10 @@ export function readTranscript(text: string): TranscriptReading {
       last &&
       term !== null &&
       last.term === term &&
-      (last.reportedCredits === null || table.footer === null)
+      // Only a table that printed no footer of its own is continued by the next
+      // one printed under the same term: a term that came with its own footer is
+      // a table of its own, even when the banner names the same term.
+      last.reportedCredits === null
     ) {
       last.rows += table.rows.length;
       last.credits = Math.round((last.credits + credits) * 1000) / 1000;

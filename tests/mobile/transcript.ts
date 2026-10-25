@@ -361,6 +361,44 @@ async function main(): Promise<void> {
     );
   }
 
+  // ---- a second term printed under the header above it --------------------
+  // A school that prints its column header once, then a term banner and that
+  // term's rows with their own footer, is printing two tables. Stopping at the
+  // first footer read the first term only and lost the course under the second
+  // banner, which is a whole credit missing from the page's own total.
+  {
+    const text = [
+      'Course                                      Mark   Weight   Credit',
+      '2025-2026 Grade 09   Term 1',
+      '03391 GAVS AP Psychology A   99   0.5000   0.5',
+      'Credit: .500   GPA: 5.00000',
+      '2025-2026 Grade 09   Term 2',
+      '03392 GAVS AP Psychology B   99   0.5000   0.5',
+      'Credit: .500   GPA: 5.00000',
+    ].join('\n');
+    const reading = readTranscript(text);
+    check(reading.courses.length === 2, 'the rows under the second banner are read', reading.courses.length);
+    check(
+      reading.courses.map((row) => row.code).join(',') === '03391,03392',
+      'each term keeps its own course',
+      reading.courses.map((row) => row.code),
+    );
+    check(
+      reading.courses.map((row) => row.term).join(' / ') ===
+        '2025-2026 Grade 09 Term 1 / 2025-2026 Grade 09 Term 2',
+      'each row keeps the term printed above it',
+      reading.courses.map((row) => row.term),
+    );
+    check(reading.totalCredits === 1, 'the two terms add up', reading.totalCredits);
+    check(
+      reading.tableTotals.length === 2 &&
+        reading.tableTotals.every((table) => table.rows === 1 && table.credits === 0.5 && table.reportedCredits === 0.5),
+      'each term is checked against its own footer',
+      reading.tableTotals,
+    );
+    check(reading.checks.tablesWhoseCreditsDisagree === 0, 'and neither is called short', reading.checks);
+  }
+
   // ---- a header printed once, rows continuing on the pages below it --------
   // A printed transcript often labels its columns once and then repeats only the
   // term banner and the footer on the next page. Reading a table only up to its

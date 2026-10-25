@@ -10,7 +10,7 @@
  * Nothing here decides anything on the user's behalf: every proposal starts
  * `included: true` only because the reviewer is about to see all of them.
  */
-import type { AcademicRecord, ConfidenceBand, DocumentType, Proposal } from '../../engine/types';
+import type { AcademicRecord, ConfidenceBand, DocumentType, Proposal, TranscriptRecord } from '../../engine/types';
 
 
 export interface GradingValue {
@@ -39,6 +39,32 @@ export interface DraftSource {
   label: string;
 }
 
+export interface TranscriptRowValue {
+  title: string;
+  code: string | null;
+  mark: string | null;
+  credit: number | null;
+  term: string | null;
+}
+
+/**
+ * A transcript draft: every printed row, as one proposal each.
+ *
+ * The unit of review is a course row, not a document, because that is what a
+ * transcript is: eight rows, eight courses, each with its own mark and credit.
+ */
+export interface TranscriptDraft {
+  student: string | null;
+  school: string | null;
+  rows: Proposal<TranscriptRowValue>[];
+  terms: TranscriptRecord['terms'];
+  assessments: TranscriptRecord['assessments'];
+  totalCredits: number;
+  reportedCredits: number | null;
+  reportedGpa: number | null;
+  layout: TranscriptRecord['layout'];
+}
+
 export interface MatchProposal {
   courseId: string;
   title: string;
@@ -62,6 +88,8 @@ export interface ImportDraft {
   code: Proposal<string> | null;
   instructor: Proposal<string> | null;
   credits: Proposal<number> | null;
+  /** Present when the document was read as a transcript. */
+  transcript: TranscriptDraft | null;
   grading: Proposal<GradingValue>[];
   meetings: Proposal<MeetingValue>[];
   policies: Proposal<string>[];
@@ -177,6 +205,8 @@ export function buildDraft(
   const credits =
     course?.credits != null ? courseProposal(record, 'credits', Number(course.credits)) : null;
 
+  const transcript = buildTranscriptDraft(record);
+
   const grading: Proposal<GradingValue>[] = record.grading.map((row) => {
     const evidence = evidenceFor(record, 'grading', row.evidence.start);
     return proposal<GradingValue>({
@@ -242,6 +272,7 @@ export function buildDraft(
     code,
     instructor,
     credits,
+    transcript,
     grading,
     meetings,
     policies,
@@ -255,9 +286,41 @@ export function buildDraft(
   };
 }
 
+function buildTranscriptDraft(record: AcademicRecord): TranscriptDraft | null {
+  const transcript = record.transcript;
+  if (!transcript) return null;
+  return {
+    student: transcript.student,
+    school: transcript.school,
+    terms: transcript.terms,
+    assessments: transcript.assessments,
+    totalCredits: transcript.totalCredits,
+    reportedCredits: transcript.reportedCredits,
+    reportedGpa: transcript.reportedGpa,
+    layout: transcript.layout,
+    rows: transcript.courses.map((row) => {
+      const evidence = record.evidence.find((item) => item.id === row.evidenceId) ?? null;
+      return proposal<TranscriptRowValue>({
+        key: `transcript:${row.id}`,
+        value: { title: row.title, code: row.code, mark: row.mark, credit: row.credit, term: row.term },
+        confidence: row.confidence,
+        evidenceId: row.evidenceId || null,
+        evidenceText: evidence?.sourceText ?? null,
+        start: evidence?.start ?? null,
+        end: evidence?.end ?? null,
+        entityId: null,
+      });
+    }),
+  };
+}
+
 /** Proposals that will be committed. Order is the order they are shown in. */
 export function includedGrading(draft: ImportDraft): Proposal<GradingValue>[] {
   return draft.grading.filter((row) => row.included);
+}
+
+export function includedTranscript(draft: ImportDraft): Proposal<TranscriptRowValue>[] {
+  return draft.transcript?.rows.filter((row) => row.included) ?? [];
 }
 
 export function gradingTotal(draft: ImportDraft): number | null {
@@ -275,6 +338,11 @@ export function gradingTotal(draft: ImportDraft): number | null {
 export function importBlocker(draft: ImportDraft): string | null {
   if (draft.duplicate) return 'This page is already imported.';
   if (!draft.academic) return 'Pace did not find academic information in this document.';
+  if (draft.transcript) {
+    const rows = includedTranscript(draft);
+    if (!rows.length) return 'Keep at least one course row to import.';
+    return null;
+  }
   const hasName = Boolean(draft.title?.included || draft.code?.included);
   if (!hasName && !draft.linkToCourseId) return 'Add a course title or code before importing.';
   const importedValues =
@@ -291,6 +359,9 @@ export function importBlocker(draft: ImportDraft): string | null {
 
 /** A one-line summary for the recent-imports list. */
 export function draftHeadline(draft: ImportDraft): string {
+  if (draft.transcript) {
+    return draft.transcript.student ?? draft.transcript.school ?? 'Transcript';
+  }
   const title = draft.title?.included ? draft.title.value : null;
   const code = draft.code?.included ? draft.code.value : null;
   return title ?? code ?? 'Untitled document';
@@ -298,6 +369,11 @@ export function draftHeadline(draft: ImportDraft): string {
 
 /** The review screen's counts: how many values, how many need a decision. */
 export function reviewCounts(draft: ImportDraft) {
+  if (draft.transcript) {
+    const rows = draft.transcript.rows.length;
+    const needsReview = draft.transcript.rows.filter((row) => row.band === 'low' || row.band === 'medium').length;
+    return { total: rows, needsReview };
+  }
   const all = [
     ...(draft.title ? [draft.title] : []),
     ...(draft.code ? [draft.code] : []),

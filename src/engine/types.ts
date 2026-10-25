@@ -97,6 +97,60 @@ export interface PolicyEntry {
   evidence: { text: string; start: number; end: number };
 }
 
+export interface TranscriptCourseEntry {
+  id: string;
+  term: string | null;
+  code: string | null;
+  title: string;
+  /** As printed: "94", "A-", "P". */
+  mark: string | null;
+  /** The mark as a percentage, when it was printed as one. */
+  markPercent: number | null;
+  credit: number | null;
+  /** The subject area printed above the row, when there was one. */
+  section: string | null;
+  confidence: number;
+  evidenceId: string;
+  requiresConfirmation: true;
+}
+
+export interface TranscriptTerm {
+  value: string;
+  courses: number;
+  credits: number;
+}
+
+export interface TranscriptAssessmentEntry {
+  title: string;
+  score: number;
+  level: number | null;
+  label: string | null;
+}
+
+/**
+ * A transcript, as the app reviews it.
+ *
+ * One course per printed row, grouped by the term banner above it. This is the
+ * shape an academic history actually has; the syllabus fields (`course`,
+ * `grading`, `meetings`) are left empty for a transcript because none of them
+ * describes it.
+ */
+export interface TranscriptRecord {
+  layout: 'course_mark_weight_credit' | 'dated_rows';
+  student: string | null;
+  school: string | null;
+  documentTitle: string | null;
+  terms: TranscriptTerm[];
+  courses: TranscriptCourseEntry[];
+  assessments: TranscriptAssessmentEntry[];
+  totalCredits: number;
+  /** The total the page printed, when it printed one. */
+  reportedCredits: number | null;
+  reportedGpa: number | null;
+  checks: Record<string, number | boolean | string | null>;
+  requiresConfirmation: true;
+}
+
 export interface DocumentType {
   label: string;
   proposedLabel: string;
@@ -120,6 +174,8 @@ export interface AcademicRecord {
     pageCount?: number;
   };
   course: Record<string, string | number>;
+  /** Present when the document was read as an academic transcript. */
+  transcript: TranscriptRecord | null;
   grading: GradingEntry[];
   gradingTotalPercent: number | null;
   gradingTotalConsistent: boolean | null;

@@ -218,7 +218,113 @@ async function main(): Promise<void> {
     'the course’s own evidence is reachable',
   );
 
-  // 5. Recent imports survive an undo with a readable name.
+  // 5. A transcript import writes one course per row, and undo removes them all.
+  const transcript = await fresh();
+  const transcriptEvidence = (index: number) => ({
+    id: `ev-t${index}`,
+    field: 'transcript_course',
+    page: 0,
+    text: `row ${index}`,
+    start: index * 20,
+    end: index * 20 + 12,
+    bbox: null,
+    ocrConfidence: null,
+    modelConfidence: null,
+    confidenceSource: 'rule' as const,
+    extractionMethod: 'deterministic',
+  });
+  await commitImport(
+    transcript as unknown as Db,
+    input({
+      importId: 'draft-tr-3',
+      courseId: '',
+      course: null,
+      transcriptCourses: [
+        {
+          id: 'draft-tr-3-c0',
+          title: 'Biology I Honors',
+          code: '32115y',
+          term: '2025-2026 Grade 09 Term 2',
+          grade: '93',
+          gradePercent: 93,
+          credits: 1,
+          evidenceId: 'ev-t0',
+        },
+        {
+          id: 'draft-tr-3-c1',
+          title: 'Spanish II',
+          code: '50715y',
+          term: '2025-2026 Grade 09 Term 2',
+          grade: '97',
+          gradePercent: 97,
+          credits: 1,
+          evidenceId: 'ev-t1',
+        },
+        {
+          id: 'draft-tr-3-c2',
+          title: 'Intro to Software Tech',
+          code: '708325y',
+          term: '2025-2026 Grade 09 Term 2',
+          grade: 'P',
+          gradePercent: null,
+          credits: 0.5,
+          evidenceId: 'ev-t2',
+        },
+      ],
+      grading: [],
+      meetings: [],
+      policies: [],
+      evidence: [transcriptEvidence(0), transcriptEvidence(1), transcriptEvidence(2)],
+      summary: { course: 'Transcript', transcript: true, courses: 3, credits: 2.5, warnings: 0, linked: false },
+    }),
+  );
+  check(transcript.count('courses') === 3, 'a transcript import writes one course per row');
+  check(transcript.count('grading_categories') === 0, 'a transcript import writes no grading rows');
+  const termRow = transcript.raw
+    .prepare("SELECT term, grade, grade_percent, credits FROM courses WHERE id = 'draft-tr-3-c0'")
+    .get() as { term: string; grade: string; grade_percent: number; credits: number };
+  check(termRow.term === '2025-2026 Grade 09 Term 2', 'a transcript course keeps its term');
+  check(termRow.grade === '93' && termRow.grade_percent === 93, 'a transcript course keeps its mark');
+  check(termRow.credits === 1, 'a transcript course keeps its credit');
+  const transcriptImport = transcript.raw
+    .prepare("SELECT course_id FROM imports WHERE id = 'draft-tr-3'")
+    .get() as { course_id: string | null };
+  check(transcriptImport.course_id === null, 'a transcript import names no single course');
+  const transcriptDetail = await getCourse(transcript as unknown as Db, 'draft-tr-3-c0');
+  check(
+    transcriptDetail?.evidence.some((row) => row.id === 'ev-t0') === true,
+    'the printed row is reachable from the course it created',
+  );
+  await undoImport(transcript as unknown as Db, 'draft-tr-3');
+  check(transcript.count('courses') === 0, 'undo removes every course the transcript import created');
+  check(transcript.count('documents') === 1, 'undo keeps the transcript document');
+
+  // 6. An existing v2 store gains the transcript columns on open.
+  const upgraded = new TestDatabase();
+  upgraded.raw.exec(`CREATE TABLE courses (
+    id TEXT PRIMARY KEY NOT NULL,
+    title TEXT,
+    code TEXT,
+    instructor TEXT,
+    credits REAL,
+    document_id TEXT,
+    import_id TEXT,
+    grading_total_percent REAL,
+    grading_total_consistent INTEGER,
+    document_type TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  );`);
+  await migrate(upgraded as unknown as Db);
+  const columnNames = upgraded.raw
+    .prepare('PRAGMA table_info(courses)')
+    .all()
+    .map((row) => (row as { name: string }).name);
+  for (const column of ['term', 'grade', 'grade_percent', 'evidence_id']) {
+    check(columnNames.includes(column), `migrate adds the courses.${column} column`);
+  }
+
+  // 7. Recent imports survive an undo with a readable name.
   const history = await listImports(linked as unknown as Db);
   check(history.length === 2, 'both imports are in history');
   check(

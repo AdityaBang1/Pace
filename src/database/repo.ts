@@ -23,6 +23,18 @@ export interface DocumentInput {
   timings: Record<string, number>;
 }
 
+/** One printed transcript row, committed as its own course. */
+export interface TranscriptCourseInput {
+  id: string;
+  title: string;
+  code: string | null;
+  term: string | null;
+  grade: string | null;
+  gradePercent: number | null;
+  credits: number | null;
+  evidenceId: string | null;
+}
+
 export interface CourseInput {
   title: string | null;
   code: string | null;
@@ -78,6 +90,8 @@ export interface CommitInput {
   linkToCourseId: string | null;
   courseId: string;
   course: CourseInput | null;
+  /** The courses a transcript import creates, one per printed row. */
+  transcriptCourses?: TranscriptCourseInput[] | null;
   document: DocumentInput;
   grading: GradingInput[];
   meetings: MeetingInput[];
@@ -92,6 +106,12 @@ export interface CourseRow {
   code: string | null;
   instructor: string | null;
   credits: number | null;
+  /** Printed on a transcript row; null for a syllabus. */
+  term: string | null;
+  grade: string | null;
+  grade_percent: number | null;
+  /** The printed row a transcript course was read from. */
+  evidence_id: string | null;
   document_id: string | null;
   import_id: string | null;
   grading_total_percent: number | null;
@@ -176,7 +196,10 @@ export async function commitImport(db: SQLiteDatabase, input: CommitInput): Prom
   if (!input.document.academic) {
     throw new Error('This document was not read as academic, so there is nothing to import.');
   }
-  const courseId = input.linkToCourseId ?? input.courseId;
+  // A transcript import names no single course: its courses are one per row.
+  const courseId = input.transcriptCourses?.length
+    ? null
+    : input.linkToCourseId ?? input.courseId;
   await db.withTransactionAsync(async () => {
     // Re-importing the same page after an undo must not trip the primary key.
     // An upsert keeps the document's identity stable instead of REPLACE, which
@@ -241,6 +264,33 @@ export async function commitImport(db: SQLiteDatabase, input: CommitInput): Prom
          WHERE id = ?`,
         [input.course?.instructor ?? null, input.course?.credits ?? null, now, input.linkToCourseId],
       );
+    } else if (input.transcriptCourses?.length) {
+      // A transcript is many courses. Every row created by this import carries
+      // the import id, which is what Undo removes as one unit.
+      for (const course of input.transcriptCourses) {
+        await db.runAsync(
+          `INSERT INTO courses (
+            id, title, code, credits, term, grade, grade_percent, evidence_id,
+            document_id, import_id, grading_total_percent, grading_total_consistent,
+            document_type, created_at, updated_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, ?, ?, ?)`,
+          [
+            course.id,
+            course.title,
+            course.code,
+            course.credits,
+            course.term,
+            course.grade,
+            course.gradePercent,
+            course.evidenceId,
+            input.document.id,
+            input.importId,
+            input.document.documentType,
+            now,
+            now,
+          ],
+        );
+      }
     } else {
       const course = input.course;
       await db.runAsync(
@@ -359,8 +409,9 @@ export async function getCourse(db: SQLiteDatabase, id: string): Promise<CourseD
           SELECT evidence_id FROM grading_categories WHERE course_id = ? AND evidence_id IS NOT NULL
           UNION SELECT evidence_id FROM meetings WHERE course_id = ? AND evidence_id IS NOT NULL
           UNION SELECT evidence_id FROM policies WHERE course_id = ? AND evidence_id IS NOT NULL
+          UNION SELECT evidence_id FROM courses WHERE id = ? AND evidence_id IS NOT NULL
         )`,
-    [course.document_id ?? '', id, id, id],
+    [course.document_id ?? '', id, id, id, id],
   );
   const document = course.document_id
     ? await db.getFirstAsync<{
@@ -474,16 +525,18 @@ export async function undoImport(db: SQLiteDatabase, importId: string): Promise<
   );
   if (!row) return;
   const now = new Date().toISOString();
-  const created = row.course_id
-    ? await db.getFirstAsync<{ id: string }>(
-        'SELECT id FROM courses WHERE id = ? AND import_id = ?',
-        [row.course_id, importId],
-      )
-    : null;
+  // Every course this import created, not just the one its `course_id` names: a
+  // transcript import creates one course per row and its import row names none.
+  const created = await db.getAllAsync<{ id: string }>(
+    'SELECT id FROM courses WHERE import_id = ?',
+    [importId],
+  );
 
   await db.withTransactionAsync(async () => {
-    if (created) {
-      await db.runAsync('DELETE FROM courses WHERE id = ?', [created.id]);
+    if (created.length) {
+      for (const course of created) {
+        await db.runAsync('DELETE FROM courses WHERE id = ?', [course.id]);
+      }
     } else if (row.course_id) {
       // Two identifiers, because one is not enough: rows this import wrote carry
       // ids derived from the import id, while a value the reviewer typed has no
@@ -541,6 +594,11 @@ export async function deleteDocument(db: SQLiteDatabase, documentId: string): Pr
         [documentId],
       );
     }
+    // A transcript course keeps its identity but loses the row it was read from.
+    await db.runAsync(
+      'UPDATE courses SET evidence_id = NULL WHERE evidence_id IN (SELECT id FROM evidence WHERE document_id = ?)',
+      [documentId],
+    );
     await db.runAsync('DELETE FROM documents WHERE id = ?', [documentId]);
     for (const course of affected) await refreshGradingTotal(db, course.id, now);
   });

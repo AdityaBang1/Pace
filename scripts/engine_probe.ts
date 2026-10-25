@@ -44,6 +44,27 @@ async function main() {
   for (const section of record.sections) {
     console.log(`  - ${section.label.padEnd(22)} ${section.heading.slice(0, 48)} (${Math.round(section.confidence * 100)}%)`);
   }
+  if (record.transcript) {
+    const transcript = record.transcript;
+    console.log(
+      `transcript    ${transcript.courses.length} courses · ${transcript.terms.length} term${transcript.terms.length === 1 ? '' : 's'} · ${transcript.totalCredits} credits` +
+        `${transcript.reportedCredits != null ? ` (printed ${transcript.reportedCredits})` : ''}` +
+        `${transcript.reportedGpa != null ? ` · GPA ${transcript.reportedGpa}` : ''}`,
+    );
+    for (const term of transcript.terms) {
+      console.log(`  term        ${term.value} (${term.courses} courses, ${term.credits} credits)`);
+    }
+    for (const row of transcript.courses) {
+      console.log(`  row         ${[row.mark, row.credit, row.code, row.title].filter((value) => value != null).join('  ')}`);
+    }
+    if (transcript.assessments.length) {
+      console.log(
+        `  assessments ${transcript.assessments
+          .map((row) => `${row.title} ${row.score}${row.label ? ` (${row.level} ${row.label})` : ''}`)
+          .join(' | ')}`,
+      );
+    }
+  }
   console.log(`course        ${JSON.stringify(record.course)}`);
   console.log(`grading       ${record.grading.map((row) => `${row.category} ${row.weight}%`).join(', ') || '—'}`);
   console.log(`grading total ${gradingTotal(draft) ?? '—'} (${record.gradingTotalConsistent ?? 'n/a'})`);
@@ -53,7 +74,12 @@ async function main() {
   console.log(`policies      ${Object.keys(record.policies).join(', ') || '—'}`);
   console.log(`evidence      ${record.evidence.length} rows, ${record.evidence.filter((e) => e.groundedInSource).length} grounded`);
   for (const warning of record.warnings) console.log(`warning       ${warning}`);
-  console.log(`import        ${importBlocker(draft) ?? `ready (${draft.grading.length} categories)`}`);
+  console.log(
+    `import        ${importBlocker(draft) ??
+      (draft.transcript
+        ? `ready (${draft.transcript.rows.length} course rows)`
+        : `ready (${draft.grading.length} categories)`)}`,
+  );
   console.log(
     `timings       type ${timings.documentTypeMs}ms · sections ${timings.sectionsMs}ms · model ${timings.sectionModelMs}ms · rules ${timings.extractionMs}ms · total ${timings.totalMs}ms`,
   );

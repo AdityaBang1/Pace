@@ -39,6 +39,7 @@ app/                         Expo Router screens (UI only)
 src/engine/                  the reader (TypeScript, shared with the Node harness)
   PaceEngine.ts              the one application-facing entry point
   ir.ts                      AcademicRecord construction, stable ids, gate
+  transcript.ts              the transcript reader (terms, rows, marks, credits)
   rules/                     deterministic readers (grading, meetings, credits, …)
   tokenizer.ts, sectionModel.ts, documentType.ts, matcher.ts
   native/                    phone adapters: model files, ONNX Runtime, manifest
@@ -54,7 +55,7 @@ src/database/                schema + repositories (expo-sqlite)
 src/ui/                      theme, primitives, formatters
 modules/pace-vision/         Swift Expo module: Vision OCR + PDFKit, with line geometry
 assets/models/               the frozen reader bundle and manifest
-tests/mobile/                Node parity harness + app logic checks
+tests/mobile/                Node parity harness, app logic, transcript and SQLite checks
 ```
 
 The UI imports **only** `AcademicRecord` (from `src/engine/types.ts`) and the
@@ -90,7 +91,45 @@ graphs at launch doubled start-up work for a path most documents never take.
 `engine.understand(text, { assumeDocumentType })` lets the reviewer re-read the
 same text as a different type. It re-opens the gate, records in `warnings` that a
 person made that call, and never runs on a document type the reader cannot
-extract from (the UI only offers `syllabus` and `course_catalog`).
+extract from (the UI offers `syllabus`, `transcript`, `schedule` and
+`course_catalog`; choosing `syllabus` on a transcript turns the transcript reader
+off, and choosing `transcript` on anything else reads it as one and says when no
+row was found).
+
+### Transcripts
+
+A syllabus is one course with grading weights; an academic transcript is many
+courses, one printed row each. Running the section classifier and the value
+readers over a transcript produced the wrong record every time — on an Infinite
+Campus history the printed column header (`Course Mark Weight Credit`) became the
+course title and a stray number became its credits.
+
+`src/engine/transcript.ts` is a port of the deterministic parts of
+`pace/transcript_extract.py`, and the engine tries it before the syllabus reader.
+It recognises its layouts from the page itself, not from the gate:
+
+* **term blocks** — a `COURSE  MARK  WEIGHT  CREDIT` header with a banner above it
+  (`2025-2026 Grade 09   Term 2`), rows of a title followed by one number per named
+  column, a title wrapped onto the next printed line, and a footer
+  (`Credit: 7.500   GPA: 4.13333`);
+* **dated rows** — `DATE  GL  TITLE  MARK  CREDIT`, with subject-area headings,
+  state-assessment rows and their performance level, and an `ACADEMIC STANDING`
+  footer. A row-wise OCR of a two-column page is split at its column seam.
+
+When it claims a document, the record's `documentType.label` is `transcript`, the
+syllabus readers do not run (no invented course title, grading, meetings or
+sections), and `record.transcript` carries one row per course with its term,
+printed mark, credit, subject area and the exact span it was read from. Credits
+are summed and compared with the printed total; a difference is a warning, never
+a correction. The gate has four classes and none of them is a transcript, so the
+record keeps the gate's proposal beside the label and says so in `warnings`
+(that page proposes `course_catalog` at 0.85).
+
+The review screen reviews a transcript row by row: tap to keep or drop a course,
+hold to see the printed line. Import writes one course per row in one
+transaction, keeping each row's term, mark and evidence id; Undo removes every
+course that import created. The grade-report layout (`COURSE / TASK / S1` blocks)
+and attendance tables are parsed by the Python module but not by the app yet.
 
 ---
 

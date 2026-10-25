@@ -6,7 +6,7 @@ import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { Proposal } from '../src/engine/types';
-import type { GradingValue, ImportDraft, MeetingValue } from '../src/features/import/draft';
+import type { GradingValue, ImportDraft, MeetingValue, TranscriptRowValue } from '../src/features/import/draft';
 import { gradingTotal, importBlocker, reviewCounts } from '../src/features/import/draft';
 import { useImportDraft } from '../src/features/import/ImportContext';
 import { EditSheet, type EditTarget } from '../src/features/review/EditSheet';
@@ -44,11 +44,18 @@ function valueLabel(proposal: { key: string; value: unknown }): string {
       .filter(Boolean)
       .join(' · ');
   }
+  if (value && typeof value === 'object' && 'mark' in value) {
+    const row = value as TranscriptRowValue;
+    return [row.title, row.mark, row.credit != null ? `${row.credit} credits` : null]
+      .filter(Boolean)
+      .join(' · ');
+  }
   return '';
 }
 
 const TYPE_OPTIONS = [
   { label: 'Syllabus', value: 'syllabus' },
+  { label: 'Transcript', value: 'transcript' },
   { label: 'Schedule', value: 'schedule' },
   { label: 'Course catalog', value: 'course_catalog' },
 ];
@@ -121,14 +128,31 @@ export default function Review() {
 
   const counts = reviewCounts(draft);
   const total = gradingTotal(draft);
-  const includedCount =
-    (draft.title?.included ? 1 : 0) +
-    (draft.code?.included ? 1 : 0) +
-    (draft.instructor?.included ? 1 : 0) +
-    (draft.credits?.included ? 1 : 0) +
-    draft.grading.filter((row) => row.included).length +
-    draft.meetings.filter((row) => row.included).length +
-    draft.policies.filter((row) => row.included).length;
+  const transcriptRows = draft.transcript?.rows ?? [];
+  // Term banners group the rows the way the page printed them; a row printed
+  // under no banner is kept, not dropped, and says so.
+  const transcriptGroups: { label: string; rows: Proposal<TranscriptRowValue>[]; credits: number }[] = [];
+  if (draft.transcript) {
+    const known = draft.transcript.terms.map((term) => term.value);
+    const byTerm = new Map<string, Proposal<TranscriptRowValue>[]>();
+    for (const row of transcriptRows) {
+      const key = row.value.term && known.includes(row.value.term) ? row.value.term : 'No term printed';
+      byTerm.set(key, [...(byTerm.get(key) ?? []), row]);
+    }
+    for (const [label, rows] of byTerm) {
+      const credits = rows.reduce((sum, row) => sum + (row.value.credit ?? 0), 0);
+      transcriptGroups.push({ label, rows, credits: Math.round(credits * 1000) / 1000 });
+    }
+  }
+  const includedCount = draft.transcript
+    ? transcriptRows.filter((row) => row.included).length
+    : (draft.title?.included ? 1 : 0) +
+      (draft.code?.included ? 1 : 0) +
+      (draft.instructor?.included ? 1 : 0) +
+      (draft.credits?.included ? 1 : 0) +
+      draft.grading.filter((row) => row.included).length +
+      draft.meetings.filter((row) => row.included).length +
+      draft.policies.filter((policy) => policy.included).length;
   const blocker = importBlocker(draft);
   const editingProposal = editKey
     ? ([
@@ -176,13 +200,15 @@ export default function Review() {
     if (blocker || importing.current) return;
     importing.current = true;
     setBusy(true);
+    const isTranscript = Boolean(draft.transcript);
     try {
       const courseId = await commit();
       // One haptic per import, at the moment it lands, paired with the navigation
-      // that shows the course. A failure gets the error pattern instead.
+      // that shows the course. A failure gets the error pattern instead. A
+      // transcript has no single course to open, so it lands on the list.
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       reset();
-      router.replace(`/course/${courseId}`);
+      router.replace(isTranscript ? '/academics' : `/course/${courseId}`);
     } catch {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(() => {});
       importing.current = false;
@@ -241,9 +267,9 @@ export default function Review() {
         <View style={{ paddingTop: insets.top }}>
           <PageHeader
             title="Review"
-            subtitle={`${typeLabel} · ${counts.total} item${counts.total === 1 ? '' : 's'} found${
-              counts.needsReview ? `, ${counts.needsReview} to check` : ''
-            }`}
+            subtitle={`${typeLabel} · ${counts.total} ${
+              draft.transcript ? `course${counts.total === 1 ? '' : 's'}` : `item${counts.total === 1 ? '' : 's'}`
+            } found${counts.needsReview ? `, ${counts.needsReview} to check` : ''}`}
             onBack={leave}
             right={
               <Pressable
@@ -273,6 +299,14 @@ export default function Review() {
             {draft.pageCount > 1 ? (
               <Chip label={`${draft.pageCount} pages`} />
             ) : null}
+            {draft.transcript ? (
+              <Chip
+                label={`${draft.transcript.totalCredits} credit${
+                  draft.transcript.totalCredits === 1 ? '' : 's'
+                }`}
+              />
+            ) : null}
+            {draft.transcript?.reportedGpa != null ? <Chip label={`GPA ${draft.transcript.reportedGpa}`} /> : null}
           </View>
 
           <Card padded={false}>
@@ -351,6 +385,167 @@ export default function Review() {
         </View>
 
         {draft.academic ? (
+          draft.transcript ? (
+            <>
+              <SectionHeader
+                right={
+                  <Text style={[type.caption, { color: palette.inkMuted }]}>
+                    {includedCount} of {transcriptRows.length} kept
+                  </Text>
+                }
+              >
+                TRANSCRIPT
+              </SectionHeader>
+              <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
+                <Card>
+                  {draft.transcript.student || draft.transcript.school ? (
+                    <>
+                      <Text style={[type.label, { color: palette.inkFaint }]}>STUDENT</Text>
+                      <Text style={[type.bodyStrong, { color: palette.ink, marginTop: 4 }]}>
+                        {draft.transcript.student ?? draft.transcript.school}
+                      </Text>
+                      {draft.transcript.student && draft.transcript.school ? (
+                        <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
+                          {draft.transcript.school}
+                        </Text>
+                      ) : null}
+                      <Divider />
+                    </>
+                  ) : null}
+                  <View style={{ flexDirection: 'row', gap: space.xl }}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={[type.label, { color: palette.inkFaint }]}>CREDITS</Text>
+                      <Text style={[type.bodyStrong, { color: palette.ink, marginTop: 4 }]}>
+                        {draft.transcript.reportedCredits ?? draft.transcript.totalCredits}
+                        {draft.transcript.reportedCredits != null &&
+                        draft.transcript.reportedCredits !== draft.transcript.totalCredits
+                          ? ` (rows: ${draft.transcript.totalCredits})`
+                          : ''}
+                      </Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <Text style={[type.label, { color: palette.inkFaint }]}>GPA</Text>
+                      <Text style={[type.bodyStrong, { color: palette.ink, marginTop: 4 }]}>
+                        {draft.transcript.reportedGpa ?? '—'}
+                      </Text>
+                    </View>
+                  </View>
+                </Card>
+              </View>
+
+              {transcriptGroups.map((group) => (
+                <View key={group.label}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'baseline',
+                      paddingHorizontal: space.xl + space.lg,
+                      paddingTop: space.lg,
+                      paddingBottom: space.sm,
+                      gap: space.sm,
+                    }}
+                  >
+                    <Text style={[type.label, { color: palette.inkFaint, flex: 1 }]} numberOfLines={1}>
+                      {group.label.toUpperCase()}
+                    </Text>
+                    <Text style={[type.caption, { color: palette.inkFaint }]}>
+                      {group.rows.length} course{group.rows.length === 1 ? '' : 's'} · {group.credits} credits
+                    </Text>
+                  </View>
+                  <View style={{ paddingHorizontal: space.xl }}>
+                    <Card padded={false}>
+                      {group.rows.map((row, index) => (
+                        <View key={row.key}>
+                          {index > 0 ? <Divider inset={space.lg} /> : null}
+                          <PressableScale
+                            accessibilityLabel={`${row.value.title}, ${row.value.mark ?? 'no mark'}. ${
+                              row.included ? 'Kept' : 'Dropped'
+                            }. Tap to change, hold to see its source.`}
+                            onPress={() => setIncluded(row.key, !row.included)}
+                            onLongPress={() => openSource(row, valueLabel(row))}
+                            style={{
+                              paddingHorizontal: space.lg,
+                              paddingVertical: space.md,
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              gap: space.md,
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: 6,
+                                height: 6,
+                                borderRadius: 3,
+                                backgroundColor: row.included ? palette.accent : palette.lineStrong,
+                              }}
+                            />
+                            <View style={{ flex: 1 }}>
+                              <Text
+                                style={[
+                                  type.body,
+                                  { color: row.included ? palette.ink : palette.inkFaint },
+                                  !row.included && { textDecorationLine: 'line-through' },
+                                ]}
+                                numberOfLines={2}
+                              >
+                                {row.value.title}
+                              </Text>
+                              <Text
+                                style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}
+                                numberOfLines={1}
+                              >
+                                {[row.value.code, row.value.credit != null
+                                  ? `${row.value.credit} credit${row.value.credit === 1 ? '' : 's'}`
+                                  : null]
+                                  .filter(Boolean)
+                                  .join(' · ') || '—'}
+                              </Text>
+                            </View>
+                            <Text
+                              style={[
+                                type.number,
+                                { color: row.included ? palette.ink : palette.inkFaint, minWidth: 40, textAlign: 'right' },
+                              ]}
+                            >
+                              {row.value.mark ?? '—'}
+                            </Text>
+                          </PressableScale>
+                        </View>
+                      ))}
+                    </Card>
+                  </View>
+                </View>
+              ))}
+
+              {draft.transcript.assessments.length ? (
+                <>
+                  <SectionHeader>STATE ASSESSMENTS</SectionHeader>
+                  <View style={{ paddingHorizontal: space.xl }}>
+                    <Card padded={false}>
+                      {draft.transcript.assessments.map((assessment, index) => (
+                        <View key={`${assessment.title}-${index}`}>
+                          {index > 0 ? <Divider inset={space.lg} /> : null}
+                          <View style={{ padding: space.lg, gap: 2 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                              <Text style={[type.bodyStrong, { color: palette.ink, flex: 1 }]}>
+                                {assessment.title}
+                              </Text>
+                              <Text style={[type.number, { color: palette.ink }]}>{assessment.score}</Text>
+                            </View>
+                            {assessment.label ? (
+                              <Text style={[type.caption, { color: palette.inkMuted }]}>
+                                Level {assessment.level ?? '—'} · {assessment.label}
+                              </Text>
+                            ) : null}
+                          </View>
+                        </View>
+                      ))}
+                    </Card>
+                  </View>
+                </>
+              ) : null}
+            </>
+          ) : (
           <>
             <SectionHeader>COURSE</SectionHeader>
             <View style={{ paddingHorizontal: space.xl }}>
@@ -551,6 +746,7 @@ export default function Review() {
               </>
             ) : null}
           </>
+          )
         ) : null}
 
         {error ? (
@@ -584,7 +780,10 @@ export default function Review() {
           loading={busy || status === 'committing'}
         />
         <Text style={[type.caption, { color: palette.inkFaint, textAlign: 'center' }]}>
-          {blocker ?? 'Nothing is saved until you import. Tap a value to edit it, hold to see its source.'}
+          {blocker ??
+            (draft.transcript
+              ? 'Nothing is saved until you import. Tap a row to keep or drop it, hold to see the line it came from.'
+              : 'Nothing is saved until you import. Tap a value to edit it, hold to see its source.')}
         </Text>
       </View>
 

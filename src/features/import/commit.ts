@@ -11,9 +11,10 @@ import type {
   GradingInput,
   MeetingInput,
   PolicyInput,
+  TranscriptCourseInput,
 } from '../../database/repo';
 
-import { includedGrading, type ImportDraft } from './draft';
+import { includedGrading, includedTranscript, type ImportDraft } from './draft';
 
 export function draftToCommitInput(draft: ImportDraft): CommitInput {
   const grading: GradingInput[] = includedGrading(draft).map((row, index) => ({
@@ -65,6 +66,62 @@ export function draftToCommitInput(draft: ImportDraft): CommitInput {
   const total = includedGrading(draft).reduce((sum, row) => sum + row.value.weight, 0);
   const consistent = grading.length ? Math.abs(total - 100) <= 5 : null;
 
+  const document: CommitInput['document'] = {
+    id: draft.documentId,
+    documentType: draft.documentType?.label ?? 'other',
+    academic: draft.academic,
+    documentTypeConfidence: draft.documentType?.confidence ?? null,
+    sourceKind: draft.source.kind,
+    sourceUri: draft.source.uri,
+    ocrText: draft.text,
+    engineVersion: draft.record.model.engineVersion,
+    schemaVersion: draft.record.schemaVersion,
+    characterCount: draft.record.document.characters,
+    warnings: draft.warnings,
+    timings: draft.timings,
+  };
+
+  // A transcript is many courses, so it commits many courses — one per included
+  // row — and no grading, meetings or policies, because a transcript prints
+  // none of those.
+  if (draft.transcript) {
+    const courses: TranscriptCourseInput[] = includedTranscript(draft).map((row, index) => {
+      const mark = row.value.mark;
+      const percent = mark !== null && /^\d{1,3}$/.test(mark) ? Number(mark) : null;
+      return {
+        id: `${draft.id}-c${index}`,
+        title: row.value.title,
+        code: row.value.code,
+        term: row.value.term,
+        grade: mark,
+        gradePercent: percent !== null && percent <= 100 ? percent : null,
+        credits: row.value.credit,
+        evidenceId: row.evidenceId,
+      };
+    });
+    return {
+      importId: draft.id,
+      linkToCourseId: null,
+      // No single course names this import; its courses are the list below.
+      courseId: '',
+      course: null,
+      transcriptCourses: courses,
+      document,
+      grading: [],
+      meetings: [],
+      policies: [],
+      evidence,
+      summary: {
+        course: draft.transcript.student ?? draft.transcript.school ?? 'Transcript',
+        transcript: true,
+        courses: courses.length,
+        credits: courses.reduce((sum, course) => sum + (course.credits ?? 0), 0),
+        warnings: draft.warnings.length,
+        linked: false,
+      },
+    };
+  }
+
   return {
     importId: draft.id,
     linkToCourseId: draft.linkToCourseId,
@@ -78,20 +135,7 @@ export function draftToCommitInput(draft: ImportDraft): CommitInput {
       gradingTotalConsistent: consistent,
       documentType: draft.documentType?.label ?? 'other',
     },
-    document: {
-      id: draft.documentId,
-      documentType: draft.documentType?.label ?? 'other',
-      academic: draft.academic,
-      documentTypeConfidence: draft.documentType?.confidence ?? null,
-      sourceKind: draft.source.kind,
-      sourceUri: draft.source.uri,
-      ocrText: draft.text,
-      engineVersion: draft.record.model.engineVersion,
-      schemaVersion: draft.record.schemaVersion,
-      characterCount: draft.record.document.characters,
-      warnings: draft.warnings,
-      timings: draft.timings,
-    },
+    document,
     grading,
     meetings,
     policies,

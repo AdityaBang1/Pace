@@ -25,7 +25,7 @@ import {
   timeRangeLabel,
   weightLabel,
 } from '../../src/ui/format';
-import { radius, space, type } from '../../src/ui/theme';
+import { hairline, radius, space, type } from '../../src/ui/theme';
 import { useTheme } from '../../src/ui/useTheme';
 
 function methodLabel(row: EvidenceRow): string {
@@ -201,6 +201,29 @@ export default function CourseScreen() {
             ) : null}
           </Card>
         ) : null}
+
+        {/* A transcript row carries a term and a printed mark, not an instructor
+            or a grading breakdown; both are what the page actually said. */}
+        {course.term || course.grade ? (
+          <Card>
+            {course.term ? (
+              <>
+                <Text style={[type.label, { color: palette.inkFaint }]}>TERM</Text>
+                <Text style={[type.body, { color: palette.ink, marginTop: 4 }]}>{course.term}</Text>
+              </>
+            ) : null}
+            {course.term && course.grade ? <View style={{ height: space.md }} /> : null}
+            {course.grade ? (
+              <>
+                <Text style={[type.label, { color: palette.inkFaint }]}>MARK</Text>
+                <Text style={[type.body, { color: palette.ink, marginTop: 4 }]}>
+                  {course.grade}
+                  {course.grade_percent != null ? ` (${course.grade_percent}%)` : ''}
+                </Text>
+              </>
+            ) : null}
+          </Card>
+        ) : null}
       </View>
 
       <SectionHeader
@@ -333,6 +356,30 @@ export default function CourseScreen() {
 
       <SectionHeader>SOURCE</SectionHeader>
       <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
+        {course.evidence_id ? (
+          <PressableScale
+            accessibilityLabel="View the transcript row this course was read from"
+            onPress={() => openSource(course.title ?? 'Transcript row', course.evidence_id)}
+            style={{
+              backgroundColor: palette.surface,
+              borderRadius: radius.lg,
+              borderWidth: hairline,
+              borderColor: palette.line,
+              padding: space.lg,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              <Text style={[type.bodyStrong, { color: palette.ink }]}>The transcript row</Text>
+              <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
+                See the printed line this course was read from.
+              </Text>
+            </View>
+            <Text style={{ color: palette.inkFaint, fontSize: 18 }}>›</Text>
+          </PressableScale>
+        ) : null}
+
         <Card>
           <Text style={[type.body, { color: palette.ink }]}>
             {document ? `${documentTypeLabel(document.document_type)} document` : 'No source document'}

@@ -69,7 +69,9 @@ export default function Academics() {
           <Card padded={false}>
             {courses.map((course, index) => {
               const credits = creditsLabel(course.credits);
-              const detail = [course.code, course.instructor, credits].filter(Boolean).join(' · ');
+              const detail = [course.code, course.instructor, credits, course.term]
+                .filter(Boolean)
+                .join(' · ');
               return (
                 <View key={course.id}>
                   {index > 0 ? <Divider inset={space.lg} /> : null}
@@ -89,7 +91,9 @@ export default function Academics() {
                           </Text>
                         ) : null}
                       </View>
-                      {course.grading_count ? (
+                      {course.grade ? (
+                        <Text style={[type.number, { color: palette.ink }]}>{course.grade}</Text>
+                      ) : course.grading_count ? (
                         <Text style={[type.caption, { color: palette.inkFaint }]}>
                           {course.grading_count} categor{course.grading_count === 1 ? 'y' : 'ies'}
                         </Text>

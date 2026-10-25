@@ -17,6 +17,9 @@ import { SectionClassifier } from './sectionModel';
 import { WordPieceTokenizer } from './tokenizer';
 import type { SessionFactory } from './runtime';
 import { cleanHtml } from './rules/text';
+import { readTranscript, transcriptEvidence, buildTranscriptRecord } from './transcript';
+import { documentId } from './sha256';
+import type { Evidence } from './types';
 import { detectSections, sectionBody, type DetectedSection, type RuleTables } from './rules/sections';
 import {
   extractCourseCode,
@@ -217,79 +220,111 @@ export class PaceEngine {
     const typeStart = Date.now();
     const proposedType = this.docType.classify(cleaned);
     const assumed = options.assumeDocumentType?.trim();
-    const documentType = assumed
+    // The transcript reader runs before the syllabus reader because the two
+    // shapes are incompatible: a transcript's column header would otherwise be
+    // read as a course title. Its own evidence decides — a table header or a
+    // column of dated rows — and a reviewer who says "read this as a syllabus"
+    // skips it entirely.
+    const transcriptForced = assumed === 'transcript';
+    const transcriptReading = assumed && !transcriptForced ? null : readTranscript(cleaned);
+    const transcriptMode = transcriptForced || Boolean(transcriptReading?.detected);
+    const transcriptDocId = transcriptMode ? documentId(cleaned) : '';
+    const transcriptEvidenceRows: Evidence[] = transcriptMode && transcriptReading
+      ? transcriptEvidence(transcriptReading, transcriptDocId).courses
+      : [];
+    const transcriptRecord = transcriptMode && transcriptReading
+      ? buildTranscriptRecord(transcriptReading, transcriptDocId, transcriptEvidenceRows)
+      : null;
+    const documentType = transcriptMode
       ? {
           ...proposedType,
-          label: assumed,
-          proposedLabel: assumed,
-          academic: assumed !== 'other',
+          label: 'transcript',
+          proposedLabel: proposedType.label,
+          academic: true,
           abstained: false,
         }
-      : proposedType;
+      : assumed
+        ? {
+            ...proposedType,
+            label: assumed,
+            proposedLabel: assumed,
+            academic: assumed !== 'other',
+            abstained: false,
+          }
+        : proposedType;
     const documentTypeMs = Date.now() - typeStart;
 
     const sectionStart = Date.now();
-    const detected: DetectedSection[] = detectSections(cleaned, this.rules);
+    const detected: DetectedSection[] = transcriptMode ? [] : detectSections(cleaned, this.rules);
     const detectedMs = Date.now() - sectionStart;
 
     const modelStart = Date.now();
-    const predictions = await this.sectionModel.probabilities(detected.map((section) => section.text));
-    // `classify_section`: the heading is asked first; the heading+value model only
-    // takes over when the heading is unfamiliar (< 0.8), which is ~7% of real
-    // sections. Two sections in the shipped fixtures need it ("Meeting Times",
-    // "Attendance Policy"), which is why the second model is in the bundle.
-    const fallbackIndexes: number[] = [];
-    const fallbackInputs: string[] = [];
-    detected.forEach((section, index) => {
-      const best = bestIndex(predictions[index]);
-      const confidence = predictions[index][best];
-      if (confidence >= 0.8) return;
-      const body = sectionBody(cleaned, detected, section, 300);
-      if (!body) return;
-      fallbackIndexes.push(index);
-      fallbackInputs.push(`${section.text}: ${body.slice(0, 400)}`);
-    });
-    // No unfamiliar headings means the second graph is never opened at all.
-    const contextPredictions = fallbackInputs.length
-      ? await (await this.contextLoader()).probabilities(fallbackInputs)
-      : [];
+    let typed: TypedSection[] = [];
+    if (!transcriptMode) {
+      const predictions = await this.sectionModel.probabilities(detected.map((section) => section.text));
+      // `classify_section`: the heading is asked first; the heading+value model only
+      // takes over when the heading is unfamiliar (< 0.8), which is ~7% of real
+      // sections. Two sections in the shipped fixtures need it ("Meeting Times",
+      // "Attendance Policy"), which is why the second model is in the bundle.
+      const fallbackIndexes: number[] = [];
+      const fallbackInputs: string[] = [];
+      detected.forEach((section, index) => {
+        const best = bestIndex(predictions[index]);
+        const confidence = predictions[index][best];
+        if (confidence >= 0.8) return;
+        const body = sectionBody(cleaned, detected, section, 300);
+        if (!body) return;
+        fallbackIndexes.push(index);
+        fallbackInputs.push(`${section.text}: ${body.slice(0, 400)}`);
+      });
+      // No unfamiliar headings means the second graph is never opened at all.
+      const contextPredictions = fallbackInputs.length
+        ? await (await this.contextLoader()).probabilities(fallbackInputs)
+        : [];
+      typed = detected.map((section, index) => {
+        const fallbackAt = fallbackIndexes.indexOf(index);
+        const meta = fallbackAt === -1 ? this.manifest.models.section : this.manifest.models.context;
+        const row = fallbackAt === -1 ? predictions[index] : contextPredictions[fallbackAt];
+        const best = bestIndex(row);
+        const label = meta.labels[best];
+        return {
+          heading: section.text,
+          label,
+          task: meta.tasks[label] ?? 'other',
+          confidence: row[best],
+          start: section.start,
+          end: section.end,
+        };
+      });
+    }
     const sectionModelMs = Date.now() - modelStart;
-    const typed: TypedSection[] = detected.map((section, index) => {
-      const fallbackAt = fallbackIndexes.indexOf(index);
-      const meta = fallbackAt === -1 ? this.manifest.models.section : this.manifest.models.context;
-      const row = fallbackAt === -1 ? predictions[index] : contextPredictions[fallbackAt];
-      const best = bestIndex(row);
-      const label = meta.labels[best];
-      return {
-        heading: section.text,
-        label,
-        task: meta.tasks[label] ?? 'other',
-        confidence: row[best],
-        start: section.start,
-        end: section.end,
-      };
-    });
 
     const extractStart = Date.now();
-    const course: Record<string, Value<string | number>> = {};
-    const title = extractCourseTitle(cleaned, detected);
-    if (title) course.course_title = title;
-    const code = extractCourseCode(cleaned);
-    if (code) course.course_code = code;
-    const credits = extractCredits(cleaned);
-    if (credits) course.credits = credits;
-    const instructor = extractInstructor(cleaned);
-    if (instructor) course.instructor = instructor;
+    let course: Record<string, Value<string | number>> = {};
+    let grading: GradingRow[] = [];
+    let meetings: ReturnType<typeof extractMeetings> = [];
+    let policies: ReturnType<typeof extractPolicies> = {};
+    let total: number | null = null;
+    if (!transcriptMode) {
+      const title = extractCourseTitle(cleaned, detected);
+      if (title) course.course_title = title;
+      const code = extractCourseCode(cleaned);
+      if (code) course.course_code = code;
+      const credits = extractCredits(cleaned);
+      if (credits) course.credits = credits;
+      const instructor = extractInstructor(cleaned);
+      if (instructor) course.instructor = instructor;
 
-    const grading: GradingRow[] = extractGrading(cleaned);
-    const meetings = extractMeetings(cleaned);
-    const policies = extractPolicies(
-      cleaned,
-      detected,
-      typed.map((section) => section.label),
-      this.rules,
-    );
-    const total = grading.length ? grading.reduce((sum, row) => sum + row.weight, 0) : null;
+      grading = extractGrading(cleaned);
+      meetings = extractMeetings(cleaned);
+      policies = extractPolicies(
+        cleaned,
+        detected,
+        typed.map((section) => section.label),
+        this.rules,
+      );
+      total = grading.length ? grading.reduce((sum, row) => sum + row.weight, 0) : null;
+    }
     const extractionMs = Date.now() - extractStart;
 
     const record = buildRecord({
@@ -314,6 +349,7 @@ export class PaceEngine {
         percent: total,
         consistent: total === null ? null : Math.abs(total - 100) <= 5,
       },
+      transcript: transcriptRecord ? { record: transcriptRecord, evidence: transcriptEvidenceRows } : null,
     });
 
     if (assumed) {

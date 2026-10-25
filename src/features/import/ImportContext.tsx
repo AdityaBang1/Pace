@@ -137,7 +137,10 @@ export function ImportProvider({ children }: { children: ReactNode }) {
   // A ref, not the `status` state: two taps in the same frame both read the old
   // state, and a second transaction would collide on the course id.
   const commitInFlight = useRef(false);
-  const committedRef = useRef<string | null>(null);
+  // A transcript import commits many courses and returns no course id, so the
+  // idempotency check cannot be the id itself; the marker keeps a second tap
+  // from writing the same rows twice.
+  const committedRef = useRef<{ marker: string; courseId: string } | null>(null);
 
   const begin = useCallback<ImportContextValue['begin']>(
     async (input) => {
@@ -180,6 +183,9 @@ export function ImportProvider({ children }: { children: ReactNode }) {
             : current.instructor,
         credits:
           current.credits && hit(current.credits) ? { ...current.credits, included } : current.credits,
+        transcript: current.transcript
+          ? { ...current.transcript, rows: current.transcript.rows.map(upd) }
+          : null,
         grading: current.grading.map(upd),
         meetings: current.meetings.map(upd),
         policies: current.policies.map(upd),
@@ -268,7 +274,7 @@ export function ImportProvider({ children }: { children: ReactNode }) {
     if (!draft) throw new Error('there is no draft to import');
     // Idempotent: a double tap, a retried promise or a re-render must never write
     // the same draft twice. The second caller gets the first import's course.
-    if (committedRef.current) return committedRef.current;
+    if (committedRef.current) return committedRef.current.courseId;
     if (commitInFlight.current) throw new Error('That import is still being saved.');
     commitInFlight.current = true;
     setStatus('committing');
@@ -276,8 +282,11 @@ export function ImportProvider({ children }: { children: ReactNode }) {
     try {
       const input = draftToCommitInput(draft);
       await commitImport(db, input);
-      const courseId = input.linkToCourseId ?? input.courseId;
-      committedRef.current = courseId;
+      // A transcript writes one course per row and has no single course to open.
+      const courseId = input.transcriptCourses?.length
+        ? ''
+        : input.linkToCourseId ?? input.courseId;
+      committedRef.current = { marker: courseId || 'transcript', courseId };
       setStatus('committed');
       setCommittedCourseId(courseId);
       return courseId;

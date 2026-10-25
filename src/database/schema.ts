@@ -12,7 +12,7 @@
  */
 import type { SQLiteDatabase } from 'expo-sqlite';
 
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;
 
 const STATEMENTS = [
   `PRAGMA journal_mode = WAL;`,
@@ -48,6 +48,10 @@ const STATEMENTS = [
     code TEXT,
     instructor TEXT,
     credits REAL,
+    term TEXT,
+    grade TEXT,
+    grade_percent REAL,
+    evidence_id TEXT,
     document_id TEXT REFERENCES documents(id) ON DELETE SET NULL,
     import_id TEXT REFERENCES imports(id) ON DELETE SET NULL,
     grading_total_percent REAL,
@@ -122,6 +126,20 @@ const STATEMENTS = [
  */
 export async function migrate(db: SQLiteDatabase): Promise<void> {
   for (const statement of STATEMENTS) await db.execAsync(statement);
+  // v3 adds a transcript row's own columns. SQLite has no "ADD COLUMN IF NOT
+  // EXISTS", so an existing store is read first and only the missing columns are
+  // added; a fresh install already has them from the CREATE above.
+  const columns = await db.getAllAsync<{ name: string }>('PRAGMA table_info(courses)');
+  const present = new Set(columns.map((column) => column.name));
+  const added: [string, string][] = [
+    ['term', 'TEXT'],
+    ['grade', 'TEXT'],
+    ['grade_percent', 'REAL'],
+    ['evidence_id', 'TEXT'],
+  ];
+  for (const [name, type] of added) {
+    if (!present.has(name)) await db.execAsync(`ALTER TABLE courses ADD COLUMN ${name} ${type}`);
+  }
   const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
   const current = row?.user_version ?? 0;
   if (current < SCHEMA_VERSION) {

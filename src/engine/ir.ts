@@ -18,6 +18,7 @@ import type {
   Evidence,
   Relation,
   Section,
+  TranscriptRecord,
 } from './types';
 import { SCHEMA_VERSION } from './types';
 
@@ -53,6 +54,8 @@ export interface RecordInput {
   tables: RuleTables;
   model: AcademicRecord['model'];
   gradingTotal: { percent: number | null; consistent: boolean | null };
+  /** Set when the document was read as a transcript instead of a syllabus. */
+  transcript?: { record: TranscriptRecord; evidence: Evidence[] } | null;
 }
 
 interface Entry {
@@ -95,11 +98,12 @@ export function buildRecord(input: RecordInput): AcademicRecord {
   const { cleaned, text, docType } = input;
   const docId = documentId(cleaned);
   const blocked = docType !== null && !docType.academic;
+  const transcript = blocked ? null : input.transcript?.record ?? null;
 
-  const course = blocked ? {} : input.course;
-  const grading = blocked ? [] : input.grading;
-  const meetings = blocked ? [] : input.meetings;
-  const policies = blocked ? {} : input.policies;
+  const course = blocked || transcript ? {} : input.course;
+  const grading = blocked || transcript ? [] : input.grading;
+  const meetings = blocked || transcript ? [] : input.meetings;
+  const policies = blocked || transcript ? {} : input.policies;
 
   const entries: Entry[] = [];
   const push = (field: string, source: Value<string | number>) => {
@@ -159,8 +163,18 @@ export function buildRecord(input: RecordInput): AcademicRecord {
       evidence: policy.evidence,
     });
   }
+  // Transcript rows are evidence of their own: each one points at the printed
+  // line it was read from, and the committed course keeps that link.
+  for (const row of input.transcript?.evidence ?? []) {
+    entries.push({ field: row.field, item: row, source: {
+      value: row.value ?? '',
+      confidence: row.confidence,
+      rule: 'transcript_row',
+      evidence: { text: row.sourceText ?? '', start: row.start ?? 0, end: row.end ?? 0 },
+    } });
+  }
 
-  const sections: Section[] = blocked
+  const sections: Section[] = blocked || transcript
     ? []
     : input.sections.map((section, index) => ({
         id: stableId('section', docId, [index, section.start, section.label]),
@@ -184,7 +198,9 @@ export function buildRecord(input: RecordInput): AcademicRecord {
     ? [
         `this does not look like an academic document (${docType?.label} ${(docType?.confidence ?? 0).toFixed(2)}); extraction was suppressed and no academic fields are returned`,
       ]
-    : warningsFor({ course, grading, meetings, sections, cleaned, entries, gradingTotal: input.gradingTotal });
+    : transcript
+      ? transcriptWarnings({ transcript, docType, cleaned, entries })
+      : warningsFor({ course, grading, meetings, sections, cleaned, entries, gradingTotal: input.gradingTotal });
 
   return {
     schemaVersion: SCHEMA_VERSION,
@@ -199,6 +215,7 @@ export function buildRecord(input: RecordInput): AcademicRecord {
       documentTypeUnavailableBecause: docType === null ? 'document gate artifact not loaded' : null,
     },
     course: Object.fromEntries(Object.entries(course).map(([key, value]) => [key, value.value])),
+    transcript,
     grading: grading.map((row) => ({
       id: stableId('grading', docId, [row.category, row.weight, row.evidence.start]),
       category: row.category,
@@ -260,6 +277,10 @@ function entitiesAndRelations(
 
   entries.forEach((entry) => {
     const { field, item } = entry;
+    // A transcript row is evidence for a course, not an entity of its own: the
+    // committed course is built from the row, and an entity per row would be a
+    // second, parallel identity for the same thing.
+    if (field === 'transcript_course') return;
     const kind: Entity['kind'] =
       field === 'grading' ? 'grade_category' : field === 'meetings' ? 'meeting' : COURSE_KINDS[field] ?? 'policy';
     const entity: Entity = {
@@ -322,8 +343,57 @@ function entitiesAndRelations(
   return { entities, relations };
 }
 
-function gateSuppressed(input: RecordInput): AcademicRecord['suppressed'] {
-  const out: AcademicRecord['suppressed'] = [];
+function transcriptWarnings(args: {
+  transcript: TranscriptRecord;
+  docType: DocumentType | null;
+  cleaned: string;
+  entries: Entry[];
+}): string[] {
+  const { transcript } = args;
+  const warnings: string[] = [];
+  const rows = transcript.courses.length;
+  const terms = transcript.terms.length;
+  warnings.push(
+    `read as a transcript: ${rows} course${rows === 1 ? '' : 's'}${
+      terms ? ` across ${terms} term${terms === 1 ? '' : 's'}` : ''
+    }, ${transcript.totalCredits} credit${transcript.totalCredits === 1 ? '' : 's'}; the syllabus readers were not run`,
+  );
+  if (transcript.reportedCredits !== null && Math.abs(transcript.totalCredits - transcript.reportedCredits) >= 0.001) {
+    warnings.push(
+      `the rows add up to ${transcript.totalCredits} credits but the transcript prints ${transcript.reportedCredits}: a row may have been missed`,
+    );
+  }
+  if (!terms) {
+    warnings.push('no term heading was printed above the rows, so the courses are not grouped by term');
+  }
+  const noGrade = transcript.courses.filter((row) => row.mark === null).length;
+  if (noGrade) {
+    warnings.push(`${noGrade} course row${noGrade === 1 ? ' has' : 's have'} no mark: the printed mark column may not have been read`);
+  }
+  if (!rows) {
+    warnings.push('no transcript row was recognised: the table may have lost its columns or its marks');
+  }
+  // The gate has four classes and none of them is a transcript, so it always
+  // proposed something else. Saying so keeps a 0.85 "course_catalog" from
+  // reading like a confident label for this page.
+  if (args.docType && args.docType.proposedLabel !== 'transcript') {
+    warnings.push(
+      `the document gate has no transcript class: it proposed "${args.docType.proposedLabel}" (${args.docType.confidence.toFixed(2)}) and the transcript reader set the type`,
+    );
+  }
+  const ungrounded = args.entries.filter((entry) => entry.item.start !== null && !entry.item.groundedInSource);
+  if (ungrounded.length) {
+    warnings.push(`${ungrounded.length} value(s) do not match their own source span`);
+  }
+  if (args.cleaned.length > 60000) {
+    warnings.push(
+      'very long transcript: every row the table reader can see is returned, nothing beyond it is silently summarised',
+    );
+  }
+  return warnings;
+}
+
+function gateSuppressed(input: RecordInput): AcademicRecord['suppressed'] {  const out: AcademicRecord['suppressed'] = [];
   const add = (field: string, value: unknown, text: string | undefined) =>
     out.push({ field, value, reason: 'document_type_not_academic', evidence: (text ?? '').slice(0, 120) });
   for (const [field, value] of Object.entries(input.course)) add(field, value.value, value.evidence.text);

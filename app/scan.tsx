@@ -215,7 +215,7 @@ export default function Scan() {
     <Screen scroll>
       <PageHeader
         title="Add a document"
-        subtitle="A syllabus or a course catalog — a PDF or a photo. Pace reads the course, its grading breakdown and its meetings, on this iPhone."
+        subtitle="A syllabus, a course catalog, or a transcript — a PDF or a photo. Pace reads the course, its grading breakdown and its meetings, or every course row on a transcript, on this iPhone."
         onBack={() => router.back()}
       />
 
@@ -260,8 +260,8 @@ export default function Scan() {
           <Text style={[type.label, { color: palette.inkFaint }]}>WHAT HAPPENS</Text>
           <Text style={[type.caption, { color: palette.inkMuted, marginTop: space.sm, lineHeight: 20 }]}>
             Apple Vision reads the text, page by page for a PDF, then Pace's own reader — running entirely on this
-            iPhone — proposes the course, grading weights, meeting times and policies. You review every value before
-            anything is saved.
+            iPhone — proposes the course, grading weights, meeting times and policies, or, for a transcript, every
+            course row with its term, mark and credit. You review every value before anything is saved.
           </Text>
         </Card>
       </View>

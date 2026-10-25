@@ -152,7 +152,7 @@ Perspective correction and binarisation were measured and are **not** shipped: k
 
 ## Repository layout
 
-The phone app and the research behind it are one repository, and everything needed to build either is in it — including the frozen model bundle the app ships with. `assets/models/` is 217 MB and is committed as ordinary files rather than through Git LFS, so a plain `git clone` is all it takes: no LFS install, no separate download step.
+The phone app and the research behind it are one repository, and everything needed to build either is in it — including the frozen model bundle the app ships with. `assets/models/` is 233 MB and is committed as ordinary files rather than through Git LFS, so a plain `git clone` is all it takes: no LFS install, no separate download step.
 
 | path | contents |
 |---|---|
@@ -181,7 +181,7 @@ npx expo prebuild --platform ios     # generates ios/ and runs pod install
 npx expo run:ios --device            # dev build on a connected iPhone
 ```
 
-The camera and PDF reading live in the Swift module, so the app needs a development build — Expo Go cannot load it. The 217 MB bundle is copied into the app's document directory on first launch, which is why the first launch takes noticeably longer than later ones.
+The camera and PDF reading live in the Swift module, so the app needs a development build — Expo Go cannot load it. The 233 MB bundle is copied into the app's document directory on first launch, which is why the first launch takes noticeably longer than later ones.
 
 ## Reproduce (Python 3.10+)
 

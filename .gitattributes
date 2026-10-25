@@ -1,0 +1,13 @@
+# The reader bundle is hashed: `assets/models/manifest.model` records the byte
+# length and sha256 of every artifact, so a checkout must not rewrite line
+# endings inside it. Git would otherwise see the JSON weights as text and turn
+# CRLF into LF, and the downloaded bundle would no longer match its own manifest.
+assets/models/** -text
+
+# Media and exported graphs: never diff, never convert.
+*.onnx binary
+*.bin binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary

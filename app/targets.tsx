@@ -61,7 +61,7 @@ export default function Targets() {
   } as const;
 
   return (
-    <Screen scroll>
+    <Screen scroll edges="none">
       <PageHeader title="Targets" onBack={() => router.back()} />
       <SectionHeader>GPA</SectionHeader>
       <View style={{ paddingHorizontal: space.xl }}>

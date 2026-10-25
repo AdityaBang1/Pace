@@ -110,7 +110,7 @@ export default function PathwayEditor() {
   const schedules = structure?.schedules ?? [];
 
   return (
-    <Screen scroll edges="top">
+    <Screen scroll edges="none">
       <PageHeader title={id ? 'Pathway' : 'New Pathway'} onBack={() => router.back()} />
 
       {error ? (

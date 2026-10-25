@@ -72,7 +72,15 @@ export default function Tests() {
       <PageHeader
         title="Scores"
         onBack={() => router.back()}
-        right={<IconButton glyph="+" label="Add score" onPress={() => router.push('/editors/test')} />}
+        right={
+          <IconButton
+            glyph="+"
+            symbol="plus"
+            label="Add score"
+            tone="accent"
+            onPress={() => router.push('/editors/test')}
+          />
+        }
       />
 
       {error ? (

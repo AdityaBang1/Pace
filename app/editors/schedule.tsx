@@ -119,7 +119,7 @@ export default function ScheduleEditor() {
   const title = duplicateFrom ? 'Duplicate' : saveAs ? 'Save as Schedule' : id ? 'Edit Schedule' : 'New Schedule';
 
   return (
-    <Screen scroll edges="top">
+    <Screen scroll edges="none">
       <PageHeader title={title} onBack={() => router.back()} />
 
       {error ? (

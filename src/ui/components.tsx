@@ -6,6 +6,7 @@
  * design that lives in nine places drifts by the third screen.
  */
 import * as Haptics from 'expo-haptics';
+import { SymbolView } from 'expo-symbols';
 import { ReactNode } from 'react';
 import {
   ActivityIndicator,
@@ -32,7 +33,12 @@ export function Screen({
   children: ReactNode;
   scroll?: boolean;
   contentStyle?: StyleProp<ViewStyle>;
-  edges?: 'all' | 'bottom' | 'top' | 'none';
+  /**
+   * Which insets this screen adds itself. `tab` is for a screen that lives inside
+   * the native tab controller: the controller already places content below the
+   * status bar, so adding the inset again is what pushes every tab screen down.
+   */
+  edges?: 'all' | 'bottom' | 'top' | 'none' | 'tab';
 }) {
   const { palette } = useTheme();
   const insets = useSafeAreaInsets();
@@ -68,12 +74,15 @@ export function PageHeader({
   right?: ReactNode;
 }) {
   const { palette } = useTheme();
-  return (
-    <View style={{ paddingHorizontal: space.xl, paddingTop: space.sm, paddingBottom: space.md }}>
-      <View style={styles.headerRow}>
-        {onBack ? <IconButton glyph="‹" label="Back" onPress={onBack} size={30} /> : null}
-        {right ? <View style={{ marginLeft: 'auto' }}>{right}</View> : null}
-      </View>
+  return (      <View style={{ paddingHorizontal: space.xl, paddingTop: space.xs, paddingBottom: space.md }}>
+      {onBack || right ? (
+        <View style={styles.headerRow}>
+          {onBack ? (
+            <IconButton glyph="‹" symbol="chevron.left" label="Back" onPress={onBack} size={20} tone="accent" />
+          ) : null}
+          {right ? <View style={{ marginLeft: 'auto' }}>{right}</View> : null}
+        </View>
+      ) : null}
       <Text style={[type.display, { color: palette.ink }]} accessibilityRole="header">
         {title}
       </Text>
@@ -90,12 +99,16 @@ export function PageHeader({
  */
 export function IconButton({
   glyph,
+  symbol,
   label,
   onPress,
   size = 22,
   tone = 'ink',
 }: {
+  /** Fallback for a platform without SF Symbols. */
   glyph: string;
+  /** An SF Symbol name, drawn by the system. */
+  symbol?: string;
   label: string;
   onPress: () => void;
   size?: number;
@@ -105,12 +118,25 @@ export function IconButton({
   const color = tone === 'accent' ? palette.accent : palette.ink;
   return (
     <PressableScale
+      accessibilityRole="button"
       accessibilityLabel={label}
       hitSlop={8}
       onPress={onPress}
-      style={{ minWidth: 44, minHeight: 44, justifyContent: 'center' }}
+      style={{ minWidth: 44, minHeight: 44, justifyContent: 'center', alignItems: 'center' }}
     >
-      <Text style={{ color, fontSize: size, lineHeight: size * 1.15, fontWeight: '500' }}>{glyph}</Text>
+      {symbol ? (
+        <SymbolView
+          // The name is a system symbol; an unknown name draws nothing, so the
+          // glyph below is the fallback for the other platforms.
+          name={symbol as never}
+          size={size}
+          tintColor={color}
+          weight="semibold"
+          fallback={<Text style={{ color, fontSize: size, fontWeight: '500' }}>{glyph}</Text>}
+        />
+      ) : (
+        <Text style={{ color, fontSize: size, lineHeight: size * 1.15, fontWeight: '500' }}>{glyph}</Text>
+      )}
     </PressableScale>
   );
 }
@@ -400,8 +426,7 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    minHeight: 36,
-    marginBottom: space.xs,
+    minHeight: 44,
   },
   sectionHeader: {
     flexDirection: 'row',

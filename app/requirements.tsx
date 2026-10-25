@@ -69,6 +69,7 @@ export default function Requirements() {
         right={
           <IconButton
             glyph="+"
+            symbol="plus"
             label="Add requirement"
             onPress={() => router.push('/editors/requirement')}
           />

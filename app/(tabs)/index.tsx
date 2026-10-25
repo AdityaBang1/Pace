@@ -126,7 +126,7 @@ export default function Home() {
   const showVerdict = data != null && data.pace.state !== 'incomplete_setup';
 
   return (
-    <Screen scroll edges="top" contentStyle={{ paddingBottom: space.xxxl }}>
+    <Screen scroll edges="tab" contentStyle={{ paddingBottom: space.xxxl }}>
       <View
         style={{
           paddingHorizontal: space.xl,
@@ -138,8 +138,20 @@ export default function Home() {
         <Text style={[type.display, { color: palette.ink, flex: 1 }]} accessibilityRole="header">
           Pace
         </Text>
-        <IconButton glyph="+" label="Import a transcript" tone="accent" onPress={() => router.push('/scan')} />
-        <IconButton glyph="⚙" label="Settings" onPress={() => router.push('/settings')} />
+        <IconButton
+          glyph="+"
+          symbol="doc.badge.plus"
+          label="Import a transcript"
+          tone="accent"
+          size={22}
+          onPress={() => router.push('/scan')}
+        />
+        <IconButton
+          glyph="⚙"
+          symbol="gearshape.fill"
+          label="Settings"
+          onPress={() => router.push('/settings')}
+        />
       </View>
 
       {error ? (

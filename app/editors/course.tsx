@@ -2,7 +2,8 @@ import * as Haptics from 'expo-haptics';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Alert, ScrollView, Switch, Text, TextInput, View } from 'react-native';
+import { Alert, ScrollView, Text, TextInput, View } from 'react-native';
+import { NativeToggle } from '../../src/ui/NativeToggle';
 
 import {
   addCourse,
@@ -293,16 +294,13 @@ export default function CourseEditor() {
           </Field>
         )}
 
-        <FieldRow
-          label="Include in GPA"
-          value={
-            <Switch
-              value={includeInGpa}
-              onValueChange={setIncludeInGpa}
-              accessibilityLabel="Include this course in GPA"
-            />
-          }
-        />
+        <View style={{ paddingTop: space.xs }}>
+          <NativeToggle
+            label="Include in GPA"
+            value={includeInGpa}
+            onValueChange={setIncludeInGpa}
+          />
+        </View>
 
         {structure && structure.requirements.length ? (
           <>

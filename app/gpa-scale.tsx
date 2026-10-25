@@ -49,7 +49,7 @@ export default function GpaScaleScreen() {
   };
 
   return (
-    <Screen scroll>
+    <Screen scroll edges="none">
       <PageHeader title="GPA Scale" onBack={() => router.back()} />
 
       {LEVELS.map((level) => (

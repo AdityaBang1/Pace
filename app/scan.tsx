@@ -159,7 +159,7 @@ export default function Scan() {
   if (phase) {
     const activeIndex = STAGES.findIndex((stage) => stage.key === phase);
     return (
-      <Screen>
+      <Screen edges="none">
         <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: space.xl }}>
           <Animated.View entering={reduceMotion ? undefined : FadeIn.duration(200).easing(EASE_OUT)}>
             <Text style={[type.label, { color: palette.inkFaint, marginBottom: space.sm }]}>READING</Text>
@@ -212,7 +212,7 @@ export default function Scan() {
   }
 
   return (
-    <Screen scroll>
+    <Screen scroll edges="none">
       <PageHeader
         title="Add a document"
         subtitle="A syllabus, a course catalog, or a transcript — a PDF or a photo. Pace reads the course, its grading breakdown and its meetings, or every course row on a transcript, on this iPhone."

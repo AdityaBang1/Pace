@@ -126,11 +126,11 @@ export default function Academics() {
   const credits = schedule?.credits ?? year?.credits ?? { earned: 0, inProgress: 0, planned: 0, all: 0 };
 
   return (
-    <Screen edges="top" scroll>
+    <Screen edges="tab" scroll>
       <PageHeader
         title="Academics"
         right={
-          <IconButton glyph="+" label="Add" size={26} onPress={addMenu} tone="accent" />
+          <IconButton glyph="+" symbol="plus" label="Add" size={22} onPress={addMenu} tone="accent" />
         }
       />
 
@@ -149,7 +149,7 @@ export default function Academics() {
             action={
               <View style={{ flexDirection: 'row', gap: space.sm }}>
                 <Button title="Import" onPress={() => router.push('/scan')} />
-                <Button title="Add Course" kind="quiet" onPress={() => router.push('/editors/year')} />
+                <Button title="Add Year" kind="quiet" onPress={() => router.push('/editors/year')} />
               </View>
             }
           />

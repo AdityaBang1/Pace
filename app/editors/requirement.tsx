@@ -122,7 +122,7 @@ export default function RequirementEditor() {
     .filter((group) => group.rows.length > 0);
 
   return (
-    <Screen scroll>
+    <Screen scroll edges="none">
       <PageHeader title={id ? 'Edit Requirement' : 'New Requirement'} onBack={() => router.back()} />
 
       {error ? (

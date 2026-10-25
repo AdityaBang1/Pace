@@ -98,7 +98,7 @@ export default function TestEditor() {
   };
 
   return (
-    <Screen scroll>
+    <Screen scroll edges="none">
       <PageHeader title={id ? 'Edit Score' : 'New Score'} onBack={() => router.back()} />
 
       {error ? (

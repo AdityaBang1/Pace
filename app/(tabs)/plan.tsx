@@ -135,16 +135,17 @@ export default function Plan() {
   };
 
   return (
-    <Screen scroll edges="top">
+    <Screen scroll edges="tab">
       <PageHeader
         title="Plan"
         right={
           <IconButton
             glyph="+"
+            symbol="plus"
             label="New pathway"
             onPress={() => router.push('/editors/pathway')}
             tone="accent"
-            size={26}
+            size={22}
           />
         }
       />

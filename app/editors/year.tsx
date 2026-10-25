@@ -109,7 +109,7 @@ export default function YearEditor() {
   };
 
   return (
-    <Screen scroll>
+    <Screen scroll edges="none">
       <PageHeader title={id ? 'Edit Year' : 'New Year'} onBack={() => router.back()} />
 
       {error ? (

@@ -62,6 +62,8 @@ export interface TranscriptDraft {
   terms: TranscriptRecord['terms'];
   assessments: TranscriptRecord['assessments'];
   totalCredits: number;
+  /** Credits of the courses printed under an in-progress heading, counted apart. */
+  inProgressCredits: number;
   reportedCredits: number | null;
   reportedGpa: number | null;
   layout: TranscriptRecord['layout'];
@@ -297,6 +299,7 @@ function buildTranscriptDraft(record: AcademicRecord): TranscriptDraft | null {
     terms: transcript.terms,
     assessments: transcript.assessments,
     totalCredits: transcript.totalCredits,
+    inProgressCredits: transcript.inProgressCredits,
     reportedCredits: transcript.reportedCredits,
     reportedGpa: transcript.reportedGpa,
     layout: transcript.layout,

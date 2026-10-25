@@ -1,14 +1,16 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useCallback, useState } from 'react';
-import { Text, View } from 'react-native';
+import { useCallback, useMemo, useState } from 'react';
+import { Pressable, Text, View } from 'react-native';
 
 import { listCourses, type CourseRow } from '../src/database/repo';
-import { Button, Card, Divider, EmptyState, Notice, PageHeader, Screen } from '../src/ui/components';
-import { creditsLabel } from '../src/ui/format';
+import { creditsValue, summarise, type HistoryCourse } from '../src/domain/academics';
+import { Button, Divider, EmptyState, Notice, PageHeader, Screen } from '../src/ui/components';
 import { PressableScale } from '../src/ui/press';
-import { space, type } from '../src/ui/theme';
+import { hairline, space, type } from '../src/ui/theme';
 import { useTheme } from '../src/ui/useTheme';
+
+type Tab = 'current' | 'history';
 
 export default function Academics() {
   const db = useSQLiteContext();
@@ -16,6 +18,7 @@ export default function Academics() {
   const { palette } = useTheme();
   const [courses, setCourses] = useState<CourseRow[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [tab, setTab] = useState<Tab>('history');
 
   const refresh = useCallback(async () => {
     try {
@@ -34,85 +37,170 @@ export default function Academics() {
     }, [refresh]),
   );
 
+  const summary = useMemo(() => summarise(courses), [courses]);
+  const hasCourses = courses.length > 0;
+
+  const openCourse = (id: string) => router.push(`/course/${id}`);
+
+  const courseRow = (course: HistoryCourse, last: boolean, showMark: boolean) => (
+    <View key={course.id}>
+      <PressableScale
+        accessibilityLabel={`Open ${course.title}`}
+        onPress={() => openCourse(course.id)}
+        style={{ paddingVertical: space.md, paddingHorizontal: space.xl }}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flex: 1, paddingRight: space.md }}>
+            <Text style={[type.bodyStrong, { color: palette.ink }]} numberOfLines={2}>
+              {course.title}
+            </Text>
+            {course.code ? (
+              <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>{course.code}</Text>
+            ) : null}
+          </View>
+          <Text style={[showMark ? type.number : type.body, { color: showMark ? palette.ink : palette.inkMuted }]}>
+            {showMark ? course.mark ?? '—' : creditsValue(course.credits)}
+          </Text>
+        </View>
+      </PressableScale>
+      {last ? null : <Divider inset={space.xl} />}
+    </View>
+  );
+
   return (
     <Screen scroll>
       <PageHeader
         title="Academics"
         subtitle={
-          courses.length
-            ? `${courses.length} course${courses.length === 1 ? '' : 's'} imported from your documents`
-            : 'Courses you import appear here'
+          hasCourses
+            ? `${summary.count} course${summary.count === 1 ? '' : 's'} · ${creditsValue(summary.earned)} credits`
+            : undefined
         }
         onBack={() => router.back()}
+        right={
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Import a transcript"
+            onPress={() => router.push('/scan')}
+            hitSlop={10}
+            style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1, paddingVertical: space.sm })}
+          >
+            <Text style={[type.bodyStrong, { color: palette.accent }]}>Import</Text>
+          </Pressable>
+        }
       />
 
       {error ? (
         <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md, gap: space.sm }}>
           <Notice
             tone="danger"
-            title="Your courses could not be loaded"
-            body={`${error} Nothing has been deleted: this is a read failure.`}
+            title="Couldn't load your courses"
+            body={error}
           />
           <Button title="Try again" kind="secondary" compact onPress={() => void refresh()} />
         </View>
       ) : null}
 
-      {courses.length === 0 ? (
+      {!hasCourses ? (
         error ? null : (
           <EmptyState
             title="No courses yet"
-            body="Scan a syllabus and approve what Pace reads. Your courses, grading breakdowns and meeting times stay on this device."
+            body="Import a transcript to build your record."
+            action={<Button title="Import Transcript" onPress={() => router.push('/scan')} />}
           />
         )
       ) : (
-        <View style={{ paddingHorizontal: space.xl }}>
-          <Card padded={false}>
-            {courses.map((course, index) => {
-              const credits = creditsLabel(course.credits);
-              const detail = [
-                course.code,
-                course.instructor,
-                credits,
-                course.in_progress ? 'In progress' : null,
-                course.term,
-              ]
-                .filter(Boolean)
-                .join(' · ');
+        <>
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: space.xl,
+              paddingHorizontal: space.xl,
+              paddingTop: space.md,
+              borderBottomWidth: hairline,
+              borderBottomColor: palette.line,
+            }}
+          >
+            {(
+              [
+                { key: 'current', label: 'Current' },
+                { key: 'history', label: 'History' },
+              ] as { key: Tab; label: string }[]
+            ).map((item) => {
+              const selected = tab === item.key;
               return (
-                <View key={course.id}>
-                  {index > 0 ? <Divider inset={space.lg} /> : null}
-                  <PressableScale
-                    accessibilityLabel={`Open ${course.title ?? course.code ?? 'course'}`}
-                    onPress={() => router.push(`/course/${course.id}`)}
-                    style={{ padding: space.lg }}
+                <Pressable
+                  key={item.key}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected }}
+                  onPress={() => setTab(item.key)}
+                  hitSlop={8}
+                  style={{ paddingBottom: space.sm + 4 }}
+                >
+                  <Text
+                    style={[
+                      type.bodyStrong,
+                      { color: selected ? palette.ink : palette.inkMuted, fontWeight: selected ? '600' : '400' },
+                    ]}
                   >
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <View style={{ flex: 1, paddingRight: space.md }}>
-                        <Text style={[type.bodyStrong, { color: palette.ink }]} numberOfLines={2}>
-                          {course.title ?? course.code ?? 'Course'}
-                        </Text>
-                        {detail ? (
-                          <Text style={[type.caption, { color: palette.inkMuted, marginTop: 3 }]} numberOfLines={1}>
-                            {detail}
-                          </Text>
-                        ) : null}
-                      </View>
-                      {course.grade ? (
-                        <Text style={[type.number, { color: palette.ink }]}>{course.grade}</Text>
-                      ) : course.in_progress ? (
-                        <Text style={[type.caption, { color: palette.inkFaint }]}>In progress</Text>
-                      ) : course.grading_count ? (
-                        <Text style={[type.caption, { color: palette.inkFaint }]}>
-                          {course.grading_count} categor{course.grading_count === 1 ? 'y' : 'ies'}
-                        </Text>
-                      ) : null}
-                    </View>
-                  </PressableScale>
-                </View>
+                    {item.label}
+                  </Text>
+                  <View
+                    style={{
+                      height: 2,
+                      marginTop: space.sm,
+                      marginBottom: -space.sm - hairline,
+                      borderRadius: 1,
+                      backgroundColor: selected ? palette.ink : 'transparent',
+                    }}
+                  />
+                </Pressable>
               );
             })}
-          </Card>
-        </View>
+          </View>
+
+          {tab === 'current' ? (
+            summary.current.length ? (
+              <View style={{ paddingTop: space.sm }}>
+                {summary.current.map((course, index) =>
+                  courseRow(course, index === summary.current.length - 1, false),
+                )}
+              </View>
+            ) : (
+              <View style={{ paddingHorizontal: space.xl, paddingTop: space.xl }}>
+                <Text style={[type.body, { color: palette.inkMuted }]}>Nothing in progress.</Text>
+              </View>
+            )
+          ) : (
+            <View>
+              {summary.terms.map((group) => (
+                <View key={group.term || 'none'}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'baseline',
+                      paddingHorizontal: space.xl,
+                      paddingTop: space.xl,
+                      paddingBottom: space.xs,
+                    }}
+                  >
+                    <Text style={[type.bodyStrong, { color: palette.ink }]}>{group.label}</Text>
+                    <Text style={[type.caption, { color: palette.inkFaint, marginLeft: space.sm }]}>
+                      {group.courses.length} course{group.courses.length === 1 ? '' : 's'}
+                    </Text>
+                    <Text style={[type.caption, { color: palette.inkMuted, marginLeft: 'auto' }]}>
+                      {creditsValue(group.credits)} credits
+                    </Text>
+                  </View>
+                  <Divider />
+                  {group.courses.map((course, index) =>
+                    courseRow(course, index === group.courses.length - 1, true),
+                  )}
+                </View>
+              ))}
+            </View>
+          )}
+        </>
       )}
     </Screen>
   );

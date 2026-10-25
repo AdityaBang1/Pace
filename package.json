@@ -15,7 +15,8 @@
     "test:app": "tsx tests/mobile/app_logic.ts",
     "test:transcript": "tsx tests/mobile/transcript.ts",
     "export:models": "python scripts/export_mobile_assets.py",
-    "test:db": "tsx tests/mobile/db_commit.ts"
+    "test:db": "tsx tests/mobile/db_commit.ts",
+    "test:domain": "tsx tests/mobile/domain.ts"
   },
   "dependencies": {
     "@expo/ui": "~58.0.23",

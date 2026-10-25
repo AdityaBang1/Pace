@@ -12,26 +12,41 @@ import {
   type CourseDetail,
   type EvidenceRow,
 } from '../../src/database/repo';
+import { creditsValue, termLabel } from '../../src/domain/academics';
+import { levelLabel, levelOf } from '../../src/domain/gpa';
 import { deleteStoredSources } from '../../src/features/scan/storage';
-import { PressableScale } from '../../src/ui/press';
 import { EvidenceSheet, type SourceLine } from '../../src/features/review/EvidenceSheet';
-import { Button, Card, Divider, EmptyState, Notice, PageHeader, Screen, SectionHeader } from '../../src/ui/components';
 import {
-  creditsLabel,
-  daysLabel,
-  documentTypeLabel,
-  evidenceExcerpt,
-  relativeDay,
-  timeRangeLabel,
-  weightLabel,
-} from '../../src/ui/format';
-import { hairline, radius, space, type } from '../../src/ui/theme';
+  Button,
+  Card,
+  Chip,
+  Divider,
+  EmptyState,
+  FieldRow,
+  Notice,
+  PageHeader,
+  Screen,
+  SectionHeader,
+} from '../../src/ui/components';
+import { daysLabel, documentTypeLabel, evidenceExcerpt, relativeDay, timeRangeLabel, weightLabel } from '../../src/ui/format';
+import { space, type } from '../../src/ui/theme';
 import { useTheme } from '../../src/ui/useTheme';
 
 function methodLabel(row: EvidenceRow): string {
   return row.confidence_source === 'model'
     ? 'Classified on this device by the section model'
     : 'Read from the page by the deterministic reader';
+}
+
+/** One metric: the number carries the screen, its label only names it. */
+function Metric({ value, label }: { value: string; label: string }) {
+  const { palette } = useTheme();
+  return (
+    <View style={{ flex: 1, gap: 2 }}>
+      <Text style={[type.display, { color: palette.ink, fontVariant: ['tabular-nums'] }]}>{value}</Text>
+      <Text style={[type.caption, { color: palette.inkMuted }]}>{label}</Text>
+    </View>
+  );
 }
 
 export default function CourseScreen() {
@@ -79,11 +94,7 @@ export default function CourseScreen() {
         ) : (
           <EmptyState
             title={missing ? 'This course is gone' : 'Loading'}
-            body={
-              missing
-                ? 'It was removed or its import was undone.'
-                : 'Reading what Pace stored for this course.'
-            }
+            body={missing ? 'It was removed or its import was undone.' : 'Reading the course.'}
           />
         )}
       </Screen>
@@ -92,9 +103,9 @@ export default function CourseScreen() {
 
   const { course, grading, meetings, policies, document } = detail;
   const total = grading.reduce((sum, row) => sum + row.weight, 0);
-  const hasTotal = grading.length > 0;
-  const credits = creditsLabel(course.credits);
   const evidenceById = new Map(detail.evidence.map((row) => [row.id, row]));
+  const inProgress = course.in_progress === 1;
+  const level = levelLabel(levelOf(course.title, true));
 
   const openSource = (label: string, evidenceId: string | null) => {
     if (!evidenceId) return;
@@ -136,8 +147,6 @@ export default function CourseScreen() {
           text: 'Undo import',
           style: 'destructive',
           onPress: () => {
-            // A destructive commit: the heavier impact lands with the action, not
-            // with the navigation that follows it.
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
             void (async () => {
               // The page file is found before the rows go: after the undo nothing
@@ -153,116 +162,72 @@ export default function CourseScreen() {
     );
   };
 
+  // Values that were not printed are omitted, never shown as a dash.
+  const facts: { label: string; value: string }[] = [];
+  if (course.term) facts.push({ label: 'Term', value: termLabel(course.term) });
+  if (course.code) facts.push({ label: 'Code', value: course.code });
+  if (course.instructor) facts.push({ label: 'Instructor', value: course.instructor });
+  if (!inProgress && level !== 'Regular') facts.push({ label: 'Level', value: level });
+
   return (
     <Screen scroll>
-      <PageHeader
-        title={course.title ?? course.code ?? 'Course'}
-        subtitle={[course.code, course.instructor, credits].filter(Boolean).join(' · ') || undefined}
-        onBack={() => router.back()}
-      />
+      <PageHeader title={course.title ?? course.code ?? 'Course'} onBack={() => router.back()} />
 
-      <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-        <View style={{ flexDirection: 'row', gap: space.sm, flexWrap: 'wrap' }}>
-          {course.document_type ? (
-            <View
-              style={{
-                backgroundColor: palette.surfaceSunken,
-                borderRadius: radius.sm,
-                paddingHorizontal: 9,
-                paddingVertical: 5,
-              }}
-            >
-              <Text style={[type.caption, { color: palette.inkMuted, fontWeight: '600' }]}>
-                {documentTypeLabel(course.document_type)}
-              </Text>
+      <View style={{ paddingHorizontal: space.xl, gap: space.lg }}>
+        {(course.grade || course.credits != null || inProgress) && (
+          <View style={{ flexDirection: 'row', gap: space.lg }}>
+            {inProgress ? (
+              <Metric value={creditsValue(course.credits)} label="Credit" />
+            ) : course.grade ? (
+              <Metric value={course.grade} label="Final Mark" />
+            ) : null}
+            {!inProgress && course.credits != null ? (
+              <Metric value={creditsValue(course.credits)} label="Credit" />
+            ) : null}
+            {inProgress ? (
+              <View style={{ justifyContent: 'center' }}>
+                <Chip label="In progress" tone="accent" />
+              </View>
+            ) : null}
+          </View>
+        )}
+
+        {facts.length ? (
+          <Card padded={false}>
+            <View style={{ paddingHorizontal: space.lg }}>
+              {facts.map((fact, index) => (
+                <View key={fact.label}>
+                  {index > 0 ? <Divider /> : null}
+                  <FieldRow label={fact.label} value={fact.value} />
+                </View>
+              ))}
             </View>
-          ) : null}
-          {document ? (
-            <Text style={[type.caption, { color: palette.inkFaint, alignSelf: 'center' }]}>
-              Imported {relativeDay(document.created_at).toLowerCase()}
-            </Text>
-          ) : null}
-        </View>
-
-        {course.instructor || credits ? (
-          <Card>
-            {course.instructor ? (
-              <>
-                <Text style={[type.label, { color: palette.inkFaint }]}>INSTRUCTOR</Text>
-                <Text style={[type.body, { color: palette.ink, marginTop: 4 }]}>{course.instructor}</Text>
-              </>
-            ) : null}
-            {course.instructor && credits ? <View style={{ height: space.md }} /> : null}
-            {credits ? (
-              <>
-                <Text style={[type.label, { color: palette.inkFaint }]}>CREDITS</Text>
-                <Text style={[type.body, { color: palette.ink, marginTop: 4 }]}>{credits}</Text>
-              </>
-            ) : null}
-          </Card>
-        ) : null}
-
-        {/* A transcript row carries a term and a printed mark, not an instructor
-            or a grading breakdown; both are what the page actually said. */}
-        {course.term || course.grade ? (
-          <Card>
-            {course.term ? (
-              <>
-                <Text style={[type.label, { color: palette.inkFaint }]}>TERM</Text>
-                <Text style={[type.body, { color: palette.ink, marginTop: 4 }]}>{course.term}</Text>
-              </>
-            ) : null}
-            {course.term && course.grade ? <View style={{ height: space.md }} /> : null}
-            {course.grade ? (
-              <>
-                <Text style={[type.label, { color: palette.inkFaint }]}>MARK</Text>
-                <Text style={[type.body, { color: palette.ink, marginTop: 4 }]}>
-                  {course.grade}
-                  {course.grade_percent != null ? ` (${course.grade_percent}%)` : ''}
-                </Text>
-              </>
-            ) : null}
           </Card>
         ) : null}
       </View>
 
-      <SectionHeader
-        right={hasTotal ? <Text style={[type.caption, { color: palette.inkMuted }]}>Total {weightLabel(total)}</Text> : null}
-      >
-        GRADING
-      </SectionHeader>
-      <View style={{ paddingHorizontal: space.xl }}>
-        <Card padded={false}>
-          {grading.length === 0 ? (
-            <View style={{ padding: space.lg }}>
-              <Text style={[type.caption, { color: palette.inkMuted }]}>No grading breakdown was imported.</Text>
-            </View>
-          ) : null}
-          {grading.map((row, index) => (
-            <View key={row.id}>
-              {index > 0 ? <Divider inset={space.lg} /> : null}
-              <PressableScale
-                accessibilityLabel={`${row.name}, ${weightLabel(row.weight)}. View source.`}
-                onPress={() => openSource(`${row.name} ${weightLabel(row.weight)}`, row.evidence_id)}
-                style={{
-                  paddingHorizontal: space.lg,
-                  paddingVertical: space.md,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: space.md,
-                }}
-              >
-                <Text style={[type.body, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-                  {row.name}
-                </Text>
-                <Text style={[type.number, { color: palette.ink }]}>{weightLabel(row.weight)}</Text>
-              </PressableScale>
-            </View>
-          ))}
-        </Card>
-
-        {hasTotal ? (
-          <View style={{ marginTop: space.md }}>
+      {grading.length ? (
+        <>
+          <SectionHeader
+            right={<Text style={[type.caption, { color: palette.inkMuted }]}>{weightLabel(total)}</Text>}
+          >
+            GRADING
+          </SectionHeader>
+          <View style={{ paddingHorizontal: space.xl }}>
+            <Card padded={false}>
+              {grading.map((row, index) => (
+                <View key={row.id}>
+                  {index > 0 ? <Divider inset={space.lg} /> : null}
+                  <View style={{ paddingHorizontal: space.lg }}>
+                    <FieldRow
+                      label={row.name}
+                      value={weightLabel(row.weight)}
+                      onPress={() => openSource(`${row.name} ${weightLabel(row.weight)}`, row.evidence_id)}
+                    />
+                  </View>
+                </View>
+              ))}
+            </Card>
             {/* The bar is the hierarchy, read left to right: category widths are weights. */}
             <View
               style={{
@@ -271,6 +236,7 @@ export default function CourseScreen() {
                 borderRadius: 3,
                 overflow: 'hidden',
                 backgroundColor: palette.surfaceSunken,
+                marginTop: space.md,
               }}
             >
               {grading.map((row, index) => (
@@ -284,16 +250,9 @@ export default function CourseScreen() {
                 />
               ))}
             </View>
-            <View style={{ flexDirection: 'row', marginTop: space.sm }}>
-              <Text style={[type.caption, { color: palette.inkFaint }]}>
-                {Math.abs(total - 100) <= 5
-                  ? 'Weights add up to 100%'
-                  : `Weights add up to ${weightLabel(total)} — the syllabus may use nested weights`}
-              </Text>
-            </View>
           </View>
-        ) : null}
-      </View>
+        </>
+      ) : null}
 
       {meetings.length ? (
         <>
@@ -311,15 +270,13 @@ export default function CourseScreen() {
                 return (
                   <View key={meeting.id}>
                     {index > 0 ? <Divider inset={space.lg} /> : null}
-                    <PressableScale
-                      onPress={() => openSource(daysLabel(days), meeting.evidence_id)}
-                      style={{ padding: space.lg, gap: 2 }}
-                    >
-                      <Text style={[type.bodyStrong, { color: palette.ink }]}>{daysLabel(days)}</Text>
-                      <Text style={[type.caption, { color: palette.inkMuted }]}>
-                        {[time, meeting.room].filter(Boolean).join(' · ') || 'No time recorded'}
-                      </Text>
-                    </PressableScale>
+                    <View style={{ paddingHorizontal: space.lg }}>
+                      <FieldRow
+                        label={daysLabel(days)}
+                        value={[time, meeting.room].filter(Boolean).join(' · ') || '—'}
+                        onPress={() => openSource(daysLabel(days), meeting.evidence_id)}
+                      />
+                    </View>
                   </View>
                 );
               })}
@@ -336,17 +293,13 @@ export default function CourseScreen() {
               {policies.map((policy, index) => (
                 <View key={policy.id}>
                   {index > 0 ? <Divider inset={space.lg} /> : null}
-                  <PressableScale
-                    onPress={() => openSource(policy.value, policy.evidence_id)}
-                    style={{ padding: space.lg, gap: 3 }}
-                  >
-                    <Text style={[type.bodyStrong, { color: palette.ink }]}>
-                      {policy.field.replace(/_/g, ' ')}
-                    </Text>
-                    <Text style={[type.caption, { color: palette.inkMuted }]} numberOfLines={3}>
-                      {policy.value}
-                    </Text>
-                  </PressableScale>
+                  <View style={{ paddingHorizontal: space.lg }}>
+                    <FieldRow
+                      label={policy.field.replace(/_/g, ' ')}
+                      value={<Text style={[type.caption, { color: palette.inkMuted, textAlign: 'right' }]} numberOfLines={3}>{policy.value}</Text>}
+                      onPress={() => openSource(policy.value, policy.evidence_id)}
+                    />
+                  </View>
                 </View>
               ))}
             </Card>
@@ -357,42 +310,26 @@ export default function CourseScreen() {
       <SectionHeader>SOURCE</SectionHeader>
       <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
         {course.evidence_id ? (
-          <PressableScale
-            accessibilityLabel="View the transcript row this course was read from"
-            onPress={() => openSource(course.title ?? 'Transcript row', course.evidence_id)}
-            style={{
-              backgroundColor: palette.surface,
-              borderRadius: radius.lg,
-              borderWidth: hairline,
-              borderColor: palette.line,
-              padding: space.lg,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <View style={{ flex: 1 }}>
-              <Text style={[type.bodyStrong, { color: palette.ink }]}>The transcript row</Text>
-              <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
-                See the printed line this course was read from.
-              </Text>
+          <Card padded={false}>
+            <View style={{ paddingHorizontal: space.lg }}>
+              <FieldRow
+                label="The printed row"
+                value="View"
+                onPress={() => openSource(course.title ?? 'Transcript row', course.evidence_id)}
+              />
             </View>
-            <Text style={{ color: palette.inkFaint, fontSize: 18 }}>›</Text>
-          </PressableScale>
+          </Card>
         ) : null}
-
-        <Card>
-          <Text style={[type.body, { color: palette.ink }]}>
-            {document ? `${documentTypeLabel(document.document_type)} document` : 'No source document'}
+        {document ? (
+          <Text style={[type.caption, { color: palette.inkFaint }]}>
+            {documentTypeLabel(document.document_type)} · read {relativeDay(document.created_at).toLowerCase()}
+            {document.source_uri && !/\.pdf(\?|$)/i.test(document.source_uri) ? ' · page kept' : ''}
           </Text>
-          <Text style={[type.caption, { color: palette.inkMuted, marginTop: 4 }]}>
-            {document
-              ? `Read ${relativeDay(document.created_at).toLowerCase()} · ${document.ocr_text.length.toLocaleString()} characters of text kept for checking`
-              : 'The document behind this course was removed.'}
-          </Text>
-        </Card>
-
-        {importId ? <Button title="Undo this import" kind="quiet" onPress={undo} /> : null}
+        ) : null}
+        {importId ? <Button title="Undo import" kind="quiet" onPress={undo} /> : null}
       </View>
+
+      <EvidenceSheet visible={source !== null} source={source} onClose={() => setSource(null)} />
     </Screen>
   );
 }

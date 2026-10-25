@@ -94,6 +94,8 @@ export interface CommitInput {
   course: CourseInput | null;
   /** The courses a transcript import creates, one per printed row. */
   transcriptCourses?: TranscriptCourseInput[] | null;
+  /** The transcript's own summary, recorded beside the courses it created. */
+  transcript?: TranscriptInput | null;
   document: DocumentInput;
   grading: GradingInput[];
   meetings: MeetingInput[];
@@ -372,6 +374,7 @@ export async function commitImport(db: SQLiteDatabase, input: CommitInput): Prom
       );
     }
 
+    if (input.transcript) await saveTranscript(db, input.transcript);
   });
 }
 
@@ -635,7 +638,17 @@ export async function allSourceUris(db: SQLiteDatabase): Promise<string[]> {
  */
 export async function deleteAllData(db: SQLiteDatabase): Promise<void> {
   await db.withTransactionAsync(async () => {
-    for (const table of ['policies', 'meetings', 'grading_categories', 'courses', 'imports', 'evidence', 'documents']) {
+    for (const table of [
+      'policies',
+      'meetings',
+      'grading_categories',
+      'courses',
+      'planned_courses',
+      'transcripts',
+      'imports',
+      'evidence',
+      'documents',
+    ]) {
       await db.runAsync(`DELETE FROM ${table}`);
     }
   });
@@ -664,4 +677,124 @@ export async function keepSourceEnabled(db: SQLiteDatabase): Promise<boolean> {
 export async function storedDocumentCount(db: SQLiteDatabase): Promise<number> {
   const row = await db.getFirstAsync<{ count: number }>('SELECT COUNT(*) AS count FROM documents');
   return row?.count ?? 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * v5 — the transcript as an object, and the courses a person plans
+ * ------------------------------------------------------------------------- */
+
+/** What the imported transcript page stated, as the page stated it. */
+export interface TranscriptRow {
+  document_id: string;
+  import_id: string | null;
+  student_name: string | null;
+  school: string | null;
+  reported_gpa: number | null;
+  earned_credits: number;
+  in_progress_credits: number;
+  course_count: number;
+  imported_at: string;
+}
+
+export interface TranscriptInput {
+  documentId: string;
+  importId: string;
+  student: string | null;
+  school: string | null;
+  reportedGpa: number | null;
+  earnedCredits: number;
+  inProgressCredits: number;
+  courseCount: number;
+}
+
+/** Written in the import's own transaction, so a transcript is never half-recorded. */
+export async function saveTranscript(db: SQLiteDatabase, input: TranscriptInput): Promise<void> {
+  await db.runAsync(
+    `INSERT INTO transcripts (
+      document_id, import_id, student_name, school, reported_gpa,
+      earned_credits, in_progress_credits, course_count, imported_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(document_id) DO UPDATE SET
+      import_id = excluded.import_id,
+      student_name = excluded.student_name,
+      school = excluded.school,
+      reported_gpa = excluded.reported_gpa,
+      earned_credits = excluded.earned_credits,
+      in_progress_credits = excluded.in_progress_credits,
+      course_count = excluded.course_count,
+      imported_at = excluded.imported_at`,
+    [
+      input.documentId,
+      input.importId,
+      input.student,
+      input.school,
+      input.reportedGpa,
+      input.earnedCredits,
+      input.inProgressCredits,
+      input.courseCount,
+      new Date().toISOString(),
+    ],
+  );
+}
+
+/** The most recently imported transcript, which is the student's current record. */
+export async function latestTranscript(db: SQLiteDatabase): Promise<TranscriptRow | null> {
+  return db.getFirstAsync<TranscriptRow>('SELECT * FROM transcripts ORDER BY imported_at DESC LIMIT 1');
+}
+
+/** A course the user is planning. It has no document and no evidence behind it. */
+export interface PlannedCourseRow {
+  id: string;
+  name: string;
+  credits: number;
+  level: 'regular' | 'honors' | 'ap';
+  expected_grade: string;
+  term: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PlannedCourseInput {
+  id: string;
+  name: string;
+  credits: number;
+  level: 'regular' | 'honors' | 'ap';
+  expectedGrade: string;
+  term: string | null;
+}
+
+export async function listPlannedCourses(db: SQLiteDatabase): Promise<PlannedCourseRow[]> {
+  return db.getAllAsync<PlannedCourseRow>('SELECT * FROM planned_courses ORDER BY created_at ASC');
+}
+
+export async function upsertPlannedCourse(db: SQLiteDatabase, input: PlannedCourseInput): Promise<void> {
+  const now = new Date().toISOString();
+  await db.runAsync(
+    `INSERT INTO planned_courses (id, name, credits, level, expected_grade, term, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+     ON CONFLICT(id) DO UPDATE SET
+       name = excluded.name,
+       credits = excluded.credits,
+       level = excluded.level,
+       expected_grade = excluded.expected_grade,
+       term = excluded.term,
+       updated_at = excluded.updated_at`,
+    [input.id, input.name, input.credits, input.level, input.expectedGrade, input.term, now, now],
+  );
+}
+
+export async function deletePlannedCourse(db: SQLiteDatabase, id: string): Promise<void> {
+  await db.runAsync('DELETE FROM planned_courses WHERE id = ?', [id]);
+}
+
+/** The GPA scale, once the user has set one. `null` means no projection is shown. */
+export const GPA_SCALE_KEY = 'gpa_scale';
+
+export async function readGpaScaleValue(db: SQLiteDatabase): Promise<string | null> {
+  const value = await getSetting(db, GPA_SCALE_KEY, '');
+  return value ? value : null;
+}
+
+export async function writeGpaScaleValue(db: SQLiteDatabase, json: string): Promise<void> {
+  await setSetting(db, GPA_SCALE_KEY, json);
 }

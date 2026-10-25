@@ -13,7 +13,15 @@
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
 
-import { commitImport, deleteAllData, getCourse, importForCourse, listImports, undoImport } from '../../src/database/repo';
+import {
+  commitImport,
+  deleteAllData,
+  getCourse,
+  importForCourse,
+  latestTranscript,
+  listImports,
+  undoImport,
+} from '../../src/database/repo';
 import type { CommitInput } from '../../src/database/repo';
 import { migrate } from '../../src/database/schema';
 
@@ -292,8 +300,23 @@ async function main(): Promise<void> {
       policies: [],
       evidence: [transcriptEvidence(0), transcriptEvidence(1), transcriptEvidence(2), transcriptEvidence(3)],
       summary: { course: 'Transcript', transcript: true, courses: 4, credits: 2.5, inProgress: 1, warnings: 0, linked: false },
+      transcript: {
+        documentId: 'doc-abc',
+        importId: 'draft-tr-3',
+        student: 'Roe, Jamie',
+        school: 'Stone Ridge High School',
+        reportedGpa: 4.23529,
+        earnedCredits: 2.5,
+        inProgressCredits: 1,
+        courseCount: 4,
+      },
     }),
   );
+  const stored = await latestTranscript(transcript as unknown as Db);
+  check(stored?.student_name === 'Roe, Jamie', 'the transcript is recorded with its student');
+  check(stored?.reported_gpa === 4.23529, 'the GPA the page printed is stored, not recomputed');
+  check(stored?.earned_credits === 2.5 && stored?.in_progress_credits === 1, 'both credit totals are kept apart');
+  check(stored?.course_count === 4, 'the transcript counts its own rows');
   check(transcript.count('courses') === 4, 'a transcript import writes one course per row');
   const inProgressRow = transcript.raw
     .prepare("SELECT in_progress, credits, grade FROM courses WHERE id = 'draft-tr-3-c3'")

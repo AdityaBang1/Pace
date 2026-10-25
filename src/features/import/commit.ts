@@ -107,6 +107,24 @@ export function draftToCommitInput(draft: ImportDraft): CommitInput {
       courseId: '',
       course: null,
       transcriptCourses: courses,
+      // The page's own summary, kept beside the courses: what it printed is not
+      // re-derived from them, and a page that stated no GPA is not given one.
+      transcript: {
+        documentId: draft.documentId,
+        importId: draft.id,
+        student: draft.transcript.student,
+        school: draft.transcript.school,
+        reportedGpa: draft.transcript.reportedGpa,
+        earnedCredits:
+          Math.round(
+            courses.reduce((sum, course) => sum + (course.inProgress ? 0 : course.credits ?? 0), 0) * 100,
+          ) / 100,
+        inProgressCredits:
+          Math.round(
+            courses.reduce((sum, course) => sum + (course.inProgress ? course.credits ?? 0 : 0), 0) * 100,
+          ) / 100,
+        courseCount: courses.length,
+      },
       document,
       grading: [],
       meetings: [],

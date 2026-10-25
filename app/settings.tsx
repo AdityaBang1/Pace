@@ -11,9 +11,11 @@ import {
   allSourceUris,
   deleteAllData,
   keepSourceEnabled,
+  readGpaScaleValue,
   setSetting,
   storedDocumentCount,
 } from '../src/database/repo';
+import { parseScale } from '../src/domain/gpa';
 import { deleteAllStoredSources } from '../src/features/scan/storage';
 import { NativeToggle } from '../src/ui/NativeToggle';
 import { readManifestSummary, type ManifestSummary } from '../src/engine/native/manifest';
@@ -28,6 +30,7 @@ export default function Settings() {
   const [manifest, setManifest] = useState<ManifestSummary | null>(null);
   const [counts, setCounts] = useState({ courses: 0, documents: 0 });
   const [keepSource, setKeepSource] = useState(true);
+  const [gpaScale, setGpaScale] = useState('Not set');
 
   useEffect(() => {
     void readManifestSummary().then(setManifest);
@@ -37,6 +40,7 @@ export default function Settings() {
     void (async () => {
       setCounts({ courses: await courseCount(db), documents: await storedDocumentCount(db) });
       setKeepSource(await keepSourceEnabled(db));
+      setGpaScale(parseScale(await readGpaScaleValue(db)) ? 'Custom' : 'Not set');
     })();
   }, [db]);
 
@@ -137,6 +141,20 @@ export default function Settings() {
             Keeps the photographed page so the source sheet can highlight the line a value came from. Turning this
             off saves space; the quoted source line is kept either way, and a PDF's pages are never stored as images.
           </Text>
+        </Card>
+      </View>
+
+      <SectionHeader>GPA SCALE</SectionHeader>
+      <View style={{ paddingHorizontal: space.xl }}>
+        <Card padded={false}>
+          <View style={{ padding: space.lg }}>
+            <FieldRow
+              label="Scale"
+              value={gpaScale}
+              onPress={() => router.push('/gpa-scale')}
+              accessory={<Text style={{ color: palette.inkFaint, fontSize: 18 }}>›</Text>}
+            />
+          </View>
         </Card>
       </View>
 

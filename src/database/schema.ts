@@ -12,7 +12,7 @@
  */
 import type { SQLiteDatabase } from 'expo-sqlite';
 
-export const SCHEMA_VERSION = 4;
+export const SCHEMA_VERSION = 5;
 
 const STATEMENTS = [
   `PRAGMA journal_mode = WAL;`,
@@ -117,6 +117,34 @@ const STATEMENTS = [
   `CREATE TABLE IF NOT EXISTS settings (
     key TEXT PRIMARY KEY NOT NULL,
     value TEXT NOT NULL
+  );`,
+  // v5: the transcript as an object of its own, not just the courses it created.
+  // One row per imported transcript, keyed by its document, so Home can say what
+  // the page itself stated (the GPA it printed, the credits it totalled) without
+  // re-reading the page or re-deriving a number Pace only read.
+  `CREATE TABLE IF NOT EXISTS transcripts (
+    document_id TEXT PRIMARY KEY NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+    import_id TEXT,
+    student_name TEXT,
+    school TEXT,
+    reported_gpa REAL,
+    earned_credits REAL NOT NULL DEFAULT 0,
+    in_progress_credits REAL NOT NULL DEFAULT 0,
+    course_count INTEGER NOT NULL DEFAULT 0,
+    imported_at TEXT NOT NULL
+  );`,
+  // v5: a planned course is the user's, not a document's. It carries no evidence
+  // and no import, so undo and delete-all can never remove something a person
+  // typed — except through the explicit "delete all data" path.
+  `CREATE TABLE IF NOT EXISTS planned_courses (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    credits REAL NOT NULL DEFAULT 1,
+    level TEXT NOT NULL DEFAULT 'regular',
+    expected_grade TEXT NOT NULL DEFAULT 'A',
+    term TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
   );`,
 ];
 

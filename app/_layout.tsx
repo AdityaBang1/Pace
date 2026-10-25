@@ -40,6 +40,9 @@ export default function RootLayout() {
             >
               <Stack.Screen name="index" />
               <Stack.Screen name="academics" />
+              <Stack.Screen name="transcript" />
+              <Stack.Screen name="plan" />
+              <Stack.Screen name="gpa-scale" options={{ presentation: 'modal' }} />
               <Stack.Screen name="course/[id]" />
               <Stack.Screen name="scan" options={{ presentation: 'modal' }} />
               <Stack.Screen name="review" />

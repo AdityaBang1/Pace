@@ -5,6 +5,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeIn, useReducedMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { creditsValue, gpaValue } from '../src/domain/academics';
 import type { Proposal } from '../src/engine/types';
 import type { GradingValue, ImportDraft, MeetingValue, TranscriptRowValue } from '../src/features/import/draft';
 import { gradingTotal, importBlocker, reviewCounts } from '../src/features/import/draft';
@@ -148,6 +149,19 @@ export default function Review() {
       transcriptGroups.push({ label, rows, credits: Math.round(credits * 1000) / 1000 });
     }
   }
+  // Review by exception: a transcript page is mostly right, so only the rows Pace
+  // is unsure about are marked. An in-progress row has no mark by design and is
+  // not one of them.
+  const needsReviewRows = new Set(
+    transcriptRows
+      .filter(
+        (row) =>
+          row.confidence < 0.9 ||
+          row.value.credit == null ||
+          (row.value.mark == null && !row.value.inProgress),
+      )
+      .map((row) => row.key),
+  );
   const includedCount = draft.transcript
     ? transcriptRows.filter((row) => row.included).length
     : (draft.title?.included ? 1 : 0) +
@@ -303,14 +317,9 @@ export default function Review() {
             {draft.pageCount > 1 ? (
               <Chip label={`${draft.pageCount} pages`} />
             ) : null}
-            {draft.transcript ? (
-              <Chip
-                label={`${draft.transcript.totalCredits} credit${
-                  draft.transcript.totalCredits === 1 ? '' : 's'
-                }`}
-              />
+            {draft.transcript && needsReviewRows.size ? (
+              <Chip label={`${needsReviewRows.size} to check`} tone="warn" />
             ) : null}
-            {draft.transcript?.reportedGpa != null ? <Chip label={`GPA ${draft.transcript.reportedGpa}`} /> : null}
           </View>
 
           <Card padded={false}>
@@ -401,39 +410,29 @@ export default function Review() {
                 TRANSCRIPT
               </SectionHeader>
               <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
+                {draft.transcript.student || draft.transcript.school ? (
+                  <Text style={[type.caption, { color: palette.inkMuted }]} numberOfLines={1}>
+                    {[draft.transcript.student, draft.transcript.school].filter(Boolean).join(' · ')}
+                  </Text>
+                ) : null}
                 <Card>
-                  {draft.transcript.student || draft.transcript.school ? (
+                  <FieldRow label="Courses" value={String(transcriptRows.length)} />
+                  <Divider />
+                  <FieldRow label="Earned" value={creditsValue(draft.transcript.totalCredits)} />
+                  <Divider />
+                  <FieldRow label="In Progress" value={creditsValue(draft.transcript.inProgressCredits)} />
+                  {draft.transcript.reportedGpa != null ? (
                     <>
-                      <Text style={[type.label, { color: palette.inkFaint }]}>STUDENT</Text>
-                      <Text style={[type.bodyStrong, { color: palette.ink, marginTop: 4 }]}>
-                        {draft.transcript.student ?? draft.transcript.school}
-                      </Text>
-                      {draft.transcript.student && draft.transcript.school ? (
-                        <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
-                          {draft.transcript.school}
-                        </Text>
-                      ) : null}
                       <Divider />
+                      <FieldRow label="Weighted GPA" value={gpaValue(draft.transcript.reportedGpa)} />
                     </>
                   ) : null}
-                  <View style={{ flexDirection: 'row', gap: space.xl }}>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[type.label, { color: palette.inkFaint }]}>CREDITS</Text>
-                      <Text style={[type.bodyStrong, { color: palette.ink, marginTop: 4 }]}>
-                        {draft.transcript.reportedCredits ?? draft.transcript.totalCredits}
-                        {draft.transcript.reportedCredits != null &&
-                        draft.transcript.reportedCredits !== draft.transcript.totalCredits
-                          ? ` (rows: ${draft.transcript.totalCredits})`
-                          : ''}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[type.label, { color: palette.inkFaint }]}>GPA</Text>
-                      <Text style={[type.bodyStrong, { color: palette.ink, marginTop: 4 }]}>
-                        {draft.transcript.reportedGpa ?? '—'}
-                      </Text>
-                    </View>
-                  </View>
+                  {needsReviewRows.size ? (
+                    <>
+                      <Divider />
+                      <FieldRow label="Needs review" value={String(needsReviewRows.size)} />
+                    </>
+                  ) : null}
                 </Card>
               </View>
 
@@ -504,6 +503,11 @@ export default function Review() {
                                   .filter(Boolean)
                                   .join(' · ') || '—'}
                               </Text>
+                              {needsReviewRows.has(row.key) ? (
+                                <Text style={[type.caption, { color: palette.warn, marginTop: 2 }]}>
+                                  Needs review
+                                </Text>
+                              ) : null}
                             </View>
                             <Text
                               style={[
@@ -786,7 +790,7 @@ export default function Review() {
         <Text style={[type.caption, { color: palette.inkFaint, textAlign: 'center' }]}>
           {blocker ??
             (draft.transcript
-              ? 'Nothing is saved until you import. Tap a row to keep or drop it, hold to see the line it came from.'
+              ? 'Nothing is saved until you import.'
               : 'Nothing is saved until you import. Tap a value to edit it, hold to see its source.')}
         </Text>
       </View>

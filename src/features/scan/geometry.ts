@@ -186,8 +186,19 @@ function lineOf(segment: Block[]): LaidLine {
   };
 }
 
+/**
+ * How boxes on one baseline are glued back into a line.
+ *
+ * `grid` is a table: every box on the baseline is part of the row, however wide
+ * the gap between cells. `cells` is a page of runs-per-cell whose columns do not
+ * repeat enough to be called a grid: a wide gap is crossed only to reach another
+ * short cell (a header word, a mark), never to splice in a sentence. `prose`
+ * joins only what a word space could explain.
+ */
+type LineMode = 'grid' | 'cells' | 'prose';
+
 /** The printed lines of a run of boxes, one table row at a time. */
-function linesOfBlocks(blocks: Block[], table: boolean): LaidLine[] {
+function linesOfBlocks(blocks: Block[], mode: LineMode): LaidLine[] {
   const out: LaidLine[] = [];
   for (const blocksOfRow of rowsOf(blocks)) {
     const row = [...blocksOfRow].sort((left, right) => left.x - right.x);
@@ -195,9 +206,14 @@ function linesOfBlocks(blocks: Block[], table: boolean): LaidLine[] {
     for (const block of row) {
       const previous = segment[segment.length - 1];
       const gap = previous ? block.x - (previous.x + previous.width) : 0;
-      // In a table every box on the baseline belongs to the row; elsewhere only a
-      // gap a word space could explain is glued back together.
-      if (previous && (table || gap <= COLUMN_GAP)) {
+      const glue =
+        previous !== undefined &&
+        (mode === 'grid' ||
+          gap <= COLUMN_GAP ||
+          (mode === 'cells' &&
+            gap <= 0.6 &&
+            (block.text.trim().length <= SHORT_CELL || previous.text.trim().length <= SHORT_CELL)));
+      if (glue) {
         segment.push(block);
       } else {
         if (segment.length) out.push(lineOf(segment));
@@ -233,13 +249,14 @@ function rawLines(page: PaceVisionPage): LaidLine[] {
 }
 
 /**
- * Did this page arrive as one text run per cell?
+ * Did this page arrive as one text box per cell?
  *
  * PDFKit reports a text layer per run, so a table drawn cell by cell arrives as
  * `Course`, `Mark`, then a code and a title, one per line. That is the one shape
- * the layout pass exists to repair. A page whose lines are sentences is left
- * exactly as it came: its lines are already its printed lines, and re-deriving
- * them from boxes is only a way to make them worse.
+ * the layout pass exists to repair: its boxes form columns down the page, which
+ * a page of prose — however many columns it is set in — never does cell by cell.
+ * Every other page keeps its own lines, because re-deriving lines that are
+ * already right is only a way to make them worse.
  */
 function isFlatPage(page: PaceVisionPage, blocks: Block[]): boolean {
   if (!blocks.length) return false;
@@ -247,7 +264,10 @@ function isFlatPage(page: PaceVisionPage, blocks: Block[]): boolean {
   const lines = (page.text.trim() ? page.text : blocks.map((block) => block.text).join('\n'))
     .split('\n')
     .filter((line) => line.trim());
-  if (lines.length < 4 || blocks.length !== lines.length) return false;
+  if (lines.length < 5 || blocks.length !== lines.length) return false;
+  if (isTablePage(blocks)) return true;
+  // Few rows mean few repeats: a term table with two courses on the page is
+  // still one column of words and one of numbers, so its lines are still cells.
   const cells = lines.filter((line) => {
     const value = line.trim();
     return value.split(/\s+/).length <= 3 && value.length <= 22;
@@ -265,20 +285,21 @@ function pageLines(page: PaceVisionPage): LaidLine[] {
     return page.text.split('\n').map((line) => ({ text: line, bbox: null, confidence: null }));
   }
   // A page that already has its lines keeps them. Only a page that arrived one
-  // text run per line is laid out again from its boxes.
-  if (!isFlatPage(page, blocks)) return rawLines(page);
+  // text box per line is laid out again from its boxes.
+  const grid = isTablePage(blocks);
+  if (!grid && !isFlatPage(page, blocks)) return rawLines(page);
 
-  const table = isTablePage(blocks);
-  const gutter = table ? pageGutter(rowsOf(blocks)) : null;
+  const mode: LineMode = grid ? 'grid' : 'cells';
+  const gutter = grid ? pageGutter(rowsOf(blocks)) : null;
   if (gutter !== null) {
     // Read the left column to its end and then the right one, the way the page is
     // read: each column is a table of its own, with its own heading and its own
     // term banner, and a title that wrapped stays under the course it belongs to.
     const left = blocks.filter((block) => block.x < gutter);
     const right = blocks.filter((block) => block.x >= gutter);
-    return [...linesOfBlocks(left, true), ...linesOfBlocks(right, true)];
+    return [...linesOfBlocks(left, 'grid'), ...linesOfBlocks(right, 'grid')];
   }
-  return linesOfBlocks(blocks, table);
+  return linesOfBlocks(blocks, mode);
 }
 
 /**

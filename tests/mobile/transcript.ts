@@ -15,7 +15,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import type { PaceVisionBlock } from '../../modules/pace-vision';
+import type { PaceVisionBlock, PaceVisionPage } from '../../modules/pace-vision';
 import { PaceEngine } from '../../src/engine/PaceEngine';
 import { readTranscript } from '../../src/engine/transcript';
 import { buildDraft, importBlocker, includedTranscript, reviewCounts } from '../../src/features/import/draft';
@@ -303,6 +303,83 @@ async function main(): Promise<void> {
       'the per-table check finds no missing row',
       reading.checks,
     );
+  }
+
+  // ---- a header printed once, rows continuing on the pages below it --------
+  // A printed transcript often labels its columns once and then repeats only the
+  // term banner and the footer on the next page. Reading a table only up to its
+  // own footer read the first page and dropped the rest of the year.
+  {
+    const text = [
+      '2025-2026 Grade 09 Term 2',
+      'Course                                        Mark         Weight       Credit',
+      '220725y     Accel Adv                                        94          1.0000             1',
+      'Alg:Concept&Connect',
+      'Credit: 7.500   GPA: 4.13333',
+      '',
+      '2025-2026 Grade 09 Term 2',
+      '200715b     Accel Geo                                        94          0.5000           0.5',
+      'B:Concept&Connect',
+      'Credit: 7.500   GPA: 4.13333',
+    ].join('\n');
+    const reading = readTranscript(text);
+    check(reading.courses.length === 2, 'the page under the header is still the same table', reading.courses.length);
+    check(
+      reading.courses[1].code === '200715b' && reading.courses[1].title === 'Accel Geo B:Concept&Connect',
+      'and keeps its own code and wrapped title',
+      reading.courses[1],
+    );
+    check(reading.courses[1].credit === 0.5 && reading.courses[1].mark === '94', 'and its own numbers', reading.courses[1]);
+  }
+
+  // The same shape through the layout pass: page 2 has no header, so its lines
+  // have to be rebuilt from boxes without a grid to guide them.
+  {
+    const columns = [0.065, 0.15, 0.56, 0.65, 0.79];
+    const coursePage = (args: {
+      page: number;
+      rows: { code: string; title: string; mark: string; weight: string | null; credit: string }[];
+      header: boolean;
+    }): PaceVisionPage => {
+      const blocks: PaceVisionBlock[] = [];
+      let y = 0.08;
+      const add = (text: string, x: number, width: number) => {
+        blocks.push({ id: `p${args.page}-${blocks.length}`, text, page: args.page, x, y, width, height: 0.012, confidence: 1 });
+      };
+      add('2025-2026 Grade 09 Term 2', columns[0], 0.22);
+      y += 0.02;
+      if (args.header) {
+        ['Course', 'Mark', 'Weight', 'Credit'].forEach((word, index) =>
+          add(word, columns[index === 0 ? 0 : index + 1], 0.05),
+        );
+        y += 0.02;
+      }
+      for (const row of args.rows) {
+        add(row.code, columns[0], 0.05);
+        add(row.title, columns[1], 0.12);
+        add(row.mark, columns[2], 0.01);
+        if (row.weight) add(row.weight, columns[3], 0.02);
+        add(row.credit, columns[4], 0.01);
+        y += 0.018;
+      }
+      add('Credit: 7.500   GPA: 4.13333', 0.4, 0.15);
+      return {
+        page: args.page,
+        method: 'text_layer',
+        text: blocks.map((block) => block.text).join('\n'),
+        blocks,
+        imageWidth: 612,
+        imageHeight: 792,
+        durationMs: 1,
+      };
+    };
+    const { text: laid } = layoutPages([
+      coursePage({ page: 0, header: true, rows: [{ code: '220725y', title: 'Accel Adv', mark: '94', weight: '1.0000', credit: '1' }] }),
+      coursePage({ page: 1, header: false, rows: [{ code: '200715b', title: 'Accel Geo', mark: '94', weight: '0.5000', credit: '0.5' }] }),
+    ]);
+    const reading = readTranscript(laid);
+    check(reading.courses.length === 2, 'a header-less page is laid out from its boxes and read', reading.courses.length);
+    check(reading.courses[1]?.code === '200715b', 'the second page keeps its course', reading.courses[1]);
   }
 
   // ---- two rows that landed on one text line, with no page gutter ----------

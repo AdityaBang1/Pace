@@ -322,6 +322,11 @@ function looseNumericRow(
   return { titleStart, titleEnd, values };
 }
 
+/** One term banner, named the same way wherever it is read. */
+function bannerValue(match: RegExpExecArray): string {
+  return `${match[1].replace(/\s*-\s*/g, '-')} Grade ${match[2]} Term ${match[3]}`;
+}
+
 /** Read the term banners a transcript prints above its rows. */
 export function termBanners(text: string, all: Line[]): TranscriptTermRow[] {
   const out: TranscriptTermRow[] = [];
@@ -329,7 +334,7 @@ export function termBanners(text: string, all: Line[]): TranscriptTermRow[] {
     const match = TERM_BANNER.exec(line.text);
     if (!match) continue;
     out.push({
-      value: `${match[1].replace(/\s*-\s*/g, '-')} Grade ${match[2]} Term ${match[3]}`,
+      value: bannerValue(match),
       academicYear: match[1].replace(/\s*-\s*/g, '-'),
       gradeLevel: match[2],
       term: match[3],
@@ -743,6 +748,42 @@ function readHeader(
   return { student, school, documentTitle };
 }
 
+/**
+ * The last line below a table's footer that is still one of its rows.
+ *
+ * Some transcripts print the column header once per page (or once per term) and
+ * a footer under every page. The rows under that footer still sit in the columns
+ * above them, so a table that stopped at its first footer lost every page behind
+ * it — which is the shape of "it read the first term and nothing else".
+ */
+function tableContinues(
+  all: Line[],
+  allCells: Cell[][],
+  from: number,
+  columns: TableColumn[],
+  term: string | null,
+): number | null {
+  let last: number | null = null;
+  for (let index = from; index < all.length; index += 1) {
+    const body = all[index].text;
+    if (!body.trim()) continue;
+    if (headerColumns(allCells[index], body) !== null) break;
+    const banner = TERM_BANNER.exec(body);
+    // The next page may print the same term's banner again above its rows; a
+    // different term is a different table, and it needs its own columns.
+    if (banner) {
+      if (bannerValue(banner) !== term) break;
+      // The same term printed again above the next page's rows: those rows are
+      // still this table.
+      continue;
+    }
+    const row = numericRow(allCells[index], columns) ?? looseNumericRow(body, columns);
+    if (!row) break;
+    last = index;
+  }
+  return last;
+}
+
 /** The totals a table prints under itself ("Credit: 7.500   GPA: 4.13333"). */
 function footerOf(line: Line | undefined): { credits: number | null; gpa: number | null } | null {
   if (!line) return null;
@@ -786,7 +827,12 @@ export function readTranscript(text: string): TranscriptReading {
 
   // Every numeric block, not just the first: a transcript prints one per term or
   // per page, and reading only the first would silently drop every later page.
-  const numericBlocks: { header: number; end: number; columns: TableColumn[] }[] = [];
+  const numericBlocks: {
+    header: number;
+    end: number;
+    columns: TableColumn[];
+    footer: number | null;
+  }[] = [];
   let probe = 0;
   while (probe < all.length) {
     const columns = headerColumns(allCells[probe], all[probe].text);
@@ -795,10 +841,12 @@ export function readTranscript(text: string): TranscriptReading {
       continue;
     }
     let end = all.length;
+    let footer: number | null = null;
     for (let cursor = probe + 1; cursor < all.length; cursor += 1) {
       const body = all[cursor].text;
       if (FOOTER_TOTALS.test(body) || FOOTER_GPA.test(body)) {
         end = cursor;
+        footer = cursor;
         break;
       }
       if (headerColumns(allCells[cursor], body) !== null) {
@@ -806,7 +854,36 @@ export function readTranscript(text: string): TranscriptReading {
         break;
       }
     }
-    numericBlocks.push({ header: probe, end, columns });
+    // A header printed once per page or per term carries over its own footer.
+    if (footer !== null) {
+      let term: string | null = null;
+      for (const banner of terms) {
+        if (banner.start <= all[probe].start) term = banner.value;
+        else break;
+      }
+      const continued = tableContinues(all, allCells, footer + 1, columns, term);
+      if (continued !== null) {
+        end = continued + 1;
+        // A title that wrapped below the last row is still that row's title, and
+        // the rows are what the block reader walks; without the line it would be
+        // cut off at the page break.
+        while (end < all.length) {
+          const body = all[end].text;
+          const trimmed = body.trim();
+          if (!trimmed) {
+            end += 1;
+            continue;
+          }
+          if (FOOTER_TOTALS.test(body) || FOOTER_GPA.test(body)) break;
+          if (headerColumns(allCells[end], body) !== null) break;
+          if (TERM_BANNER.test(body)) break;
+          if (trimmed === trimmed.toUpperCase() || /\d/.test(trimmed)) break;
+          end += 1;
+        }
+        if (footerOf(all[end])) footer = end;
+      }
+    }
+    numericBlocks.push({ header: probe, end, columns, footer });
     probe = end;
   }
 
@@ -909,7 +986,7 @@ export function readTranscript(text: string): TranscriptReading {
   }[] = [];
   for (const block of numericBlocks) {
     const rows = numericTable(text, all, allCells, block.header, block.end, block.columns);
-    numericRows.push({ rows, footer: footerOf(all[block.end]) });
+    numericRows.push({ rows, footer: block.footer !== null ? footerOf(all[block.footer]) : null });
     courses.push(...rows);
   }
   if (numericBlocks.length) courses.sort((left, right) => left.span.start - right.span.start);

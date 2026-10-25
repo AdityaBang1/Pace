@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 /**
  * onnxruntime-react-native 1.24.3 predates React Native 0.88 / Expo SDK 58.
  *
- * Two upstream issues matter to Pace:
+ * Three upstream issues matter to Pace:
  *
  * 1. iOS: OnnxruntimeModule.mm names RCTCxxBridge, whose declaration was removed
  *    in RN 0.88. The bridge proxy still exposes `runtime`; Microsoft's issue
@@ -16,10 +16,14 @@ import { fileURLToPath } from 'node:url';
  *    treats that as an Expo-module marker and can exclude ORT from normal React
  *    Native autolinking even though ORT is a regular RN native module.
  *
+ * 3. The podspec leaves `onnxruntime-c` unversioned, so a clean pod install can
+ *    pair this 1.24.3 JS/JSI binding with a different native runtime. Pin the pod
+ *    to the package version so the submission build is reproducible.
+ *
  * npm has not published the upstream fixes in a release newer than 1.24.3 yet.
  * Keep this patch deliberately narrow and fail loudly if the package changes in
  * a way that leaves the known-broken source behind. Once a published ORT release
- * fixes both issues, remove this script and the root postinstall hook.
+ * fixes these issues, remove this script and the root postinstall hook.
  */
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -78,6 +82,26 @@ if (ios.includes('RCTCxxBridge* cxxBridge')) {
 
 const iosChanged = writeIfChanged(iosPath, iosOriginal, ios);
 
+// Pin the CocoaPod to the same version as the JS/JSI package. ORT 1.24.3's
+// published podspec otherwise resolves whichever onnxruntime-c happens to be
+// newest when `pod install` runs.
+const podspecPath = path.join(ort, 'onnxruntime-react-native.podspec');
+if (!fs.existsSync(podspecPath)) {
+  throw new Error(`[pace] expected ORT podspec is missing: ${podspecPath}`);
+}
+const podspecOriginal = fs.readFileSync(podspecPath, 'utf8');
+let podspec = podspecOriginal;
+if (podspec.includes('spec.dependency "onnxruntime-c"\n')) {
+  podspec = podspec.replace(
+    'spec.dependency "onnxruntime-c"\n',
+    'spec.dependency "onnxruntime-c", package["version"]\n',
+  );
+}
+if (/spec\.dependency\s+["']onnxruntime-c["']\s*$/.test(podspec)) {
+  throw new Error('[pace] ORT podspec still leaves onnxruntime-c unpinned after patching.');
+}
+const podspecChanged = writeIfChanged(podspecPath, podspecOriginal, podspec);
+
 // ---------------------------------------------------------------------------
 // Expo autolinking
 // ---------------------------------------------------------------------------
@@ -109,6 +133,7 @@ if (fs.existsSync(androidPath)) {
 
 console.log(
   `[pace] ORT compatibility ready (ios=${iosChanged ? 'patched' : 'already-ready'}, ` +
+    `pod=${podspecChanged ? 'pinned' : 'already-ready'}, ` +
     `autolink=${removedUnimodule ? 'fixed' : 'already-ready'}, ` +
     `android=${androidChanged ? 'patched' : 'already-ready'})`,
 );

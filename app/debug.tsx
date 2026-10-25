@@ -122,6 +122,33 @@ export default function Debug() {
               ))}
             </Card>
 
+            {last.extraction ? (
+              <Card>
+                <Text style={[type.label, { color: palette.inkFaint }]}>EXTRACTION</Text>
+                <View style={{ marginTop: space.sm, gap: 6 }}>
+                  {last.extraction.pages.length ? (
+                    last.extraction.pages.map((page) => (
+                      <FieldRow
+                        key={page.page}
+                        label={`page ${page.page + 1} · ${page.method === 'text_layer' ? 'text layer' : 'OCR'}`}
+                        value={`${page.characters} chars${
+                          page.confidence != null ? ` · ${Math.round(page.confidence * 100)}%` : ''
+                        }`}
+                      />
+                    ))
+                  ) : (
+                    <Text style={[type.caption, { color: palette.inkMuted }]}>a plain-text file, no pages</Text>
+                  )}
+                </View>
+                <Text
+                  style={[type.mono, { color: palette.inkMuted, marginTop: space.md }]}
+                  selectable
+                >
+                  {last.extraction.text.slice(0, 2000)}
+                </Text>
+              </Card>
+            ) : null}
+
             <Card>
               <Text style={[type.label, { color: palette.inkFaint }]}>SECTIONS</Text>
               <View style={{ marginTop: space.sm, gap: 6 }}>

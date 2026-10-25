@@ -4,7 +4,7 @@ A reproducible, **local-first academic document understanding** research prototy
 
 ## The app
 
-The model now ships inside **Pace**, an Expo SDK 58 iOS application in this repository. Photograph a syllabus or import a PDF — Apple Vision reads every page, PDFKit renders the pages locally — and the frozen reader runs on the phone through ONNX Runtime: document gate, section classification, deterministic value readers, evidence spans. Every value is reviewed and edited before one SQLite transaction writes it, and every imported value can be traced back to the line — and, for a photograph, the highlighted region of the page — it came from. The review and settings screens use native SwiftUI controls through `@expo/ui`. There is no server, no account, and no upload.
+The model now ships inside **Pace**, an Expo SDK 58 iOS application in this repository. Photograph a syllabus or import a PDF — a PDF page is read from its own text layer when it has one, and Apple Vision reads the pages that do not (PDFKit renders them locally) — and the frozen reader runs on the phone through ONNX Runtime: document gate, section classification, deterministic value readers, evidence spans. Every value is reviewed and edited before one SQLite transaction writes it, and every imported value can be traced back to the line — and, for a photograph, the highlighted region of the page — it came from. The review and settings screens use native SwiftUI controls through `@expo/ui`. There is no server, no account, and no upload.
 
 ```bash
 npm install

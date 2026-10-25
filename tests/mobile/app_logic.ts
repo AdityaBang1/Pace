@@ -147,9 +147,9 @@ async function main() {
   // page 3. This is pure arithmetic and is worth pinning without a device.
   {
     const pages: PaceVisionPage[] = [
-      { page: 0, text: 'Alpha\nBeta', blocks: blocksFor('Alpha\nBeta', 0), imageWidth: 100, imageHeight: 140, durationMs: 1 },
-      { page: 1, text: 'Gamma', blocks: blocksFor('Gamma', 1), imageWidth: 100, imageHeight: 140, durationMs: 1 },
-      { page: 2, text: 'Delta\nEpsilon', blocks: blocksFor('Delta\nEpsilon', 2), imageWidth: 100, imageHeight: 140, durationMs: 1 },
+      { page: 0, method: 'ocr', text: 'Alpha\nBeta', blocks: blocksFor('Alpha\nBeta', 0), imageWidth: 100, imageHeight: 140, durationMs: 1 },
+      { page: 1, method: 'ocr', text: 'Gamma', blocks: blocksFor('Gamma', 1), imageWidth: 100, imageHeight: 140, durationMs: 1 },
+      { page: 2, method: 'ocr', text: 'Delta\nEpsilon', blocks: blocksFor('Delta\nEpsilon', 2), imageWidth: 100, imageHeight: 140, durationMs: 1 },
     ];
     const joined = joinPages(pages);
     check(joined.text === 'Alpha\nBeta\n\nGamma\n\nDelta\nEpsilon', 'pages are joined with a blank line', joined.text);

@@ -6,8 +6,9 @@
  * the document gate has produced a label, and only show "Text recognised" after
  * the OCR boundary returned lines.
  *
- * A file may be a photograph or a PDF. Both arrive as pages of OCR text with line
- * geometry; the reader itself never knows which it was.
+ * A file may be a photograph or a PDF. Both arrive as pages of text with line
+ * geometry; a PDF page may hand over its own characters, while a photograph is
+ * always a recognition of pixels. The reader itself never knows which it was.
  */
 import { Directory, File, Paths } from 'expo-file-system';
 
@@ -46,6 +47,12 @@ export class ScanError extends Error {
 }
 
 const MIN_TEXT = 40;
+
+/** The mean of Vision's per-line confidences, or null when there were no lines. */
+function meanConfidence(blocks: { confidence: number }[]): number | null {
+  if (!blocks.length) return null;
+  return blocks.reduce((sum, block) => sum + block.confidence, 0) / blocks.length;
+}
 
 /**
  * Copy the source file into private storage.
@@ -114,7 +121,7 @@ export async function scanText(args: {
   onProgress?.({ stage: 'understanding', detail: 'Reading the academic structure' });
   const { record, text: normalized, timings } = await engine.understand(text);
   const measured = { ...(timings as unknown as Record<string, number>), totalMs: Date.now() - started };
-  recordRun(record, measured);
+  recordRun(record, measured, { pages: [], text });
 
   return {
     engine,
@@ -124,6 +131,8 @@ export async function scanText(args: {
       pages: [],
       text: normalized,
       pageCount: 1,
+      textPages: 0,
+      ocrPages: 0,
       truncated: false,
       durationMs: 0,
     },
@@ -163,7 +172,7 @@ export async function scanFile(args: {
     throw new ScanError(
       ocr.kind === 'pdf' ? 'Pace could not read text on those pages.' : 'Pace could not read enough text on that page.',
       ocr.kind === 'pdf'
-        ? 'Those pages may be scanned images with no readable text. Try a version with selectable text, or photograph the printed page.'
+        ? 'Those pages have no text Pace could read: they may be blank, faint, or too small. Try a clearer copy, or photograph the printed page.'
         : 'Move closer, hold the phone steady, and include the whole page — or import a PDF or a photo of the document.',
     );
   }
@@ -173,6 +182,19 @@ export async function scanFile(args: {
   if (ocr.truncated) {
     record.warnings.push(
       `only the first ${ocr.pageCount} pages were read: the document is longer than the page limit`,
+    );
+  }
+  // A PDF page with no text layer is a picture of a page, and its numbers are a
+  // reading of pixels rather than the author's characters. Say so on the record
+  // instead of letting the source sheet imply every page was exact.
+  if (ocr.kind === 'pdf' && ocr.ocrPages > 0) {
+    const scanned = ocr.pages
+      .filter((page) => page.method === 'ocr')
+      .map((page) => page.page + 1);
+    record.warnings.push(
+      `${scanned.length === 1 ? 'page' : 'pages'} ${scanned.join(', ')} had no text layer and ${
+        scanned.length === 1 ? 'was' : 'were'
+      } read from the image: check those values against the page`,
     );
   }
 
@@ -188,7 +210,15 @@ export async function scanFile(args: {
     pages: ocr.pageCount,
     totalMs,
   };
-  recordRun(record, measured);
+  recordRun(record, measured, {
+    pages: ocr.pages.map((page) => ({
+      page: page.page,
+      method: page.method,
+      characters: page.text.length,
+      confidence: meanConfidence(page.blocks),
+    })),
+    text,
+  });
 
   return {
     engine,

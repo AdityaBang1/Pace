@@ -100,17 +100,32 @@ extract from (the UI only offers `syllabus` and `course_catalog`).
 autolinked from `modules/`). It returns a document of pages:
 
 ```ts
-{ kind: 'pdf' | 'image', pageCount, truncated, durationMs, text,
-  pages: [{ page, text, imageWidth, imageHeight, durationMs,
+{ kind: 'pdf' | 'image', pageCount, textPages, ocrPages, truncated, durationMs, text,
+  pages: [{ page, method: 'text_layer' | 'ocr', text, imageWidth, imageHeight,
+            durationMs,
             blocks: [{ id, text, page, x, y, width, height, confidence }] }] }
 ```
 
-**A PDF is a PDF, not a screenshot.** `recognizeDocument` notices a PDF (by extension
-or `%PDF-` header), opens it with PDFKit and renders each page into a bitmap at a
-1600-pixel long side (capped at 3000), then runs the same Vision request a
-photograph gets. That means an image-only scan and a digital page follow one path,
-and every page has boxes. There is no page cap hidden in the UI: documents longer
-than 25 pages are read up to the cap and the record carries a warning saying so.
+**Each page is read by the method that is exact for it.** `recognizeDocument`
+notices a PDF (by extension or `%PDF-` header) and opens it with PDFKit, then takes
+one of two paths per page:
+
+* **The page's own text layer**, when it has a usable one — at least 24 characters,
+  at least two lines unless it is a short page, and no replacement characters or
+  `(cid:…)` escapes. Those are the author's bytes: a course code, a mark and a
+  weight cannot be misread. Line boxes come from PDFKit selection bounds, so a
+  value still names its page and line. This is the path a syllabus exported from a
+  word processor or a course catalog takes, and it is the path the research
+  pipeline's runs were measured on (`pypdf` layout mode in `pace/ingest.py`).
+* **Recognition of rendered pixels**, when the layer is missing, empty, or has no
+  line structure — a scan, a page photographed into a PDF, a file whose text is
+  drawn word by word with no newlines. The page is drawn at a 2000-pixel long side
+  (capped at 2600) and read by the same Vision request a photograph gets.
+
+Every page reports which method produced it, and the pipeline warns on the record
+when a PDF page had no text layer, so a reading of pixels is never presented as
+the document. There is no page cap hidden in the UI: documents longer than 25
+pages are read up to the cap and the record carries a warning saying so.
 
 **Why there is no third-party PDF package here.** No Expo-maintained module
 converts PDF text or pages, and the community options each solve half the problem:
@@ -157,8 +172,15 @@ than drawing a highlight over a page the app cannot show.
   trap to every consumer.
 * One block per recognised line, sorted into reading order (descending `midY`,
   then `minX`), joined with `\n` — the same text the engine receives.
-* `VNRecognizeTextRequest` uses `.accurate` with language correction; digits
-  matter more than speed here.
+* `VNRecognizeTextRequest` uses `.accurate` with language correction, the device's
+  languages intersected with the ones Vision ships for the current revision
+  (English always present, capped at four), and a small academic vocabulary as
+  `customWords` so "prerequisite" and "credit" are not corrected into other
+  words. Digits matter more than speed here.
+* A page whose long side is under 2000 pixels is lifted to 2000 before recognition
+  (at most 4×, high interpolation). A screenshot or a cropped capture is smaller
+  than a camera photograph, and the measured ladder read `86` for `98` at a
+  768-pixel long side but every cell correctly at 1266.
 * The module is required **optionally** (`requireOptionalNativeModule`), so a web
   or Expo Go run produces a readable error at scan time instead of a crash at
   import time.
@@ -340,6 +362,9 @@ These need a Mac with Xcode and a real iPhone; **none of them has been run**:
 * `npx expo prebuild --platform ios` and a development-build install;
 * the Swift module compiling and returning boxes on device;
 * PDFKit rendering a real multi-page PDF, and the page offsets holding on device;
+* the text-layer rule firing on a real digital syllabus (it was checked against
+  the two fixture PDFs' extracted text on the developer machine, not by PDFKit
+  on a device), and its per-line selection bounds lining up with the text;
 * `onnxruntime-react-native` loading a 90 MB fp32 graph from app storage;
 * Vision OCR quality on a photographed page;
 * on-device latency and memory for the full pipeline (25 pages of OCR is the slow case);
@@ -413,7 +438,7 @@ sees, instead of a landscape frame with the box thrown off.
 | Dot leaders are read, but a category whose label is itself corrupted loses its row | a breakdown can total less than 100 | total is shown and flagged; nothing is normalised |
 | The page cap is 25 | a PDF longer than that is read only up to the cap | the record warns that the document was truncated; nothing claims full coverage |
 | A PDF has no retained page image | its source sheet quotes the line and names the page, without a highlight | photograph the page if the highlight matters |
-| PDF text is read by OCR, not from the text layer | a digital PDF's characters are a reading, not the author's bytes | review shows every value; the record says how it was read |
+| A PDF page with no text layer is recognised from pixels | its characters are a reading, not the author's bytes | the record warns which pages were read that way; review shows every value |
 | fp32 graphs (185 MB bundle) | large download, slower cold start | second graph is lazy; int8 was rejected on measured parity |
 | Course-title extraction can include trailing units ("MATH 1A. Calculus I. 4 units") | a title can need a small edit | title is editable in review, always shown as a proposal |
 | Confidence is a rule confidence, or an uncalibrated model score for sections/pages | not a probability you can threshold on | values are shown as bands, everything requires confirmation |

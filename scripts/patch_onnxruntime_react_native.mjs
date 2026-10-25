@@ -1,0 +1,114 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+/**
+ * onnxruntime-react-native 1.24.3 predates React Native 0.88 / Expo SDK 58.
+ *
+ * Two upstream issues matter to Pace:
+ *
+ * 1. iOS: OnnxruntimeModule.mm names RCTCxxBridge, whose declaration was removed
+ *    in RN 0.88. The bridge proxy still exposes `runtime`; Microsoft's issue
+ *    documents a small compatibility category + respondsToSelector guard that
+ *    builds and successfully loads an InferenceSession on Expo 58.
+ *
+ * 2. Expo autolinking: the package still ships `unimodule.json`. Modern Expo
+ *    treats that as an Expo-module marker and can exclude ORT from normal React
+ *    Native autolinking even though ORT is a regular RN native module.
+ *
+ * npm has not published the upstream fixes in a release newer than 1.24.3 yet.
+ * Keep this patch deliberately narrow and fail loudly if the package changes in
+ * a way that leaves the known-broken source behind. Once a published ORT release
+ * fixes both issues, remove this script and the root postinstall hook.
+ */
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const root = path.resolve(here, '..');
+const ort = path.join(root, 'node_modules', 'onnxruntime-react-native');
+
+if (!fs.existsSync(ort)) {
+  console.warn('[pace] onnxruntime-react-native is not installed; compatibility patch skipped.');
+  process.exit(0);
+}
+
+const packageJsonPath = path.join(ort, 'package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+console.log(`[pace] checking onnxruntime-react-native ${packageJson.version} compatibility`);
+
+function writeIfChanged(file, before, after) {
+  if (before === after) return false;
+  fs.writeFileSync(file, after);
+  return true;
+}
+
+// ---------------------------------------------------------------------------
+// iOS / React Native 0.88
+// ---------------------------------------------------------------------------
+const iosPath = path.join(ort, 'ios', 'OnnxruntimeModule.mm');
+if (!fs.existsSync(iosPath)) {
+  throw new Error(`[pace] expected ORT iOS source is missing: ${iosPath}`);
+}
+
+let ios = fs.readFileSync(iosPath, 'utf8');
+const iosOriginal = ios;
+
+if (!ios.includes('@interface RCTBridge (OrtJsiRuntime)')) {
+  const anchor = '#import <jsi/jsi.h>';
+  if (!ios.includes(anchor)) {
+    throw new Error('[pace] ORT iOS source changed: could not find the JSI import anchor.');
+  }
+  ios = ios.replace(
+    anchor,
+    `${anchor}\n\n// RN 0.88 no longer declares RCTCxxBridge in RCTBridge+Private.h, but the\n// bridge/proxy still exposes the runtime selector. Keep this category local to\n// ORT until upstream installs its JSI bindings through the RN 0.88 API.\n@interface RCTBridge (OrtJsiRuntime)\n- (void *)runtime;\n@end`,
+  );
+}
+
+const oldInstall = `RCTCxxBridge* cxxBridge = (RCTCxxBridge*)_bridge;\n    if (cxxBridge == nil) {\n      return @false;\n    }\n    auto jsiRuntime = (facebook::jsi::Runtime*)cxxBridge.runtime;`;
+const newInstall = `if (_bridge == nil || ![_bridge respondsToSelector:@selector(runtime)]) {\n      return @false;\n    }\n    auto jsiRuntime = (facebook::jsi::Runtime*)_bridge.runtime;`;
+
+if (ios.includes(oldInstall)) {
+  ios = ios.replace(oldInstall, newInstall);
+}
+
+if (ios.includes('RCTCxxBridge* cxxBridge')) {
+  throw new Error(
+    '[pace] ORT still contains the RN 0.88-incompatible RCTCxxBridge install path after patching.',
+  );
+}
+
+const iosChanged = writeIfChanged(iosPath, iosOriginal, ios);
+
+// ---------------------------------------------------------------------------
+// Expo autolinking
+// ---------------------------------------------------------------------------
+const staleUnimodule = path.join(ort, 'unimodule.json');
+let removedUnimodule = false;
+if (fs.existsSync(staleUnimodule)) {
+  fs.unlinkSync(staleUnimodule);
+  removedUnimodule = true;
+}
+
+// ---------------------------------------------------------------------------
+// Android / Gradle 9 (not needed for the iOS submission, but Expo 58 evaluates
+// this when Android is built and ORT 1.24.3 still uses the removed VersionNumber
+// helper). Applying the already-upstreamed equivalent keeps the repo portable.
+// ---------------------------------------------------------------------------
+const androidPath = path.join(ort, 'android', 'build.gradle');
+let androidChanged = false;
+if (fs.existsSync(androidPath)) {
+  const androidOriginal = fs.readFileSync(androidPath, 'utf8');
+  let android = androidOriginal;
+  const oldCheck = 'if (VersionNumber.parse(REACT_NATIVE_VERSION) < VersionNumber.parse("0.71")) {';
+  const newCheck = `def rnVersionParts = REACT_NATIVE_VERSION.split("\\\\.")\nif (rnVersionParts[0].toInteger() == 0 && rnVersionParts[1].toInteger() < 71) {`;
+  if (android.includes(oldCheck)) android = android.replace(oldCheck, newCheck);
+  if (android.includes('VersionNumber.parse(REACT_NATIVE_VERSION)')) {
+    throw new Error('[pace] ORT Android source still contains the Gradle-9-incompatible VersionNumber check.');
+  }
+  androidChanged = writeIfChanged(androidPath, androidOriginal, android);
+}
+
+console.log(
+  `[pace] ORT compatibility ready (ios=${iosChanged ? 'patched' : 'already-ready'}, ` +
+    `autolink=${removedUnimodule ? 'fixed' : 'already-ready'}, ` +
+    `android=${androidChanged ? 'patched' : 'already-ready'})`,
+);

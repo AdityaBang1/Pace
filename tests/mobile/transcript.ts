@@ -326,6 +326,52 @@ async function main(): Promise<void> {
     check(commit.summary.credits === 2, 'the summary total counts finished courses only', commit.summary);
   }
 
+  // ---- a real registrar page, in the run order the phone reports it --------
+  // Apple's PDFKit hands over the runs in the order the page drew them, and this
+  // page draws a table's titles before its numbers: three titles arrive, then
+  // their three number lines; another row prints its title, its numbers, then the
+  // tail of the title. Read a line at a time that lost four of sixteen courses and
+  // reported 9.5 credits instead of 13.0.
+  {
+    const text = sample('transcript_runs_out_of_order');
+    const reading = readTranscript(text);
+    check(reading.detected, 'a page in run order is detected as a transcript');
+    check(reading.courses.length === 17, 'every course is read, finished or in progress', reading.courses.length);
+    check(reading.totalCredits === 11.5, 'the printed credits add up across three tables', reading.totalCredits);
+    check(reading.inProgressCredits === 4, 'the courses in progress keep their own credits', reading.inProgressCredits);
+    check(reading.checks.tablesWhoseCreditsDisagree === 0, 'every table agrees with its own footer', reading.checks);
+    // Titles written before their numbers: the numbers belong to them in order.
+    const grouped = reading.courses.filter((row) => row.term === '2024-2025 Grade 09 Term 4');
+    check(
+      grouped.map((row) => `${row.title} ${row.credit}`).join(' | ') ===
+        'Accel Algebra:Concept&Connect 1 | Accel Geo A:Concept&Connect 0.5 | Advanced Physical Science 1 | Spanish I 1',
+      'three titles followed by three number lines are three rows',
+      grouped.map((row) => `${row.title} ${row.credit}`),
+    );
+    // A wrapped title whose tail is printed below the numbers.
+    check(
+      reading.courses.some((row) => row.code === '200715b' && row.title === 'Accel Geo B:Concept&Connect' && row.credit === 0.5),
+      'a title tail printed under the numbers completes its own row',
+      reading.courses.find((row) => row.code === '200715b'),
+    );
+    check(
+      reading.courses.some((row) => row.code === '12135y' && row.title === 'Literature & Composition I Hnr'),
+      'a tail printed after the numbers is kept with its title',
+      reading.courses.find((row) => row.code === '12135y'),
+    );
+    check(
+      reading.courses.filter((row) => row.inProgress).length === 4,
+      'every course in progress is read',
+      reading.courses.filter((row) => row.inProgress).map((row) => row.title),
+    );
+    check(
+      reading.courses.every((row) => row.term === null || row.term.startsWith('202')) &&
+        reading.courses.filter((row) => !row.inProgress).every((row) => row.term !== null),
+      'every finished course keeps the term printed above it',
+      reading.courses.map((row) => [row.code, row.term]),
+    );
+  }
+
   // ---- the dated-row layout, with subject headings and a state assessment ---
   {
     const text = sample('mock_transcript_lepid');

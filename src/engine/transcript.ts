@@ -655,6 +655,10 @@ function numericTableRow(
 ): TranscriptCourseRow | null {
   const body = all[lineIndex].text;
   const lineStart = all[lineIndex].start;
+  // A row rebuilt from runs printed apart carries its own text: its offsets are
+  // offsets in that text, not in the page, so the title is taken from it rather
+  // than sliced out of the page and cut short where the runs were separated.
+  const source = all[lineIndex].joined ? body : text;
 
   let titleStart: number;
   let titleEnd: number;
@@ -679,16 +683,22 @@ function numericTableRow(
     }
   }
 
+  // Where the title sits inside the text it is read from: an offset into the page
+  // for a printed line, and an offset into the row for one rebuilt from runs.
+  const joined = all[lineIndex].joined === true;
+  let from = joined ? titleStart - lineStart : titleStart;
+  let to = joined ? titleEnd - lineStart : titleEnd;
   let code: string | null = null;
-  const prefix = COURSE_CODE_PREFIX.exec(text.slice(titleStart, titleEnd));
+  const prefix = COURSE_CODE_PREFIX.exec(source.slice(from, to));
   if (prefix) {
     code = prefix[1];
     titleStart += prefix[0].length;
+    from += prefix[0].length;
   }
-  if (titleStart >= titleEnd) return null;
-  const rowEnd = lineStart + list[list.length - 1].end;
+  if (from >= to) return null;
+  const rowEnd = all[lineIndex].joined ? all[lineIndex].end : lineStart + list[list.length - 1].end;
 
-  let title = text.slice(titleStart, titleEnd).replace(/\s+/g, ' ').trim();
+  let title = source.slice(from, to).replace(/\s+/g, ' ').trim();
   let end = rowEnd;
   // A title broken by a printed line break continues on the line directly
   // below, which has no numbers of its own.
@@ -751,29 +761,33 @@ const IN_PROGRESS_HEADING = /In[ -]?Progress(?:\s+Courses)?/i;
  * would put their credits into a total the page does not count them in.
  */
 function inProgressRow(text: string, line: Line, section: string): TranscriptCourseRow | null {
-  // A line break separates two cells as firmly as a printed gap does: a text layer
-  // reports the credit of an in-progress row on the line below its title. The
-  // newline is replaced by a tab, which is the same length and another separator,
-  // so every offset in the row stays a real position in the page.
-  const list = cells(line.text.replace(/\n/g, '\t'));
-  if (list.length < 2) return null;
-  const credit = numericCell('credit', list[list.length - 1]);
-  if (!credit) return null;
-  const titleCells = list.slice(0, -1);
-  const start = titleCells[0].start;
-  const end = titleCells[titleCells.length - 1].end;
-  const printed = line.text.slice(start, end).replace(/\s+/g, ' ').trim();
-  if (!/[A-Za-z]{2}/.test(printed)) return null;
+  // A row is a title and a credit, however the page spaced them: a padded column,
+  // a single space, or the credit alone on the line below its title (the run-per-
+  // cell shape a PDF text layer reports). The credit is the last number, the title
+  // is everything before it, and a newline counts as a space.
+  const body = line.text;
+  const creditMatch = /(?:^|\s)((?:\d{1,2}(?:\.\d{1,4})?|\.\d{1,4}))\s*$/.exec(body);
+  if (!creditMatch) return null;
+  const credit = {
+    value: Number(creditMatch[1]),
+    start: creditMatch.index + creditMatch[0].length - creditMatch[1].length,
+    end: creditMatch.index + creditMatch[0].length,
+  };
+  if (credit.value > 100) return null;
+  let titleEnd = credit.start;
+  while (titleEnd > 0 && /\s/.test(body[titleEnd - 1])) titleEnd -= 1;
+  const printed = body.slice(0, titleEnd).replace(/\s+/g, ' ').trim();
+  if (!printed || !/[A-Za-z]{2}/.test(printed)) return null;
   let code: string | null = null;
-  let titleStart = start;
+  let titleOffset = 0;
   let title = printed;
   const prefix = COURSE_CODE_PREFIX.exec(printed);
   if (prefix) {
     code = prefix[1];
-    titleStart = start + prefix[0].length;
+    titleOffset = prefix[0].length;
     title = printed.slice(prefix[0].length).replace(/\s+/g, ' ').trim();
   }
-  if (!title) return null;
+  if (!title || /^\d/.test(title)) return null;
   return {
     code,
     title,
@@ -784,8 +798,8 @@ function inProgressRow(text: string, line: Line, section: string): TranscriptCou
     term: null,
     section,
     inProgress: true,
-    // The cells' offsets are relative to the line; the span is a slice of the page.
-    span: spanOf(text, line.start + titleStart, line.start + credit.end),
+    // The offsets are relative to the line; the span is a slice of the page.
+    span: spanOf(text, line.start + titleOffset, line.start + credit.end),
     confidence: 0.9,
   };
 }
@@ -990,54 +1004,79 @@ function splitHeader(
 }
 
 /**
- * Put a table back together when its cells were printed one per line.
+ * Put a table back together when its cells were printed one run at a time.
  *
- * A PDF text layer reports the runs the author drew, which for a table is the
- * column header one word per line and then, for each course, the title and the
- * values under it on lines of their own. The document's own order is right there;
- * what is missing is the row. This joins a run of header words into one header,
- * and a line that holds only a row's values back onto the title lines above it.
+ * A PDF text layer reports the runs the author drew, and a table's rows are not
+ * always reported a row at a time. Three orders are ordinary, and all three were
+ * read as broken rows until this was written:
  *
- * The joined line is the document's own slice, so every offset in it is still a
- * real position in the page and a value can be quoted from it.
+ *   title, values                      — one run per cell, row by row
+ *   title, values, title tail          — the tail of a wrapped title printed
+ *                                        after the row's numbers
+ *   title tail ×3, values ×3           — the column of titles written first,
+ *                                        then the column of numbers
+ *
+ * Only the first survived a line-at-a-time join: it paired each value line with
+ * the title directly above it, so in the second shape the tail became the next
+ * course's title and in the third only the last title kept its numbers — three
+ * courses lost and a total of 9.5 instead of 13.0 on a real transcript.
+ *
+ * So a table body is now assembled as rows, not as adjacent lines: a value line
+ * belongs to the oldest title that has no values yet, and a title line that is not
+ * a new course (no course number) is the tail of the row above it — above its
+ * numbers as well as below them. Nothing is dropped when a table's own order does
+ * not match its printed rows.
  */
 function tableLines(text: string, all: Line[]): Line[] {
   const out: Line[] = [];
   let columns: TableColumn[] | null = null;
-  // The title lines buffered above the values, and the value lines themselves: a
-  // text layer may report a whole row on one printed line, a row's title on one
-  // line with its numbers under it, or each number on a line of its own.
-  let pending: Line[] = [];
-  let numbers: Line[] = [];
+  /** One row being rebuilt: the title runs printed for it, and its value run. */
+  type Draft = { titles: Line[]; values: Line[] };
+  let drafts: Draft[] = [];
 
-  // Anything buffered goes out in the order the page printed it. Emitting the
-  // values first would put a row's numbers above its own title, and the row would
-  // then be read as a title-less line of numbers and dropped.
-  const flush = () => {
-    for (const line of [...pending, ...numbers].sort((left, right) => left.start - right.start)) {
-      out.push(line);
+  /** Emit one rebuilt row: its title runs, then its values, as the page's row. */
+  const emit = (draft: Draft) => {
+    const width = columns;
+    const parts = [...draft.titles, ...draft.values].sort((left, right) => left.start - right.start);
+    const lastTitle = draft.titles[draft.titles.length - 1];
+    if (!draft.titles.length || !draft.values.length || !width) {
+      // Half a row: the title, or the values, printed as they came.
+      for (const line of parts) out.push(line);
+      return;
     }
-    pending = [];
-    numbers = [];
+    const titleText = draft.titles.map((line) => line.text.trim()).join(' ').replace(/\s+/g, ' ').trim();
+    const valueTokens = draft.values.flatMap((line) => line.text.trim().split(/\s+/));
+    // The row as one line of cells: the title first, then one cell per column. A
+    // wrapped title is already joined; a tail printed after the numbers is moved
+    // back into the title, where it belongs.
+    const joined: Line = {
+      text: [titleText, ...valueTokens].join('  '),
+      start: parts[0].start,
+      // A row whose runs are adjacent ends at its last number; one whose runs were
+      // separated by other rows ends at its own last title run, so the span never
+      // quotes another course's line.
+      end: adjacent(parts) ? parts[parts.length - 1].end : lastTitle.end,
+      joined: true,
+    };
+    // Only a row that really is one: prose under a table must not be consumed as a
+    // title, and numbers with no title are not a course.
+    if (!numericRow(cells(joined.text), width) && !looseNumericRow(joined.text, width)) {
+      for (const line of parts) out.push(line);
+      return;
+    }
+    out.push(joined);
   };
 
-  /** Join buffered titles and values into one row, when they really are a row. */
-  const join = (): boolean => {
-    if (!pending.length || !numbers.length || !columns) return false;
-    const width = columns;
-    const starts = [...pending, ...numbers].map((line) => line.start);
-    const ends = [...pending, ...numbers].map((line) => line.end);
-    const joined: Line = {
-      text: text.slice(Math.min(...starts), Math.max(...ends)),
-      start: Math.min(...starts),
-      end: Math.max(...ends),
-    };
-    // Only when the joined line really is a row: a stray run of numbers under
-    // prose must not consume the prose as a title.
-    if (!numericRow(cells(joined.text), width) && !looseNumericRow(joined.text, width)) return false;
-    pending = [];
-    numbers = [];
-    out.push(joined);
+  const flush = () => {
+    for (const draft of drafts) emit(draft);
+    drafts = [];
+  };
+
+  /** Do these runs sit on the page with nothing but whitespace between them? */
+  const adjacent = (parts: Line[]): boolean => {
+    for (let index = 1; index < parts.length; index += 1) {
+      if (text.slice(parts[index - 1].end, parts[index].start).trim()) return false;
+    }
     return true;
   };
 
@@ -1076,6 +1115,16 @@ function tableLines(text: string, all: Line[]): Line[] {
       continue;
     }
 
+    // A heading printed above a block of courses is not one of them. Left to the
+    // row builder it would become a title, and the first course's credit would
+    // attach to it — the in-progress block lost every one of its rows that way.
+    const upperHeading = /[A-Z]{2}/.test(trimmed) && trimmed === trimmed.toUpperCase();
+    if (IN_PROGRESS_HEADING.test(trimmed) || upperHeading) {
+      flush();
+      out.push(line);
+      continue;
+    }
+
     if (columns) {
       const width = columns;
       const tokens = trimmed.split(/\s+/);
@@ -1087,26 +1136,60 @@ function tableLines(text: string, all: Line[]): Line[] {
             numericCell(width[position], { text: token, start: 0, end: token.length }) !== null,
         );
       if (valuesOnly) {
-        numbers.push(line);
-        // Only a whole row's worth of numbers is joined: with fewer, the last
-        // column read would land on a number that belongs to a column already
-        // read — `Spanish I` beside `99` and `0.0000` became a mark of `I` — and
-        // the row would be built before its credit arrived.
-        const counted = numbers.reduce(
-          (total, value) => total + value.text.trim().split(/\s+/).length,
-          0,
-        );
-        if (counted === width.length && join()) continue;
-        if (numbers.length >= width.length) flush();
+        // The row these numbers belong to: the one already collecting them and
+        // still short a column (a row printed one number per line), otherwise the
+        // oldest title with no numbers at all (a column of titles written before
+        // the column of numbers). Neither is guessed from adjacency.
+        const counted = (draft: Draft) =>
+          draft.values.reduce((total, value) => total + value.text.trim().split(/\s+/).length, 0);
+        const waiting =
+          drafts.find((draft) => draft.values.length > 0 && counted(draft) < width.length) ??
+          drafts.find((draft) => !draft.values.length);
+        if (waiting) {
+          // The row is not emitted here. A wrapped title's tail is sometimes
+          // printed *after* its numbers (`Accel Geo` / `94 0.5` / `B:Concept`),
+          // and a row emitted as soon as its numbers arrive would leave that tail
+          // to begin a row of its own and wear the next course's mark.
+          waiting.values.push(line);
+          continue;
+        }
+        // Numbers with no title above them: kept as their own line, in order.
+        emit({ titles: [], values: [line] });
         continue;
       }
-      if (numbers.length) flush();
+      // A line that is already a whole row printed on one line passes through.
+      if (numericRow(cells(body), width) || looseNumericRow(body, width)) {
+        flush();
+        out.push(line);
+        continue;
+      }
     }
 
-    pending.push(line);
-    // A title is one or two lines at most; anything further above a value line is
-    // a line of its own, printed as it came.
-    while (pending.length > 2) out.push(pending.shift() as Line);
+    // A title, or the tail of one. It starts a new row when it begins with a course
+    // number; otherwise it completes the row printed above it, which may already
+    // have its numbers.
+    const hasCode = COURSE_CODE_START.test(trimmed);
+    const last = drafts[drafts.length - 1];
+    // A row is the title runs printed for it: a course number is printed once, so
+    // anything after it without a number of its own completes that title — whether
+    // it was printed above the numbers or below them. Only a table with no numbers
+    // at all is bounded, because there every line looks like a title.
+    const lastIsCoded = last?.titles.some((title) => COURSE_CODE_START.test(title.text.trim())) ?? false;
+    const startsCourse = hasCode || !drafts.length || (!lastIsCoded && last.titles.length >= 2);
+    if (startsCourse) {
+      // A new course closes every row above it that already has its numbers. A row
+      // still waiting for them stays open: its numbers may be the next line.
+      const waiting = drafts.filter((draft) => !draft.values.length);
+      for (const draft of drafts) {
+        if (draft.values.length) emit(draft);
+      }
+      drafts = waiting;
+      drafts.push({ titles: [line], values: [] });
+    } else {
+      drafts[drafts.length - 1].titles.push(line);
+    }
+    // A page whose table never ends must not hoard the whole document.
+    while (drafts.length > 24) emit(drafts.shift() as Draft);
   }
   flush();
   return out;

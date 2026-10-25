@@ -10,6 +10,13 @@ export interface Line {
   text: string;
   start: number;
   end: number;
+  /**
+   * The text was put together from runs printed apart, so it is not
+   * `text.slice(start, end)`: `start` is where the row begins on the page and
+   * `end` where its last printed line ends, and offsets inside `text` are not
+   * page offsets.
+   */
+  joined?: boolean;
 }
 
 const HTML_TAG = /<[^>]{0,4000}>/g;

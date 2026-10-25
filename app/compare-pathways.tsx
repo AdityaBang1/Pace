@@ -1,3 +1,4 @@
+import { Button as NativeButton, LabeledContent, Section, Text as NativeText } from '@expo/ui/swift-ui';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useMemo, useState } from 'react';
@@ -14,16 +15,8 @@ import { creditsValue, gpaValue } from '../src/domain/academics';
 import { parseScale, type GpaScale } from '../src/domain/gpa';
 import { buildPathway, comparePathways, type PathwayView } from '../src/domain/pathways';
 import { requirementProgress } from '../src/domain/requirements';
-import {
-  Button,
-  Chip,
-  Divider,
-  EmptyState,
-  Notice,
-  PageHeader,
-  Screen,
-  SectionHeader,
-} from '../src/ui/components';
+import { Button, Chip } from '../src/ui/components';
+import { NativeScreen, Value } from '../src/ui/native';
 import { PressableScale } from '../src/ui/press';
 import { radius, space, type } from '../src/ui/theme';
 import { useTheme } from '../src/ui/useTheme';
@@ -114,145 +107,112 @@ export default function ComparePathways() {
   const countsB = viewB ? requirementCount(viewB) : null;
 
   return (
-    <Screen scroll edges="top">
-      <PageHeader title="Compare" onBack={() => router.back()} />
+    <>
+      <NativeScreen title="Compare" onBack={() => router.back()}>
+        {error ? (
+          <Section title="Couldn't load pathways">
+            <NativeText>{error}</NativeText>
+            <NativeButton label="Try Again" onPress={() => void refresh()} />
+          </Section>
+        ) : null}
 
-      {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.lg }}>
-          <Notice tone="danger" title="Couldn't load pathways." body={error} />
-        </View>
-      ) : null}
-
-      {pathways.length < 2 ? (
-        <EmptyState
-          title="Needs two pathways"
-          body="Compare a second selection of schedules."
-          action={<Button title="New Pathway" onPress={() => router.push('/editors/pathway')} />}
-        />
-      ) : !comparison || !viewA || !viewB ? (
-        <View style={{ padding: space.xl }}>
-          <Text style={[type.caption, { color: palette.inkFaint }]}>Choose two pathways.</Text>
-        </View>
-      ) : (
-        <>
-          <View style={{ paddingHorizontal: space.xl }}>
-            <View style={{ flexDirection: 'row', gap: space.md }}>
-              <Side
-                tag="A"
-                name={viewA.pathway.name}
+        {pathways.length < 2 ? (
+          <Section title="Needs two pathways" footer={<NativeText>A second selection of schedules.</NativeText>}>
+            <NativeButton label="New Pathway" onPress={() => router.push('/editors/pathway')} />
+          </Section>
+        ) : !comparison || !viewA || !viewB ? null : (
+          <>
+            <Section title="Paths">
+              <NativeButton
+                label={`A · ${viewA.pathway.name}`}
+                systemImage="a.circle"
                 onPress={() => setPicking('a')}
               />
-              <Side
-                tag="B"
-                name={viewB.pathway.name}
+              <NativeButton
+                label={`B · ${viewB.pathway.name}`}
+                systemImage="b.circle"
                 onPress={() => setPicking('b')}
               />
-            </View>
+            </Section>
 
-            <View style={{ flexDirection: 'row', gap: space.md, marginTop: space.lg }}>
-              <Column
-                gpa={viewA.gpa.weighted}
-                credits={viewA.credits}
-                requirements={countsA}
-              />
-              <Column
-                gpa={viewB.gpa.weighted}
-                credits={viewB.credits}
-                requirements={countsB}
-              />
-            </View>
+            <Section title={`A · ${viewA.pathway.name}`}>
+              <LabeledContent label="GPA">
+                <Value>{gpaValue(viewA.gpa.weighted)}</Value>
+              </LabeledContent>
+              <LabeledContent label="Credits">
+                <Value>{creditsValue(viewA.credits.all)}</Value>
+              </LabeledContent>
+              {countsA ? (
+                <LabeledContent label="Requirements">
+                  <Value>{`${countsA.complete} / ${countsA.total}`}</Value>
+                </LabeledContent>
+              ) : null}
+            </Section>
 
-            <View
-              style={{
-                marginTop: space.lg,
-                paddingTop: space.md,
-                borderTopWidth: 0.5,
-                borderColor: palette.line,
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                gap: space.md,
-              }}
-            >
-              <Delta
-                label="GPA"
-                text={
-                  comparison.weightedDelta == null
+            <Section title={`B · ${viewB.pathway.name}`}>
+              <LabeledContent label="GPA">
+                <Value>{gpaValue(viewB.gpa.weighted)}</Value>
+              </LabeledContent>
+              <LabeledContent label="Credits">
+                <Value>{creditsValue(viewB.credits.all)}</Value>
+              </LabeledContent>
+              {countsB ? (
+                <LabeledContent label="Requirements">
+                  <Value>{`${countsB.complete} / ${countsB.total}`}</Value>
+                </LabeledContent>
+              ) : null}
+            </Section>
+
+            <Section title="Difference">
+              <LabeledContent label="GPA">
+                <Value>
+                  {comparison.weightedDelta == null
                     ? 'Needs grades'
-                    : signed(comparison.weightedDelta, 2)
-                }
-                tone={
-                  comparison.weightedDelta == null
-                    ? 'quiet'
-                    : comparison.weightedDelta > 0
-                      ? 'up'
-                      : comparison.weightedDelta < 0
-                        ? 'down'
-                        : 'quiet'
-                }
-              />
-              <Delta
-                label="Credits"
-                text={signed(comparison.creditDelta, 1)}
-                tone={
-                  comparison.creditDelta > 0
-                    ? 'up'
-                    : comparison.creditDelta < 0
-                      ? 'down'
-                      : 'quiet'
-                }
-              />
-              <Delta
-                label="Years changed"
-                text={String(comparison.differenceCount)}
-                tone="quiet"
-              />
-            </View>
-          </View>
+                    : signed(comparison.weightedDelta, 2)}
+                </Value>
+              </LabeledContent>
+              <LabeledContent label="Credits">
+                <Value>{signed(comparison.creditDelta, 1)}</Value>
+              </LabeledContent>
+              <LabeledContent label="Years changed">
+                <Value>{String(comparison.differenceCount)}</Value>
+              </LabeledContent>
+            </Section>
 
-          <SectionHeader>Years</SectionHeader>
-          <View style={{ paddingHorizontal: space.xl }}>
             {comparison.years.map((row) => (
-              <View key={row.year.id} style={{ paddingVertical: space.md }}>
-                <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                  <Text style={[type.bodyStrong, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-                    {row.year.name}
-                  </Text>
-                  {row.same ? (
-                    <Text style={[type.caption, { color: palette.inkFaint }]}>Same</Text>
-                  ) : null}
-                </View>
-                <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]} numberOfLines={1}>
-                  {row.scheduleA?.name ?? 'No schedule'} · {row.scheduleB?.name ?? 'No schedule'}
-                </Text>
-
-                {row.same ? null : (
-                  <View style={{ marginTop: space.sm, gap: 2 }}>
+              <Section
+                key={row.year.id}
+                title={row.year.name}
+                footer={
+                  <NativeText>
+                    {`${row.scheduleA?.name ?? 'No schedule'} · ${row.scheduleB?.name ?? 'No schedule'}`}
+                  </NativeText>
+                }
+              >
+                {row.same ? (
+                  <LabeledContent label="Result">
+                    <NativeText>Same</NativeText>
+                  </LabeledContent>
+                ) : (
+                  <>
                     {row.removed.map((title) => (
-                      <Text key={`r-${title}`} style={[type.caption, { color: palette.danger }]}>
-                        − {title}
-                      </Text>
+                      <NativeText key={`r-${title}`}>{`− ${title}`}</NativeText>
                     ))}
                     {row.added.map((title) => (
-                      <Text key={`a-${title}`} style={[type.caption, { color: palette.high }]}>
-                        + {title}
-                      </Text>
+                      <NativeText key={`a-${title}`}>{`+ ${title}`}</NativeText>
                     ))}
                     {row.changed.map((change) => (
-                      <Text
-                        key={`c-${change.title}`}
-                        style={[type.caption, { color: palette.inkMuted }]}
-                      >
-                        {change.title} · {change.from} → {change.to}
-                      </Text>
+                      <NativeText key={`c-${change.title}`}>
+                        {`${change.title} · ${change.from} → ${change.to}`}
+                      </NativeText>
                     ))}
-                  </View>
+                  </>
                 )}
-                <Divider />
-              </View>
+              </Section>
             ))}
-          </View>
-        </>
-      )}
+          </>
+        )}
+      </NativeScreen>
 
       <Modal
         visible={picking !== null}
@@ -308,7 +268,7 @@ export default function ComparePathways() {
           </View>
         </View>
       </Modal>
-    </Screen>
+    </>
   );
 }
 
@@ -316,74 +276,4 @@ function signed(value: number, digits: number): string {
   if (value === 0) return (0).toFixed(digits);
   const magnitude = Math.abs(value).toFixed(digits);
   return value > 0 ? `+${magnitude}` : `−${magnitude}`;
-}
-
-function Side({ tag, name, onPress }: { tag: string; name: string; onPress: () => void }) {
-  const { palette } = useTheme();
-  return (
-    <PressableScale accessibilityLabel={`Change pathway ${tag}`} onPress={onPress} style={{ flex: 1 }}>
-      <View
-        style={{
-          borderWidth: 0.5,
-          borderColor: palette.line,
-          borderRadius: radius.md,
-          padding: space.md,
-        }}
-      >
-        <Text style={[type.label, { color: palette.inkFaint }]}>{tag}</Text>
-        <Text style={[type.bodyStrong, { color: palette.ink, marginTop: 2 }]} numberOfLines={1}>
-          {name}
-        </Text>
-      </View>
-    </PressableScale>
-  );
-}
-
-function Column({
-  gpa,
-  credits,
-  requirements,
-}: {
-  gpa: number | null;
-  credits: { earned: number; inProgress: number; planned: number; all: number };
-  requirements: { complete: number; total: number } | null;
-}) {
-  const { palette } = useTheme();
-  return (
-    <View style={{ flex: 1 }}>
-      <Text style={[type.number, { color: palette.ink }]}>{gpaValue(gpa)}</Text>
-      <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>GPA</Text>
-      <Text style={[type.number, { color: palette.ink, marginTop: space.md }]}>
-        {creditsValue(credits.all)}
-      </Text>
-      <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>Credits</Text>
-      {requirements ? (
-        <>
-          <Text style={[type.number, { color: palette.ink, marginTop: space.md }]}>
-            {requirements.complete} / {requirements.total}
-          </Text>
-          <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>Requirements</Text>
-        </>
-      ) : null}
-    </View>
-  );
-}
-
-function Delta({
-  label,
-  text,
-  tone,
-}: {
-  label: string;
-  text: string;
-  tone: 'up' | 'down' | 'quiet';
-}) {
-  const { palette } = useTheme();
-  const color = tone === 'up' ? palette.high : tone === 'down' ? palette.danger : palette.inkMuted;
-  return (
-    <View style={{ minWidth: 88 }}>
-      <Text style={[type.number, { color }]}>{text}</Text>
-      <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>{label}</Text>
-    </View>
-  );
 }

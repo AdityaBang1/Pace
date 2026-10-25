@@ -2,7 +2,9 @@ import * as Haptics from 'expo-haptics';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useMemo, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert } from 'react-native';
+
+import { Button as NativeButton, LabeledContent, Section, Text as NativeText } from '@expo/ui/swift-ui';
 
 import {
   activatePathway,
@@ -19,20 +21,8 @@ import { listCourses, readGpaScaleValue, type CourseRow } from '../../src/databa
 import { creditsValue, gpaValue } from '../../src/domain/academics';
 import { parseScale, type GpaScale } from '../../src/domain/gpa';
 import { buildPathway, type PathwayView } from '../../src/domain/pathways';
-import {
-  Button,
-  Chip,
-  Divider,
-  EmptyState,
-  IconButton,
-  Notice,
-  PageHeader,
-  Screen,
-  SectionHeader,
-} from '../../src/ui/components';
-import { PressableScale } from '../../src/ui/press';
-import { space, type } from '../../src/ui/theme';
-import { useTheme } from '../../src/ui/useTheme';
+import { IconButton } from '../../src/ui/components';
+import { NativeScreen, Value } from '../../src/ui/native';
 
 /**
  * Plan: which schedules the student's years are made of, and which of those
@@ -40,12 +30,12 @@ import { useTheme } from '../../src/ui/useTheme';
  *
  * A pathway is a choice, not a copy: it points at schedules that already exist, so
  * changing a year here never rewrites a course and a comparison is between real
- * sets of courses rather than between lists of names.
+ * sets of courses rather than between lists of names. The screen is a system form:
+ * a summary section, the years, then the pathways and the actions on them.
  */
 export default function Plan() {
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
 
   const [structure, setStructure] = useState<AcademicStructure | null>(null);
   const [courses, setCourses] = useState<CourseRow[]>([]);
@@ -121,219 +111,131 @@ export default function Plan() {
     ]);
   };
 
-  const openMenu = (row: PathwayRow) => {
-    Alert.alert(row.name, undefined, [
-      { text: 'Edit', onPress: () => router.push(`/editors/pathway?id=${row.id}`) },
-      { text: 'Duplicate', onPress: () => duplicate(row) },
-      {
-        text: 'Delete',
-        style: 'destructive',
-        onPress: () => confirmDelete(row),
-      },
-      { text: 'Cancel', style: 'cancel' },
-    ]);
-  };
+  const missingGpaNote = view
+    ? view.gpa.weighted == null
+      ? view.needingGrades
+        ? `${view.needingGrades} course${view.needingGrades === 1 ? '' : 's'} need an expected grade.`
+        : 'A projected GPA needs a GPA scale.'
+      : null
+    : null;
 
   return (
-    <Screen scroll edges="tab">
-      <PageHeader
-        title="Plan"
-        right={
-          <IconButton
-            glyph="+"
-            symbol="plus"
-            label="New pathway"
-            onPress={() => router.push('/editors/pathway')}
-            tone="accent"
-            size={22}
-          />
-        }
-      />
-
+    <NativeScreen
+      topInset={false}
+      title="Plan"
+      right={
+        <IconButton
+          glyph="+"
+          symbol="plus"
+          label="New pathway"
+          onPress={() => router.push('/editors/pathway')}
+          tone="accent"
+          size={22}
+        />
+      }
+    >
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.lg }}>
-          <Notice tone="danger" title="Couldn't load your plan." body={error} />
-          <View style={{ height: space.sm }} />
-          <Button title="Try Again" kind="secondary" onPress={() => void refresh()} />
-        </View>
+        <Section title="Couldn't load your plan">
+          <NativeText>{error}</NativeText>
+          <NativeButton label="Try Again" onPress={() => void refresh()} />
+        </Section>
       ) : null}
 
-      {!structure ? null : pathways.length === 0 || !view || !activePathway ? (
-        <EmptyState
-          title="No pathway"
-          body="A pathway picks one schedule for each year."
-          action={<Button title="Create Pathway" onPress={() => router.push('/editors/pathway')} />}
-        />
-      ) : (
+      {structure && (!pathways.length || !view || !activePathway) ? (
+        <Section title="No pathway" footer={<NativeText>One schedule for each year.</NativeText>}>
+          <NativeButton label="Create Pathway" onPress={() => router.push('/editors/pathway')} />
+        </Section>
+      ) : null}
+
+      {view && activePathway ? (
         <>
-          <View style={{ paddingHorizontal: space.xl, paddingBottom: space.lg }}>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-              <View style={{ flex: 1 }}>
-                <Text style={[type.title, { color: palette.ink }]} numberOfLines={1}>
-                  {activePathway.name}
-                </Text>
-                <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
-                  {view.years.length} year{view.years.length === 1 ? '' : 's'}
-                </Text>
-              </View>
-              <View style={{ alignItems: 'flex-end' }}>
-                <Text
-                  style={{
-                    fontSize: 30,
-                    lineHeight: 34,
-                    fontWeight: '600',
-                    letterSpacing: -0.8,
-                    fontVariant: ['tabular-nums'],
-                    color: palette.ink,
-                  }}
-                >
-                  {gpaValue(view.gpa.weighted)}
-                </Text>
-                <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>
-                  Projected GPA
-                </Text>
-              </View>
-            </View>
+          <Section title={activePathway.name} footer={missingGpaNote ? <NativeText>{missingGpaNote}</NativeText> : undefined}>
+            <LabeledContent label="Projected GPA">
+              <Value>{gpaValue(view.gpa.weighted)}</Value>
+            </LabeledContent>
+            <LabeledContent label="Credits">
+              <Value>{creditsValue(totalCredits)}</Value>
+            </LabeledContent>
+            <LabeledContent label="Earned">
+              <Value>{creditsValue(view.credits.earned)}</Value>
+            </LabeledContent>
+            <LabeledContent label="Planned">
+              <Value>{creditsValue(view.credits.planned)}</Value>
+            </LabeledContent>
+            <LabeledContent label="Years">
+              <Value>{String(view.years.length)}</Value>
+            </LabeledContent>
+          </Section>
 
-            <View style={{ flexDirection: 'row', gap: space.xl, marginTop: space.lg }}>
-              <Stat label="Credits" value={creditsValue(totalCredits)} />
-              <Stat label="Earned" value={creditsValue(view.credits.earned)} />
-              <Stat label="Planned" value={creditsValue(view.credits.planned)} />
-            </View>
-
-            {view.gpa.weighted == null ? (
-              <Text style={[type.caption, { color: palette.inkFaint, marginTop: space.md }]}>
-                {view.needingGrades
-                  ? `${view.needingGrades} course${view.needingGrades === 1 ? '' : 's'} need an expected grade.`
-                  : 'A projected GPA needs a GPA scale.'}
-              </Text>
-            ) : null}
-          </View>
-
-          <SectionHeader>Years</SectionHeader>
-          <View style={{ paddingHorizontal: space.xl }}>
-            <View
-              style={{
-                borderTopWidth: 0.5,
-                borderColor: palette.line,
-              }}
-            >
-              {view.years.map((row) => {
-                const schedule = row.schedule;
-                return (
-                  <View key={row.year.id}>
-                    <PressableScale
-                      accessibilityLabel={schedule ? `Open ${row.year.name} schedule` : row.year.name}
-                      disabled={!schedule}
-                      onPress={() => {
-                        if (schedule) router.push(`/schedule/${schedule.id}`);
-                      }}
-                      style={{ paddingVertical: space.md }}
-                    >
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{ flex: 1, paddingRight: space.md }}>
-                          <Text style={[type.bodyStrong, { color: palette.ink }]} numberOfLines={1}>
-                            {row.year.name}
-                          </Text>
-                          <Text
-                            style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}
-                            numberOfLines={1}
-                          >
-                            {schedule
-                              ? `${schedule.name}${row.explicit ? '' : ' · main'} · ${row.courses.length} course${
-                                  row.courses.length === 1 ? '' : 's'
-                                }`
-                              : 'No schedule'}
-                          </Text>
-                        </View>
-                        <Text style={[type.number, { color: palette.ink }]}>
-                          {schedule ? creditsValue(row.credits.all) : '—'}
-                        </Text>
-                        {schedule ? (
-                          <Text style={{ color: palette.inkFaint, fontSize: 18, marginLeft: space.sm }}>
-                            ›
-                          </Text>
-                        ) : null}
-                      </View>
-                    </PressableScale>
-                    <Divider />
-                  </View>
-                );
-              })}
-            </View>
-          </View>
-
-          <SectionHeader
-            right={
-              <Text style={[type.caption, { color: palette.inkFaint }]}>{pathways.length}</Text>
-            }
-          >
-            Pathways
-          </SectionHeader>
-          <View style={{ paddingHorizontal: space.xl }}>
-            <View style={{ borderColor: palette.line }}>
-              {pathways.map((row) => {
-                const isActive = row.is_active === 1;
-                return (
-                  <View key={row.id}>
-                    <PressableScale
-                      accessibilityLabel={`Use ${row.name}`}
-                      accessibilityState={{ selected: isActive }}
-                      onPress={() => makeActive(row)}
-                      onLongPress={() => openMenu(row)}
-                      style={{ paddingVertical: space.md }}
-                    >
-                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-                        <Text style={[type.body, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-                          {row.name}
-                        </Text>
-                        {isActive ? <Chip label="Active" tone="accent" /> : null}
-                      </View>
-                    </PressableScale>
-                    <Divider />
-                  </View>
-                );
-              })}
-            </View>
-          </View>
-
-          <View style={{ paddingHorizontal: space.xl, paddingTop: space.lg }}>
-            {pathways.length > 1 ? (
-              <Button title="Compare" kind="secondary" onPress={() => router.push('/compare-pathways')} />
-            ) : (
-              <Text style={[type.caption, { color: palette.inkFaint }]}>
-                Two pathways can be compared.
-              </Text>
+          <Section title="Years">
+            {view.years.map((row) =>
+              row.schedule ? (
+                <NativeButton
+                  key={row.year.id}
+                  label={`${row.year.name} · ${row.schedule.name}${
+                    row.explicit ? '' : ' · main'
+                  } · ${row.courses.length} course${row.courses.length === 1 ? '' : 's'} · ${creditsValue(
+                    row.credits.all,
+                  )} cr`}
+                  systemImage="calendar"
+                  onPress={() => router.push(`/schedule/${row.schedule?.id}`)}
+                />
+              ) : (
+                <LabeledContent key={row.year.id} label={row.year.name}>
+                  <NativeText>No schedule</NativeText>
+                </LabeledContent>
+              ),
             )}
-          </View>
+          </Section>
 
-          <View style={{ paddingHorizontal: space.xl, paddingTop: space.xl }}>
-            <PressableScale
-              accessibilityRole="button"
-              onPress={() => router.push('/gpa-scale')}
-              style={{ paddingVertical: space.md }}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={[type.body, { color: palette.ink, flex: 1 }]}>GPA Scale</Text>
-                <Text style={[type.caption, { color: scale ? palette.inkMuted : palette.warn }]}>
-                  {scale ? 'Set' : 'Required'}
-                </Text>
-                <Text style={{ color: palette.inkFaint, fontSize: 18, marginLeft: space.sm }}>›</Text>
-              </View>
-            </PressableScale>
-          </View>
+          <Section title="Pathways">
+            {pathways.map((row) => (
+              <NativeButton
+                key={row.id}
+                label={row.is_active === 1 ? `${row.name} · Active` : row.name}
+                systemImage={row.is_active === 1 ? 'checkmark.circle.fill' : 'circle'}
+                onPress={() => makeActive(row)}
+              />
+            ))}
+          </Section>
+
+          <Section title={`Manage · ${activePathway.name}`}>
+            <NativeButton
+              label="Edit"
+              systemImage="pencil"
+              onPress={() => router.push(`/editors/pathway?id=${activePathway.id}`)}
+            />
+            <NativeButton
+              label="Duplicate"
+              systemImage="plus.square.on.square"
+              onPress={() => duplicate(activePathway)}
+            />
+            <NativeButton
+              label="Delete"
+              systemImage="trash"
+              role="destructive"
+              onPress={() => confirmDelete(activePathway)}
+            />
+          </Section>
+
+          <Section title="GPA Scale">
+            <LabeledContent label="Scale">
+              <Value>{scale ? 'Set' : 'Required'}</Value>
+            </LabeledContent>
+            <NativeButton label="Open GPA Scale" systemImage="percent" onPress={() => router.push('/gpa-scale')} />
+          </Section>
+
+          {pathways.length > 1 ? (
+            <Section>
+              <NativeButton
+                label="Compare pathways"
+                systemImage="arrow.left.arrow.right"
+                onPress={() => router.push('/compare-pathways')}
+              />
+            </Section>
+          ) : null}
         </>
-      )}
-    </Screen>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  const { palette } = useTheme();
-  return (
-    <View>
-      <Text style={[type.number, { color: palette.ink }]}>{value}</Text>
-      <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>{label}</Text>
-    </View>
+      ) : null}
+    </NativeScreen>
   );
 }

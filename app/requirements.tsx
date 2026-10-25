@@ -1,25 +1,18 @@
+import {
+  Button as NativeButton,
+  ProgressView,
+  Section,
+} from '@expo/ui/swift-ui';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
-import { Text, View } from 'react-native';
 
 import { ensureStructure, readStructure } from '../src/database/academicRepo';
-import { listCourses, type CourseRow } from '../src/database/repo';
+import { listCourses } from '../src/database/repo';
 import { creditsValue } from '../src/domain/academics';
 import { requirementProgress, type RequirementProgress } from '../src/domain/requirements';
-import {
-  Button,
-  Card,
-  Divider,
-  EmptyState,
-  IconButton,
-  Notice,
-  PageHeader,
-  Screen,
-} from '../src/ui/components';
-import { PressableScale } from '../src/ui/press';
-import { hairline, radius, space, type } from '../src/ui/theme';
-import { useTheme } from '../src/ui/useTheme';
+import { IconButton } from '../src/ui/components';
+import { LabeledContent, NativeScreen, NativeText, Value } from '../src/ui/native';
 
 /**
  * Requirements the student typed, and how far their courses get them.
@@ -30,7 +23,6 @@ import { useTheme } from '../src/ui/useTheme';
 export default function Requirements() {
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
   const [progress, setProgress] = useState<RequirementProgress[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,111 +54,68 @@ export default function Requirements() {
   );
 
   return (
-    <Screen scroll>
-      <PageHeader
-        title="Requirements"
-        onBack={() => router.back()}
-        right={
-          <IconButton
-            glyph="+"
-            symbol="plus"
-            label="Add requirement"
-            onPress={() => router.push('/editors/requirement')}
-          />
-        }
-      />
-
+    <NativeScreen
+      title="Requirements"
+      onBack={() => router.back()}
+      right={
+        <IconButton
+          glyph="+"
+          symbol="plus"
+          label="Add requirement"
+          onPress={() => router.push('/editors/requirement')}
+        />
+      }
+    >
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md, gap: space.sm }}>
-          <Notice tone="danger" title="Couldn’t load requirements" body={error} />
-          <Button title="Try Again" kind="secondary" compact onPress={() => void refresh()} />
-        </View>
+        <Section title="Couldn’t load requirements">
+          <NativeText>{error}</NativeText>
+          <NativeButton label="Try Again" systemImage="arrow.clockwise" onPress={() => void refresh()} />
+        </Section>
       ) : null}
 
       {loaded && !error && progress.length === 0 ? (
-        <EmptyState
-          title="No requirements"
-          body="Set your own credit goals."
-          action={<Button title="Add Requirement" onPress={() => router.push('/editors/requirement')} />}
-        />
+        <Section title="No requirements">
+          <NativeText>Set your own credit goals.</NativeText>
+          <NativeButton
+            label="Add Requirement"
+            systemImage="plus"
+            onPress={() => router.push('/editors/requirement')}
+          />
+        </Section>
       ) : null}
 
       {progress.map((row) => {
         const required = row.requirement.required_credits;
-        const earnedShare = required > 0 ? Math.min(1, row.earned / required) : 0;
-        const progressShare = required > 0 ? Math.min(1, (row.earned + row.inProgress) / required) : 0;
+        // A credit in progress has not been earned, so the bar fills with what is
+        // finished and stops where the requirement does.
+        const share = required > 0 ? Math.min(1, Math.max(0, (row.earned + row.inProgress) / required)) : 0;
+        const caption = row.complete
+          ? 'Complete'
+          : [
+              row.inProgress ? `${creditsValue(row.inProgress)} in progress` : null,
+              row.planned ? `${creditsValue(row.planned)} planned` : null,
+              row.remaining ? `${creditsValue(row.remaining)} remaining` : null,
+            ]
+              .filter(Boolean)
+              .join(' · ');
         return (
-          <View key={row.requirement.id} style={{ paddingHorizontal: space.xl, paddingBottom: space.md }}>
-            <Card padded={false}>
-              <PressableScale
-                accessibilityRole="button"
-                accessibilityLabel={`Edit ${row.requirement.name}`}
-                onPress={() => router.push(`/editors/requirement?id=${row.requirement.id}`)}
-                style={{ padding: space.lg }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.md }}>
-                  <Text style={[type.bodyStrong, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-                    {row.requirement.name}
-                  </Text>
-                  <Text style={[type.number, { color: palette.ink }]}>
-                    {creditsValue(row.earned)}
-                    <Text style={[type.caption, { color: palette.inkFaint }]}>
-                      {' '}
-                      / {creditsValue(required)}
-                    </Text>
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    height: 6,
-                    borderRadius: radius.sm,
-                    backgroundColor: palette.surfaceSunken,
-                    marginTop: space.sm,
-                    overflow: 'hidden',
-                  }}
-                >
-                  <View
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: `${progressShare * 100}%`,
-                      backgroundColor: palette.accentSoft,
-                      borderRadius: radius.sm,
-                    }}
-                  />
-                  <View
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      bottom: 0,
-                      width: `${earnedShare * 100}%`,
-                      backgroundColor: row.complete ? palette.accent : palette.accent,
-                      borderRadius: radius.sm,
-                    }}
-                  />
-                </View>
-
-                <Text style={[type.caption, { color: palette.inkFaint, marginTop: space.xs }]}>
-                  {row.complete
-                    ? 'Complete'
-                    : [
-                        row.inProgress ? `${creditsValue(row.inProgress)} in progress` : null,
-                        row.planned ? `${creditsValue(row.planned)} planned` : null,
-                        row.remaining ? `${creditsValue(row.remaining)} remaining` : null,
-                      ]
-                        .filter(Boolean)
-                        .join(' · ')}
-                </Text>
-              </PressableScale>
-            </Card>
-          </View>
+          <Section
+            key={row.requirement.id}
+            title={row.requirement.name}
+            footer={<NativeText>{caption}</NativeText>}
+          >
+            <LabeledContent label="Credits">
+              <Value>{`${creditsValue(row.earned)} / ${creditsValue(required)}`}</Value>
+            </LabeledContent>
+            <ProgressView value={share} />
+            <NativeButton
+              label="Edit"
+              systemImage="pencil"
+              onPress={() => router.push(`/editors/requirement?id=${row.requirement.id}`)}
+            />
+          </Section>
         );
       })}
-      <View style={{ height: hairline }} />
-    </Screen>
+    </NativeScreen>
   );
 }

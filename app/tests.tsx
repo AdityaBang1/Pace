@@ -1,22 +1,11 @@
+import { Button as NativeButton, Section } from '@expo/ui/swift-ui';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
-import { Text, View } from 'react-native';
 
 import { readStructure, type TestScoreRow, type TestSection } from '../src/database/academicRepo';
-import {
-  Button,
-  Card,
-  Divider,
-  EmptyState,
-  IconButton,
-  Notice,
-  PageHeader,
-  Screen,
-} from '../src/ui/components';
-import { PressableScale } from '../src/ui/press';
-import { space, type } from '../src/ui/theme';
-import { useTheme } from '../src/ui/useTheme';
+import { IconButton } from '../src/ui/components';
+import { LabeledContent, NativeScreen, NativeText, Value } from '../src/ui/native';
 
 function sectionsOf(test: TestScoreRow): TestSection[] {
   try {
@@ -37,7 +26,6 @@ function sectionsOf(test: TestScoreRow): TestSection[] {
 export default function Tests() {
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
   const [tests, setTests] = useState<TestScoreRow[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,82 +56,60 @@ export default function Tests() {
   );
 
   return (
-    <Screen scroll>
-      <PageHeader
-        title="Scores"
-        onBack={() => router.back()}
-        right={
-          <IconButton
-            glyph="+"
-            symbol="plus"
-            label="Add score"
-            tone="accent"
-            onPress={() => router.push('/editors/test')}
-          />
-        }
-      />
-
+    <NativeScreen
+      title="Scores"
+      onBack={() => router.back()}
+      right={
+        <IconButton
+          glyph="+"
+          symbol="plus"
+          label="Add score"
+          tone="accent"
+          onPress={() => router.push('/editors/test')}
+        />
+      }
+    >
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md, gap: space.sm }}>
-          <Notice tone="danger" title="Couldn’t load scores" body={error} />
-          <Button title="Try Again" kind="secondary" compact onPress={() => void refresh()} />
-        </View>
+        <Section title="Couldn’t load scores">
+          <NativeText>{error}</NativeText>
+          <NativeButton label="Try Again" systemImage="arrow.clockwise" onPress={() => void refresh()} />
+        </Section>
       ) : null}
 
       {loaded && !error && tests.length === 0 ? (
-        <EmptyState
-          title="No scores"
-          action={<Button title="Add Score" onPress={() => router.push('/editors/test')} />}
-          body="SAT, ACT, PSAT, AP — anything you want on the record."
-        />
+        <Section title="No scores">
+          <NativeText>SAT, ACT, PSAT, AP — anything you want on the record.</NativeText>
+          <NativeButton label="Add Score" systemImage="plus" onPress={() => router.push('/editors/test')} />
+        </Section>
       ) : null}
 
-      {tests.length ? (
-        <View style={{ paddingHorizontal: space.xl }}>
-          <Card padded={false}>
-            {tests.map((test, index) => {
-              const sections = sectionsOf(test);
-              return (
-                <View key={test.id}>
-                  {index > 0 ? <Divider inset={space.lg} /> : null}
-                  <PressableScale
-                    accessibilityRole="button"
-                    accessibilityLabel={`Edit ${test.name}`}
-                    onPress={() => router.push(`/editors/test?id=${test.id}`)}
-                    style={{ padding: space.lg }}
-                  >
-                    <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: space.md }}>
-                      <Text style={[type.bodyStrong, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-                        {test.name}
-                      </Text>
-                      <Text style={[type.number, { color: palette.ink }]} numberOfLines={1}>
-                        {test.total_score ?? '—'}
-                        {test.max_score ? (
-                          <Text style={[type.caption, { color: palette.inkFaint }]}> / {test.max_score}</Text>
-                        ) : null}
-                      </Text>
-                    </View>
-                    <Text style={[type.caption, { color: palette.inkFaint, marginTop: 2 }]} numberOfLines={1}>
-                      {[test.kind, test.taken_on].filter(Boolean).join(' · ')}
-                    </Text>
-                    {sections.map((section) => (
-                      <View
-                        key={section.name}
-                        style={{ flexDirection: 'row', alignItems: 'baseline', marginTop: space.xs }}
-                      >
-                        <Text style={[type.caption, { color: palette.inkMuted, flex: 1 }]} numberOfLines={1}>
-                          {section.name}
-                        </Text>
-                        <Text style={[type.caption, { color: palette.ink }]}>{section.score}</Text>
-                      </View>
-                    ))}
-                  </PressableScale>
-                </View>
-              );
-            })}
-          </Card>
-        </View>
-      ) : null}
-    </Screen>
+      {tests.map((test) => {
+        const sections = sectionsOf(test);
+        const total = test.total_score
+          ? `${test.total_score}${test.max_score ? ` / ${test.max_score}` : ''}`
+          : '—';
+        return (
+          <Section
+            key={test.id}
+            title={test.name}
+            footer={<NativeText>{[test.kind, test.taken_on].filter(Boolean).join(' · ')}</NativeText>}
+          >
+            <LabeledContent label="Total">
+              <Value>{total}</Value>
+            </LabeledContent>
+            {sections.map((section) => (
+              <LabeledContent key={section.name} label={section.name}>
+                <Value>{section.score}</Value>
+              </LabeledContent>
+            ))}
+            <NativeButton
+              label="Edit"
+              systemImage="pencil"
+              onPress={() => router.push(`/editors/test?id=${test.id}`)}
+            />
+          </Section>
+        );
+      })}
+    </NativeScreen>
   );
 }

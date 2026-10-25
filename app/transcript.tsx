@@ -1,22 +1,11 @@
+import { Button as NativeButton, LabeledContent, Section } from '@expo/ui/swift-ui';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
-import { Text, View } from 'react-native';
 
 import { latestTranscript, listCourses, type CourseRow, type TranscriptRow } from '../src/database/repo';
 import { creditsValue, gpaValue, summarise } from '../src/domain/academics';
-import {
-  Button,
-  Card,
-  Divider,
-  EmptyState,
-  Notice,
-  PageHeader,
-  Screen,
-  SectionHeader,
-} from '../src/ui/components';
-import { space, type } from '../src/ui/theme';
-import { useTheme } from '../src/ui/useTheme';
+import { NativeScreen, Value } from '../src/ui/native';
 
 /**
  * The transcript itself, as an object worth opening.
@@ -29,7 +18,6 @@ import { useTheme } from '../src/ui/useTheme';
 export default function Transcript() {
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
   const [transcript, setTranscript] = useState<TranscriptRow | null>(null);
   const [courses, setCourses] = useState<CourseRow[]>([]);
   const [loaded, setLoaded] = useState(false);
@@ -65,119 +53,74 @@ export default function Transcript() {
   const courseCount = transcript?.course_count ?? summary.count;
   const termCount = summary.terms.length;
 
-  const metrics: { value: string; label: string }[] = [];
-  if (gpa != null) metrics.push({ value: gpaValue(gpa), label: 'Weighted GPA' });
-  metrics.push({ value: creditsValue(earned), label: 'Earned' });
-  metrics.push({ value: creditsValue(inProgress), label: 'In Progress' });
-
   const empty = loaded && !error && !transcript && courses.length === 0;
 
   return (
-    <Screen scroll>
-      <PageHeader title="Transcript" onBack={() => router.back()} />
-
+    <NativeScreen title="Transcript" onBack={() => router.back()}>
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.md, gap: space.sm }}>
-          <Notice tone="danger" title="Couldn’t load your transcript" body={error} />
-          <Button title="Try again" kind="secondary" compact onPress={() => void refresh()} />
-        </View>
+        <Section title="Couldn’t load your transcript" footer={<Value>{error}</Value>}>
+          <NativeButton label="Try again" systemImage="arrow.clockwise" onPress={() => void refresh()} />
+        </Section>
       ) : null}
 
       {empty ? (
-        <EmptyState
-          title="Nothing imported"
-          body="Import a transcript to see it here."
-          action={<Button title="Import" onPress={() => router.push('/scan')} />}
-        />
+        <Section title="Nothing imported">
+          <NativeButton label="Import" systemImage="doc.badge.plus" onPress={() => router.push('/scan')} />
+        </Section>
       ) : null}
 
       {!empty && (transcript || courses.length) ? (
         <>
-          <View style={{ paddingHorizontal: space.xl }}>
-            <Text style={[type.title, { color: palette.ink }]} numberOfLines={2}>
-              {student ?? transcript?.school ?? 'Transcript'}
-            </Text>
+          <Section title="Student">
+            <LabeledContent label={student ? 'Name' : 'Document'}>
+              <Value>{student ?? school ?? 'Transcript'}</Value>
+            </LabeledContent>
             {school && student ? (
-              <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]} numberOfLines={1}>
-                {school}
-              </Text>
+              <LabeledContent label="School">
+                <Value>{school}</Value>
+              </LabeledContent>
             ) : null}
-          </View>
+          </Section>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: space.xl,
-              paddingHorizontal: space.xl,
-              paddingTop: space.xl,
-            }}
-          >
-            {metrics.map((metric) => (
-              <View key={metric.label} style={{ flex: 1 }}>
-                <Text style={[type.title, { color: palette.ink, fontVariant: ['tabular-nums'] }]}>
-                  {metric.value}
-                </Text>
-                <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]} numberOfLines={1}>
-                  {metric.label}
-                </Text>
-              </View>
-            ))}
-          </View>
-
-          <View style={{ paddingHorizontal: space.xl, paddingTop: space.md }}>
-            <Text style={[type.caption, { color: palette.inkFaint }]}>
-              {courseCount} course{courseCount === 1 ? '' : 's'} · {termCount} term
-              {termCount === 1 ? '' : 's'}
-            </Text>
-          </View>
+          <Section title="Summary">
+            {gpa != null ? (
+              <LabeledContent label="Weighted GPA">
+                <Value>{gpaValue(gpa)}</Value>
+              </LabeledContent>
+            ) : null}
+            <LabeledContent label="Earned">
+              <Value>{creditsValue(earned)}</Value>
+            </LabeledContent>
+            <LabeledContent label="In progress">
+              <Value>{creditsValue(inProgress)}</Value>
+            </LabeledContent>
+          </Section>
 
           {termCount ? (
-            <>
-              <SectionHeader>HISTORY</SectionHeader>
-              <View style={{ paddingHorizontal: space.xl }}>
-                <Card padded={false}>
-                  {summary.terms.map((term, index) => (
-                    <View key={term.term || `term-${index}`}>
-                      {index > 0 ? <Divider inset={space.lg} /> : null}
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          gap: space.md,
-                          padding: space.lg,
-                        }}
-                      >
-                        <Text style={[type.bodyStrong, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-                          {term.label}
-                        </Text>
-                        <Text style={[type.caption, { color: palette.inkFaint }]}>
-                          {term.courses.length} course{term.courses.length === 1 ? '' : 's'}
-                        </Text>
-                        <Text style={[type.number, { color: palette.ink }]}>{creditsValue(term.credits)}</Text>
-                      </View>
-                    </View>
-                  ))}
-                </Card>
-              </View>
-            </>
+            <Section
+              title="History"
+              footer={
+                <Value>{`${courseCount} course${courseCount === 1 ? '' : 's'} · ${termCount} term${termCount === 1 ? '' : 's'}`}</Value>
+              }
+            >
+              {summary.terms.map((term, index) => (
+                <LabeledContent
+                  key={term.term || `term-${index}`}
+                  label={`${term.label} · ${term.courses.length}`}
+                >
+                  <Value>{creditsValue(term.credits)}</Value>
+                </LabeledContent>
+              ))}
+            </Section>
           ) : null}
 
-          <SectionHeader>SOURCE</SectionHeader>
-          <View style={{ paddingHorizontal: space.xl }}>
-            <Card padded={false}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.md, padding: space.lg }}>
-                <Text style={[type.body, { color: palette.inkMuted }]}>Source</Text>
-                <Text
-                  style={[type.body, { color: palette.ink, flex: 1, textAlign: 'right' }]}
-                  numberOfLines={2}
-                >
-                  {school ?? student ?? 'Transcript'}
-                </Text>
-              </View>
-            </Card>
-          </View>
+          <Section title="Source">
+            <LabeledContent label="Document">
+              <Value>{school ?? student ?? 'Transcript'}</Value>
+            </LabeledContent>
+          </Section>
         </>
       ) : null}
-    </Screen>
+    </NativeScreen>
   );
 }

@@ -132,10 +132,12 @@ async function copyAll(onProgress?: (progress: PrepareProgress) => void): Promis
   }
 
   // Written last, and only after every length checked out: its presence is what
-  // later launches trust. `File.write` is asynchronous in SDK 58.
-  await new File(directory, MARKER_NAME).write(
-    JSON.stringify({ version: 1, sizes } satisfies ReadyMarker),
-  );
+  // later launches trust. Create it explicitly because SDK 58 documents `write`
+  // as writing an existing File; relying on implicit creation makes the first
+  // model preparation path platform-dependent.
+  const ready = new File(directory, MARKER_NAME);
+  if (!ready.exists) ready.create();
+  await ready.write(JSON.stringify({ version: 1, sizes } satisfies ReadyMarker));
 }
 
 /** Path for a model file once `ensureModelFiles` has run. */

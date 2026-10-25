@@ -173,6 +173,44 @@ async function main() {
       laid.lines.map((line) => laid.text.slice(line.start, line.end)),
     );
 
+    // A page of prose is left exactly as it came. Only a page that arrived one
+    // text run per cell is laid out again, because that is the page whose own
+    // lines are not its printed lines.
+    {
+      const prose = [
+        'MATH 1A: Calculus I',
+        'Instructor: Dr. Lena Ortiz',
+        'Meeting Times: TU 11:00-12:15 in Room 204',
+        'Grading: Essays 30%, Quizzes 20%, Midterm 20%, Final 30%',
+        'Attendance is required, and late work loses ten percent a day.',
+        'Office hours: Thursday 2:00-3:00, or by appointment.',
+      ].join('\n');
+      const prosePage: PaceVisionPage = {
+        page: 0,
+        method: 'ocr',
+        text: prose,
+        blocks: prose.split('\n').map((line, index) => ({
+          id: `p0-${index}`,
+          text: line,
+          page: 0,
+          x: 0.08,
+          y: 0.05 + index * 0.045,
+          width: 0.8,
+          height: 0.03,
+          confidence: 0.9,
+        })),
+        imageWidth: 1000,
+        imageHeight: 1400,
+        durationMs: 1,
+      };
+      check(layoutPages([prosePage]).text === prose, 'a page of prose keeps its own lines');
+      check(
+        layoutPages([prosePage]).lines.length === 6,
+        'and one geometry entry per line',
+        layoutPages([prosePage]).lines.length,
+      );
+    }
+
     // A page whose boxes are missing still contributes its text; it only loses the
     // highlight, because a box we do not have cannot be pointed at.
     const broken: PaceVisionPage = { ...pages[1], blocks: [] };

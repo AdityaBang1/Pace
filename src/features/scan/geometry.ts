@@ -209,6 +209,52 @@ function linesOfBlocks(blocks: Block[], table: boolean): LaidLine[] {
   return out;
 }
 
+/** The page's own lines, each paired with the box of the line it is. */
+function rawLines(page: PaceVisionPage): LaidLine[] {
+  const blocks = page.blocks ?? [];
+  const lines = page.text.split('\n');
+  // One block per printed line, or none: a partial pairing would put a highlight
+  // on the wrong line, which the reader cannot detect and the user would believe.
+  const boxes = blocks.length === lines.filter((line) => line.trim()).length ? blocks : [];
+  let taken = 0;
+  return lines.map((line) => {
+    if (!line.trim()) {
+      // The blank lines separate paragraphs, and the section reader uses them.
+      return { text: line, bbox: null, confidence: null };
+    }
+    const block = boxes[taken];
+    taken += 1;
+    return {
+      text: line,
+      bbox: block ? { x: block.x, y: block.y, width: block.width, height: block.height } : null,
+      confidence: block ? block.confidence : null,
+    };
+  });
+}
+
+/**
+ * Did this page arrive as one text run per cell?
+ *
+ * PDFKit reports a text layer per run, so a table drawn cell by cell arrives as
+ * `Course`, `Mark`, then a code and a title, one per line. That is the one shape
+ * the layout pass exists to repair. A page whose lines are sentences is left
+ * exactly as it came: its lines are already its printed lines, and re-deriving
+ * them from boxes is only a way to make them worse.
+ */
+function isFlatPage(page: PaceVisionPage, blocks: Block[]): boolean {
+  if (!blocks.length) return false;
+  if (blocks.some((block) => block.text.includes('\n'))) return false;
+  const lines = (page.text.trim() ? page.text : blocks.map((block) => block.text).join('\n'))
+    .split('\n')
+    .filter((line) => line.trim());
+  if (lines.length < 4 || blocks.length !== lines.length) return false;
+  const cells = lines.filter((line) => {
+    const value = line.trim();
+    return value.split(/\s+/).length <= 3 && value.length <= 22;
+  }).length;
+  return cells * 5 >= lines.length * 3;
+}
+
 /** The printed lines of one page, rebuilt from its boxes. */
 function pageLines(page: PaceVisionPage): LaidLine[] {
   const blocks = page.blocks ?? [];
@@ -218,6 +264,9 @@ function pageLines(page: PaceVisionPage): LaidLine[] {
     // document, and the blank lines it prints separate its paragraphs.
     return page.text.split('\n').map((line) => ({ text: line, bbox: null, confidence: null }));
   }
+  // A page that already has its lines keeps them. Only a page that arrived one
+  // text run per line is laid out again from its boxes.
+  if (!isFlatPage(page, blocks)) return rawLines(page);
 
   const table = isTablePage(blocks);
   const gutter = table ? pageGutter(rowsOf(blocks)) : null;

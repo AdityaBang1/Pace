@@ -200,17 +200,21 @@ EXIF handling lives in Kotlin and PDF import stays iOS-only — not to replace t
 module on iOS.
 
 **Multi-page text and offsets.** The reader sees one string, and `layoutPages()`
-builds it: boxes that share a baseline become the printed line, spaced by the gap
-between them, with each line's absolute offset recorded so a value on page 3 still
-resolves to page 3 and the source sheet shows `Page 3`. This matters most for a
-PDF text layer, which hands over one text run per cell: read verbatim, a
-transcript arrived as `Course`, then `Mark`, then eight course codes each on its
-own line, and no row could be found at all. A page that prints two tables side by
-side (two term tables, or the academic-history header twice) is read one column at
-a time, because that gutter is where the page's own headers split; without it,
-two courses on one baseline folded into one. A PDF's page image is not retained:
-its source sheet quotes the line and names the page rather than drawing a
-highlight over a page the app cannot show.
+builds it, with each line's absolute offset recorded so a value on page 3 still
+resolves to page 3 and the source sheet shows `Page 3`. A page that already has
+its printed lines keeps them exactly as it came — its own lines are already its
+lines, and re-deriving them from boxes is only a way to make them worse. Only a
+page that arrived **one text run per cell** (at least four lines, every line with
+its own box, most of them short cells rather than sentences) is laid out again:
+boxes that share a baseline become the printed line, spaced by the gap between
+them. That is the PDF text layer's shape, and read verbatim a transcript arrived
+as `Course`, then `Mark`, then eight course codes each on its own line, with no
+row to find at all. On such a page, two tables printed side by side (two term
+tables, or the academic-history header twice) are read one column at a time,
+because that gutter is where the page's own headers split; without it, two
+courses on one baseline folded into one. A PDF's page image is not retained: its
+source sheet quotes the line and names the page rather than drawing a highlight
+over a page the app cannot show.
 
 * Coordinates are **normalised 0…1 with a top-left origin**. Vision returns
   bottom-left, so the module flips `y` once (`1 - maxY`) rather than leaving that

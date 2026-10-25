@@ -268,7 +268,15 @@ async function main(): Promise<void> {
       })),
     ];
     const { text: laid } = layoutPages([
-      { page: 0, method: 'text_layer', text: '', blocks, imageWidth: 612, imageHeight: 792, durationMs: 1 },
+      {
+        page: 0,
+        method: 'text_layer',
+        text: blocks.map((block) => block.text).join('\n'),
+        blocks,
+        imageWidth: 612,
+        imageHeight: 792,
+        durationMs: 1,
+      },
     ]);
     const reading = readTranscript(laid);
     check(reading.courses.length === 16, 'both page columns are read in full', reading.courses.length);

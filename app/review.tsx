@@ -228,11 +228,11 @@ export default function Review() {
       <FieldRow
         label={label}
         value={
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm, flexShrink: 1, justifyContent: 'flex-end' }}>
             <Text
               style={[
                 type.bodyStrong,
-                { color: proposal.included ? palette.ink : palette.inkFaint },
+                { color: proposal.included ? palette.ink : palette.inkFaint, flexShrink: 1, textAlign: 'right' },
                 !proposal.included && { textDecorationLine: 'line-through' },
               ]}
               numberOfLines={2}

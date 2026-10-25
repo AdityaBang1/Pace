@@ -422,6 +422,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: space.sm,
+    // Take the space the label leaves, rather than sizing to content: a long
+    // value (a transcript's course title) would otherwise overflow the row and
+    // draw over the label, which shrink-to-fit cannot prevent.
+    flex: 1,
     flexShrink: 1,
     justifyContent: 'flex-end',
   },

@@ -250,10 +250,14 @@ public class PaceVisionModule: Module {
         geometry = false
         continue
       }
-      guard let selection = page.selection(for: NSRange(location: offset, length: length)),
-            let rect = selection.bounds(for: page),
-            !rect.isNull, rect.width > 0, rect.height > 0
-      else {
+      guard let selection = page.selection(for: NSRange(location: offset, length: length)) else {
+        geometry = false
+        continue
+      }
+      // `PDFSelection.bounds(for:)` returns CGRect, not an optional, so it cannot
+      // join the binding above; the empty-box checks below do that job instead.
+      let rect = selection.bounds(for: page)
+      guard !rect.isNull, rect.width > 0, rect.height > 0 else {
         geometry = false
         continue
       }

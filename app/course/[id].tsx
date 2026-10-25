@@ -23,6 +23,7 @@ import {
   Divider,
   EmptyState,
   FieldRow,
+  IconButton,
   Notice,
   PageHeader,
   Screen,
@@ -171,7 +172,29 @@ export default function CourseScreen() {
 
   return (
     <Screen scroll>
-      <PageHeader title={course.title ?? course.code ?? 'Course'} onBack={() => router.back()} />
+      <PageHeader
+        title={course.title ?? course.code ?? 'Course'}
+        onBack={() => router.back()}
+        right={
+          <IconButton
+            glyph="Edit"
+            symbol="pencil"
+            label="Edit this course"
+            size={19}
+            tone="accent"
+            onPress={() => router.push(`/editors/course?id=${course.id}`)}
+          />
+        }
+      />
+
+      {course.edited === 1 && course.original_grade && course.original_grade !== course.grade ? (
+        <View style={{ paddingHorizontal: space.xl }}>
+          <Notice
+            tone="accent"
+            body={`Edited · the transcript said ${course.original_grade}`}
+          />
+        </View>
+      ) : null}
 
       <View style={{ paddingHorizontal: space.xl, gap: space.lg }}>
         {(course.grade || course.credits != null || inProgress) && (

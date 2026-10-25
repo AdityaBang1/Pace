@@ -9,7 +9,22 @@
  * Plain `@expo/ui/swift-ui` primitives are re-exported so a screen imports one
  * module rather than two.
  */
-import { Form, Host, Section, Text as NativeText, LabeledContent } from '@expo/ui/swift-ui';
+import {
+  Button as SystemButton,
+  Form,
+  Host,
+  HStack,
+  Image as SystemImage,
+  Section,
+  Text as NativeText,
+  LabeledContent,
+} from '@expo/ui/swift-ui';
+import {
+  accessibilityLabel,
+  buttonStyle,
+  glassEffect,
+  padding,
+} from '@expo/ui/swift-ui/modifiers';
 import { ReactNode } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -18,6 +33,48 @@ import { PageHeader } from './components';
 import { useTheme } from './useTheme';
 
 export { Form, Host, Section, NativeText, LabeledContent };
+
+/**
+ * The screen's top-trailing actions, drawn by SwiftUI as one glass pill.
+ *
+ * The buttons are real system buttons — the platform owns their press highlight,
+ * their accessibility traits and their sizing — and they share a single capsule so
+ * two small glyphs read as one control rather than two loose icons floating in the
+ * status bar. `Host` is asked to match its content so the row is as wide as the
+ * pill and nothing wider.
+ */
+export function HeaderPill({
+  actions,
+}: {
+  actions: { systemName: string; label: string; onPress: () => void }[];
+}) {
+  const { palette } = useTheme();
+  return (
+    <Host matchContents alignment="trailing" seedColor={palette.accent}>
+      <HStack
+        spacing={0}
+        modifiers={[
+          padding({ vertical: 3, horizontal: 3 }),
+          glassEffect({ shape: 'capsule', glass: { variant: 'regular', interactive: true } }),
+        ]}
+      >
+        {actions.map((action) => (
+          <SystemButton
+            key={action.label}
+            onPress={action.onPress}
+            modifiers={[
+              buttonStyle('borderless'),
+              padding({ horizontal: 11, vertical: 8 }),
+              accessibilityLabel(action.label),
+            ]}
+          >
+            <SystemImage systemName={action.systemName as never} size={17} />
+          </SystemButton>
+        ))}
+      </HStack>
+    </Host>
+  );
+}
 
 export function NativeScreen({
   title,

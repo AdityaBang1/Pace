@@ -10,7 +10,6 @@ import { font, foregroundStyle, monospacedDigit, padding } from '@expo/ui/swift-
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
-import { View } from 'react-native';
 
 import {
   ensureDefaults,
@@ -37,8 +36,7 @@ import {
 import { buildPathway, type PathwayView } from '../../src/domain/pathways';
 import { buildRecord, type RecordView } from '../../src/domain/record';
 import { requirementProgress } from '../../src/domain/requirements';
-import { IconButton } from '../../src/ui/components';
-import { LabeledContent, NativeScreen, Value } from '../../src/ui/native';
+import { HeaderPill, LabeledContent, NativeScreen, Value } from '../../src/ui/native';
 
 /**
  * Home answers one question: where am I academically right now.
@@ -134,25 +132,14 @@ export default function Home() {
 
   return (
     <NativeScreen
-      topInset={false}
       title="Pace"
       right={
-        <View style={{ flexDirection: 'row' }}>
-          <IconButton
-            glyph="+"
-            symbol="doc.badge.plus"
-            label="Import a transcript"
-            tone="accent"
-            size={22}
-            onPress={() => router.push('/scan')}
-          />
-          <IconButton
-            glyph="⚙"
-            symbol="gearshape.fill"
-            label="Settings"
-            onPress={() => router.push('/settings')}
-          />
-        </View>
+        <HeaderPill
+          actions={[
+            { systemName: 'doc.badge.plus', label: 'Import a transcript', onPress: () => router.push('/scan') },
+            { systemName: 'gearshape.fill', label: 'Settings', onPress: () => router.push('/settings') },
+          ]}
+        />
       }
     >
       {error ? (

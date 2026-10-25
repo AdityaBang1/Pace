@@ -23,8 +23,7 @@ import {
   type ScheduleView,
   type YearView,
 } from '../../src/domain/record';
-import { IconButton } from '../../src/ui/components';
-import { NativeScreen, Value } from '../../src/ui/native';
+import { HeaderPill, NativeScreen, Value } from '../../src/ui/native';
 import { PressableScale } from '../../src/ui/press';
 import { radius, space, type } from '../../src/ui/theme';
 import { useTheme } from '../../src/ui/useTheme';
@@ -165,11 +164,8 @@ export default function Academics() {
   return (
     <>
       <NativeScreen
-        topInset={false}
         title="Academics"
-        right={
-          <IconButton glyph="+" symbol="plus" label="Add" size={22} onPress={addMenu} tone="accent" />
-        }
+        right={<HeaderPill actions={[{ systemName: 'plus', label: 'Add', onPress: addMenu }]} />}
       >
         {error ? (
           <Section title="Couldn't load courses">

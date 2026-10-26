@@ -1,8 +1,7 @@
-import { Button as NativeButton, LabeledContent, Section, Text as NativeText } from '@expo/ui/swift-ui';
+import { Button as NativeButton, LabeledContent, Menu, Section, Text as NativeText } from '@expo/ui/swift-ui';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useMemo, useState } from 'react';
-import { Modal, Text, View } from 'react-native';
 
 import {
   ensureDefaults,
@@ -15,11 +14,7 @@ import { creditsValue, gpaValue } from '../src/domain/academics';
 import { parseScale, type GpaScale } from '../src/domain/gpa';
 import { buildPathway, comparePathways, type PathwayView } from '../src/domain/pathways';
 import { requirementProgress } from '../src/domain/requirements';
-import { Button, Chip } from '../src/ui/components';
 import { NativeScreen, Value } from '../src/ui/native';
-import { PressableScale } from '../src/ui/press';
-import { radius, space, type } from '../src/ui/theme';
-import { useTheme } from '../src/ui/useTheme';
 
 /**
  * Two pathways, side by side.
@@ -32,14 +27,12 @@ import { useTheme } from '../src/ui/useTheme';
 export default function ComparePathways() {
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
 
   const [structure, setStructure] = useState<AcademicStructure | null>(null);
   const [courses, setCourses] = useState<CourseRow[]>([]);
   const [scale, setScale] = useState<GpaScale | null>(null);
   const [aId, setAId] = useState<string | null>(null);
   const [bId, setBId] = useState<string | null>(null);
-  const [picking, setPicking] = useState<'a' | 'b' | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
@@ -122,17 +115,27 @@ export default function ComparePathways() {
           </Section>
         ) : !comparison || !viewA || !viewB ? null : (
           <>
-            <Section title="Paths">
-              <NativeButton
-                label={`A · ${viewA.pathway.name}`}
-                systemImage="a.circle"
-                onPress={() => setPicking('a')}
-              />
-              <NativeButton
-                label={`B · ${viewB.pathway.name}`}
-                systemImage="b.circle"
-                onPress={() => setPicking('b')}
-              />
+            <Section title="Paths" footer={<NativeText>Pick the two selections of schedules to compare.</NativeText>}>
+              <Menu label={`A · ${viewA.pathway.name}`} systemImage="a.circle">
+                {pathways.map((row) => (
+                  <NativeButton
+                    key={`a-${row.id}`}
+                    label={row.is_active === 1 ? `${row.name} · Active` : row.name}
+                    systemImage={row.id === aId ? 'checkmark' : undefined}
+                    onPress={() => setAId(row.id)}
+                  />
+                ))}
+              </Menu>
+              <Menu label={`B · ${viewB.pathway.name}`} systemImage="b.circle">
+                {pathways.map((row) => (
+                  <NativeButton
+                    key={`b-${row.id}`}
+                    label={row.is_active === 1 ? `${row.name} · Active` : row.name}
+                    systemImage={row.id === bId ? 'checkmark' : undefined}
+                    onPress={() => setBId(row.id)}
+                  />
+                ))}
+              </Menu>
             </Section>
 
             <Section title={`A · ${viewA.pathway.name}`}>
@@ -213,61 +216,6 @@ export default function ComparePathways() {
           </>
         )}
       </NativeScreen>
-
-      <Modal
-        visible={picking !== null}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setPicking(null)}
-      >
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: palette.overlay,
-            justifyContent: 'flex-end',
-            padding: space.lg,
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: palette.surface,
-              borderRadius: radius.lg,
-              overflow: 'hidden',
-            }}
-          >
-            <Text
-              style={[
-                type.label,
-                { color: palette.inkFaint, paddingHorizontal: space.lg, paddingTop: space.lg },
-              ]}
-            >
-              Pathway
-            </Text>
-            {pathways.map((row) => (
-              <PressableScale
-                key={row.id}
-                accessibilityLabel={`Choose ${row.name}`}
-                onPress={() => {
-                  if (picking === 'a') setAId(row.id);
-                  else setBId(row.id);
-                  setPicking(null);
-                }}
-                style={{ paddingHorizontal: space.lg, paddingVertical: space.md }}
-              >
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: space.sm }}>
-                  <Text style={[type.body, { color: palette.ink, flex: 1 }]} numberOfLines={1}>
-                    {row.name}
-                  </Text>
-                  {row.is_active === 1 ? <Chip label="Active" tone="accent" /> : null}
-                </View>
-              </PressableScale>
-            ))}
-            <View style={{ padding: space.lg }}>
-              <Button title="Cancel" kind="quiet" onPress={() => setPicking(null)} />
-            </View>
-          </View>
-        </View>
-      </Modal>
     </>
   );
 }

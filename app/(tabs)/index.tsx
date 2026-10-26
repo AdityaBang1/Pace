@@ -36,7 +36,7 @@ import {
 import { buildPathway, type PathwayView } from '../../src/domain/pathways';
 import { buildRecord, type RecordView } from '../../src/domain/record';
 import { requirementProgress } from '../../src/domain/requirements';
-import { HeaderPill, LabeledContent, NativeScreen, Value } from '../../src/ui/native';
+import { LabeledContent, NativeScreen, Value } from '../../src/ui/native';
 
 /**
  * Home answers one question: where am I academically right now.
@@ -133,14 +133,10 @@ export default function Home() {
   return (
     <NativeScreen
       title="Pace"
-      right={
-        <HeaderPill
-          actions={[
-            { systemName: 'doc.badge.plus', label: 'Import a transcript', onPress: () => router.push('/scan') },
-            { systemName: 'gearshape.fill', label: 'Settings', onPress: () => router.push('/settings') },
-          ]}
-        />
-      }
+      actions={[
+        { systemName: 'doc.badge.plus', label: 'Import a transcript', onPress: () => router.push('/scan') },
+        { systemName: 'gearshape.fill', label: 'Settings', onPress: () => router.push('/settings') },
+      ]}
     >
       {error ? (
         <Section title="Your data could not be loaded">

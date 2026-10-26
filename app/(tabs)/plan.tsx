@@ -21,7 +21,7 @@ import { listCourses, readGpaScaleValue, type CourseRow } from '../../src/databa
 import { creditsValue, gpaValue } from '../../src/domain/academics';
 import { parseScale, type GpaScale } from '../../src/domain/gpa';
 import { buildPathway, type PathwayView } from '../../src/domain/pathways';
-import { HeaderPill, NativeScreen, Value } from '../../src/ui/native';
+import { NativeScreen, Value } from '../../src/ui/native';
 
 /**
  * Plan: which schedules the student's years are made of, and which of those
@@ -121,13 +121,9 @@ export default function Plan() {
   return (
     <NativeScreen
       title="Plan"
-      right={
-        <HeaderPill
-          actions={[
-            { systemName: 'plus', label: 'New pathway', onPress: () => router.push('/editors/pathway') },
-          ]}
-        />
-      }
+      actions={[
+        { systemName: 'plus', label: 'New pathway', onPress: () => router.push('/editors/pathway') },
+      ]}
     >
       {error ? (
         <Section title="Couldn't load your plan">

@@ -1,19 +1,18 @@
+import { Button as NativeButton, Image as NativeImage, Section, Text as NativeText } from '@expo/ui/swift-ui';
+import { aspectRatio, disabled, font, foregroundStyle, frame, padding, resizable } from '@expo/ui/swift-ui/modifiers';
 import * as DocumentPicker from 'expo-document-picker';
 import { File } from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { useRef, useState } from 'react';
-import { ActivityIndicator, Alert, Linking, Text, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown, useReducedMotion } from 'react-native-reanimated';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, Linking } from 'react-native';
 
+import { renderPage, type PaceVisionPreview } from '../modules/pace-vision';
 import { keepSourceEnabled } from '../src/database/repo';
 import { useImportDraft } from '../src/features/import/ImportContext';
 import { ScanError, scanFile, scanText, type ScanProgress, type ScanStage } from '../src/features/scan/pipeline';
-import { Button, Card, Notice, PageHeader, Screen } from '../src/ui/components';
-import { EASE_OUT, REVEAL_MS } from '../src/ui/motion';
-import { PressableScale } from '../src/ui/press';
-import { hairline, radius, space, type } from '../src/ui/theme';
+import { LabeledContent, NativeScreen, Value } from '../src/ui/native';
 import { useTheme } from '../src/ui/useTheme';
 
 type Phase = ScanStage | 'checking';
@@ -24,6 +23,16 @@ const STAGES: { key: Phase; label: string }[] = [
   { key: 'understanding', label: 'Understanding the document' },
   { key: 'checking', label: 'Checking the result' },
 ];
+
+/** What was picked, held until the person says it is the document they meant. */
+interface Pending {
+  uri: string;
+  kind: 'photo' | 'library' | 'file';
+  label: string;
+  /** Absent for a plain-text file, which has no page to show. */
+  preview: PaceVisionPreview | null;
+  previewFailed: boolean;
+}
 
 /** "Take photo" needs the camera; a denied permission has to say where to fix it. */
 async function ensureCamera(): Promise<boolean> {
@@ -40,18 +49,31 @@ async function ensureCamera(): Promise<boolean> {
   return false;
 }
 
+function baseName(label: string): string {
+  const parts = label.split('/');
+  return parts[parts.length - 1] || label;
+}
+
+/**
+ * Add a document: choose it, look at it, and only then read it.
+ *
+ * The confirmation is not ceremony. A PDF is opened at whatever page the picker
+ * remembers, a library holds six photographs of the same syllabus, and reading one
+ * costs the model load plus a second a page — so the page is drawn first and the
+ * reader does not run until the person has said "that one". Everything on this
+ * screen is a system control: buttons, rows, the page itself.
+ */
 export default function Scan() {
   const router = useRouter();
   const { palette } = useTheme();
   const db = useSQLiteContext();
-  const reduceMotion = useReducedMotion();
   const { begin } = useImportDraft();
   const [phase, setPhase] = useState<Phase | null>(null);
   const [error, setError] = useState<{ message: string; hint: string } | null>(null);
+  const [pending, setPending] = useState<Pending | null>(null);
+  const [previewing, setPreviewing] = useState(false);
 
   const busy = phase != null;
-  // The phase only reaches the button on the next render, so a fast double tap
-  // would otherwise start two scans (and two camera sheets).
   const inFlight = useRef(false);
 
   const handleProgress = (progress: ScanProgress) => setPhase(progress.stage);
@@ -74,13 +96,17 @@ export default function Scan() {
     }
   };
 
-  const runFile = async (uri: string, kind: 'photo' | 'library' | 'file', label: string) => {
+  const runFile = async (file: { uri: string; kind: 'photo' | 'library' | 'file'; label: string }) => {
+    setPending(null);
     setPhase('preparing');
-    // Read the policy at scan time rather than from state: a tap that lands before
-    // the preference finishes loading would otherwise keep a page the user turned
-    // off (the old default was `true`).
     const keepSource = await keepSourceEnabled(db);
-    const outcome = await scanFile({ uri, kind, label, keepSource, onProgress: handleProgress });
+    const outcome = await scanFile({
+      uri: file.uri,
+      kind: file.kind,
+      label: file.label,
+      keepSource,
+      onProgress: handleProgress,
+    });
     setPhase('checking');
     await begin({
       engine: outcome.engine,
@@ -93,12 +119,29 @@ export default function Scan() {
     router.replace('/review');
   };
 
+  /** Hold a picked file and draw its first page before anything is read. */
+  const propose = async (file: { uri: string; kind: 'photo' | 'library' | 'file'; label: string }) => {
+    setError(null);
+    setPending({ ...file, preview: null, previewFailed: false });
+    setPreviewing(true);
+    try {
+      const preview = await renderPage(file.uri, 0);
+      setPending((current) => (current && current.uri === file.uri ? { ...current, preview } : current));
+    } catch {
+      // A page that cannot be drawn is not a page that cannot be read: the
+      // confirmation says so and still offers to read the file.
+      setPending((current) => (current && current.uri === file.uri ? { ...current, previewFailed: true } : current));
+    } finally {
+      setPreviewing(false);
+    }
+  };
+
   const takePhoto = () =>
     run(async () => {
       if (!(await ensureCamera())) return;
       const result = await ImagePicker.launchCameraAsync({ quality: 1, allowsEditing: false, exif: false });
       if (result.canceled || !result.assets?.length) return;
-      await runFile(result.assets[0].uri, 'photo', 'Photographed document');
+      await propose({ uri: result.assets[0].uri, kind: 'photo', label: 'Photographed document' });
     });
 
   const choosePhoto = () =>
@@ -110,7 +153,11 @@ export default function Scan() {
         exif: false,
       });
       if (result.canceled || !result.assets?.length) return;
-      await runFile(result.assets[0].uri, 'library', result.assets[0].fileName ?? 'Chosen photo');
+      await propose({
+        uri: result.assets[0].uri,
+        kind: 'library',
+        label: result.assets[0].fileName ?? 'Chosen photo',
+      });
     });
 
   const chooseFile = () =>
@@ -125,18 +172,14 @@ export default function Scan() {
       const isText = /\.(txt|md|markdown|csv)$/i.test(asset.name) || asset.mimeType?.startsWith('text/');
 
       if (isPDF || asset.mimeType?.startsWith('image/')) {
-        await runFile(asset.uri, 'file', asset.name);
+        await propose({ uri: asset.uri, kind: 'file', label: asset.name });
         return;
       }
 
       if (isText) {
         setPhase('preparing');
         const text = await new File(asset.uri).text();
-        const outcome = await scanText({
-          text,
-          label: asset.name,
-          onProgress: handleProgress,
-        });
+        const outcome = await scanText({ text, label: asset.name, onProgress: handleProgress });
         setPhase('checking');
         await begin({
           engine: outcome.engine,
@@ -156,152 +199,131 @@ export default function Scan() {
       );
     });
 
-  if (phase) {
-    const activeIndex = STAGES.findIndex((stage) => stage.key === phase);
-    return (
-      <Screen edges="none">
-        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: space.xl }}>
-          <Animated.View entering={reduceMotion ? undefined : FadeIn.duration(200).easing(EASE_OUT)}>
-            <Text style={[type.label, { color: palette.inkFaint, marginBottom: space.sm }]}>READING</Text>
-            <Text style={[type.title, { color: palette.ink, marginBottom: space.xl }]}>One moment</Text>
-            <View style={{ gap: space.lg }}>
-              {STAGES.map((stage, index) => {
-                const done = index < activeIndex;
-                const current = index === activeIndex;
-                return (
-                  <View key={stage.key} style={{ flexDirection: 'row', alignItems: 'center', gap: space.md }}>
-                    <View style={{ width: 20, alignItems: 'center' }}>
-                      {done ? (
-                        <Animated.View entering={reduceMotion ? undefined : FadeIn.duration(REVEAL_MS)}>
-                          <Text style={{ color: palette.accent, fontSize: 16 }}>✓</Text>
-                        </Animated.View>
-                      ) : current ? (
-                        <ActivityIndicator color={palette.inkMuted} />
-                      ) : (
-                        <View
-                          style={{
-                            width: 7,
-                            height: 7,
-                            borderRadius: 4,
-                            borderWidth: hairline,
-                            borderColor: palette.lineStrong,
-                          }}
-                        />
-                      )}
-                    </View>
-                    <Text
-                      style={[
-                        type.body,
-                        { color: done || current ? palette.ink : palette.inkFaint },
-                        current && { fontWeight: '600' },
-                      ]}
-                    >
-                      {stage.label}
-                    </Text>
-                  </View>
-                );
-              })}
-            </View>
-            <Text style={[type.caption, { color: palette.inkFaint, marginTop: space.xxl }]}>
-              The model runs on this device. Large documents take a few seconds longer than a single page.
-            </Text>
-          </Animated.View>
-        </View>
-      </Screen>
-    );
-  }
+  const activeIndex = phase ? STAGES.findIndex((stage) => stage.key === phase) : -1;
+
+  useEffect(() => {
+    // A picker can be dismissed while a page is still being drawn; nothing to do
+    // then, and the state it would have written belongs to a document that is gone.
+    return () => setPreviewing(false);
+  }, []);
 
   return (
-    <Screen scroll edges="none">
-      <PageHeader
-        title="Add a document"
-        subtitle="A syllabus, a course catalog, or a transcript — a PDF or a photo. Pace reads the course, its grading breakdown and its meetings, or every course row on a transcript, on this iPhone."
-        onBack={() => router.back()}
-      />
-
+    <NativeScreen
+      topInset={false}
+      title="Add a document"
+      subtitle="Read on this iPhone. Nothing leaves it."
+      onBack={() => router.back()}
+    >
       {error ? (
-        <View style={{ paddingHorizontal: space.xl, paddingBottom: space.lg }}>
-          <Notice tone="danger" title={error.message} body={error.hint} />
-        </View>
+        <Section title={error.message} footer={<NativeText>{error.hint}</NativeText>}>
+          <NativeButton label="Try again" systemImage="arrow.clockwise" onPress={() => setError(null)} />
+        </Section>
       ) : null}
 
-      <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-        <Animated.View entering={reduceMotion ? undefined : FadeInDown.duration(200).easing(EASE_OUT)}>
-          <PressableScale
-            accessibilityLabel="Take a photo of a document"
-            onPress={() => void takePhoto()}
-            style={{
-              backgroundColor: palette.ink,
-              borderRadius: radius.lg,
-              padding: space.xl,
-            }}
+      {pending ? (
+        <>
+          <Section
+            title="Is this the right document?"
+            footer={
+              <NativeText>
+                {pending.previewFailed
+                  ? 'This file has no page Pace can draw. It can still be read.'
+                  : 'Reading happens on this iPhone. Nothing leaves it.'}
+              </NativeText>
+            }
           >
-            <Text style={[type.heading, { color: palette.background }]}>Take a photo</Text>
-            <Text style={[type.caption, { color: palette.background, opacity: 0.7, marginTop: 4 }]}>
-              Lay the page flat and fill the frame.
-            </Text>
-          </PressableScale>
-        </Animated.View>
+            {pending.preview ? (
+              <NativeImage
+                uiImage={pending.preview.uri}
+                modifiers={[resizable(), aspectRatio({ contentMode: 'fit' }), frame({ maxHeight: 340 })]}
+              />
+            ) : (
+              <NativeText modifiers={[foregroundStyle(palette.inkMuted)]}>
+                {previewing ? 'Drawing the page…' : 'No preview'}
+              </NativeText>
+            )}
+            <LabeledContent label="File">
+              <Value>{baseName(pending.label)}</Value>
+            </LabeledContent>
+            {pending.preview ? (
+              <LabeledContent label="Pages">
+                <Value>{String(pending.preview.pages)}</Value>
+              </LabeledContent>
+            ) : null}
+          </Section>
 
-        <Option
-          title="Choose a photo"
-          subtitle="From your library, if you already photographed it."
-          onPress={() => void choosePhoto()}
-        />
-        <Option
-          title="Choose a file"
-          subtitle="A PDF, a photo, or a plain-text export."
-          onPress={() => void chooseFile()}
-        />
-      </View>
+          <Section>
+            <NativeButton
+              label="Read this document"
+              systemImage="text.viewfinder"
+              modifiers={[disabled(previewing)]}
+              onPress={() => void run(() => runFile(pending))}
+            />
+            <NativeButton label="Choose another" systemImage="arrow.uturn.backward" onPress={() => setPending(null)} />
+          </Section>
+        </>
+      ) : busy ? (
+        <Section
+          title="Reading"
+          footer={
+            <NativeText>
+              The model runs on this device. Large documents take a few seconds longer than a single page.
+            </NativeText>
+          }
+        >
+          {STAGES.map((stage, index) => (
+            <LabeledContent
+              key={stage.key}
+              label={stage.label}
+            >
+              <NativeText
+                modifiers={[
+                  foregroundStyle(index <= activeIndex ? palette.accent : palette.inkFaint),
+                  font({ textStyle: 'body', weight: index === activeIndex ? 'semibold' : 'regular' }),
+                ]}
+              >
+                {index < activeIndex ? '✓' : index === activeIndex ? '…' : ''}
+              </NativeText>
+            </LabeledContent>
+          ))}
+        </Section>
+      ) : (
+        <>
+          <Section
+            title="Add"
+            footer={
+              <NativeText>
+                A syllabus, a course catalog, or a transcript — a PDF or a photo. Pace reads the course, its grading
+                breakdown and its meetings, or every course row on a transcript, on this iPhone.
+              </NativeText>
+            }
+          >
+            <NativeButton
+              label="Take a photo"
+              systemImage="camera"
+              onPress={() => void takePhoto()}
+            />
+            <NativeButton
+              label="Choose a photo"
+              systemImage="photo.on.rectangle"
+              onPress={() => void choosePhoto()}
+            />
+            <NativeButton
+              label="Choose a file"
+              systemImage="doc"
+              onPress={() => void chooseFile()}
+            />
+          </Section>
 
-      <View style={{ padding: space.xl, paddingTop: space.xxl }}>
-        <Card>
-          <Text style={[type.label, { color: palette.inkFaint }]}>WHAT HAPPENS</Text>
-          <Text style={[type.caption, { color: palette.inkMuted, marginTop: space.sm, lineHeight: 20 }]}>
-            Apple Vision reads the text, page by page for a PDF, then Pace's own reader — running entirely on this
-            iPhone — proposes the course, grading weights, meeting times and policies, or, for a transcript, every
-            course row with its term, mark and credit. You review every value before anything is saved.
-          </Text>
-        </Card>
-      </View>
-
-      <View style={{ paddingHorizontal: space.xl }}>
-        <Button title="Cancel" kind="quiet" onPress={() => router.back()} />
-      </View>
-    </Screen>
-  );
-}
-
-function Option({
-  title,
-  subtitle,
-  onPress,
-}: {
-  title: string;
-  subtitle: string;
-  onPress: () => void;
-}) {
-  const { palette } = useTheme();
-  return (
-    <PressableScale
-      accessibilityLabel={title}
-      onPress={onPress}
-      style={{
-        backgroundColor: palette.surface,
-        borderRadius: radius.lg,
-        borderWidth: hairline,
-        borderColor: palette.line,
-        padding: space.lg,
-        flexDirection: 'row',
-        alignItems: 'center',
-      }}
-    >
-      <View style={{ flex: 1, paddingRight: space.md }}>
-        <Text style={[type.bodyStrong, { color: palette.ink }]}>{title}</Text>
-        <Text style={[type.caption, { color: palette.inkMuted, marginTop: 2 }]}>{subtitle}</Text>
-      </View>
-      <Text style={{ color: palette.inkFaint, fontSize: 18 }}>›</Text>
-    </PressableScale>
+          <Section title="What happens">
+            <NativeText modifiers={[foregroundStyle(palette.inkMuted), padding({ bottom: 6 })]}>
+              Apple Vision reads the text, page by page for a PDF, then Pace's own reader proposes the course, its
+              grading weights, meeting times and policies — or, for a transcript, every course row with its term,
+              mark and credit. You review every value before anything is saved.
+            </NativeText>
+          </Section>
+        </>
+      )}
+    </NativeScreen>
   );
 }

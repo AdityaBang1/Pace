@@ -1,8 +1,8 @@
-import { Button as NativeButton, Section } from '@expo/ui/swift-ui';
+import { Button as NativeButton, Menu, Section } from '@expo/ui/swift-ui';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useMemo, useState } from 'react';
-import { Alert, Modal, Pressable, Text, View } from 'react-native';
+import { Alert } from 'react-native';
 
 import {
   deleteSchedule,
@@ -19,9 +19,6 @@ import { creditsValue, gpaValue } from '../../src/domain/academics';
 import { LETTERS, parseScale, type GpaScale } from '../../src/domain/gpa';
 import { computeGpa, creditsOf, statusOf } from '../../src/domain/record';
 import { LabeledContent, NativeScreen, NativeText, Value } from '../../src/ui/native';
-import { PressableScale } from '../../src/ui/press';
-import { hairline, radius, space, type } from '../../src/ui/theme';
-import { useTheme } from '../../src/ui/useTheme';
 
 const levelOfCourse = (course: CourseRow): string =>
   course.level === 'ap' ? 'AP' : course.level === 'honors' ? 'Honors' : 'Regular';
@@ -38,13 +35,11 @@ export default function ScheduleScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
 
   const [structure, setStructure] = useState<AcademicStructure | null>(null);
   const [schedule, setSchedule] = useState<ScheduleRow | null>(null);
   const [courses, setCourses] = useState<CourseRow[]>([]);
   const [scale, setScale] = useState<GpaScale | null>(null);
-  const [editing, setEditing] = useState<CourseRow | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -86,7 +81,6 @@ export default function ScheduleScreen() {
   const isScenario = schedule?.type === 'scenario' || schedule?.source === 'duplicate';
 
   const chooseExpected = async (course: CourseRow, grade: string) => {
-    setEditing(null);
     await updateCourse(db, course.id, { expectedGrade: grade });
     await load();
   };
@@ -147,8 +141,6 @@ export default function ScheduleScreen() {
     );
   }
 
-  const pending = courses.filter((course) => statusOf(course) !== 'completed');
-
   return (
     <>
       <NativeScreen title={schedule.name} subtitle={year?.name ?? undefined} onBack={() => router.back()}>
@@ -183,20 +175,48 @@ export default function ScheduleScreen() {
 
         <Section
           title="Courses"
-          footer={courses.length === 0 ? <NativeText>Add one to start this schedule.</NativeText> : undefined}
+          footer={
+            <NativeText>
+              {courses.length === 0
+                ? 'Add one to start this schedule.'
+                : 'A course that is not finished yet opens its expected grade.'}
+            </NativeText>
+          }
         >
           {courses.map((course) => {
             const status = statusOf(course);
-            const mark = status === 'completed' ? (course.grade ?? '—') : (course.expected_grade ?? '—');
-            return (
+            const completed = status === 'completed';
+            const mark = completed ? (course.grade ?? '—') : (course.expected_grade ?? 'No grade');
+            const label = `${course.title ?? course.code ?? 'Course'} · ${levelOfCourse(course)} · ${creditsValue(
+              course.credits,
+            )} cr · ${mark}`;
+            // One row per course, not a course list and then a second list of the
+            // same courses with a grade beside them. A finished course opens its
+            // page; a projected one opens the grade picker over the same row, and
+            // the course page is the last item in that menu.
+            return completed ? (
               <NativeButton
                 key={course.id}
-                label={`${course.title ?? course.code ?? 'Course'} · ${levelOfCourse(course)} · ${creditsValue(
-                  course.credits,
-                )} cr · ${mark}`}
-                systemImage={status === 'completed' ? 'checkmark.circle' : 'circle.dashed'}
+                label={label}
+                systemImage="checkmark.circle"
                 onPress={() => router.push(`/course/${course.id}`)}
               />
+            ) : (
+              <Menu key={course.id} label={label} systemImage="a.circle">
+                {LETTERS.map((letter) => (
+                  <NativeButton
+                    key={letter}
+                    label={letter}
+                    systemImage={course.expected_grade === letter ? 'checkmark' : undefined}
+                    onPress={() => void chooseExpected(course, letter)}
+                  />
+                ))}
+                <NativeButton
+                  label="Open Course"
+                  systemImage="arrow.up.forward.app"
+                  onPress={() => router.push(`/course/${course.id}`)}
+                />
+              </Menu>
             );
           })}
           <NativeButton
@@ -207,22 +227,6 @@ export default function ScheduleScreen() {
             }
           />
         </Section>
-
-        {pending.length ? (
-          <Section
-            title="Expected grades"
-            footer={<NativeText>Tap a course to change the grade its projection uses.</NativeText>}
-          >
-            {pending.map((course) => (
-              <NativeButton
-                key={course.id}
-                label={`${course.title ?? course.code ?? 'Course'} · ${course.expected_grade ?? 'Set grade'}`}
-                systemImage="a.circle"
-                onPress={() => setEditing(course)}
-              />
-            ))}
-          </Section>
-        ) : null}
 
         {projected ? (
           <Section
@@ -246,50 +250,6 @@ export default function ScheduleScreen() {
           </Section>
         ) : null}
       </NativeScreen>
-
-      <Modal
-        visible={editing !== null}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setEditing(null)}
-      >
-        <Pressable
-          accessibilityLabel="Close grade picker"
-          onPress={() => setEditing(null)}
-          style={{
-            flex: 1,
-            backgroundColor: palette.overlay,
-            justifyContent: 'flex-end',
-            padding: space.lg,
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: palette.surface,
-              borderRadius: radius.lg,
-              borderWidth: hairline,
-              borderColor: palette.line,
-              padding: space.md,
-              gap: space.xs,
-            }}
-          >
-            <Text style={[type.label, { color: palette.inkFaint, paddingHorizontal: space.sm }]}>Expected</Text>
-            {LETTERS.map((letter) => (
-              <PressableScale
-                key={letter}
-                accessibilityRole="button"
-                accessibilityLabel={`Expected ${letter}`}
-                onPress={() => {
-                  if (editing) void chooseExpected(editing, letter);
-                }}
-                style={{ paddingVertical: space.md, paddingHorizontal: space.sm }}
-              >
-                <Text style={[type.body, { color: palette.ink }]}>{letter}</Text>
-              </PressableScale>
-            ))}
-          </View>
-        </Pressable>
-      </Modal>
     </>
   );
 }

@@ -13,6 +13,16 @@ interface PaceVisionNativeModule {
   recognizeText(uri: string): Promise<PaceVisionPage>;
   recognizePages(uris: string[]): Promise<PaceVisionPage[]>;
   recognizeDocument(uri: string): Promise<PaceVisionDocument>;
+  renderPage(uri: string, page: number): Promise<PaceVisionPreview>;
+}
+
+/** One page drawn as an image, for the screen that asks "is this the document?". */
+export interface PaceVisionPreview {
+  uri: string;
+  width: number;
+  height: number;
+  /** Pages the file holds, so a confirmation can say "page 1 of 12". */
+  pages: number;
 }
 
 const native = requireOptionalNativeModule<PaceVisionNativeModule>('PaceVision');
@@ -55,4 +65,15 @@ export async function recognizeText(uri: string): Promise<PaceVisionPage> {
 export async function recognizePages(uris: string[]): Promise<PaceVisionPage[]> {
   if (!native) unavailable();
   return native.recognizePages(uris);
+}
+
+/**
+ * Draw one page of a document as an image.
+ *
+ * A PDF is drawn through PDFKit; a photograph is decoded and scaled. Nothing is
+ * recognised here — this exists so a page can be shown before it is read.
+ */
+export async function renderPage(uri: string, page = 0): Promise<PaceVisionPreview> {
+  if (!native) unavailable();
+  return native.renderPage(uri, page);
 }

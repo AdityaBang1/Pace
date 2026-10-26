@@ -121,7 +121,11 @@ export default function YearEditor() {
   };
 
   return (
-    <NativeScreen title={id ? 'Edit Year' : 'New Year'} onBack={() => router.back()}>
+    <NativeScreen
+      topInset={false}
+      title={id ? 'Edit Year' : 'New Year'}
+      onBack={() => router.back()}
+    >
       {error ? (
         <Section>
           <NativeText modifiers={[foregroundStyle(palette.danger)]}>{error}</NativeText>

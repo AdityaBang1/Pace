@@ -122,7 +122,7 @@ export default function ScheduleEditor() {
   const title = duplicateFrom ? 'Duplicate' : saveAs ? 'Save as Schedule' : id ? 'Edit Schedule' : 'New Schedule';
 
   return (
-    <NativeScreen title={title} onBack={() => router.back()}>
+    <NativeScreen topInset={false} title={title} onBack={() => router.back()}>
       {error ? (
         <Section>
           <NativeText modifiers={[foregroundStyle(palette.danger)]}>{error}</NativeText>

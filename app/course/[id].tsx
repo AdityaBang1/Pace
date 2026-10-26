@@ -16,8 +16,7 @@ import {
 import { creditsValue, termLabel } from '../../src/domain/academics';
 import { LEVELS, levelLabel, levelOf } from '../../src/domain/gpa';
 import { deleteStoredSources } from '../../src/features/scan/storage';
-import { EvidenceSheet, type SourceLine } from '../../src/features/review/EvidenceSheet';
-import { IconButton } from '../../src/ui/components';
+import { SourceSection, type SourceLine } from '../../src/ui/source';
 import { LabeledContent, NativeScreen, NativeText, Value } from '../../src/ui/native';
 import { daysLabel, documentTypeLabel, evidenceExcerpt, relativeDay, timeRangeLabel, weightLabel } from '../../src/ui/format';
 
@@ -145,29 +144,27 @@ export default function CourseScreen() {
   if (course.credits != null) facts.push({ label: 'Credit', value: creditsValue(course.credits) });
 
   return (
-    <>
-      <NativeScreen
-        title={course.title ?? course.code ?? 'Course'}
-        onBack={() => router.back()}
-        right={
-          <IconButton
-            glyph="Edit"
-            symbol="pencil"
-            label="Edit this course"
-            size={19}
-            tone="accent"
-            onPress={() => router.push(`/editors/course?id=${course.id}`)}
-          />
+    <NativeScreen
+      title={course.title ?? course.code ?? 'Course'}
+      onBack={() => router.back()}
+      actions={[
+        {
+          systemName: 'pencil',
+          label: 'Edit this course',
+          onPress: () => router.push(`/editors/course?id=${course.id}`),
+        },
+      ]}
+    >
+      {source ? <SourceSection source={source} onClose={() => setSource(null)} /> : null}
+
+      <Section
+        title="Mark"
+        footer={
+          course.edited === 1 && course.original_grade && course.original_grade !== course.grade ? (
+            <NativeText>{`Edited · the transcript said ${course.original_grade}`}</NativeText>
+          ) : undefined
         }
       >
-        <Section
-          title="Mark"
-          footer={
-            course.edited === 1 && course.original_grade && course.original_grade !== course.grade ? (
-              <NativeText>{`Edited · the transcript said ${course.original_grade}`}</NativeText>
-            ) : undefined
-          }
-        >
           <LabeledContent label={inProgress ? 'Status' : 'Final'}>
             <Value>{inProgress ? 'In progress' : (course.grade ?? '—')}</Value>
           </LabeledContent>
@@ -266,9 +263,6 @@ export default function CourseScreen() {
             <NativeButton label="Undo import" systemImage="arrow.uturn.backward" role="destructive" onPress={undo} />
           ) : null}
         </Section>
-      </NativeScreen>
-
-      <EvidenceSheet visible={source !== null} source={source} onClose={() => setSource(null)} />
-    </>
+    </NativeScreen>
   );
 }

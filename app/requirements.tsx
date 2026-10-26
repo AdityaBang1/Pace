@@ -11,7 +11,6 @@ import { ensureStructure, readStructure } from '../src/database/academicRepo';
 import { listCourses } from '../src/database/repo';
 import { creditsValue } from '../src/domain/academics';
 import { requirementProgress, type RequirementProgress } from '../src/domain/requirements';
-import { IconButton } from '../src/ui/components';
 import { LabeledContent, NativeScreen, NativeText, Value } from '../src/ui/native';
 
 /**
@@ -57,14 +56,9 @@ export default function Requirements() {
     <NativeScreen
       title="Requirements"
       onBack={() => router.back()}
-      right={
-        <IconButton
-          glyph="+"
-          symbol="plus"
-          label="Add requirement"
-          onPress={() => router.push('/editors/requirement')}
-        />
-      }
+      actions={[
+        { systemName: 'plus', label: 'Add requirement', onPress: () => router.push('/editors/requirement') },
+      ]}
     >
       {error ? (
         <Section title="Couldn’t load requirements">

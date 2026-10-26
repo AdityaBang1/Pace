@@ -4,7 +4,6 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useState } from 'react';
 
 import { readStructure, type TestScoreRow, type TestSection } from '../src/database/academicRepo';
-import { IconButton } from '../src/ui/components';
 import { LabeledContent, NativeScreen, NativeText, Value } from '../src/ui/native';
 
 function sectionsOf(test: TestScoreRow): TestSection[] {
@@ -59,15 +58,7 @@ export default function Tests() {
     <NativeScreen
       title="Scores"
       onBack={() => router.back()}
-      right={
-        <IconButton
-          glyph="+"
-          symbol="plus"
-          label="Add score"
-          tone="accent"
-          onPress={() => router.push('/editors/test')}
-        />
-      }
+      actions={[{ systemName: 'plus', label: 'Add score', onPress: () => router.push('/editors/test') }]}
     >
       {error ? (
         <Section title="Couldn’t load scores">

@@ -74,7 +74,10 @@ export function PageHeader({
   right?: ReactNode;
 }) {
   const { palette } = useTheme();
-  return (      <View style={{ paddingHorizontal: space.xl, paddingTop: space.xs, paddingBottom: space.md }}>
+  // This header is the portable one, drawn with React Native so it exists on the
+  // platforms without a SwiftUI host. On iOS every screen uses NativeHeader.
+  return (
+    <View style={{ paddingHorizontal: space.xl, paddingTop: space.xs, paddingBottom: space.md }}>
       {onBack || right ? (
         <View style={styles.headerRow}>
           {onBack ? (

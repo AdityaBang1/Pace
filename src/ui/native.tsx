@@ -10,88 +10,51 @@
  * module rather than two.
  */
 import {
-  Button as SystemButton,
   Form,
   Host,
-  HStack,
-  Image as SystemImage,
   Section,
   Text as NativeText,
   LabeledContent,
 } from '@expo/ui/swift-ui';
 import {
-  accessibilityLabel,
-  buttonStyle,
-  glassEffect,
-  padding,
+  background,
+  listRowBackground,
+  listSectionSpacing,
+  scrollContentBackground,
+  tint,
 } from '@expo/ui/swift-ui/modifiers';
 import { ReactNode } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PageHeader } from './components';
+import { NativeHeader, type HeaderIconAction, type HeaderPrimaryAction } from './header';
 import { useTheme } from './useTheme';
 
 export { Form, Host, Section, NativeText, LabeledContent };
-
-/**
- * The screen's top-trailing actions, drawn by SwiftUI as one glass pill.
- *
- * The buttons are real system buttons — the platform owns their press highlight,
- * their accessibility traits and their sizing — and they share a single capsule so
- * two small glyphs read as one control rather than two loose icons floating in the
- * status bar. `Host` is asked to match its content so the row is as wide as the
- * pill and nothing wider.
- */
-export function HeaderPill({
-  actions,
-}: {
-  actions: { systemName: string; label: string; onPress: () => void }[];
-}) {
-  const { palette } = useTheme();
-  return (
-    <Host matchContents alignment="trailing" seedColor={palette.accent}>
-      <HStack
-        spacing={0}
-        modifiers={[
-          padding({ vertical: 3, horizontal: 3 }),
-          glassEffect({ shape: 'capsule', glass: { variant: 'regular', interactive: true } }),
-        ]}
-      >
-        {actions.map((action) => (
-          <SystemButton
-            key={action.label}
-            onPress={action.onPress}
-            modifiers={[
-              buttonStyle('borderless'),
-              padding({ horizontal: 11, vertical: 8 }),
-              accessibilityLabel(action.label),
-            ]}
-          >
-            <SystemImage systemName={action.systemName as never} size={17} />
-          </SystemButton>
-        ))}
-      </HStack>
-    </Host>
-  );
-}
+export { NativeHeader } from './header';
+export type { HeaderIconAction, HeaderPrimaryAction } from './header';
 
 export function NativeScreen({
   title,
   subtitle,
   onBack,
-  right,
+  actions,
+  primary,
   children,
   topInset = true,
 }: {
   title?: string;
   subtitle?: string;
   onBack?: () => void;
-  right?: ReactNode;
+  /** Trailing glyph actions, drawn as one system pill. */
+  actions?: HeaderIconAction[];
+  /** The one filled action a form sheet carries, usually Save. */
+  primary?: HeaderPrimaryAction;
   children: ReactNode;
   /**
-   * A pushed screen owns the status-bar inset; a tab root must not add it, because
-   * the native tab controller already places its content below the status bar.
+   * A pushed screen owns the status-bar inset; a sheet does not, because the sheet
+   * already begins below the status bar and adding it again leaves a hand's width
+   * of empty paper above the title.
    */
   topInset?: boolean;
 }) {
@@ -106,10 +69,34 @@ export function NativeScreen({
       }}
     >
       {title ? (
-        <PageHeader title={title} subtitle={subtitle} onBack={onBack} right={right} />
+        <NativeHeader
+          title={title}
+          subtitle={subtitle}
+          onBack={onBack}
+          actions={actions}
+          primary={primary}
+        />
       ) : null}
-      <Host style={{ flex: 1 }} useViewportSizeMeasurement>
-        <Form>{children}</Form>
+      {/*
+        The form is SwiftUI's, but it is not left as the stock grouped list: the
+        system paints a cool grey page, blue controls and blue switches, and that
+        is the generic look this app is not. The paper colour comes from our
+        palette, rows sit on the surface colour, sections are spaced by the same
+        rhythm the hand-drawn screens used, and every control that takes a tint —
+        switch, button, picker checkmark — takes the one green.
+      */}
+      <Host style={{ flex: 1 }} useViewportSizeMeasurement seedColor={palette.accent}>
+        <Form
+          modifiers={[
+            scrollContentBackground('hidden'),
+            background(palette.background),
+            listRowBackground(palette.surface),
+            tint(palette.accent),
+            listSectionSpacing(20),
+          ]}
+        >
+          {children}
+        </Form>
       </Host>
     </View>
   );

@@ -1,15 +1,24 @@
+import { Button as NativeButton, Section, Text as NativeText } from '@expo/ui/swift-ui';
+import { disabled, font, foregroundStyle } from '@expo/ui/swift-ui/modifiers';
 import { useRouter } from 'expo-router';
-import { isOcrAvailable } from '../modules/pace-vision';
 import { useEffect, useState } from 'react';
-import { Share, Text, View } from 'react-native';
+import { Share } from 'react-native';
 
+import { isOcrAvailable } from '../modules/pace-vision';
 import { loadEngine, releaseEngine } from '../src/engine/native';
 import { readManifestSummary, type ManifestSummary } from '../src/engine/native/manifest';
 import { getLastRun, type LastRun } from '../src/features/scan/lastRun';
-import { Button, Card, Divider, FieldRow, Notice, PageHeader, Screen, SectionHeader } from '../src/ui/components';
-import { space, type } from '../src/ui/theme';
+import { LabeledContent, NativeScreen, Value } from '../src/ui/native';
 import { useTheme } from '../src/ui/useTheme';
 
+/**
+ * What the reader is, and what it did last.
+ *
+ * A development screen, and a native form like the rest: the manifest is a table
+ * of facts, the last run is the same table for one document, and the only actions
+ * are reloading the reader and sending the text it was given somewhere a person
+ * can read it. Nothing here is a chart.
+ */
 export default function Debug() {
   const router = useRouter();
   const { palette } = useTheme();
@@ -39,151 +48,160 @@ export default function Debug() {
     }
   };
 
+  const mono = [font({ design: 'monospaced', size: 12 }), foregroundStyle(palette.inkMuted)];
+  const caption = [font({ textStyle: 'footnote' }), foregroundStyle(palette.inkMuted)];
+
   return (
-    <Screen scroll>
-      <PageHeader
-        title="Diagnostics"
-        subtitle="Development only — not shown in the consumer build"
-        onBack={() => router.back()}
-      />
+    <NativeScreen
+      title="Diagnostics"
+      subtitle="Development only — not shown in the consumer build"
+      onBack={() => router.back()}
+    >
+      <Section
+        title="Reader"
+        footer={
+          error ? (
+            <NativeText modifiers={[foregroundStyle(palette.danger)]}>{`The reader did not load: ${error}`}</NativeText>
+          ) : undefined
+        }
+      >
+        <LabeledContent label="OCR module">
+          <Value>{isOcrAvailable() ? 'available' : 'not linked'}</Value>
+        </LabeledContent>
+        <LabeledContent label="Engine">
+          <Value>{manifest?.engineVersion ?? '—'}</Value>
+        </LabeledContent>
+        <LabeledContent label="Schema">
+          <Value>{manifest?.schemaVersion ?? '—'}</Value>
+        </LabeledContent>
+        <LabeledContent label="Section model">
+          <Value>{manifest?.models.section.id ?? '—'}</Value>
+        </LabeledContent>
+        <LabeledContent label="Context model">
+          <Value>{manifest?.models.context.id ?? '—'}</Value>
+        </LabeledContent>
+        <LabeledContent label="Doc-type classes">
+          <Value>{manifest?.models.documentType.classes.join(', ') ?? '—'}</Value>
+        </LabeledContent>
+        <LabeledContent label="Matcher threshold">
+          <Value>{manifest ? String(manifest.models.entityResolution.threshold) : '—'}</Value>
+        </LabeledContent>
+        <LabeledContent label="Load time">
+          <Value>{loadMs != null ? `${loadMs} ms` : 'not measured this session'}</Value>
+        </LabeledContent>
+        <NativeButton
+          label={loading ? 'Loading…' : 'Reload the reader'}
+          systemImage="arrow.clockwise"
+          modifiers={[disabled(loading)]}
+          onPress={() => void reload()}
+        />
+      </Section>
 
-      <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-        <Card padded={false}>
-          <View style={{ padding: space.lg }}>
-            <FieldRow label="OCR module" value={isOcrAvailable() ? 'available' : 'not linked'} />
-            <Divider />
-            <FieldRow label="Engine" value={manifest?.engineVersion ?? '—'} />
-            <Divider />
-            <FieldRow label="Schema" value={manifest?.schemaVersion ?? '—'} />
-            <Divider />
-            <FieldRow label="Section model" value={manifest?.models.section.id ?? '—'} />
-            <Divider />
-            <FieldRow label="Context model" value={manifest?.models.context.id ?? '—'} />
-            <Divider />
-            <FieldRow label="Doc-type classes" value={manifest?.models.documentType.classes.join(', ') ?? '—'} />
-            <Divider />
-            <FieldRow label="Matcher threshold" value={manifest ? String(manifest.models.entityResolution.threshold) : '—'} />
-            <Divider />
-            <FieldRow label="Load time" value={loadMs != null ? `${loadMs} ms` : 'not measured this session'} />
-          </View>
-        </Card>
+      {!last ? (
+        <Section title="Last run">
+          <NativeText modifiers={caption}>No document has been read since the app started.</NativeText>
+        </Section>
+      ) : (
+        <>
+          <Section title="Last run">
+            <LabeledContent label="Proposed type">
+              <Value>
+                {last.documentType
+                  ? `${last.documentType.label} · ${Math.round(last.documentType.confidence * 100)}%`
+                  : 'unavailable'}
+              </Value>
+            </LabeledContent>
+            <LabeledContent label="Characters">
+              <Value>{last.characters.toLocaleString()}</Value>
+            </LabeledContent>
+            <LabeledContent label="Sections">
+              <Value>{String(last.sections.length)}</Value>
+            </LabeledContent>
+            <LabeledContent label="Extracted">
+              <Value>{`${last.counts.grading} grading · ${last.counts.meetings} meetings · ${last.counts.policies} policies`}</Value>
+            </LabeledContent>
+            <LabeledContent label="Evidence rows">
+              <Value>{String(last.counts.evidence)}</Value>
+            </LabeledContent>
+          </Section>
 
-        {error ? <Notice tone="danger" title="The reader did not load" body={error} /> : null}
-        <Button title={loading ? 'Loading…' : 'Reload the reader'} kind="secondary" onPress={() => void reload()} loading={loading} />
-      </View>
-
-      <SectionHeader>LAST RUN</SectionHeader>
-      <View style={{ paddingHorizontal: space.xl, gap: space.md }}>
-        {!last ? (
-          <Text style={[type.caption, { color: palette.inkMuted }]}>
-            No document has been read since the app started.
-          </Text>
-        ) : (
-          <>
-            <Card padded={false}>
-              <View style={{ padding: space.lg }}>
-                <FieldRow
-                  label="Proposed type"
-                  value={
-                    last.documentType
-                      ? `${last.documentType.label} · ${Math.round(last.documentType.confidence * 100)}%`
-                      : 'unavailable'
-                  }
-                />
-                <Divider />
-                <FieldRow label="Characters" value={last.characters.toLocaleString()} />
-                <Divider />
-                <FieldRow label="Sections" value={String(last.sections.length)} />
-                <Divider />
-                <FieldRow
-                  label="Extracted"
-                  value={`${last.counts.grading} grading · ${last.counts.meetings} meetings · ${last.counts.policies} policies`}
-                />
-                <Divider />
-                <FieldRow label="Evidence rows" value={String(last.counts.evidence)} />
-              </View>
-            </Card>
-
-            <Card>
-              <Text style={[type.label, { color: palette.inkFaint }]}>DOCUMENT TYPE</Text>
-              {last.documentType?.top.slice(0, 4).map((row) => (
-                <FieldRow
-                  key={`${row.label}-${row.probability}`}
-                  label={row.label}
-                  value={`${(row.probability * 100).toFixed(1)}%`}
-                />
-              )) ?? null}
-            </Card>
-
-            <Card>
-              <Text style={[type.label, { color: palette.inkFaint }]}>TIMINGS</Text>
-              {Object.entries(last.timings).map(([key, value]) => (
-                <FieldRow key={key} label={key} value={`${Math.round(value)} ms`} />
+          {last.documentType?.top.length ? (
+            <Section title="Document type">
+              {last.documentType.top.slice(0, 4).map((row) => (
+                <LabeledContent key={`${row.label}-${row.probability}`} label={row.label}>
+                  <Value>{`${(row.probability * 100).toFixed(1)}%`}</Value>
+                </LabeledContent>
               ))}
-            </Card>
+            </Section>
+          ) : null}
 
-            {last.extraction ? (
-              <Card>
-                <Text style={[type.label, { color: palette.inkFaint }]}>EXTRACTION</Text>
-                {/* The text below is what the reader was given. It is worth being
-                    able to send it somewhere: a page read badly on a phone can
-                    only be diagnosed from the exact string that phone produced. */}
-                <Button
-                  title="Share the extracted text"
-                  kind="secondary"
-                  compact
-                  onPress={() => void Share.share({ message: last.extraction?.text ?? '' })}
-                />
-                <View style={{ marginTop: space.sm, gap: 6 }}>
-                  {last.extraction.pages.length ? (
-                    last.extraction.pages.map((page) => (
-                      <FieldRow
-                        key={page.page}
-                        label={`page ${page.page + 1} · ${page.method === 'text_layer' ? 'text layer' : 'OCR'}`}
-                        value={`${page.characters} chars${
-                          page.confidence != null ? ` · ${Math.round(page.confidence * 100)}%` : ''
-                        }`}
-                      />
-                    ))
-                  ) : (
-                    <Text style={[type.caption, { color: palette.inkMuted }]}>a plain-text file, no pages</Text>
-                  )}
-                </View>
-                <Text
-                  style={[type.mono, { color: palette.inkMuted, marginTop: space.md }]}
-                  selectable
+          <Section title="Timings">
+            {Object.entries(last.timings).map(([key, value]) => (
+              <LabeledContent key={key} label={key}>
+                <Value>{`${Math.round(value)} ms`}</Value>
+              </LabeledContent>
+            ))}
+          </Section>
+
+          {last.extraction ? (
+            <Section
+              title="Extraction"
+              footer={
+                <NativeText modifiers={caption}>
+                  The exact text the reader was given, so a page that read badly can be sent somewhere it can be
+                  diagnosed.
+                </NativeText>
+              }
+            >
+              <NativeButton
+                label="Share the extracted text"
+                systemImage="square.and.arrow.up"
+                onPress={() => void Share.share({ message: last.extraction?.text ?? '' })}
+              />
+              {last.extraction.pages.length ? (
+                last.extraction.pages.map((page) => (
+                  <LabeledContent
+                    key={page.page}
+                    label={`page ${page.page + 1} · ${page.method === 'text_layer' ? 'text layer' : 'OCR'}`}
+                  >
+                    <Value>
+                      {`${page.characters} chars${
+                        page.confidence != null ? ` · ${Math.round(page.confidence * 100)}%` : ''
+                      }`}
+                    </Value>
+                  </LabeledContent>
+                ))
+              ) : (
+                <NativeText modifiers={caption}>a plain-text file, no pages</NativeText>
+              )}
+              <NativeText modifiers={mono}>{last.extraction.text.slice(0, 2000)}</NativeText>
+            </Section>
+          ) : null}
+
+          {last.sections.length ? (
+            <Section title="Sections">
+              {last.sections.map((section) => (
+                <NativeText
+                  key={`${section.heading}-${section.confidence}`}
+                  modifiers={caption}
                 >
-                  {last.extraction.text.slice(0, 2000)}
-                </Text>
-              </Card>
-            ) : null}
+                  {`${section.heading} — ${section.label} (${Math.round(section.confidence * 100)}%)`}
+                </NativeText>
+              ))}
+            </Section>
+          ) : null}
 
-            <Card>
-              <Text style={[type.label, { color: palette.inkFaint }]}>SECTIONS</Text>
-              <View style={{ marginTop: space.sm, gap: 6 }}>
-                {last.sections.map((section) => (
-                  <Text key={`${section.heading}-${section.confidence}`} style={[type.caption, { color: palette.inkMuted }]}>
-                    {section.heading} — {section.label} ({Math.round(section.confidence * 100)}%)
-                  </Text>
-                ))}
-              </View>
-            </Card>
-
-            {last.warnings.length ? (
-              <Card>
-                <Text style={[type.label, { color: palette.inkFaint }]}>WARNINGS</Text>
-                <View style={{ marginTop: space.sm, gap: 6 }}>
-                  {last.warnings.map((warning) => (
-                    <Text key={warning} style={[type.caption, { color: palette.warn }]}>
-                      {warning}
-                    </Text>
-                  ))}
-                </View>
-              </Card>
-            ) : null}
-          </>
-        )}
-      </View>
-    </Screen>
+          {last.warnings.length ? (
+            <Section title="Warnings">
+              {last.warnings.map((warning) => (
+                <NativeText key={warning} modifiers={[font({ textStyle: 'footnote' }), foregroundStyle(palette.warn)]}>
+                  {warning}
+                </NativeText>
+              ))}
+            </Section>
+          ) : null}
+        </>
+      )}
+    </NativeScreen>
   );
 }

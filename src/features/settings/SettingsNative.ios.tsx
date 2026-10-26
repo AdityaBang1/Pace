@@ -7,30 +7,27 @@
  */
 import {
   Button as NativeButton,
-  Form,
-  Host,
   LabeledContent,
   Section,
   Text as NativeText,
   Toggle,
 } from '@expo/ui/swift-ui';
 import { useRouter } from 'expo-router';
-import { View } from 'react-native';
 
-import { PageHeader } from '../../ui/components';
-import { useTheme } from '../../ui/useTheme';
+import { NativeScreen } from '../../ui/native';
 import { useSettings } from './state';
 
 export function SettingsNative() {
   const router = useRouter();
-  const { palette } = useTheme();
   const state = useSettings();
 
+  /*
+    The same scaffold as every other screen, rather than a form of its own: its
+    own copy had drifted into the stock grey page and blue switches, which made
+    the one sheet that holds the app's data look like a different app.
+  */
   return (
-    <View style={{ flex: 1, backgroundColor: palette.background }}>
-      <PageHeader title="Settings" onBack={() => router.back()} />
-      <Host style={{ flex: 1 }} useViewportSizeMeasurement>
-        <Form>
+    <NativeScreen topInset={false} title="Settings" onBack={() => router.back()}>
           <Section title="Academic">
             <NativeButton
               label={`GPA Scale · ${state.gpaScale}`}
@@ -110,8 +107,6 @@ export function SettingsNative() {
               />
             </Section>
           ) : null}
-        </Form>
-      </Host>
-    </View>
+    </NativeScreen>
   );
 }

@@ -21,7 +21,6 @@ import {
 } from '../../src/database/academicRepo';
 import { getCourse, type CourseDetail } from '../../src/database/repo';
 import { LETTERS, LEVELS } from '../../src/domain/gpa';
-import { Button } from '../../src/ui/components';
 import { NativeScreen, NativeText, Section } from '../../src/ui/native';
 import { useTheme } from '../../src/ui/useTheme';
 
@@ -210,17 +209,14 @@ export default function CourseEditor() {
 
   return (
     <NativeScreen
+      topInset={false}
       title={editingId ? 'Edit Course' : 'New Course'}
       onBack={() => router.back()}
-      right={
-        <Button
-          title="Save"
-          compact
-          disabled={!canSave || busy}
-          loading={busy}
-          onPress={() => void save()}
-        />
-      }
+      primary={{
+        label: busy ? 'Saving…' : 'Save',
+        disabled: !canSave || busy,
+        onPress: () => void save(),
+      }}
     >
       {error ? (
         <Section>

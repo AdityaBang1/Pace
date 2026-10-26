@@ -1,16 +1,15 @@
-import { Button as NativeButton, LabeledContent, Section, Text as NativeText } from '@expo/ui/swift-ui';
+import { Button as NativeButton, LabeledContent, Menu, Section, Text as NativeText } from '@expo/ui/swift-ui';
 import * as Haptics from 'expo-haptics';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { useCallback, useMemo, useState } from 'react';
-import { Alert, Modal, Pressable, ScrollView, Text, View } from 'react-native';
+import { Alert } from 'react-native';
 
 import {
   ensureStructure,
   readStructure,
   type AcademicStructure,
   type AcademicYearRow,
-  type ScheduleRow,
   type TermRow,
 } from '../../src/database/academicRepo';
 import { listCourses, readGpaScaleValue, type CourseRow } from '../../src/database/repo';
@@ -23,10 +22,7 @@ import {
   type ScheduleView,
   type YearView,
 } from '../../src/domain/record';
-import { HeaderPill, NativeScreen, Value } from '../../src/ui/native';
-import { PressableScale } from '../../src/ui/press';
-import { radius, space, type } from '../../src/ui/theme';
-import { useTheme } from '../../src/ui/useTheme';
+import { NativeScreen, Value } from '../../src/ui/native';
 
 const ALL_TERMS = 'all';
 
@@ -40,7 +36,6 @@ const ALL_TERMS = 'all';
 export default function Academics() {
   const db = useSQLiteContext();
   const router = useRouter();
-  const { palette } = useTheme();
 
   const [courses, setCourses] = useState<CourseRow[]>([]);
   const [structure, setStructure] = useState<AcademicStructure | null>(null);
@@ -49,7 +44,6 @@ export default function Academics() {
   const [yearId, setYearId] = useState<string | null>(null);
   const [scheduleId, setScheduleId] = useState<string | null>(null);
   const [termId, setTermId] = useState<string>(ALL_TERMS);
-  const [scopeOpen, setScopeOpen] = useState(false);
 
   const refresh = useCallback(async () => {
     try {
@@ -154,18 +148,28 @@ export default function Academics() {
     router.push('/editors/year');
   };
 
+  /** A year owns its schedules and terms, so choosing one resets the two below it. */
+  const pickYear = (next: AcademicYearRow) => {
+    setYearId(next.id);
+    const main = structure?.schedules.find(
+      (row) => row.academic_year_id === next.id && row.is_main === 1,
+    );
+    setScheduleId(main?.id ?? null);
+    setTermId(ALL_TERMS);
+  };
+
   const gpa = schedule?.gpa.weighted ?? year?.gpa.weighted ?? null;
   const unweighted = schedule?.gpa.unweighted ?? year?.gpa.unweighted ?? null;
   const credits = schedule?.credits ?? year?.credits ?? { earned: 0, inProgress: 0, planned: 0, all: 0 };
-  const scopeLabel = [year?.year.name ?? 'Year', schedule?.schedule.name ?? 'Schedule', term?.name]
-    .filter(Boolean)
-    .join(' · ');
+  const yearSchedules = (structure?.schedules ?? []).filter(
+    (row) => row.academic_year_id === year?.year.id,
+  );
 
   return (
     <>
       <NativeScreen
         title="Academics"
-        right={<HeaderPill actions={[{ systemName: 'plus', label: 'Add', onPress: addMenu }]} />}
+        actions={[{ systemName: 'plus', label: 'Add', onPress: addMenu }]}
       >
         {error ? (
           <Section title="Couldn't load courses">
@@ -192,15 +196,55 @@ export default function Academics() {
           )
         ) : (
           <>
-            <Section title="Scope">
-              <NativeButton
-                label={scopeLabel}
-                systemImage="chevron.up.chevron.down"
-                onPress={() => {
-                  Haptics.selectionAsync().catch(() => {});
-                  setScopeOpen(true);
-                }}
-              />
+            <Section
+              title="Scope"
+              footer={<NativeText>What the numbers below describe.</NativeText>}
+            >
+              <Menu label={year?.year.name ?? 'Year'} systemImage="calendar">
+                {(structure?.years ?? []).map((row) => (
+                  <NativeButton
+                    key={row.id}
+                    label={row.status === 'current' ? `${row.name} · Current` : row.name}
+                    systemImage={row.id === year?.year.id ? 'checkmark' : undefined}
+                    onPress={() => {
+                      Haptics.selectionAsync().catch(() => {});
+                      pickYear(row);
+                    }}
+                  />
+                ))}
+              </Menu>
+              {year ? (
+                <Menu
+                  label={schedule?.schedule.name ?? 'No schedule'}
+                  systemImage="calendar.badge.clock"
+                >
+                  {yearSchedules.map((row) => (
+                    <NativeButton
+                      key={row.id}
+                      label={row.is_main === 1 ? `${row.name} · Main` : row.name}
+                      systemImage={row.id === schedule?.schedule.id ? 'checkmark' : undefined}
+                      onPress={() => setScheduleId(row.id)}
+                    />
+                  ))}
+                </Menu>
+              ) : null}
+              {year && year.terms.length ? (
+                <Menu label={term?.name ?? 'All terms'} systemImage="square.stack">
+                  <NativeButton
+                    label="All terms"
+                    systemImage={termId === ALL_TERMS ? 'checkmark' : undefined}
+                    onPress={() => setTermId(ALL_TERMS)}
+                  />
+                  {year.terms.map((row) => (
+                    <NativeButton
+                      key={row.id}
+                      label={row.name}
+                      systemImage={row.id === termId ? 'checkmark' : undefined}
+                      onPress={() => setTermId(row.id)}
+                    />
+                  ))}
+                </Menu>
+              ) : null}
             </Section>
 
             <Section title="Record">
@@ -284,156 +328,6 @@ export default function Academics() {
         )}
       </NativeScreen>
 
-      <ScopeSheet
-        open={scopeOpen}
-        structure={structure}
-        year={year?.year ?? null}
-        schedule={schedule?.schedule ?? null}
-        termId={termId}
-        onClose={() => setScopeOpen(false)}
-        onPickYear={(next) => {
-          setYearId(next.id);
-          const main = structure?.schedules.find(
-            (row) => row.academic_year_id === next.id && row.is_main === 1,
-          );
-          setScheduleId(main?.id ?? null);
-          setTermId(ALL_TERMS);
-        }}
-        onPickSchedule={setScheduleId}
-        onPickTerm={setTermId}
-      />
     </>
-  );
-}
-
-/**
- * The scope picker: year, then that year's schedules, then its terms.
- *
- * A native modal, because it is a choice, not a destination: picking a term should
- * return the list, not stack another screen under the tab bar.
- */
-function ScopeSheet({
-  open,
-  structure,
-  year,
-  schedule,
-  termId,
-  onClose,
-  onPickYear,
-  onPickSchedule,
-  onPickTerm,
-}: {
-  open: boolean;
-  structure: AcademicStructure | null;
-  year: AcademicYearRow | null;
-  schedule: ScheduleRow | null;
-  termId: string;
-  onClose: () => void;
-  onPickYear: (year: AcademicYearRow) => void;
-  onPickSchedule: (id: string) => void;
-  onPickTerm: (id: string) => void;
-}) {
-  const { palette } = useTheme();
-  const years = structure?.years ?? [];
-  const schedules = (structure?.schedules ?? []).filter(
-    (row) => row.academic_year_id === year?.id,
-  );
-  const terms = (structure?.terms ?? []).filter((row) => row.academic_year_id === year?.id);
-
-  const row = (label: string, selected: boolean, onPress: () => void, sub?: string) => (
-    <PressableScale key={`${label}-${sub ?? ''}`} accessibilityRole="button" onPress={onPress}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: space.md,
-          paddingHorizontal: space.xl,
-          gap: space.md,
-        }}
-      >
-        <Text
-          style={[type.body, { color: selected ? palette.ink : palette.inkMuted, flex: 1 }]}
-          numberOfLines={1}
-        >
-          {label}
-        </Text>
-        {sub ? <Text style={[type.caption, { color: palette.inkFaint }]}>{sub}</Text> : null}
-        {selected ? (
-          <Text style={{ color: palette.accent, fontSize: 16 }}>✓</Text>
-        ) : null}
-      </View>
-    </PressableScale>
-  );
-
-  return (
-    <Modal visible={open} transparent animationType="fade" onRequestClose={onClose}>
-      <Pressable style={{ flex: 1, backgroundColor: palette.overlay }} onPress={onClose} />
-      <View
-        style={{
-          backgroundColor: palette.background,
-          borderTopLeftRadius: radius.xl,
-          borderTopRightRadius: radius.xl,
-          maxHeight: '70%',
-          paddingBottom: space.xxl,
-        }}
-      >
-        <ScrollView keyboardShouldPersistTaps="handled">
-          <Text
-            style={[
-              type.label,
-              { color: palette.inkFaint, paddingHorizontal: space.xl, paddingTop: space.lg },
-            ]}
-          >
-            Academic Year
-          </Text>
-          {years.map((item) =>
-            row(
-              item.name,
-              item.id === year?.id,
-              () => {
-                onPickYear(item);
-              },
-              item.status,
-            ),
-          )}
-
-          {schedules.length ? (
-            <>
-              <Text
-                style={[
-                  type.label,
-                  { color: palette.inkFaint, paddingHorizontal: space.xl, paddingTop: space.lg },
-                ]}
-              >
-                Schedule
-              </Text>
-              {schedules.map((item) =>
-                row(
-                  item.name,
-                  item.id === schedule?.id,
-                  () => onPickSchedule(item.id),
-                  item.is_main === 1 ? 'Main' : undefined,
-                ),
-              )}
-            </>
-          ) : null}
-
-          {terms.length ? (
-            <>
-              <Text
-                style={[
-                  type.label,
-                  { color: palette.inkFaint, paddingHorizontal: space.xl, paddingTop: space.lg },
-                ]}
-              >
-                Term
-              </Text>
-              {row('All', termId === ALL_TERMS, () => onPickTerm(ALL_TERMS))}
-              {terms.map((item) => row(item.name, item.id === termId, () => onPickTerm(item.id)))}
-            </>
-          ) : null}
-        </ScrollView>
-      </View>
-    </Modal>
   );
 }

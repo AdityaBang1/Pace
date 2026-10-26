@@ -91,6 +91,16 @@ public class PaceVisionModule: Module {
     AsyncFunction("recognizeDocument") { (uri: String) -> [String: Any] in
       try Self.recognizeDocument(uri: uri)
     }
+
+    /**
+     The page a person looks at before anything is read: "is this the document I
+     meant?" is a question only the picture can answer, and a PDF has no picture
+     of its own until one is drawn. Returns a PNG in the cache directory plus the
+     page count, so the confirmation can name what it is holding.
+     */
+    AsyncFunction("renderPage") { (uri: String, page: Int) -> [String: Any] in
+      try Self.renderPreview(uri: uri, page: page)
+    }
   }
 
   // MARK: - Document
@@ -378,6 +388,59 @@ public class PaceVisionModule: Module {
       page.draw(with: .mediaBox, to: cg)
     }
     return image.cgImage
+  }
+
+  // MARK: - Preview
+
+  /**
+   One page drawn small enough to hand to React Native as an image.
+
+   The recognised page is rendered at up to 2600 pixels, which is right for
+   recognition and wasteful for a thumbnail: the preview is capped at 1400 so a
+   fifty-page PDF does not allocate a bitmap per page to show one of them.
+   */
+  private static func renderPreview(uri: String, page index: Int) throws -> [String: Any] {
+    let url = fileURL(uri)
+    let isPDF = url.pathExtension.lowercased() == "pdf" || hasPDFHeader(url)
+    var rendered: CGImage?
+    var pages = 1
+
+    if isPDF {
+      guard let pdf = PDFDocument(url: url) else { throw InvalidDocumentException(uri) }
+      if pdf.isLocked { throw LockedDocumentException(uri) }
+      pages = pdf.pageCount
+      let clamped = max(0, min(index, pdf.pageCount - 1))
+      rendered = pdf.page(at: clamped).flatMap { renderPage($0) }
+    } else {
+      rendered = try decodeImage(at: url).image
+    }
+
+    guard let image = rendered else { throw EmptyDocumentException(uri) }
+    let longest = CGFloat(max(image.width, image.height))
+    let scale = min(1, 1400 / max(longest, 1))
+    let size = CGSize(
+      width: max((CGFloat(image.width) * scale).rounded(), 1),
+      height: max((CGFloat(image.height) * scale).rounded(), 1)
+    )
+    let format = UIGraphicsImageRendererFormat.default()
+    format.scale = 1
+    format.opaque = true
+    let preview = UIGraphicsImageRenderer(size: size, format: format).image { _ in
+      UIImage(cgImage: image).draw(in: CGRect(origin: .zero, size: size))
+    }
+    guard let data = preview.pngData() else { throw EmptyDocumentException(uri) }
+
+    // The cache directory, not Documents: a preview is disposable, and a page the
+    // user did not confirm should not survive a reinstall's data restore.
+    let directory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+    let file = directory.appendingPathComponent("pace-preview-\(UUID().uuidString).png")
+    try data.write(to: file)
+    return [
+      "uri": file.absoluteString,
+      "width": Int(size.width),
+      "height": Int(size.height),
+      "pages": pages,
+    ]
   }
 
   // MARK: - Recognition
